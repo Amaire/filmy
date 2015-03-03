@@ -19,8 +19,8 @@ use PhpSpec\Locator\ResourceInterface;
  * The Class Generator is responsible for generating the classes from a resource
  * in the appropriate folder using the template provided
  */
-class ClassGenerator extends PromptingGenerator
-{
+class ClassGenerator extends PromptingGenerator {
+
     /**
      * @param ResourceInterface $resource
      * @param string            $generation
@@ -28,16 +28,14 @@ class ClassGenerator extends PromptingGenerator
      *
      * @return bool
      */
-    public function supports(ResourceInterface $resource, $generation, array $data)
-    {
+    public function supports(ResourceInterface $resource, $generation, array $data) {
         return 'class' === $generation;
     }
 
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 0;
     }
 
@@ -47,20 +45,17 @@ class ClassGenerator extends PromptingGenerator
      *
      * @return string
      */
-    protected function renderTemplate(ResourceInterface $resource, $filepath)
-    {
+    protected function renderTemplate(ResourceInterface $resource, $filepath) {
         $values = array(
-            '%filepath%'        => $filepath,
-            '%name%'            => $resource->getName(),
-            '%namespace%'       => $resource->getSrcNamespace(),
-            '%namespace_block%' => '' !== $resource->getSrcNamespace()
-                                ?  sprintf("\n\nnamespace %s;", $resource->getSrcNamespace())
-                                : '',
+            '%filepath%' => $filepath,
+            '%name%' => $resource->getName(),
+            '%namespace%' => $resource->getSrcNamespace(),
+            '%namespace_block%' => '' !== $resource->getSrcNamespace() ? sprintf("\n\nnamespace %s;", $resource->getSrcNamespace()) : '',
         );
 
         if (!$content = $this->getTemplateRenderer()->render('class', $values)) {
             $content = $this->getTemplateRenderer()->renderString(
-                $this->getTemplate(), $values
+                    $this->getTemplate(), $values
             );
         }
 
@@ -70,9 +65,8 @@ class ClassGenerator extends PromptingGenerator
     /**
      * @return string
      */
-    protected function getTemplate()
-    {
-        return file_get_contents(__DIR__.'/templates/class.template');
+    protected function getTemplate() {
+        return file_get_contents(__DIR__ . '/templates/class.template');
     }
 
     /**
@@ -80,8 +74,7 @@ class ClassGenerator extends PromptingGenerator
      *
      * @return string
      */
-    protected function getFilePath(ResourceInterface $resource)
-    {
+    protected function getFilePath(ResourceInterface $resource) {
         return $resource->getSrcFilename();
     }
 
@@ -91,11 +84,10 @@ class ClassGenerator extends PromptingGenerator
      *
      * @return string
      */
-    protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
-    {
+    protected function getGeneratedMessage(ResourceInterface $resource, $filepath) {
         return sprintf(
-            "<info>Class <value>%s</value> created in <value>%s</value>.</info>\n",
-            $resource->getSrcClassname(), $filepath
+                "<info>Class <value>%s</value> created in <value>%s</value>.</info>\n", $resource->getSrcClassname(), $filepath
         );
     }
+
 }

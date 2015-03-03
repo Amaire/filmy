@@ -17,12 +17,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use PhpSpec\Event;
 use PhpSpec\Loader\Node\SpecificationNode;
 
-class SpecificationRunner
-{
+class SpecificationRunner {
+
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     private $dispatcher;
+
     /**
      * @var ExampleRunner
      */
@@ -32,9 +33,8 @@ class SpecificationRunner
      * @param EventDispatcherInterface $dispatcher
      * @param ExampleRunner            $exampleRunner
      */
-    public function __construct(EventDispatcherInterface $dispatcher, ExampleRunner $exampleRunner)
-    {
-        $this->dispatcher    = $dispatcher;
+    public function __construct(EventDispatcherInterface $dispatcher, ExampleRunner $exampleRunner) {
+        $this->dispatcher = $dispatcher;
         $this->exampleRunner = $exampleRunner;
     }
 
@@ -42,11 +42,9 @@ class SpecificationRunner
      * @param  SpecificationNode $specification
      * @return int|mixed
      */
-    public function run(SpecificationNode $specification)
-    {
+    public function run(SpecificationNode $specification) {
         $startTime = microtime(true);
-        $this->dispatcher->dispatch('beforeSpecification',
-            new Event\SpecificationEvent($specification)
+        $this->dispatcher->dispatch('beforeSpecification', new Event\SpecificationEvent($specification)
         );
 
         $result = Event\ExampleEvent::PASSED;
@@ -54,10 +52,10 @@ class SpecificationRunner
             $result = max($result, $this->exampleRunner->run($example));
         }
 
-        $this->dispatcher->dispatch('afterSpecification',
-            new Event\SpecificationEvent($specification, microtime(true) - $startTime, $result)
+        $this->dispatcher->dispatch('afterSpecification', new Event\SpecificationEvent($specification, microtime(true) - $startTime, $result)
         );
 
         return $result;
     }
+
 }

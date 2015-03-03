@@ -18,8 +18,8 @@ namespace Symfony\Component\HttpFoundation;
  *
  * @api
  */
-class Cookie
-{
+class Cookie {
+
     protected $name;
     protected $value;
     protected $domain;
@@ -43,8 +43,7 @@ class Cookie
      *
      * @api
      */
-    public function __construct($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true)
-    {
+    public function __construct($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true) {
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
             throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
@@ -79,26 +78,25 @@ class Cookie
      *
      * @return string The cookie
      */
-    public function __toString()
-    {
-        $str = urlencode($this->getName()).'=';
+    public function __toString() {
+        $str = urlencode($this->getName()) . '=';
 
         if ('' === (string) $this->getValue()) {
-            $str .= 'deleted; expires='.gmdate("D, d-M-Y H:i:s T", time() - 31536001);
+            $str .= 'deleted; expires=' . gmdate("D, d-M-Y H:i:s T", time() - 31536001);
         } else {
             $str .= urlencode($this->getValue());
 
             if ($this->getExpiresTime() !== 0) {
-                $str .= '; expires='.gmdate("D, d-M-Y H:i:s T", $this->getExpiresTime());
+                $str .= '; expires=' . gmdate("D, d-M-Y H:i:s T", $this->getExpiresTime());
             }
         }
 
         if ($this->path) {
-            $str .= '; path='.$this->path;
+            $str .= '; path=' . $this->path;
         }
 
         if ($this->getDomain()) {
-            $str .= '; domain='.$this->getDomain();
+            $str .= '; domain=' . $this->getDomain();
         }
 
         if (true === $this->isSecure()) {
@@ -119,8 +117,7 @@ class Cookie
      *
      * @api
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -131,8 +128,7 @@ class Cookie
      *
      * @api
      */
-    public function getValue()
-    {
+    public function getValue() {
         return $this->value;
     }
 
@@ -143,8 +139,7 @@ class Cookie
      *
      * @api
      */
-    public function getDomain()
-    {
+    public function getDomain() {
         return $this->domain;
     }
 
@@ -155,8 +150,7 @@ class Cookie
      *
      * @api
      */
-    public function getExpiresTime()
-    {
+    public function getExpiresTime() {
         return $this->expire;
     }
 
@@ -167,8 +161,7 @@ class Cookie
      *
      * @api
      */
-    public function getPath()
-    {
+    public function getPath() {
         return $this->path;
     }
 
@@ -179,8 +172,7 @@ class Cookie
      *
      * @api
      */
-    public function isSecure()
-    {
+    public function isSecure() {
         return $this->secure;
     }
 
@@ -191,8 +183,7 @@ class Cookie
      *
      * @api
      */
-    public function isHttpOnly()
-    {
+    public function isHttpOnly() {
         return $this->httpOnly;
     }
 
@@ -203,8 +194,8 @@ class Cookie
      *
      * @api
      */
-    public function isCleared()
-    {
+    public function isCleared() {
         return $this->expire < time();
     }
+
 }

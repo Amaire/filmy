@@ -7,8 +7,8 @@ use PhpParser\Node;
 /**
  * @property Node[] $stmts Statements
  */
-class Else_ extends Node\Stmt
-{
+class Else_ extends Node\Stmt {
+
     /**
      * Constructs an else node.
      *
@@ -17,10 +17,10 @@ class Else_ extends Node\Stmt
      */
     public function __construct(array $stmts = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'stmts' => $stmts,
-            ),
-            $attributes
+                array(
+            'stmts' => $stmts,
+                ), $attributes
         );
     }
+
 }

@@ -22,8 +22,8 @@ use Doctrine\Common\Util\ClassUtils as DoctrineClassUtils;
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  * @author Johannes Schmitt <schmittjoh@gmail.com>
  */
-class ClassUtils
-{
+class ClassUtils {
+
     /**
      * Marker for Proxy class names.
      *
@@ -41,8 +41,8 @@ class ClassUtils
     /**
      * This class should not be instantiated.
      */
-    private function __construct()
-    {
+    private function __construct() {
+        
     }
 
     /**
@@ -52,14 +52,14 @@ class ClassUtils
      *
      * @return string
      */
-    public static function getRealClass($object)
-    {
+    public static function getRealClass($object) {
         $class = is_object($object) ? get_class($object) : $object;
 
-        if (false === $pos = strrpos($class, '\\'.self::MARKER.'\\')) {
+        if (false === $pos = strrpos($class, '\\' . self::MARKER . '\\')) {
             return $class;
         }
 
         return substr($class, $pos + self::MARKER_LENGTH + 2);
     }
+
 }

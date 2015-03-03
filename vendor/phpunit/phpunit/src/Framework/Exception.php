@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -36,15 +37,14 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.4.0
  */
-class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Exception
-{
+class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Exception {
+
     /**
      * @var array
      */
     protected $serializableTrace;
 
-    public function __construct($message = '', $code = 0, Exception $previous = null)
-    {
+    public function __construct($message = '', $code = 0, Exception $previous = null) {
         parent::__construct($message, $code, $previous);
 
         $this->serializableTrace = $this->getTrace();
@@ -58,16 +58,14 @@ class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Ex
      *
      * @return array
      */
-    public function getSerializableTrace()
-    {
+    public function getSerializableTrace() {
         return $this->serializableTrace;
     }
 
     /**
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         $string = PHPUnit_Framework_TestFailure::exceptionToString($this);
 
         if ($trace = PHPUnit_Util_Filter::getFilteredStacktrace($this)) {
@@ -77,8 +75,8 @@ class PHPUnit_Framework_Exception extends RuntimeException implements PHPUnit_Ex
         return $string;
     }
 
-    public function __sleep()
-    {
+    public function __sleep() {
         return array_keys(get_object_vars($this));
     }
+
 }

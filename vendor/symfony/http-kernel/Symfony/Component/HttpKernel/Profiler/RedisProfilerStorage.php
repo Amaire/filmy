@@ -17,10 +17,9 @@ namespace Symfony\Component\HttpKernel\Profiler;
  * @author Andrej Hudec <pulzarraider@gmail.com>
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class RedisProfilerStorage implements ProfilerStorageInterface
-{
-    const TOKEN_PREFIX = 'sf_profiler_';
+class RedisProfilerStorage implements ProfilerStorageInterface {
 
+    const TOKEN_PREFIX = 'sf_profiler_';
     const REDIS_OPT_SERIALIZER = 1;
     const REDIS_OPT_PREFIX = 2;
     const REDIS_SERIALIZER_NONE = 0;
@@ -42,8 +41,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      * @param string $password Not used
      * @param int    $lifetime The lifetime to use for the purge
      */
-    public function __construct($dsn, $username = '', $password = '', $lifetime = 86400)
-    {
+    public function __construct($dsn, $username = '', $password = '', $lifetime = 86400) {
         $this->dsn = $dsn;
         $this->lifetime = (int) $lifetime;
     }
@@ -51,8 +49,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function find($ip, $url, $limit, $method, $start = null, $end = null)
-    {
+    public function find($ip, $url, $limit, $method, $start = null, $end = null) {
         $indexName = $this->getIndexName();
 
         if (!$indexContent = $this->getValue($indexName, self::REDIS_SERIALIZER_NONE)) {
@@ -104,8 +101,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function purge()
-    {
+    public function purge() {
         // delete only items from index
         $indexName = $this->getIndexName();
 
@@ -137,8 +133,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function read($token)
-    {
+    public function read($token) {
         if (empty($token)) {
             return false;
         }
@@ -155,12 +150,13 @@ class RedisProfilerStorage implements ProfilerStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function write(Profile $profile)
-    {
+    public function write(Profile $profile) {
         $data = array(
             'token' => $profile->getToken(),
             'parent' => $profile->getParentToken(),
-            'children' => array_map(function ($p) { return $p->getToken(); }, $profile->getChildren()),
+            'children' => array_map(function ($p) {
+                        return $p->getToken();
+                    }, $profile->getChildren()),
             'data' => $profile->getCollectors(),
             'ip' => $profile->getIp(),
             'method' => $profile->getMethod(),
@@ -176,13 +172,13 @@ class RedisProfilerStorage implements ProfilerStorageInterface
                 $indexName = $this->getIndexName();
 
                 $indexRow = implode("\t", array(
-                    $profile->getToken(),
-                    $profile->getIp(),
-                    $profile->getMethod(),
-                    $profile->getUrl(),
-                    $profile->getTime(),
-                    $profile->getParentToken(),
-                ))."\n";
+                            $profile->getToken(),
+                            $profile->getIp(),
+                            $profile->getMethod(),
+                            $profile->getUrl(),
+                            $profile->getTime(),
+                            $profile->getParentToken(),
+                        )) . "\n";
 
                 return $this->appendValue($indexName, $indexRow, $this->lifetime);
             }
@@ -200,8 +196,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @throws \RuntimeException
      */
-    protected function getRedis()
-    {
+    protected function getRedis() {
         if (null === $this->redis) {
             $data = parse_url($this->dsn);
 
@@ -237,13 +232,11 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @param \Redis $redis
      */
-    public function setRedis($redis)
-    {
+    public function setRedis($redis) {
         $this->redis = $redis;
     }
 
-    private function createProfileFromData($token, $data, $parent = null)
-    {
+    private function createProfileFromData($token, $data, $parent = null) {
         $profile = new Profile($token);
         $profile->setIp($data['ip']);
         $profile->setMethod($data['method']);
@@ -281,8 +274,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @return string
      */
-    private function getItemName($token)
-    {
+    private function getItemName($token) {
         $name = $token;
 
         if ($this->isItemNameValid($name)) {
@@ -297,8 +289,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @return string
      */
-    private function getIndexName()
-    {
+    private function getIndexName() {
         $name = 'index';
 
         if ($this->isItemNameValid($name)) {
@@ -308,8 +299,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
         return false;
     }
 
-    private function isItemNameValid($name)
-    {
+    private function isItemNameValid($name) {
         $length = strlen($name);
 
         if ($length > 2147483648) {
@@ -327,8 +317,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @return mixed
      */
-    private function getValue($key, $serializer = self::REDIS_SERIALIZER_NONE)
-    {
+    private function getValue($key, $serializer = self::REDIS_SERIALIZER_NONE) {
         $redis = $this->getRedis();
         $redis->setOption(self::REDIS_OPT_SERIALIZER, $serializer);
 
@@ -345,8 +334,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @return bool
      */
-    private function setValue($key, $value, $expiration = 0, $serializer = self::REDIS_SERIALIZER_NONE)
-    {
+    private function setValue($key, $value, $expiration = 0, $serializer = self::REDIS_SERIALIZER_NONE) {
         $redis = $this->getRedis();
         $redis->setOption(self::REDIS_OPT_SERIALIZER, $serializer);
 
@@ -362,8 +350,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @return bool
      */
-    private function appendValue($key, $value, $expiration = 0)
-    {
+    private function appendValue($key, $value, $expiration = 0) {
         $redis = $this->getRedis();
         $redis->setOption(self::REDIS_OPT_SERIALIZER, self::REDIS_SERIALIZER_NONE);
 
@@ -383,8 +370,8 @@ class RedisProfilerStorage implements ProfilerStorageInterface
      *
      * @return bool
      */
-    private function delete(array $keys)
-    {
+    private function delete(array $keys) {
         return (bool) $this->getRedis()->delete($keys);
     }
+
 }

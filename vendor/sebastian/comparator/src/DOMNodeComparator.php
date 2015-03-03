@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -22,8 +23,8 @@ use DOMNode;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class DOMNodeComparator extends ObjectComparator
-{
+class DOMNodeComparator extends ObjectComparator {
+
     /**
      * Returns whether the comparator can compare two values.
      *
@@ -31,8 +32,7 @@ class DOMNodeComparator extends ObjectComparator
      * @param  mixed $actual The second value to compare
      * @return boolean
      */
-    public function accepts($expected, $actual)
-    {
+    public function accepts($expected, $actual) {
         return $expected instanceof DOMNode && $actual instanceof DOMNode;
     }
 
@@ -51,10 +51,9 @@ class DOMNodeComparator extends ObjectComparator
      *                           fails. Contains information about the
      *                           specific errors that lead to the failure.
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-    {
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false) {
         $expectedAsString = $this->nodeToText($expected, true, $ignoreCase);
-        $actualAsString   = $this->nodeToText($actual, true, $ignoreCase);
+        $actualAsString = $this->nodeToText($actual, true, $ignoreCase);
 
         if ($expectedAsString !== $actualAsString) {
             if ($expected instanceof DOMDocument) {
@@ -64,12 +63,7 @@ class DOMNodeComparator extends ObjectComparator
             }
 
             throw new ComparisonFailure(
-                $expected,
-                $actual,
-                $expectedAsString,
-                $actualAsString,
-                false,
-                sprintf("Failed asserting that two DOM %s are equal.\n", $type)
+            $expected, $actual, $expectedAsString, $actualAsString, false, sprintf("Failed asserting that two DOM %s are equal.\n", $type)
             );
         }
     }
@@ -83,8 +77,7 @@ class DOMNodeComparator extends ObjectComparator
      * @param  boolean $ignoreCase
      * @return string
      */
-    private function nodeToText(DOMNode $node, $canonicalize, $ignoreCase)
-    {
+    private function nodeToText(DOMNode $node, $canonicalize, $ignoreCase) {
         if ($canonicalize) {
             $document = new DOMDocument;
             $document->loadXML($node->C14N());
@@ -113,4 +106,5 @@ class DOMNodeComparator extends ObjectComparator
 
         return $text;
     }
+
 }

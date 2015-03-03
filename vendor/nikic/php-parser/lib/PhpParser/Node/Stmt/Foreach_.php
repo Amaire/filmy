@@ -11,8 +11,8 @@ use PhpParser\Node;
  * @property Node\Expr      $valueVar Variable to assign value to
  * @property Node[]         $stmts    Statements
  */
-class Foreach_ extends Node\Stmt
-{
+class Foreach_ extends Node\Stmt {
+
     /**
      * Constructs a foreach node.
      *
@@ -26,14 +26,14 @@ class Foreach_ extends Node\Stmt
      */
     public function __construct(Node\Expr $expr, Node\Expr $valueVar, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr'     => $expr,
-                'keyVar'   => isset($subNodes['keyVar']) ? $subNodes['keyVar'] : null,
-                'byRef'    => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'valueVar' => $valueVar,
-                'stmts'    => isset($subNodes['stmts'])  ? $subNodes['stmts']  : array(),
-            ),
-            $attributes
+                array(
+            'expr' => $expr,
+            'keyVar' => isset($subNodes['keyVar']) ? $subNodes['keyVar'] : null,
+            'byRef' => isset($subNodes['byRef']) ? $subNodes['byRef'] : false,
+            'valueVar' => $valueVar,
+            'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
+                ), $attributes
         );
     }
+
 }

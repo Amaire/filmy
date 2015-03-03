@@ -8,8 +8,8 @@ use PhpParser\Node;
  * @property Node\Name[]          $traits      Traits
  * @property TraitUseAdaptation[] $adaptations Adaptations
  */
-class TraitUse extends Node\Stmt
-{
+class TraitUse extends Node\Stmt {
+
     /**
      * Constructs a trait use node.
      *
@@ -19,11 +19,11 @@ class TraitUse extends Node\Stmt
      */
     public function __construct(array $traits, array $adaptations = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'traits'      => $traits,
-                'adaptations' => $adaptations,
-            ),
-            $attributes
+                array(
+            'traits' => $traits,
+            'adaptations' => $adaptations,
+                ), $attributes
         );
     }
+
 }

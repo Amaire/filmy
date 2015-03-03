@@ -16,15 +16,14 @@ use Symfony\Component\Finder\Finder;
 /**
  * A Psy Shell Phar compiler.
  */
-class Compiler
-{
+class Compiler {
+
     /**
      * Compiles psysh into a single phar file.
      *
      * @param string $pharFile The full path to the file to create
      */
-    public function compile($pharFile = 'psysh.phar')
-    {
+    public function compile($pharFile = 'psysh.phar') {
         if (file_exists($pharFile)) {
             unlink($pharFile);
         }
@@ -37,28 +36,28 @@ class Compiler
         $phar->startBuffering();
 
         $finder = Finder::create()
-            ->files()
-            ->ignoreVCS(true)
-            ->name('*.php')
-            ->notName('Compiler.php')
-            ->notName('Autoloader.php')
-            ->in(__DIR__ . '/..');
+                ->files()
+                ->ignoreVCS(true)
+                ->name('*.php')
+                ->notName('Compiler.php')
+                ->notName('Autoloader.php')
+                ->in(__DIR__ . '/..');
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
         }
 
         $finder = Finder::create()
-            ->files()
-            ->ignoreVCS(true)
-            ->name('*.php')
-            ->exclude('Tests')
-            ->in(__DIR__ . '/../../vendor/dnoegel/php-xdg-base-dir/src')
-            ->in(__DIR__ . '/../../vendor/jakub-onderka/php-console-color')
-            ->in(__DIR__ . '/../../vendor/jakub-onderka/php-console-highlighter')
-            ->in(__DIR__ . '/../../vendor/nikic/php-parser/lib')
-            ->in(__DIR__ . '/../../vendor/symfony/console')
-            ->in(__DIR__ . '/../../vendor/symfony/yaml');
+                ->files()
+                ->ignoreVCS(true)
+                ->name('*.php')
+                ->exclude('Tests')
+                ->in(__DIR__ . '/../../vendor/dnoegel/php-xdg-base-dir/src')
+                ->in(__DIR__ . '/../../vendor/jakub-onderka/php-console-color')
+                ->in(__DIR__ . '/../../vendor/jakub-onderka/php-console-highlighter')
+                ->in(__DIR__ . '/../../vendor/nikic/php-parser/lib')
+                ->in(__DIR__ . '/../../vendor/symfony/console')
+                ->in(__DIR__ . '/../../vendor/symfony/yaml');
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
@@ -90,8 +89,7 @@ class Compiler
      * @param SplFileInfo $file
      * @param bool        $strip (default: true)
      */
-    private function addFile($phar, $file, $strip = true)
-    {
+    private function addFile($phar, $file, $strip = true) {
         $path = str_replace(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR, '', $file->getRealPath());
 
         $content = file_get_contents($file);
@@ -111,8 +109,7 @@ class Compiler
      *
      * @return string The PHP string with the whitespace removed
      */
-    private function stripWhitespace($source)
-    {
+    private function stripWhitespace($source) {
         if (!function_exists('token_get_all')) {
             return $source;
         }
@@ -146,8 +143,7 @@ class Compiler
      *
      * @return string
      */
-    private function getStub()
-    {
+    private function getStub() {
         $autoload = <<<'EOS'
 Phar::mapPhar('psysh.phar');
 require 'phar://psysh.phar/vendor/autoload.php';
@@ -159,4 +155,5 @@ EOS;
 
         return $content;
     }
+
 }

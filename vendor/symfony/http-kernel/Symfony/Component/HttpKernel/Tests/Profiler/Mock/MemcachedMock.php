@@ -16,8 +16,8 @@ namespace Symfony\Component\HttpKernel\Tests\Profiler\Mock;
  *
  * @author Andrej Hudec <pulzarraider@gmail.com>
  */
-class MemcachedMock
-{
+class MemcachedMock {
+
     private $connected = false;
     private $storage = array();
 
@@ -29,8 +29,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function setOption($option, $value)
-    {
+    public function setOption($option, $value) {
         return true;
     }
 
@@ -43,8 +42,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function addServer($host, $port = 11211, $weight = 0)
-    {
+    public function addServer($host, $port = 11211, $weight = 0) {
         if ('127.0.0.1' == $host && 11211 == $port) {
             $this->connected = true;
 
@@ -63,8 +61,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function add($key, $value, $expiration = 0)
-    {
+    public function add($key, $value, $expiration = 0) {
         if (!$this->connected) {
             return false;
         }
@@ -87,8 +84,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function set($key, $value, $expiration = null)
-    {
+    public function set($key, $value, $expiration = null) {
         if (!$this->connected) {
             return false;
         }
@@ -107,8 +103,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function replace($key, $value, $expiration = null)
-    {
+    public function replace($key, $value, $expiration = null) {
         if (!$this->connected) {
             return false;
         }
@@ -131,8 +126,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function get($key, $cache_cb = null, &$cas_token = null)
-    {
+    public function get($key, $cache_cb = null, &$cas_token = null) {
         if (!$this->connected) {
             return false;
         }
@@ -148,14 +142,13 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function append($key, $value)
-    {
+    public function append($key, $value) {
         if (!$this->connected) {
             return false;
         }
 
         if (isset($this->storage[$key])) {
-            $this->storeData($key, $this->getData($key).$value);
+            $this->storeData($key, $this->getData($key) . $value);
 
             return true;
         }
@@ -170,8 +163,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function delete($key)
-    {
+    public function delete($key) {
         if (!$this->connected) {
             return false;
         }
@@ -190,8 +182,7 @@ class MemcachedMock
      *
      * @return bool
      */
-    public function flush()
-    {
+    public function flush() {
         if (!$this->connected) {
             return false;
         }
@@ -201,8 +192,7 @@ class MemcachedMock
         return true;
     }
 
-    private function getData($key)
-    {
+    private function getData($key) {
         if (isset($this->storage[$key])) {
             return unserialize($this->storage[$key]);
         }
@@ -210,10 +200,10 @@ class MemcachedMock
         return false;
     }
 
-    private function storeData($key, $value)
-    {
+    private function storeData($key, $value) {
         $this->storage[$key] = serialize($value);
 
         return true;
     }
+
 }

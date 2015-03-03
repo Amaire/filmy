@@ -7,8 +7,8 @@ use PhpParser\Node;
 /**
  * @property Node\Expr[] $vars Variables to unset
  */
-class Unset_ extends Node\Stmt
-{
+class Unset_ extends Node\Stmt {
+
     /**
      * Constructs an unset node.
      *
@@ -17,10 +17,10 @@ class Unset_ extends Node\Stmt
      */
     public function __construct(array $vars, array $attributes = array()) {
         parent::__construct(
-            array(
-                'vars' => $vars,
-            ),
-            $attributes
+                array(
+            'vars' => $vars,
+                ), $attributes
         );
     }
+
 }

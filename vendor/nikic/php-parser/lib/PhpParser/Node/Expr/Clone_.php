@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr $expr Expression
  */
-class Clone_ extends Expr
-{
+class Clone_ extends Expr {
+
     /**
      * Constructs a clone node.
      *
@@ -17,10 +17,10 @@ class Clone_ extends Expr
      */
     public function __construct(Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

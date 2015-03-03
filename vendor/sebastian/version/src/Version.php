@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2013-2014, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -50,8 +51,8 @@ namespace SebastianBergmann;
  * @link      http://github.com/sebastianbergmann/version
  * @since     Class available since Release 1.0.0
  */
-class Version
-{
+class Version {
+
     private $path;
     private $release;
     private $version;
@@ -60,17 +61,15 @@ class Version
      * @param string $release
      * @param string $path
      */
-    public function __construct($release, $path)
-    {
+    public function __construct($release, $path) {
         $this->release = $release;
-        $this->path    = $path;
+        $this->path = $path;
     }
 
     /**
      * @return string
      */
-    public function getVersion()
-    {
+    public function getVersion() {
         if ($this->version === null) {
             if (count(explode('.', $this->release)) == 3) {
                 $this->version = $this->release;
@@ -98,8 +97,7 @@ class Version
      * @param  string $path
      * @return boolean|string
      */
-    private function getGitInformation($path)
-    {
+    private function getGitInformation($path) {
         if (!is_dir($path . DIRECTORY_SEPARATOR . '.git')) {
             return false;
         }
@@ -115,4 +113,5 @@ class Version
 
         return $result;
     }
+
 }

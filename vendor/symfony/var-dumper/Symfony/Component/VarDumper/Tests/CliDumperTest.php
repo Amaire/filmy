@@ -17,11 +17,10 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class CliDumperTest extends \PHPUnit_Framework_TestCase
-{
-    public function testGet()
-    {
-        require __DIR__.'/Fixtures/dumb-var.php';
+class CliDumperTest extends \PHPUnit_Framework_TestCase {
+
+    public function testGet() {
+        require __DIR__ . '/Fixtures/dumb-var.php';
 
         $dumper = new CliDumper('php://output');
         $dumper->setColors(false);
@@ -45,7 +44,7 @@ class CliDumperTest extends \PHPUnit_Framework_TestCase
         $res2 = (int) $var[8];
 
         $this->assertStringMatchesFormat(
-            <<<EOTXT
+                <<<EOTXT
 array:25 [
   "number" => 1
   0 => &1 null
@@ -103,8 +102,7 @@ array:25 [
 ]
 
 EOTXT
-            ,
-            $out
+                , $out
         );
     }
 
@@ -112,8 +110,7 @@ EOTXT
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testSpecialVars56()
-    {
+    public function testSpecialVars56() {
         if (PHP_VERSION_ID < 50600) {
             $this->markTestSkipped('PHP 5.6 is required');
         }
@@ -131,7 +128,7 @@ EOTXT
         $out = stream_get_contents($out);
 
         $this->assertSame(
-            <<<EOTXT
+                <<<EOTXT
 array:3 [
   0 => array:1 [
     0 => &1 array:1 [
@@ -147,8 +144,7 @@ array:3 [
 ]
 
 EOTXT
-            ,
-            $out
+                , $out
         );
     }
 
@@ -156,15 +152,14 @@ EOTXT
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testGlobalsNoExt()
-    {
+    public function testGlobalsNoExt() {
         $var = $this->getSpecialVars();
         unset($var[0]);
         $out = '';
 
         $dumper = new CliDumper(function ($line, $depth) use (&$out) {
             if ($depth >= 0) {
-                $out .= str_repeat('  ', $depth).$line."\n";
+                $out .= str_repeat('  ', $depth) . $line . "\n";
             }
         });
         $dumper->setColors(false);
@@ -178,7 +173,7 @@ EOTXT
         $dumper->dump($data);
 
         $this->assertSame(
-            <<<EOTXT
+                <<<EOTXT
 array:2 [
   1 => array:1 [
     "GLOBALS" => &1 array:1 [
@@ -189,8 +184,7 @@ array:2 [
 ]
 
 EOTXT
-            ,
-            $out
+                , $out
         );
     }
 
@@ -198,8 +192,7 @@ EOTXT
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testBuggyRefs()
-    {
+    public function testBuggyRefs() {
         if (PHP_VERSION_ID >= 50600) {
             $this->markTestSkipped('PHP 5.6 fixed refs counting');
         }
@@ -215,12 +208,12 @@ EOTXT
         $out = '';
         $dumper->dump($data, function ($line, $depth) use (&$out) {
             if ($depth >= 0) {
-                $out .= str_repeat('  ', $depth).$line."\n";
+                $out .= str_repeat('  ', $depth) . $line . "\n";
             }
         });
 
         $this->assertSame(
-            <<<EOTXT
+                <<<EOTXT
 array:1 [
   0 => array:1 [
     0 => array:1 [
@@ -232,13 +225,11 @@ array:1 [
 ]
 
 EOTXT
-            ,
-            $out
+                , $out
         );
     }
 
-    private function getSpecialVars()
-    {
+    private function getSpecialVars() {
         foreach (array_keys($GLOBALS) as $var) {
             if ('GLOBALS' !== $var) {
                 unset($GLOBALS[$var]);
@@ -247,11 +238,12 @@ EOTXT
 
         $var = function &() {
             $var = array();
-            $var[] =& $var;
+            $var[] = & $var;
 
             return $var;
         };
 
         return array($var(), $GLOBALS, &$GLOBALS);
     }
+
 }

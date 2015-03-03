@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property array $parts Encapsed string array
  */
-class ShellExec extends Expr
-{
+class ShellExec extends Expr {
+
     /**
      * Constructs a shell exec (backtick) node.
      *
@@ -17,10 +17,10 @@ class ShellExec extends Expr
      */
     public function __construct($parts, array $attributes = array()) {
         parent::__construct(
-            array(
-                'parts' => $parts
-            ),
-            $attributes
+                array(
+            'parts' => $parts
+                ), $attributes
         );
     }
+
 }

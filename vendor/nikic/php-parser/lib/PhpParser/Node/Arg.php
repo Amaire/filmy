@@ -9,8 +9,8 @@ use PhpParser\NodeAbstract;
  * @property bool $byRef  Whether to pass by ref
  * @property bool $unpack Whether to unpack the argument
  */
-class Arg extends NodeAbstract
-{
+class Arg extends NodeAbstract {
+
     /**
      * Constructs a function call argument node.
      *
@@ -21,12 +21,12 @@ class Arg extends NodeAbstract
      */
     public function __construct(Expr $value, $byRef = false, $unpack = false, array $attributes = array()) {
         parent::__construct(
-            array(
-                'value'  => $value,
-                'byRef'  => $byRef,
-                'unpack' => $unpack,
-            ),
-            $attributes
+                array(
+            'value' => $value,
+            'byRef' => $byRef,
+            'unpack' => $unpack,
+                ), $attributes
         );
     }
+
 }

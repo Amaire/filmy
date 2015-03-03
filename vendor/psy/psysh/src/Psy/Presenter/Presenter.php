@@ -15,8 +15,8 @@ namespace Psy\Presenter;
  * Presenter classes are able to pretty-print values for display. Think
  * `var_dump`, but with sane and beautiful output.
  */
-interface Presenter
-{
+interface Presenter {
+
     const VERBOSE = 1;
 
     /**

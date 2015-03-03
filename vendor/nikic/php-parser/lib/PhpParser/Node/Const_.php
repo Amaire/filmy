@@ -8,8 +8,8 @@ use PhpParser\NodeAbstract;
  * @property string              $name  Name
  * @property Expr $value Value
  */
-class Const_ extends NodeAbstract
-{
+class Const_ extends NodeAbstract {
+
     /**
      * Constructs a const node for use in class const and const statements.
      *
@@ -19,11 +19,11 @@ class Const_ extends NodeAbstract
      */
     public function __construct($name, Expr $value, array $attributes = array()) {
         parent::__construct(
-            array(
-                'name'  => $name,
-                'value' => $value,
-            ),
-            $attributes
+                array(
+            'name' => $name,
+            'value' => $value,
+                ), $attributes
         );
     }
+
 }

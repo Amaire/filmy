@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Recursion Context package.
  *
@@ -20,8 +21,8 @@ namespace SebastianBergmann\RecursionContext;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       https://github.com/sebastianbergmann/recursion-context
  */
-final class Context
-{
+final class Context {
+
     /**
      * @var array[]
      */
@@ -35,9 +36,8 @@ final class Context
     /**
      * Initialises the context
      */
-    public function __construct()
-    {
-        $this->arrays  = array();
+    public function __construct() {
+        $this->arrays = array();
         $this->objects = new \SplObjectStorage;
     }
 
@@ -50,18 +50,15 @@ final class Context
      * @throws InvalidArgumentException Thrown if $value is not an array or
      *                                  object
      */
-    public function add(&$value)
-    {
+    public function add(&$value) {
         if (is_array($value)) {
             return $this->addArray($value);
-        }
-
-        else if (is_object($value)) {
+        } else if (is_object($value)) {
             return $this->addObject($value);
         }
 
         throw new InvalidArgumentException(
-            'Only arrays and objects are supported'
+        'Only arrays and objects are supported'
         );
     }
 
@@ -75,18 +72,15 @@ final class Context
      * @throws InvalidArgumentException Thrown if $value is not an array or
      *                                  object
      */
-    public function contains(&$value)
-    {
+    public function contains(&$value) {
         if (is_array($value)) {
             return $this->containsArray($value);
-        }
-
-        else if (is_object($value)) {
+        } else if (is_object($value)) {
             return $this->containsObject($value);
         }
 
         throw new InvalidArgumentException(
-            'Only arrays and objects are supported'
+        'Only arrays and objects are supported'
         );
     }
 
@@ -94,8 +88,7 @@ final class Context
      * @param  array $array
      * @return bool|int
      */
-    private function addArray(array &$array)
-    {
+    private function addArray(array &$array) {
         $key = $this->containsArray($array);
 
         if ($key !== false) {
@@ -111,8 +104,7 @@ final class Context
      * @param  object $object
      * @return string
      */
-    private function addObject($object)
-    {
+    private function addObject($object) {
         if (!$this->objects->contains($object)) {
             $this->objects->attach($object);
         }
@@ -124,8 +116,7 @@ final class Context
      * @param  array $array
      * @return integer|false
      */
-    private function containsArray(array &$array)
-    {
+    private function containsArray(array &$array) {
         $keys = array_keys($this->arrays, $array, true);
         $hash = '_Key_' . hash('sha512', microtime(true));
 
@@ -147,12 +138,12 @@ final class Context
      * @param  object $value
      * @return string|false
      */
-    private function containsObject($value)
-    {
+    private function containsObject($value) {
         if ($this->objects->contains($value)) {
             return spl_object_hash($value);
         }
 
         return false;
     }
+
 }

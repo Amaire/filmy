@@ -14,13 +14,12 @@ namespace Symfony\Component\Translation\Tests;
 use Symfony\Component\Intl\Util\IntlTestHelper;
 use Symfony\Component\Translation\IdentityTranslator;
 
-class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
-{
+class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider getTransTests
      */
-    public function testTrans($expected, $id, $parameters)
-    {
+    public function testTrans($expected, $id, $parameters) {
         $translator = new IdentityTranslator();
 
         $this->assertEquals($expected, $translator->trans($id, $parameters));
@@ -29,8 +28,7 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTransChoiceTests
      */
-    public function testTransChoiceWithExplicitLocale($expected, $id, $number, $parameters)
-    {
+    public function testTransChoiceWithExplicitLocale($expected, $id, $number, $parameters) {
         $translator = new IdentityTranslator();
         $translator->setLocale('en');
 
@@ -40,8 +38,7 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTransChoiceTests
      */
-    public function testTransChoiceWithDefaultLocale($expected, $id, $number, $parameters)
-    {
+    public function testTransChoiceWithDefaultLocale($expected, $id, $number, $parameters) {
         \Locale::setDefault('en');
 
         $translator = new IdentityTranslator();
@@ -49,16 +46,14 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $translator->transChoice($id, $number, $parameters));
     }
 
-    public function testGetSetLocale()
-    {
+    public function testGetSetLocale() {
         $translator = new IdentityTranslator();
         $translator->setLocale('en');
 
         $this->assertEquals('en', $translator->getLocale());
     }
 
-    public function testGetLocaleReturnsDefaultLocaleIfNotSet()
-    {
+    public function testGetLocaleReturnsDefaultLocaleIfNotSet() {
         // in order to test with "pt_BR"
         IntlTestHelper::requireFullIntl($this);
 
@@ -71,16 +66,14 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('pt_BR', $translator->getLocale());
     }
 
-    public function getTransTests()
-    {
+    public function getTransTests() {
         return array(
             array('Symfony is great!', 'Symfony is great!', array()),
             array('Symfony is awesome!', 'Symfony is %what%!', array('%what%' => 'awesome')),
         );
     }
 
-    public function getTransChoiceTests()
-    {
+    public function getTransChoiceTests() {
         return array(
             array('There are no apples', '{0} There are no apples|{1} There is one apple|]1,Inf] There are %count% apples', 0, array('%count%' => 0)),
             array('There is one apple', '{0} There are no apples|{1} There is one apple|]1,Inf] There are %count% apples', 1, array('%count%' => 1)),
@@ -92,4 +85,5 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
             array('There are 2 apples', 'There are 2 apples', 2, array('%count%' => 2)),
         );
     }
+
 }

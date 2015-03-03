@@ -1,9 +1,8 @@
 <?php
 
-class Swift_Bug111Test extends \PHPUnit_Framework_TestCase
-{
-    public function testUnstructuredHeaderSlashesShouldNotBeEscaped()
-    {
+class Swift_Bug111Test extends \PHPUnit_Framework_TestCase {
+
+    public function testUnstructuredHeaderSlashesShouldNotBeEscaped() {
         $complicated_header = array(
             'to' => array(
                 'email1@example.com',
@@ -39,4 +38,5 @@ class Swift_Bug111Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Swift_Mime_Headers_UnstructuredHeader', get_class($header));
         $this->assertEquals($json, $header->getFieldBody());
     }
+
 }

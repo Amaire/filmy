@@ -13,15 +13,15 @@
  *
  * @author  Chris Corbyn
  */
-class Swift_SwiftException extends Exception
-{
+class Swift_SwiftException extends Exception {
+
     /**
      * Create a new SwiftException with $message.
      *
      * @param string $message
      */
-    public function __construct($message)
-    {
+    public function __construct($message) {
         parent::__construct($message);
     }
+
 }

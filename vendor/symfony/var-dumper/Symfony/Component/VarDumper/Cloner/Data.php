@@ -14,8 +14,8 @@ namespace Symfony\Component\VarDumper\Cloner;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class Data
-{
+class Data {
+
     private $data;
     private $maxDepth = 20;
     private $maxItemsPerDepth = -1;
@@ -24,16 +24,14 @@ class Data
     /**
      * @param array $data A array as returned by ClonerInterface::cloneVar().
      */
-    public function __construct(array $data)
-    {
+    public function __construct(array $data) {
         $this->data = $data;
     }
 
     /**
      * @return array The raw data structure.
      */
-    public function getRawData()
-    {
+    public function getRawData() {
         return $this->data;
     }
 
@@ -46,8 +44,7 @@ class Data
      *
      * @return self A depth limited clone of $this.
      */
-    public function getLimitedClone($maxDepth, $maxItemsPerDepth, $useRefHandles = true)
-    {
+    public function getLimitedClone($maxDepth, $maxItemsPerDepth, $useRefHandles = true) {
         $data = clone $this;
         $data->maxDepth = (int) $maxDepth;
         $data->maxItemsPerDepth = (int) $maxItemsPerDepth;
@@ -59,8 +56,7 @@ class Data
     /**
      * Dumps data with a DumperInterface dumper.
      */
-    public function dump(DumperInterface $dumper)
-    {
+    public function dump(DumperInterface $dumper) {
         $refs = array(0);
         $this->dumpItem($dumper, new Cursor(), $refs, $this->data[0][0]);
     }
@@ -73,8 +69,7 @@ class Data
      * @param array           &$refs  A map of all references discovered while dumping.
      * @param mixed           $item   A Stub object or the original value being dumped.
      */
-    private function dumpItem($dumper, $cursor, &$refs, $item)
-    {
+    private function dumpItem($dumper, $cursor, &$refs, $item) {
         $cursor->refIndex = 0;
         $cursor->softRefTo = $cursor->softRefHandle = $cursor->softRefCount = 0;
         $cursor->hardRefTo = $cursor->hardRefHandle = $cursor->hardRefCount = 0;
@@ -85,7 +80,7 @@ class Data
         } elseif (Stub::TYPE_REF === $item->type) {
             if ($item->handle) {
                 if (!isset($refs[$r = $item->handle - (PHP_INT_MAX >> 1)])) {
-                    $cursor->refIndex = $refs[$r] = $cursor->refIndex ?: ++$refs[0];
+                    $cursor->refIndex = $refs[$r] = $cursor->refIndex ? : ++$refs[0];
                 } else {
                     $firstSeen = false;
                 }
@@ -93,13 +88,13 @@ class Data
                 $cursor->hardRefHandle = $this->useRefHandles & $item->handle;
                 $cursor->hardRefCount = $item->refCount;
             }
-            $type = $item->class ?: gettype($item->value);
+            $type = $item->class ? : gettype($item->value);
             $item = $item->value;
         }
         if ($item instanceof Stub) {
             if ($item->refCount) {
                 if (!isset($refs[$r = $item->handle])) {
-                    $cursor->refIndex = $refs[$r] = $cursor->refIndex ?: ++$refs[0];
+                    $cursor->refIndex = $refs[$r] = $cursor->refIndex ? : ++$refs[0];
                 } else {
                     $firstSeen = false;
                 }
@@ -164,8 +159,7 @@ class Data
      *
      * @return int The final number of removed items.
      */
-    private function dumpChildren($dumper, $parentCursor, &$refs, $children, $hashCut, $hashType)
-    {
+    private function dumpChildren($dumper, $parentCursor, &$refs, $children, $hashCut, $hashType) {
         if ($children) {
             if ($parentCursor->depth !== $this->maxDepth && $this->maxItemsPerDepth) {
                 $cursor = clone $parentCursor;
@@ -191,4 +185,5 @@ class Data
 
         return $hashCut;
     }
+
 }

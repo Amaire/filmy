@@ -38,8 +38,8 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  * @author Michael Williams <michael.williams@funsational.com>
  * @author Tobias Schultze <http://tobion.de>
  */
-class PdoSessionHandler implements \SessionHandlerInterface
-{
+class PdoSessionHandler implements \SessionHandlerInterface {
+
     /**
      * No locking is done. This means sessions are prone to loss of data due to
      * race conditions of concurrent requests to the same session. The last session
@@ -171,8 +171,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *
      * @throws \InvalidArgumentException When PDO error mode is not PDO::ERRMODE_EXCEPTION
      */
-    public function __construct($pdoOrDsn = null, array $options = array())
-    {
+    public function __construct($pdoOrDsn = null, array $options = array()) {
         if ($pdoOrDsn instanceof \PDO) {
             if (\PDO::ERRMODE_EXCEPTION !== $pdoOrDsn->getAttribute(\PDO::ATTR_ERRMODE)) {
                 throw new \InvalidArgumentException(sprintf('"%s" requires PDO error mode attribute be set to throw Exceptions (i.e. $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION))', __CLASS__));
@@ -206,8 +205,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
      * @throws \PDOException    When the table already exists
      * @throws \DomainException When an unsupported PDO driver is used
      */
-    public function createTable()
-    {
+    public function createTable() {
         // connect if we are not yet
         $this->getConnection();
 
@@ -252,18 +250,16 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *
      * @return bool Whether current session expired
      */
-    public function isSessionExpired()
-    {
+    public function isSessionExpired() {
         return $this->sessionExpired;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function open($savePath, $sessionName)
-    {
+    public function open($savePath, $sessionName) {
         if (null === $this->pdo) {
-            $this->connect($this->dsn ?: $savePath);
+            $this->connect($this->dsn ? : $savePath);
         }
 
         return true;
@@ -272,8 +268,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function read($sessionId)
-    {
+    public function read($sessionId) {
         try {
             return $this->doRead($sessionId);
         } catch (\PDOException $e) {
@@ -286,8 +281,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function gc($maxlifetime)
-    {
+    public function gc($maxlifetime) {
         // We delay gc() to close() so that it is executed outside the transactional and blocking read-write process.
         // This way, pruning expired sessions does not block them from being started while the current session is used.
         $this->gcCalled = true;
@@ -298,8 +292,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function destroy($sessionId)
-    {
+    public function destroy($sessionId) {
         // delete the record associated with this id
         $sql = "DELETE FROM $this->table WHERE $this->idCol = :id";
 
@@ -319,8 +312,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function write($sessionId, $data)
-    {
+    public function write($sessionId, $data) {
         $maxlifetime = (int) ini_get('session.gc_maxlifetime');
 
         try {
@@ -339,7 +331,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
             }
 
             $updateStmt = $this->pdo->prepare(
-                "UPDATE $this->table SET $this->dataCol = :data, $this->lifetimeCol = :lifetime, $this->timeCol = :time WHERE $this->idCol = :id"
+                    "UPDATE $this->table SET $this->dataCol = :data, $this->lifetimeCol = :lifetime, $this->timeCol = :time WHERE $this->idCol = :id"
             );
             $updateStmt->bindParam(':id', $sessionId, \PDO::PARAM_STR);
             $updateStmt->bindParam(':data', $data, \PDO::PARAM_LOB);
@@ -355,7 +347,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
             if (!$updateStmt->rowCount()) {
                 try {
                     $insertStmt = $this->pdo->prepare(
-                        "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time)"
+                            "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time)"
                     );
                     $insertStmt->bindParam(':id', $sessionId, \PDO::PARAM_STR);
                     $insertStmt->bindParam(':data', $data, \PDO::PARAM_LOB);
@@ -383,8 +375,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function close()
-    {
+    public function close() {
         $this->commit();
 
         while ($unlockStmt = array_shift($this->unlockStatements)) {
@@ -414,8 +405,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *
      * @param string $dsn DSN string
      */
-    private function connect($dsn)
-    {
+    private function connect($dsn) {
         $this->pdo = new \PDO($dsn, $this->username, $this->password, $this->connectionOptions);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->driver = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
@@ -433,8 +423,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
      * due to http://www.mysqlperformanceblog.com/2013/12/12/one-more-innodb-gap-lock-to-avoid/ .
      * So we change it to READ COMMITTED.
      */
-    private function beginTransaction()
-    {
+    private function beginTransaction() {
         if (!$this->inTransaction) {
             if ('sqlite' === $this->driver) {
                 $this->pdo->exec('BEGIN IMMEDIATE TRANSACTION');
@@ -451,8 +440,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
     /**
      * Helper method to commit a transaction.
      */
-    private function commit()
-    {
+    private function commit() {
         if ($this->inTransaction) {
             try {
                 // commit read-write transaction which also releases the lock
@@ -473,8 +461,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
     /**
      * Helper method to rollback a transaction.
      */
-    private function rollback()
-    {
+    private function rollback() {
         // We only need to rollback if we are in a transaction. Otherwise the resulting
         // error would hide the real problem why rollback was called. We might not be
         // in a transaction when not using the transactional locking behavior or when
@@ -499,8 +486,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *
      * @return string The session data
      */
-    private function doRead($sessionId)
-    {
+    private function doRead($sessionId) {
         $this->sessionExpired = false;
 
         if (self::LOCK_ADVISORY === $this->lockMode) {
@@ -529,7 +515,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
             // until other connections to the session are committed.
             try {
                 $insertStmt = $this->pdo->prepare(
-                    "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time)"
+                        "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time)"
                 );
                 $insertStmt->bindParam(':id', $sessionId, \PDO::PARAM_STR);
                 $insertStmt->bindValue(':data', '', \PDO::PARAM_LOB);
@@ -573,8 +559,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *       - for oci using DBMS_LOCK.REQUEST
      *       - for sqlsrv using sp_getapplock with LockOwner = Session
      */
-    private function doAdvisoryLock($sessionId)
-    {
+    private function doAdvisoryLock($sessionId) {
         switch ($this->driver) {
             case 'mysql':
                 // should we handle the return value? 0 on timeout, null on error
@@ -629,8 +614,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *
      * @throws \DomainException When an unsupported PDO driver is used
      */
-    private function getSelectSql()
-    {
+    private function getSelectSql() {
         if (self::LOCK_TRANSACTIONAL === $this->lockMode) {
             $this->beginTransaction();
 
@@ -657,23 +641,22 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *
      * @return string|null The SQL string or null when not supported
      */
-    private function getMergeSql()
-    {
+    private function getMergeSql() {
         switch ($this->driver) {
             case 'mysql':
-                return "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time) ".
-                    "ON DUPLICATE KEY UPDATE $this->dataCol = VALUES($this->dataCol), $this->lifetimeCol = VALUES($this->lifetimeCol), $this->timeCol = VALUES($this->timeCol)";
+                return "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time) " .
+                        "ON DUPLICATE KEY UPDATE $this->dataCol = VALUES($this->dataCol), $this->lifetimeCol = VALUES($this->lifetimeCol), $this->timeCol = VALUES($this->timeCol)";
             case 'oci':
                 // DUAL is Oracle specific dummy table
-                return "MERGE INTO $this->table USING DUAL ON ($this->idCol = :id) ".
-                    "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time) ".
-                    "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->lifetimeCol = :lifetime, $this->timeCol = :time";
+                return "MERGE INTO $this->table USING DUAL ON ($this->idCol = :id) " .
+                        "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time) " .
+                        "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->lifetimeCol = :lifetime, $this->timeCol = :time";
             case 'sqlsrv' === $this->driver && version_compare($this->pdo->getAttribute(\PDO::ATTR_SERVER_VERSION), '10', '>='):
                 // MERGE is only available since SQL Server 2008 and must be terminated by semicolon
                 // It also requires HOLDLOCK according to http://weblogs.sqlteam.com/dang/archive/2009/01/31/UPSERT-Race-Condition-With-MERGE.aspx
-                return "MERGE INTO $this->table WITH (HOLDLOCK) USING (SELECT 1 AS dummy) AS src ON ($this->idCol = :id) ".
-                    "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time) ".
-                    "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->lifetimeCol = :lifetime, $this->timeCol = :time;";
+                return "MERGE INTO $this->table WITH (HOLDLOCK) USING (SELECT 1 AS dummy) AS src ON ($this->idCol = :id) " .
+                        "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time) " .
+                        "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->lifetimeCol = :lifetime, $this->timeCol = :time;";
             case 'sqlite':
                 return "INSERT OR REPLACE INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :lifetime, :time)";
         }
@@ -684,12 +667,12 @@ class PdoSessionHandler implements \SessionHandlerInterface
      *
      * @return \PDO
      */
-    protected function getConnection()
-    {
+    protected function getConnection() {
         if (null === $this->pdo) {
-            $this->connect($this->dsn ?: ini_get('session.save_path'));
+            $this->connect($this->dsn ? : ini_get('session.save_path'));
         }
 
         return $this->pdo;
     }
+
 }

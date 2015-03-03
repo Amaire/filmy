@@ -17,10 +17,9 @@ use Psy\Output\PassthruPager;
 use Psy\ExecutionLoop\Loop;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
-{
-    public function testDefaults()
-    {
+class ConfigurationTest extends \PHPUnit_Framework_TestCase {
+
+    public function testDefaults() {
         $config = new Configuration();
 
         $this->assertEquals(function_exists('readline'), $config->hasReadline());
@@ -30,8 +29,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($config->requireSemicolons());
     }
 
-    public function testGettersAndSetters()
-    {
+    public function testGettersAndSetters() {
         $config = new Configuration();
 
         $this->assertNull($config->getDataDir());
@@ -46,21 +44,19 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider directories
      */
-    public function testFilesAndDirectories($home, $configFile, $historyFile, $manualDbFile)
-    {
+    public function testFilesAndDirectories($home, $configFile, $historyFile, $manualDbFile) {
         $oldHome = getenv('HOME');
         putenv("HOME=$home");
 
         $config = new Configuration();
-        $this->assertEquals(realpath($configFile),   realpath($config->getConfigFile()));
-        $this->assertEquals(realpath($historyFile),  realpath($config->getHistoryFile()));
+        $this->assertEquals(realpath($configFile), realpath($config->getConfigFile()));
+        $this->assertEquals(realpath($historyFile), realpath($config->getHistoryFile()));
         $this->assertEquals(realpath($manualDbFile), realpath($config->getManualDbFile()));
 
         putenv("HOME=$oldHome");
     }
 
-    public function directories()
-    {
+    public function directories() {
         $base = realpath(__DIR__ . '/../../fixtures');
 
         return array(
@@ -85,19 +81,18 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLoadConfig()
-    {
-        $config  = new Configuration();
+    public function testLoadConfig() {
+        $config = new Configuration();
         $cleaner = new CodeCleaner();
-        $pager   = new PassthruPager(new ConsoleOutput());
-        $loop    = new Loop($config);
+        $pager = new PassthruPager(new ConsoleOutput());
+        $loop = new Loop($config);
 
         $config->loadConfig(array(
-            'useReadline'       => false,
-            'usePcntl'          => false,
-            'codeCleaner'       => $cleaner,
-            'pager'             => $pager,
-            'loop'              => $loop,
+            'useReadline' => false,
+            'usePcntl' => false,
+            'codeCleaner' => $cleaner,
+            'pager' => $pager,
+            'loop' => $loop,
             'requireSemicolons' => true,
         ));
 
@@ -109,8 +104,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($config->requireSemicolons());
     }
 
-    public function testLoadConfigFile()
-    {
+    public function testLoadConfigFile() {
         $config = new Configuration(array('configFile' => __DIR__ . '/../../fixtures/config.php'));
 
         $runtimeDir = $this->joinPath(realpath(sys_get_temp_dir()), 'psysh_test', 'withconfig', 'temp');
@@ -132,8 +126,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException PHPUnit_Framework_Error_Deprecated
      */
-    public function testSetTempDirIsDeprecated()
-    {
+    public function testSetTempDirIsDeprecated() {
         $config = new Configuration();
         $config->setTempDir('fake');
     }
@@ -141,8 +134,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException PHPUnit_Framework_Error_Deprecated
      */
-    public function testGetTempDirIsDeprecated()
-    {
+    public function testGetTempDirIsDeprecated() {
         $config = new Configuration();
         $config->getTempDir();
     }
@@ -150,25 +142,23 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException PHPUnit_Framework_Error_Deprecated
      */
-    public function testBaseDirConfigIsDeprecated()
-    {
+    public function testBaseDirConfigIsDeprecated() {
         $config = new Configuration(array('baseDir' => 'fake'));
     }
 
-    private function joinPath()
-    {
+    private function joinPath() {
         return implode(DIRECTORY_SEPARATOR, func_get_args());
     }
 
-    public function testConfigIncludes()
-    {
+    public function testConfigIncludes() {
         $config = new Configuration(array(
             'defaultIncludes' => array('/file.php'),
-            'configFile'      => __DIR__ . '/../../fixtures/empty.php',
+            'configFile' => __DIR__ . '/../../fixtures/empty.php',
         ));
 
         $includes = $config->getDefaultIncludes();
         $this->assertCount(1, $includes);
         $this->assertEquals('/file.php', $includes[0]);
     }
+
 }

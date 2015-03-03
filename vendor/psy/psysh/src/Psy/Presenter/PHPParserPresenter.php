@@ -16,8 +16,8 @@ use PhpParser\Node;
 /**
  * A PhpParser Presenter.
  */
-class PHPParserPresenter extends ObjectPresenter
-{
+class PHPParserPresenter extends ObjectPresenter {
+
     const FMT = '<object>\\<<class>%s</class>></object>';
 
     /**
@@ -27,8 +27,7 @@ class PHPParserPresenter extends ObjectPresenter
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return $value instanceof Node;
     }
 
@@ -39,8 +38,7 @@ class PHPParserPresenter extends ObjectPresenter
      *
      * @return string
      */
-    public function presentRef($value)
-    {
+    public function presentRef($value) {
         return sprintf(self::FMT, get_class($value));
     }
 
@@ -53,11 +51,10 @@ class PHPParserPresenter extends ObjectPresenter
      *
      * @return array
      */
-    protected function getProperties($value, \ReflectionClass $class, $propertyFilter)
-    {
+    protected function getProperties($value, \ReflectionClass $class, $propertyFilter) {
         $props = array();
 
-        $props['type']       = $value->getType();
+        $props['type'] = $value->getType();
         $props['attributes'] = $value->getAttributes();
 
         foreach ($value->getSubNodeNames() as $name) {
@@ -66,4 +63,5 @@ class PHPParserPresenter extends ObjectPresenter
 
         return $props;
     }
+
 }

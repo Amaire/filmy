@@ -22,16 +22,18 @@ use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Wrapper\Unwrapper;
 use PhpSpec\Matcher;
 
-class MatchersMaintainer implements MaintainerInterface
-{
+class MatchersMaintainer implements MaintainerInterface {
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
     private $presenter;
+
     /**
      * @var \PhpSpec\Wrapper\Unwrapper
      */
     private $unwrapper;
+
     /**
      * @var MatcherInterface[]
      */
@@ -41,13 +43,12 @@ class MatchersMaintainer implements MaintainerInterface
      * @param PresenterInterface $presenter
      * @param MatcherInterface[] $matchers
      */
-    public function __construct(PresenterInterface $presenter, array $matchers)
-    {
+    public function __construct(PresenterInterface $presenter, array $matchers) {
         $this->presenter = $presenter;
         $this->defaultMatchers = $matchers;
         @usort($this->defaultMatchers, function ($matcher1, $matcher2) {
-            return $matcher2->getPriority() - $matcher1->getPriority();
-        });
+                    return $matcher2->getPriority() - $matcher1->getPriority();
+                });
     }
 
     /**
@@ -55,8 +56,7 @@ class MatchersMaintainer implements MaintainerInterface
      *
      * @return bool
      */
-    public function supports(ExampleNode $example)
-    {
+    public function supports(ExampleNode $example) {
         return true;
     }
 
@@ -66,9 +66,7 @@ class MatchersMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function prepare(ExampleNode $example, SpecificationInterface $context,
-                            MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function prepare(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
 
         $matchers->replace($this->defaultMatchers);
 
@@ -81,7 +79,7 @@ class MatchersMaintainer implements MaintainerInterface
                 $matchers->add($matcher);
             } else {
                 $matchers->add(new Matcher\CallbackMatcher(
-                    $name, $matcher, $this->presenter
+                        $name, $matcher, $this->presenter
                 ));
             }
         }
@@ -93,16 +91,15 @@ class MatchersMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function teardown(ExampleNode $example, SpecificationInterface $context,
-                             MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function teardown(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
+        
     }
 
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 50;
     }
+
 }

@@ -9,6 +9,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Comment;
 
 abstract class BuilderAbstract implements Builder {
+
     /**
      * Normalizes a node: Converts builder objects to nodes.
      *
@@ -66,11 +67,11 @@ abstract class BuilderAbstract implements Builder {
             return $value;
         } elseif (is_null($value)) {
             return new Expr\ConstFetch(
-                new Name('null')
+                    new Name('null')
             );
         } elseif (is_bool($value)) {
             return new Expr\ConstFetch(
-                new Name($value ? 'true' : 'false')
+                    new Name($value ? 'true' : 'false')
             );
         } elseif (is_int($value)) {
             return new Scalar\LNumber($value);
@@ -85,13 +86,12 @@ abstract class BuilderAbstract implements Builder {
                 // for consecutive, numeric keys don't generate keys
                 if (null !== $lastKey && ++$lastKey === $itemKey) {
                     $items[] = new Expr\ArrayItem(
-                        $this->normalizeValue($itemValue)
+                            $this->normalizeValue($itemValue)
                     );
                 } else {
                     $lastKey = null;
                     $items[] = new Expr\ArrayItem(
-                        $this->normalizeValue($itemValue),
-                        $this->normalizeValue($itemKey)
+                            $this->normalizeValue($itemValue), $this->normalizeValue($itemKey)
                     );
                 }
             }
@@ -128,4 +128,5 @@ abstract class BuilderAbstract implements Builder {
         Stmt\Class_::verifyModifier($this->type, $modifier);
         $this->type |= $modifier;
     }
+
 }

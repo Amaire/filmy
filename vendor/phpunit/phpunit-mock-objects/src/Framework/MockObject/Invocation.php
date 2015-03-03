@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -53,6 +54,6 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
-interface PHPUnit_Framework_MockObject_Invocation
-{
+interface PHPUnit_Framework_MockObject_Invocation {
+    
 }

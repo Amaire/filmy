@@ -19,21 +19,20 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @author Michel Salib <michelsalib@hotmail.com>
  */
-class YamlFileDumper extends FileDumper
-{
+class YamlFileDumper extends FileDumper {
+
     /**
      * {@inheritdoc}
      */
-    protected function format(MessageCatalogue $messages, $domain)
-    {
+    protected function format(MessageCatalogue $messages, $domain) {
         return Yaml::dump($messages->all($domain));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getExtension()
-    {
+    protected function getExtension() {
         return 'yml';
     }
+
 }

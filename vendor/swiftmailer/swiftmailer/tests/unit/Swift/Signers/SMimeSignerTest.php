@@ -1,41 +1,37 @@
 <?php
 
-class Swift_Signers_SMimeSignerTest extends \PHPUnit_Framework_TestCase
-{
+class Swift_Signers_SMimeSignerTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @var Swift_StreamFilters_StringReplacementFilterFactory
      */
     protected $replacementFactory;
-
     protected $samplesDir;
 
-    public function setUp()
-    {
+    public function setUp() {
         $this->replacementFactory = Swift_DependencyContainer::getInstance()
-            ->lookup('transport.replacementfactory');
+                ->lookup('transport.replacementfactory');
 
-        $this->samplesDir = str_replace('\\', '/', realpath(__DIR__.'/../../../_samples/')).'/';
+        $this->samplesDir = str_replace('\\', '/', realpath(__DIR__ . '/../../../_samples/')) . '/';
     }
 
-    public function testUnSingedMessage()
-    {
+    public function testUnSingedMessage() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
         $this->assertEquals('Here is the message itself', $message->getBody());
     }
 
-    public function testSingedMessage()
-    {
+    public function testSingedMessage() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
         $signer = new Swift_Signers_SMimeSigner();
-        $signer->setSignCertificate($this->samplesDir.'smime/sign.crt', $this->samplesDir.'smime/sign.key');
+        $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key');
         $message->attachSigner($signer);
 
         $messageStream = $this->newFilteredStream();
@@ -70,15 +66,14 @@ OEL;
         unset($messageStream);
     }
 
-    public function testSingedMessageBinary()
-    {
+    public function testSingedMessageBinary() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
         $signer = new Swift_Signers_SMimeSigner();
-        $signer->setSignCertificate($this->samplesDir.'smime/sign.crt', $this->samplesDir.'smime/sign.key', PKCS7_BINARY);
+        $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key', PKCS7_BINARY);
         $message->attachSigner($signer);
 
         $messageStream = $this->newFilteredStream();
@@ -105,17 +100,16 @@ OEL;
         unset($messageStreamClean, $messageStream);
     }
 
-    public function testSingedMessageWithAttachments()
-    {
+    public function testSingedMessageWithAttachments() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
-        $message->attach(Swift_Attachment::fromPath($this->samplesDir.'/files/textfile.zip'));
+        $message->attach(Swift_Attachment::fromPath($this->samplesDir . '/files/textfile.zip'));
 
         $signer = new Swift_Signers_SMimeSigner();
-        $signer->setSignCertificate($this->samplesDir.'smime/sign.crt', $this->samplesDir.'smime/sign.key');
+        $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key');
         $message->attachSigner($signer);
 
         $messageStream = $this->newFilteredStream();
@@ -169,17 +163,16 @@ OEL;
         unset($messageStream);
     }
 
-    public function testEncryptedMessage()
-    {
+    public function testEncryptedMessage() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
         $originalMessage = $this->cleanMessage($message->toString());
 
         $signer = new Swift_Signers_SMimeSigner();
-        $signer->setEncryptCertificate($this->samplesDir.'smime/encrypt.crt');
+        $signer->setEncryptCertificate($this->samplesDir . 'smime/encrypt.crt');
         $message->attachSigner($signer);
 
         $messageStream = new Swift_ByteStream_TemporaryFileByteStream();
@@ -199,7 +192,7 @@ OEL;
 
         $decryptedMessageStream = new Swift_ByteStream_TemporaryFileByteStream();
 
-        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://'.$this->samplesDir.'smime/encrypt.crt', array('file://'.$this->samplesDir.'smime/encrypt.key', 'swift'))) {
+        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://' . $this->samplesDir . 'smime/encrypt.crt', array('file://' . $this->samplesDir . 'smime/encrypt.key', 'swift'))) {
             $this->fail(sprintf('Decrypt of the message failed. Internal error "%s".', openssl_error_string()));
         }
 
@@ -207,17 +200,16 @@ OEL;
         unset($decryptedMessageStream, $messageStream);
     }
 
-    public function testEncryptedMessageWithMultipleCerts()
-    {
+    public function testEncryptedMessageWithMultipleCerts() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
         $originalMessage = $this->cleanMessage($message->toString());
 
         $signer = new Swift_Signers_SMimeSigner();
-        $signer->setEncryptCertificate(array($this->samplesDir.'smime/encrypt.crt', $this->samplesDir.'smime/encrypt2.crt'));
+        $signer->setEncryptCertificate(array($this->samplesDir . 'smime/encrypt.crt', $this->samplesDir . 'smime/encrypt2.crt'));
         $message->attachSigner($signer);
 
         $messageStream = new Swift_ByteStream_TemporaryFileByteStream();
@@ -237,7 +229,7 @@ OEL;
 
         $decryptedMessageStream = new Swift_ByteStream_TemporaryFileByteStream();
 
-        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://'.$this->samplesDir.'smime/encrypt.crt', array('file://'.$this->samplesDir.'smime/encrypt.key', 'swift'))) {
+        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://' . $this->samplesDir . 'smime/encrypt.crt', array('file://' . $this->samplesDir . 'smime/encrypt.key', 'swift'))) {
             $this->fail(sprintf('Decrypt of the message failed. Internal error "%s".', openssl_error_string()));
         }
 
@@ -246,7 +238,7 @@ OEL;
 
         $decryptedMessageStream = new Swift_ByteStream_TemporaryFileByteStream();
 
-        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://'.$this->samplesDir.'smime/encrypt2.crt', array('file://'.$this->samplesDir.'smime/encrypt2.key', 'swift'))) {
+        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://' . $this->samplesDir . 'smime/encrypt2.crt', array('file://' . $this->samplesDir . 'smime/encrypt2.key', 'swift'))) {
             $this->fail(sprintf('Decrypt of the message failed. Internal error "%s".', openssl_error_string()));
         }
 
@@ -254,16 +246,15 @@ OEL;
         unset($decryptedMessageStream, $messageStream);
     }
 
-    public function testSignThenEncryptedMessage()
-    {
+    public function testSignThenEncryptedMessage() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
         $signer = new Swift_Signers_SMimeSigner();
-        $signer->setSignCertificate($this->samplesDir.'smime/sign.crt', $this->samplesDir.'smime/sign.key');
-        $signer->setEncryptCertificate($this->samplesDir.'smime/encrypt.crt');
+        $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key');
+        $signer->setEncryptCertificate($this->samplesDir . 'smime/encrypt.crt');
         $message->attachSigner($signer);
 
         $messageStream = new Swift_ByteStream_TemporaryFileByteStream();
@@ -283,7 +274,7 @@ OEL;
 
         $decryptedMessageStream = new Swift_ByteStream_TemporaryFileByteStream();
 
-        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://'.$this->samplesDir.'smime/encrypt.crt', array('file://'.$this->samplesDir.'smime/encrypt.key', 'swift'))) {
+        if (!openssl_pkcs7_decrypt($messageStream->getPath(), $decryptedMessageStream->getPath(), 'file://' . $this->samplesDir . 'smime/encrypt.crt', array('file://' . $this->samplesDir . 'smime/encrypt.key', 'swift'))) {
             $this->fail(sprintf('Decrypt of the message failed. Internal error "%s".', openssl_error_string()));
         }
 
@@ -319,18 +310,17 @@ OEL;
         unset($decryptedMessageStream, $messageStream);
     }
 
-    public function testEncryptThenSignMessage()
-    {
+    public function testEncryptThenSignMessage() {
         $message = Swift_SignedMessage::newInstance('Wonderful Subject')
-          ->setFrom(array('john@doe.com' => 'John Doe'))
-          ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
-          ->setBody('Here is the message itself');
+                ->setFrom(array('john@doe.com' => 'John Doe'))
+                ->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'))
+                ->setBody('Here is the message itself');
 
         $originalMessage = $this->cleanMessage($message->toString());
 
         $signer = Swift_Signers_SMimeSigner::newInstance();
-        $signer->setSignCertificate($this->samplesDir.'smime/sign.crt', $this->samplesDir.'smime/sign.key');
-        $signer->setEncryptCertificate($this->samplesDir.'smime/encrypt.crt');
+        $signer->setSignCertificate($this->samplesDir . 'smime/sign.crt', $this->samplesDir . 'smime/sign.key');
+        $signer->setEncryptCertificate($this->samplesDir . 'smime/encrypt.crt');
         $signer->setSignThenEncrypt(false);
         $message->attachSigner($signer);
 
@@ -372,7 +362,7 @@ OEL;
         }
 
         $expectedBody = str_replace("\n", "\r\n", $expectedBody);
-        if (!preg_match('%'.$expectedBody.'*%m', $entityString, $entities)) {
+        if (!preg_match('%' . $expectedBody . '*%m', $entityString, $entities)) {
             $this->fail('Failed regex match.');
 
             return false;
@@ -383,7 +373,7 @@ OEL;
 
         $decryptedMessageStream = new Swift_ByteStream_TemporaryFileByteStream();
 
-        if (!openssl_pkcs7_decrypt($messageStreamClean->getPath(), $decryptedMessageStream->getPath(), 'file://'.$this->samplesDir.'smime/encrypt.crt', array('file://'.$this->samplesDir.'smime/encrypt.key', 'swift'))) {
+        if (!openssl_pkcs7_decrypt($messageStreamClean->getPath(), $decryptedMessageStream->getPath(), 'file://' . $this->samplesDir . 'smime/encrypt.crt', array('file://' . $this->samplesDir . 'smime/encrypt.key', 'swift'))) {
             $this->fail(sprintf('Decrypt of the message failed. Internal error "%s".', openssl_error_string()));
         }
 
@@ -391,20 +381,19 @@ OEL;
         unset($messageStreamClean, $messageStream, $decryptedMessageStream);
     }
 
-    protected function assertValidVerify($expected, Swift_ByteStream_TemporaryFileByteStream $messageStream)
-    {
+    protected function assertValidVerify($expected, Swift_ByteStream_TemporaryFileByteStream $messageStream) {
         $actual = $messageStream->getContent();
 
         // File is UNIX encoded so convert them to correct line ending
         $expected = str_replace("\n", "\r\n", $expected);
 
         $actual = trim(self::getBodyOfMessage($actual));
-        if (!$this->assertRegExp('%^'.$expected.'$\s*%m', $actual)) {
+        if (!$this->assertRegExp('%^' . $expected . '$\s*%m', $actual)) {
             return false;
         }
 
         $opensslOutput = new Swift_ByteStream_TemporaryFileByteStream();
-        $verify = openssl_pkcs7_verify($messageStream->getPath(), null, $opensslOutput->getPath(), array($this->samplesDir.'smime/ca.crt'));
+        $verify = openssl_pkcs7_verify($messageStream->getPath(), null, $opensslOutput->getPath(), array($this->samplesDir . 'smime/ca.crt'));
 
         if (false === $verify) {
             $this->fail('Verification of the message failed.');
@@ -419,8 +408,7 @@ OEL;
         return true;
     }
 
-    protected function getBoundary($contentType)
-    {
+    protected function getBoundary($contentType) {
         if (!preg_match('/boundary=("[^"]+"|(?:[^\s]+|$))/is', $contentType, $contentTypeData)) {
             $this->fail('Failed to find Boundary parameter');
 
@@ -430,8 +418,7 @@ OEL;
         return trim($contentTypeData[1], '"');
     }
 
-    protected function newFilteredStream()
-    {
+    protected function newFilteredStream() {
         $messageStream = new Swift_ByteStream_TemporaryFileByteStream();
         $messageStream->addFilter($this->replacementFactory->createFilter("\r\n", "\n"), 'CRLF to LF');
         $messageStream->addFilter($this->replacementFactory->createFilter("\n", "\r\n"), 'LF to CRLF');
@@ -439,8 +426,7 @@ OEL;
         return $messageStream;
     }
 
-    protected static function getBodyOfMessage($message)
-    {
+    protected static function getBodyOfMessage($message) {
         return substr($message, strpos($message, "\r\n\r\n"));
     }
 
@@ -450,8 +436,7 @@ OEL;
      * @param Swift_ByteStream_TemporaryFileByteStream $messageStream
      * @param Swift_ByteStream_TemporaryFileByteStream $inputStream
      */
-    protected function cleanMessage($content)
-    {
+    protected function cleanMessage($content) {
         $newContent = '';
 
         $headers = self::getHeadersOfMessage($content);
@@ -471,7 +456,7 @@ OEL;
             $newContent .= "$headerName: $value\r\n";
         }
 
-        return $newContent."\r\n".ltrim(self::getBodyOfMessage($content));
+        return $newContent . "\r\n" . ltrim(self::getBodyOfMessage($content));
     }
 
     /**
@@ -483,8 +468,7 @@ OEL;
      *
      * @return array
      */
-    protected static function getHeadersOfMessage($message)
-    {
+    protected static function getHeadersOfMessage($message) {
         $headersPosEnd = strpos($message, "\r\n\r\n");
         $headerData = substr($message, 0, $headersPosEnd);
         $headerLines = explode("\r\n", $headerData);
@@ -497,7 +481,7 @@ OEL;
 
         foreach ($headerLines as $headerLine) {
             if (ctype_space($headerLines[0]) || false === strpos($headerLine, ':')) {
-                $headers[$currentHeaderName] .= ' '.trim($headerLine);
+                $headers[$currentHeaderName] .= ' ' . trim($headerLine);
                 continue;
             }
 
@@ -508,4 +492,5 @@ OEL;
 
         return $headers;
     }
+
 }

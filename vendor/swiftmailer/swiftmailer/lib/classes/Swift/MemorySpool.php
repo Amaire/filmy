@@ -13,8 +13,8 @@
  *
  * @author  Fabien Potencier
  */
-class Swift_MemorySpool implements Swift_Spool
-{
+class Swift_MemorySpool implements Swift_Spool {
+
     protected $messages = array();
 
     /**
@@ -22,23 +22,22 @@ class Swift_MemorySpool implements Swift_Spool
      *
      * @return bool
      */
-    public function isStarted()
-    {
+    public function isStarted() {
         return true;
     }
 
     /**
      * Starts this Transport mechanism.
      */
-    public function start()
-    {
+    public function start() {
+        
     }
 
     /**
      * Stops this Transport mechanism.
      */
-    public function stop()
-    {
+    public function stop() {
+        
     }
 
     /**
@@ -48,8 +47,7 @@ class Swift_MemorySpool implements Swift_Spool
      *
      * @return bool    Whether the operation has succeeded
      */
-    public function queueMessage(Swift_Mime_Message $message)
-    {
+    public function queueMessage(Swift_Mime_Message $message) {
         //clone the message to make sure it is not changed while in the queue
         $this->messages[] = clone $message;
 
@@ -64,8 +62,7 @@ class Swift_MemorySpool implements Swift_Spool
      *
      * @return int     The number of sent emails
      */
-    public function flushQueue(Swift_Transport $transport, &$failedRecipients = null)
-    {
+    public function flushQueue(Swift_Transport $transport, &$failedRecipients = null) {
         if (!$this->messages) {
             return 0;
         }
@@ -81,4 +78,5 @@ class Swift_MemorySpool implements Swift_Spool
 
         return $count;
     }
+
 }

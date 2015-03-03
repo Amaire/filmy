@@ -12,19 +12,18 @@ use PhpParser\Error;
  * @property Node\Name[]    $implements Names of implemented interfaces
  * @property Node[]         $stmts      Statements
  */
-class Class_ extends Node\Stmt
-{
-    const MODIFIER_PUBLIC    =  1;
-    const MODIFIER_PROTECTED =  2;
-    const MODIFIER_PRIVATE   =  4;
-    const MODIFIER_STATIC    =  8;
-    const MODIFIER_ABSTRACT  = 16;
-    const MODIFIER_FINAL     = 32;
+class Class_ extends Node\Stmt {
 
+    const MODIFIER_PUBLIC = 1;
+    const MODIFIER_PROTECTED = 2;
+    const MODIFIER_PRIVATE = 4;
+    const MODIFIER_STATIC = 8;
+    const MODIFIER_ABSTRACT = 16;
+    const MODIFIER_FINAL = 32;
     const VISIBILITY_MODIFER_MASK = 7; // 1 | 2 | 4
 
     protected static $specialNames = array(
-        'self'   => true,
+        'self' => true,
         'parent' => true,
         'static' => true,
     );
@@ -42,14 +41,13 @@ class Class_ extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'type'       => isset($subNodes['type'])       ? $subNodes['type']       : 0,
-                'name'       => $name,
-                'extends'    => isset($subNodes['extends'])    ? $subNodes['extends']    : null,
-                'implements' => isset($subNodes['implements']) ? $subNodes['implements'] : array(),
-                'stmts'      => isset($subNodes['stmts'])      ? $subNodes['stmts']      : array(),
-            ),
-            $attributes
+                array(
+            'type' => isset($subNodes['type']) ? $subNodes['type'] : 0,
+            'name' => $name,
+            'extends' => isset($subNodes['extends']) ? $subNodes['extends'] : null,
+            'implements' => isset($subNodes['implements']) ? $subNodes['implements'] : array(),
+            'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
+                ), $attributes
         );
 
         if (isset(self::$specialNames[(string) $this->name])) {
@@ -109,4 +107,5 @@ class Class_ extends Node\Stmt
             throw new Error('Cannot use the final modifier on an abstract class member');
         }
     }
+
 }

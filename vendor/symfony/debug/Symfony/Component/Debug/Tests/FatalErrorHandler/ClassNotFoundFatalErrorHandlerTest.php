@@ -16,13 +16,12 @@ use Symfony\Component\ClassLoader\UniversalClassLoader as SymfonyUniversalClassL
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\Debug\FatalErrorHandler\ClassNotFoundFatalErrorHandler;
 
-class ClassNotFoundFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
-{
+class ClassNotFoundFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider provideClassNotFoundData
      */
-    public function testHandleClassNotFound($error, $translatedMessage)
-    {
+    public function testHandleClassNotFound($error, $translatedMessage) {
         $handler = new ClassNotFoundFatalErrorHandler();
 
         $exception = $handler->handleError($error, new FatalErrorException('', 0, $error['type'], $error['file'], $error['line']));
@@ -37,8 +36,7 @@ class ClassNotFoundFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideLegacyClassNotFoundData
      */
-    public function testLegacyHandleClassNotFound($error, $translatedMessage, $autoloader)
-    {
+    public function testLegacyHandleClassNotFound($error, $translatedMessage, $autoloader) {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
 
         // Unregister all autoloaders to ensure the custom provided
@@ -61,8 +59,7 @@ class ClassNotFoundFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($error['line'], $exception->getLine());
     }
 
-    public function provideClassNotFoundData()
-    {
+    public function provideClassNotFoundData() {
         return array(
             array(
                 array(
@@ -112,9 +109,8 @@ class ClassNotFoundFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function provideLegacyClassNotFoundData()
-    {
-        $prefixes = array('Symfony\Component\Debug\Exception\\' => realpath(__DIR__.'/../../Exception'));
+    public function provideLegacyClassNotFoundData() {
+        $prefixes = array('Symfony\Component\Debug\Exception\\' => realpath(__DIR__ . '/../../Exception'));
 
         $symfonyAutoloader = new SymfonyClassLoader();
         $symfonyAutoloader->addPrefixes($prefixes);
@@ -151,18 +147,18 @@ class ClassNotFoundFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
                     'message' => 'Class \'Foo\\Bar\\UndefinedFunctionException\' not found',
                 ),
                 "Attempted to load class \"UndefinedFunctionException\" from namespace \"Foo\\Bar\".\nDid you forget a \"use\" statement for another namespace?",
-                function ($className) { /* do nothing here */ },
+                function ($className) { /* do nothing here */
+        },
             ),
         );
     }
 
-    public function testCannotRedeclareClass()
-    {
-        if (!file_exists(__DIR__.'/../FIXTURES/REQUIREDTWICE.PHP')) {
+    public function testCannotRedeclareClass() {
+        if (!file_exists(__DIR__ . '/../FIXTURES/REQUIREDTWICE.PHP')) {
             $this->markTestSkipped('Can only be run on case insensitive filesystems');
         }
 
-        require_once __DIR__.'/../FIXTURES/REQUIREDTWICE.PHP';
+        require_once __DIR__ . '/../FIXTURES/REQUIREDTWICE.PHP';
 
         $error = array(
             'type' => 1,
@@ -176,4 +172,5 @@ class ClassNotFoundFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceof('Symfony\Component\Debug\Exception\ClassNotFoundException', $exception);
     }
+
 }

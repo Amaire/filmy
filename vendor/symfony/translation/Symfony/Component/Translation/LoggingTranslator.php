@@ -16,8 +16,8 @@ use Psr\Log\LoggerInterface;
 /**
  * @author Abdellatif Ait boudad <a.aitboudad@gmail.com>
  */
-class LoggingTranslator implements TranslatorInterface
-{
+class LoggingTranslator implements TranslatorInterface {
+
     /**
      * @var TranslatorInterface
      */
@@ -32,8 +32,7 @@ class LoggingTranslator implements TranslatorInterface
      * @param Translator      $translator
      * @param LoggerInterface $logger
      */
-    public function __construct($translator, LoggerInterface $logger)
-    {
+    public function __construct($translator, LoggerInterface $logger) {
         if (!($translator instanceof TranslatorInterface && $translator instanceof TranslatorBagInterface)) {
             throw new \InvalidArgumentException(sprintf('The Translator "%s" must implements TranslatorInterface and TranslatorBagInterface.', get_class($translator)));
         }
@@ -45,8 +44,7 @@ class LoggingTranslator implements TranslatorInterface
     /**
      * {@inheritdoc}
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
-    {
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null) {
         $trans = $this->translator->trans($id, $parameters, $domain, $locale);
         $this->log($id, $domain, $locale);
 
@@ -56,8 +54,7 @@ class LoggingTranslator implements TranslatorInterface
     /**
      * {@inheritdoc}
      */
-    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
-    {
+    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null) {
         $trans = $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
         $this->log($id, $domain, $locale);
 
@@ -69,8 +66,7 @@ class LoggingTranslator implements TranslatorInterface
      *
      * @api
      */
-    public function setLocale($locale)
-    {
+    public function setLocale($locale) {
         $this->translator->setLocale($locale);
     }
 
@@ -79,16 +75,14 @@ class LoggingTranslator implements TranslatorInterface
      *
      * @api
      */
-    public function getLocale()
-    {
+    public function getLocale() {
         return $this->translator->getLocale();
     }
 
     /**
      * Passes through all unknown calls onto the translator object.
      */
-    public function __call($method, $args)
-    {
+    public function __call($method, $args) {
         return call_user_func_array(array($this->translator, $method), $args);
     }
 
@@ -99,8 +93,7 @@ class LoggingTranslator implements TranslatorInterface
      * @param string|null $domain
      * @param string|null $locale
      */
-    private function log($id, $domain, $locale)
-    {
+    private function log($id, $domain, $locale) {
         if (null === $locale) {
             $locale = $this->getLocale();
         }
@@ -121,4 +114,5 @@ class LoggingTranslator implements TranslatorInterface
             $this->logger->warning('Translation not found.', array('id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()));
         }
     }
+
 }

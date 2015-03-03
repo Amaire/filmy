@@ -22,8 +22,8 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
  *
  * @api
  */
-interface LoaderInterface
-{
+interface LoaderInterface {
+
     /**
      * Loads a locale.
      *

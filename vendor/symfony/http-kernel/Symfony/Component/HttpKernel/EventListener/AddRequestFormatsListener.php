@@ -20,8 +20,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  *
  * @author Gildas Quemener <gildas.quemener@gmail.com>
  */
-class AddRequestFormatsListener implements EventSubscriberInterface
-{
+class AddRequestFormatsListener implements EventSubscriberInterface {
+
     /**
      * @var array
      */
@@ -30,8 +30,7 @@ class AddRequestFormatsListener implements EventSubscriberInterface
     /**
      * @param array $formats
      */
-    public function __construct(array $formats)
-    {
+    public function __construct(array $formats) {
         $this->formats = $formats;
     }
 
@@ -40,8 +39,7 @@ class AddRequestFormatsListener implements EventSubscriberInterface
      *
      * @param GetResponseEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event)
-    {
+    public function onKernelRequest(GetResponseEvent $event) {
         foreach ($this->formats as $format => $mimeTypes) {
             $event->getRequest()->setFormat($format, $mimeTypes);
         }
@@ -50,8 +48,8 @@ class AddRequestFormatsListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(KernelEvents::REQUEST => 'onKernelRequest');
     }
+
 }

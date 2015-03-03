@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @since      Class available since Release 2.0.0
  * @covers     PHPUnit_Framework_TestCase
  */
-class Framework_TestListenerTest extends PHPUnit_Framework_TestCase implements PHPUnit_Framework_TestListener
-{
+class Framework_TestListenerTest extends PHPUnit_Framework_TestCase implements PHPUnit_Framework_TestListener {
+
     protected $endCount;
     protected $errorCount;
     protected $failureCount;
@@ -30,64 +31,55 @@ class Framework_TestListenerTest extends PHPUnit_Framework_TestCase implements P
     protected $result;
     protected $startCount;
 
-    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
+    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time) {
         $this->errorCount++;
     }
 
-    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
-    {
+    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
         $this->failureCount++;
     }
 
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
+    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
         $this->notImplementedCount++;
     }
 
-    public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
+    public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
         $this->riskyCount++;
     }
 
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
+    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
         $this->skippedCount++;
     }
 
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
-    {
+    public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
+        
     }
 
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
-    {
+    public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
+        
     }
 
-    public function startTest(PHPUnit_Framework_Test $test)
-    {
+    public function startTest(PHPUnit_Framework_Test $test) {
         $this->startCount++;
     }
 
-    public function endTest(PHPUnit_Framework_Test $test, $time)
-    {
+    public function endTest(PHPUnit_Framework_Test $test, $time) {
         $this->endCount++;
     }
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->result = new PHPUnit_Framework_TestResult;
         $this->result->addListener($this);
 
-        $this->endCount            = 0;
-        $this->failureCount        = 0;
+        $this->endCount = 0;
+        $this->failureCount = 0;
         $this->notImplementedCount = 0;
-        $this->riskyCount          = 0;
-        $this->skippedCount        = 0;
-        $this->startCount          = 0;
+        $this->riskyCount = 0;
+        $this->skippedCount = 0;
+        $this->startCount = 0;
     }
 
-    public function testError()
-    {
+    public function testError() {
         $test = new Error;
         $test->run($this->result);
 
@@ -95,8 +87,7 @@ class Framework_TestListenerTest extends PHPUnit_Framework_TestCase implements P
         $this->assertEquals(1, $this->endCount);
     }
 
-    public function testFailure()
-    {
+    public function testFailure() {
         $test = new Failure;
         $test->run($this->result);
 
@@ -104,12 +95,12 @@ class Framework_TestListenerTest extends PHPUnit_Framework_TestCase implements P
         $this->assertEquals(1, $this->endCount);
     }
 
-    public function testStartStop()
-    {
+    public function testStartStop() {
         $test = new Success;
         $test->run($this->result);
 
         $this->assertEquals(1, $this->startCount);
         $this->assertEquals(1, $this->endCount);
     }
+
 }

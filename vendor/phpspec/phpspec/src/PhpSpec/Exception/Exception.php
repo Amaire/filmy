@@ -18,8 +18,8 @@ use ReflectionFunctionAbstract;
 /**
  * PhpSpec base exception
  */
-class Exception extends \Exception
-{
+class Exception extends \Exception {
+
     /**
      * @var ReflectionFunctionAbstract
      */
@@ -28,16 +28,15 @@ class Exception extends \Exception
     /**
      * @return ReflectionFunctionAbstract
      */
-    public function getCause()
-    {
+    public function getCause() {
         return $this->cause;
     }
 
     /**
      * @param ReflectionFunctionAbstract $cause
      */
-    public function setCause(ReflectionFunctionAbstract $cause)
-    {
+    public function setCause(ReflectionFunctionAbstract $cause) {
         $this->cause = $cause;
     }
+
 }

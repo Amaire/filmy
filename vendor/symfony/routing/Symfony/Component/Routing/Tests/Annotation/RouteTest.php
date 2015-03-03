@@ -13,27 +13,24 @@ namespace Symfony\Component\Routing\Tests\Annotation;
 
 use Symfony\Component\Routing\Annotation\Route;
 
-class RouteTest extends \PHPUnit_Framework_TestCase
-{
+class RouteTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @expectedException \BadMethodCallException
      */
-    public function testInvalidRouteParameter()
-    {
+    public function testInvalidRouteParameter() {
         $route = new Route(array('foo' => 'bar'));
     }
 
     /**
      * @dataProvider getValidParameters
      */
-    public function testRouteParameters($parameter, $value, $getter)
-    {
+    public function testRouteParameters($parameter, $value, $getter) {
         $route = new Route(array($parameter => $value));
         $this->assertEquals($route->$getter(), $value);
     }
 
-    public function getValidParameters()
-    {
+    public function getValidParameters() {
         return array(
             array('value', '/Blog', 'getPath'),
             array('requirements', array('_method' => 'GET'), 'getRequirements'),
@@ -47,11 +44,11 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLegacyGetPattern()
-    {
+    public function testLegacyGetPattern() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
 
         $route = new Route(array('value' => '/Blog'));
         $this->assertEquals($route->getPattern(), '/Blog');
     }
+
 }

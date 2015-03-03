@@ -14,9 +14,9 @@ namespace Psy\Presenter;
 /**
  * A Closure Presenter.
  */
-class ClosurePresenter implements Presenter, PresenterManagerAware
-{
-    const FMT     = '<keyword>function</keyword> (%s)%s { <comment>...</comment> }';
+class ClosurePresenter implements Presenter, PresenterManagerAware {
+
+    const FMT = '<keyword>function</keyword> (%s)%s { <comment>...</comment> }';
     const USE_FMT = ' use (%s)';
 
     protected $manager;
@@ -26,8 +26,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @param PresenterManager $manager
      */
-    public function setPresenterManager(PresenterManager $manager)
-    {
+    public function setPresenterManager(PresenterManager $manager) {
         $this->manager = $manager;
     }
 
@@ -38,8 +37,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return $value instanceof \Closure;
     }
 
@@ -50,12 +48,9 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    public function presentRef($value)
-    {
+    public function presentRef($value) {
         return sprintf(
-            self::FMT,
-            $this->formatParams($value),
-            $this->formatStaticVariables($value)
+                self::FMT, $this->formatParams($value), $this->formatStaticVariables($value)
         );
     }
 
@@ -68,8 +63,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    public function present($value, $depth = null, $options = 0)
-    {
+    public function present($value, $depth = null, $options = 0) {
         return $this->presentRef($value);
     }
 
@@ -80,8 +74,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    protected function formatParams(\Closure $value)
-    {
+    protected function formatParams(\Closure $value) {
         $r = new \ReflectionFunction($value);
         $params = array_map(array($this, 'formatParam'), $r->getParameters());
 
@@ -95,8 +88,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    protected function formatParam(\ReflectionParameter $param)
-    {
+    protected function formatParam(\ReflectionParameter $param) {
         $ret = $this->formatParamName($param->name);
 
         if ($param->isOptional()) {
@@ -122,8 +114,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    protected function formatStaticVariables(\Closure $value)
-    {
+    protected function formatStaticVariables(\Closure $value) {
         $r = new \ReflectionFunction($value);
         $used = $r->getStaticVariables();
         if (empty($used)) {
@@ -133,8 +124,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
         $names = array_map(array($this, 'formatParamName'), array_keys($used));
 
         return sprintf(
-            self::USE_FMT,
-            implode(', ', $names)
+                self::USE_FMT, implode(', ', $names)
         );
     }
 
@@ -145,8 +135,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    protected function formatParamName($name)
-    {
+    protected function formatParamName($name) {
         return sprintf('$<strong>%s</strong>', $name);
     }
 
@@ -160,8 +149,7 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
      *
      * @return boolean
      */
-    protected static function isParamDefaultValueConstant(\ReflectionParameter $param)
-    {
+    protected static function isParamDefaultValueConstant(\ReflectionParameter $param) {
         // HHVM doesn't currently support `isDefaultValueConstant`, skip for now
         // see https://github.com/facebook/hhvm/issues/3812
         if (defined('HHVM_VERSION')) {
@@ -170,4 +158,5 @@ class ClosurePresenter implements Presenter, PresenterManagerAware
 
         return version_compare(PHP_VERSION, '5.4.3', '>=') && $param->isDefaultValueConstant();
     }
+
 }

@@ -14,10 +14,10 @@ namespace Psy\Presenter;
 /**
  * An abstract Presenter capable of recursively presenting sub-values.
  */
-abstract class RecursivePresenter implements Presenter, PresenterManagerAware
-{
+abstract class RecursivePresenter implements Presenter, PresenterManagerAware {
+
     const MAX_DEPTH = 5;
-    const INDENT    = '    ';
+    const INDENT = '    ';
 
     protected $manager;
     protected $depth;
@@ -27,8 +27,7 @@ abstract class RecursivePresenter implements Presenter, PresenterManagerAware
      *
      * @param PresenterManager $manager
      */
-    public function setPresenterManager(PresenterManager $manager)
-    {
+    public function setPresenterManager(PresenterManager $manager) {
         $this->manager = $manager;
     }
 
@@ -46,8 +45,7 @@ abstract class RecursivePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    public function present($value, $depth = null, $options = 0)
-    {
+    public function present($value, $depth = null, $options = 0) {
         $this->setDepth($depth);
 
         return $this->presentValue($value, $depth, $options);
@@ -70,8 +68,7 @@ abstract class RecursivePresenter implements Presenter, PresenterManagerAware
      *
      * @param int $depth (default: null)
      */
-    protected function setDepth($depth = null)
-    {
+    protected function setDepth($depth = null) {
         $this->depth = $depth === null ? self::MAX_DEPTH : $depth;
     }
 
@@ -90,8 +87,7 @@ abstract class RecursivePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    protected function presentSubValue($value, $options = 0)
-    {
+    protected function presentSubValue($value, $options = 0) {
         $depth = $this->depth;
         if ($depth > 0) {
             $formatted = $this->manager->present($value, $depth - 1, $options);
@@ -110,8 +106,8 @@ abstract class RecursivePresenter implements Presenter, PresenterManagerAware
      *
      * @return string
      */
-    protected function indentValue($value)
-    {
+    protected function indentValue($value) {
         return str_replace(PHP_EOL, PHP_EOL . self::INDENT, $value);
     }
+
 }

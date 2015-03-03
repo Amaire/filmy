@@ -20,8 +20,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  *
  * @author Sebastian Krebs <krebs.seb@gmail.com>
  */
-class Ssi implements SurrogateInterface
-{
+class Ssi implements SurrogateInterface {
+
     private $contentTypes;
 
     /**
@@ -30,32 +30,28 @@ class Ssi implements SurrogateInterface
      * @param array $contentTypes An array of content-type that should be parsed for SSI information.
      *                            (default: text/html, text/xml, application/xhtml+xml, and application/xml)
      */
-    public function __construct(array $contentTypes = array('text/html', 'text/xml', 'application/xhtml+xml', 'application/xml'))
-    {
+    public function __construct(array $contentTypes = array('text/html', 'text/xml', 'application/xhtml+xml', 'application/xml')) {
         $this->contentTypes = $contentTypes;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'ssi';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createCacheStrategy()
-    {
+    public function createCacheStrategy() {
         return new ResponseCacheStrategy();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasSurrogateCapability(Request $request)
-    {
+    public function hasSurrogateCapability(Request $request) {
         if (null === $value = $request->headers->get('Surrogate-Capability')) {
             return false;
         }
@@ -66,19 +62,17 @@ class Ssi implements SurrogateInterface
     /**
      * {@inheritdoc}
      */
-    public function addSurrogateCapability(Request $request)
-    {
+    public function addSurrogateCapability(Request $request) {
         $current = $request->headers->get('Surrogate-Capability');
         $new = 'symfony2="SSI/1.0"';
 
-        $request->headers->set('Surrogate-Capability', $current ? $current.', '.$new : $new);
+        $request->headers->set('Surrogate-Capability', $current ? $current . ', ' . $new : $new);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addSurrogateControl(Response $response)
-    {
+    public function addSurrogateControl(Response $response) {
         if (false !== strpos($response->getContent(), '<!--#include')) {
             $response->headers->set('Surrogate-Control', 'content="SSI/1.0"');
         }
@@ -87,8 +81,7 @@ class Ssi implements SurrogateInterface
     /**
      * {@inheritdoc}
      */
-    public function needsParsing(Response $response)
-    {
+    public function needsParsing(Response $response) {
         if (!$control = $response->headers->get('Surrogate-Control')) {
             return false;
         }
@@ -99,16 +92,14 @@ class Ssi implements SurrogateInterface
     /**
      * {@inheritdoc}
      */
-    public function renderIncludeTag($uri, $alt = null, $ignoreErrors = true, $comment = '')
-    {
+    public function renderIncludeTag($uri, $alt = null, $ignoreErrors = true, $comment = '') {
         return sprintf('<!--#include virtual="%s" -->', $uri);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function process(Request $request, Response $response)
-    {
+    public function process(Request $request, Response $response) {
         $this->request = $request;
         $type = $response->headers->get('Content-Type');
         if (empty($type)) {
@@ -144,8 +135,7 @@ class Ssi implements SurrogateInterface
     /**
      * {@inheritdoc}
      */
-    public function handle(HttpCache $cache, $uri, $alt, $ignoreErrors)
-    {
+    public function handle(HttpCache $cache, $uri, $alt, $ignoreErrors) {
         $subRequest = Request::create($uri, 'get', array(), $cache->getRequest()->cookies->all(), array(), $cache->getRequest()->server->all());
 
         try {
@@ -176,8 +166,7 @@ class Ssi implements SurrogateInterface
      *
      * @throws \RuntimeException
      */
-    private function handleIncludeTag($attributes)
-    {
+    private function handleIncludeTag($attributes) {
         $options = array();
         preg_match_all('/(virtual)="([^"]*?)"/', $attributes[1], $matches, PREG_SET_ORDER);
         foreach ($matches as $set) {
@@ -188,8 +177,8 @@ class Ssi implements SurrogateInterface
             throw new \RuntimeException('Unable to process an SSI tag without a "virtual" attribute.');
         }
 
-        return sprintf('<?php echo $this->surrogate->handle($this, %s, \'\', false) ?>'."\n",
-            var_export($options['virtual'], true)
+        return sprintf('<?php echo $this->surrogate->handle($this, %s, \'\', false) ?>' . "\n", var_export($options['virtual'], true)
         );
     }
+
 }

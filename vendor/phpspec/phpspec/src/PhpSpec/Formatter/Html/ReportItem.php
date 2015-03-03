@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Formatter\Html;
 
-interface ReportItem
-{
+interface ReportItem {
+
     /**
      * @return mixed
      */

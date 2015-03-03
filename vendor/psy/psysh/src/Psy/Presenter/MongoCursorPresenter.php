@@ -14,8 +14,8 @@ namespace Psy\Presenter;
 /**
  * A Mongo Cursor Presenter.
  */
-class MongoCursorPresenter extends ObjectPresenter
-{
+class MongoCursorPresenter extends ObjectPresenter {
+
     private static $boringFields = array('limit', 'batchSize', 'skip', 'flags');
     private static $ignoreFields = array('server', 'host', 'port', 'connection_type_desc');
 
@@ -26,8 +26,7 @@ class MongoCursorPresenter extends ObjectPresenter
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return $value instanceof \MongoCursor;
     }
 
@@ -40,8 +39,7 @@ class MongoCursorPresenter extends ObjectPresenter
      *
      * @return array
      */
-    protected function getProperties($value, \ReflectionClass $class, $propertyFilter)
-    {
+    protected function getProperties($value, \ReflectionClass $class, $propertyFilter) {
         $info = $value->info();
 
         $this->normalizeQueryArray($info);
@@ -54,8 +52,7 @@ class MongoCursorPresenter extends ObjectPresenter
         }
 
         return array_merge(
-            $info,
-            parent::getProperties($value, $class, $propertyFilter)
+                $info, parent::getProperties($value, $class, $propertyFilter)
         );
     }
 
@@ -64,8 +61,7 @@ class MongoCursorPresenter extends ObjectPresenter
      *
      * @param array $info Cursor info
      */
-    private function normalizeQueryArray(array &$info)
-    {
+    private function normalizeQueryArray(array &$info) {
         if (isset($info['query'])) {
             if ($info['query'] === new \StdClass()) {
                 $info['query'] = array();
@@ -82,8 +78,7 @@ class MongoCursorPresenter extends ObjectPresenter
      *
      * @param array $info Cursor info
      */
-    private function normalizeFieldsArray(array &$info)
-    {
+    private function normalizeFieldsArray(array &$info) {
         if (isset($info['fields']) && $info['fields'] === new \StdClass()) {
             $info['fields'] = array();
         }
@@ -94,8 +89,7 @@ class MongoCursorPresenter extends ObjectPresenter
      *
      * @param array $info Cursor info
      */
-    private function unsetBoringFields(array &$info)
-    {
+    private function unsetBoringFields(array &$info) {
         foreach (self::$boringFields as $boring) {
             if ($info[$boring] === 0) {
                 unset($info[$boring]);
@@ -108,12 +102,12 @@ class MongoCursorPresenter extends ObjectPresenter
      *
      * @param array $info Cursor info
      */
-    private function unsetIgnoredFields(array &$info)
-    {
+    private function unsetIgnoredFields(array &$info) {
         foreach (self::$ignoreFields as $ignore) {
             if (isset($info[$ignore])) {
                 unset($info[$ignore]);
             }
         }
     }
+
 }

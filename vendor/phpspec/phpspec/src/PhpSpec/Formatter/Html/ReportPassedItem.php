@@ -16,12 +16,13 @@ namespace PhpSpec\Formatter\Html;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Formatter\Template as TemplateInterface;
 
-class ReportPassedItem
-{
+class ReportPassedItem {
+
     /**
      * @var \PhpSpec\Formatter\Template
      */
     private $template;
+
     /**
      * @var \PhpSpec\Event\ExampleEvent
      */
@@ -31,8 +32,7 @@ class ReportPassedItem
      * @param TemplateInterface $template
      * @param ExampleEvent      $event
      */
-    public function __construct(TemplateInterface $template, ExampleEvent $event)
-    {
+    public function __construct(TemplateInterface $template, ExampleEvent $event) {
         $this->template = $template;
         $this->event = $event;
     }
@@ -40,10 +40,10 @@ class ReportPassedItem
     /**
      *
      */
-    public function write()
-    {
-        $this->template->render(Template::DIR.'/Template/ReportPass.html', array(
+    public function write() {
+        $this->template->render(Template::DIR . '/Template/ReportPass.html', array(
             'title' => $this->event->getTitle()
         ));
     }
+
 }

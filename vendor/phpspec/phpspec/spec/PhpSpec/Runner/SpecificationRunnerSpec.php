@@ -4,23 +4,19 @@ namespace spec\PhpSpec\Runner;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 use PhpSpec\Runner\ExampleRunner;
 use PhpSpec\Loader\Node\SpecificationNode;
 use PhpSpec\Loader\Node\ExampleNode;
 
-class SpecificationRunnerSpec extends ObjectBehavior
-{
-    function let(EventDispatcherInterface $dispatcher, ExampleRunner $exampleRunner)
-    {
+class SpecificationRunnerSpec extends ObjectBehavior {
+
+    function let(EventDispatcherInterface $dispatcher, ExampleRunner $exampleRunner) {
         $this->beConstructedWith($dispatcher, $exampleRunner);
     }
 
     function it_passes_each_specification_example_to_ExampleRunner(
-        SpecificationNode $specification, ExampleNode $ex1, ExampleNode $ex2,
-        ExampleRunner $exampleRunner
+    SpecificationNode $specification, ExampleNode $ex1, ExampleNode $ex2, ExampleRunner $exampleRunner
     ) {
         $specification->getExamples()->willReturn(array($ex1, $ex2));
 
@@ -31,8 +27,7 @@ class SpecificationRunnerSpec extends ObjectBehavior
     }
 
     function it_returns_examples_max_resultCode(
-        SpecificationNode $specification, ExampleNode $ex1, ExampleNode $ex2,
-        ExampleRunner $exampleRunner
+    SpecificationNode $specification, ExampleNode $ex1, ExampleNode $ex2, ExampleRunner $exampleRunner
     ) {
         $specification->getExamples()->willReturn(array($ex1, $ex2));
 
@@ -42,26 +37,24 @@ class SpecificationRunnerSpec extends ObjectBehavior
         $this->run($specification)->shouldReturn(2);
     }
 
-    function it_returns_0_resultCode_if_no_examples_found(SpecificationNode $specification)
-    {
+    function it_returns_0_resultCode_if_no_examples_found(SpecificationNode $specification) {
         $specification->getExamples()->willReturn(array());
 
         $this->run($specification)->shouldReturn(0);
     }
 
     function it_dispatches_SpecificationEvent_before_and_after_examples_run(
-        EventDispatcherInterface $dispatcher, SpecificationNode $specification
+    EventDispatcherInterface $dispatcher, SpecificationNode $specification
     ) {
         $specification->getExamples()->willReturn(array());
 
-        $dispatcher->dispatch('beforeSpecification',
-            Argument::type('PhpSpec\Event\SpecificationEvent')
+        $dispatcher->dispatch('beforeSpecification', Argument::type('PhpSpec\Event\SpecificationEvent')
         )->shouldBeCalled();
 
-        $dispatcher->dispatch('afterSpecification',
-            Argument::type('PhpSpec\Event\SpecificationEvent')
+        $dispatcher->dispatch('afterSpecification', Argument::type('PhpSpec\Event\SpecificationEvent')
         )->shouldBeCalled();
 
         $this->run($specification);
     }
+
 }

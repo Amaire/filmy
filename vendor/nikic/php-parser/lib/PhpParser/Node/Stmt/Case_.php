@@ -8,8 +8,8 @@ use PhpParser\Node;
  * @property null|Node\Expr $cond  Condition (null for default)
  * @property Node[]         $stmts Statements
  */
-class Case_ extends Node\Stmt
-{
+class Case_ extends Node\Stmt {
+
     /**
      * Constructs a case node.
      *
@@ -19,11 +19,11 @@ class Case_ extends Node\Stmt
      */
     public function __construct($cond, array $stmts = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'cond'  => $cond,
-                'stmts' => $stmts,
-            ),
-            $attributes
+                array(
+            'cond' => $cond,
+            'stmts' => $stmts,
+                ), $attributes
         );
     }
+
 }

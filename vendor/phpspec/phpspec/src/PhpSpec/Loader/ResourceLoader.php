@@ -18,12 +18,13 @@ use PhpSpec\Locator\ResourceManagerInterface;
 use ReflectionClass;
 use ReflectionMethod;
 
-class ResourceLoader
-{
+class ResourceLoader {
+
     /**
      * @var \PhpSpec\Locator\ResourceManagerInterface
      */
     private $manager;
+
     /**
      * @var \PhpSpec\Util\MethodAnalyser
      */
@@ -32,10 +33,9 @@ class ResourceLoader
     /**
      * @param ResourceManagerInterface $manager
      */
-    public function __construct(ResourceManagerInterface $manager, MethodAnalyser $methodAnalyser = null)
-    {
+    public function __construct(ResourceManagerInterface $manager, MethodAnalyser $methodAnalyser = null) {
         $this->manager = $manager;
-        $this->methodAnalyser = $methodAnalyser ?: new MethodAnalyser();
+        $this->methodAnalyser = $methodAnalyser ? : new MethodAnalyser();
     }
 
     /**
@@ -44,8 +44,7 @@ class ResourceLoader
      *
      * @return Suite
      */
-    public function load($locator, $line = null)
-    {
+    public function load($locator, $line = null) {
         $suite = new Suite();
         foreach ($this->manager->locateResources($locator) as $resource) {
             if (!class_exists($resource->getSpecClassname()) && is_file($resource->getSpecFilename())) {
@@ -94,10 +93,10 @@ class ResourceLoader
      *
      * @return bool
      */
-    private function lineIsInsideMethod($line, ReflectionMethod $method)
-    {
+    private function lineIsInsideMethod($line, ReflectionMethod $method) {
         $line = intval($line);
 
         return $line >= $method->getStartLine() && $line <= $method->getEndLine();
     }
+
 }

@@ -10,11 +10,9 @@ use PhpSpec\Matcher\MatcherInterface;
 use Prophecy\Argument;
 use Exception;
 
-class ExpectationEventSpec extends ObjectBehavior
-{
-    function let(Suite $suite, SpecificationNode $specification, ExampleNode $example,
-                 MatcherInterface $matcher, $subject, Exception $exception)
-    {
+class ExpectationEventSpec extends ObjectBehavior {
+
+    function let(Suite $suite, SpecificationNode $specification, ExampleNode $example, MatcherInterface $matcher, $subject, Exception $exception) {
         $method = 'calledMethod';
         $arguments = array('methodArguments');
 
@@ -24,54 +22,45 @@ class ExpectationEventSpec extends ObjectBehavior
         $specification->getSuite()->willReturn($suite);
     }
 
-    function it_is_an_event()
-    {
+    function it_is_an_event() {
         $this->shouldBeAnInstanceOf('Symfony\Component\EventDispatcher\Event');
         $this->shouldBeAnInstanceOf('PhpSpec\Event\EventInterface');
     }
 
-    function it_provides_a_link_to_matcher($matcher)
-    {
+    function it_provides_a_link_to_matcher($matcher) {
         $this->getMatcher()->shouldReturn($matcher);
     }
 
-    function it_provides_a_link_to_example($example)
-    {
+    function it_provides_a_link_to_example($example) {
         $this->getExample()->shouldReturn($example);
     }
 
-    function it_provides_a_link_to_specification($specification)
-    {
+    function it_provides_a_link_to_specification($specification) {
         $this->getSpecification()->shouldReturn($specification);
     }
 
-    function it_provides_a_link_to_suite($suite)
-    {
+    function it_provides_a_link_to_suite($suite) {
         $this->getSuite()->shouldReturn($suite);
     }
 
-    function it_provides_a_link_to_subject($subject)
-    {
+    function it_provides_a_link_to_subject($subject) {
         $this->getSubject()->shouldReturn($subject);
     }
 
-    function it_provides_a_link_to_method()
-    {
+    function it_provides_a_link_to_method() {
         $this->getMethod()->shouldReturn('calledMethod');
     }
 
-    function it_provides_a_link_to_arguments()
-    {
+    function it_provides_a_link_to_arguments() {
         $this->getArguments()->shouldReturn(array('methodArguments'));
     }
 
-    function it_provides_a_link_to_result()
-    {
+    function it_provides_a_link_to_result() {
         $this->getResult()->shouldReturn($this->FAILED);
     }
 
-    function it_provides_a_link_to_exception($exception)
-    {
+    function it_provides_a_link_to_exception($exception) {
         $this->getException()->shouldReturn($exception);
     }
+
 }

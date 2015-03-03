@@ -24,22 +24,24 @@ use Symfony\Component\Process\Exception\RuntimeException;
  *
  * @internal
  */
-class WindowsPipes extends AbstractPipes
-{
+class WindowsPipes extends AbstractPipes {
+
     /** @var array */
     private $files = array();
+
     /** @var array */
     private $fileHandles = array();
+
     /** @var array */
     private $readBytes = array(
         Process::STDOUT => 0,
         Process::STDERR => 0,
     );
+
     /** @var bool */
     private $disableOutput;
 
-    public function __construct($disableOutput, $input)
-    {
+    public function __construct($disableOutput, $input) {
         $this->disableOutput = (bool) $disableOutput;
 
         if (!$this->disableOutput) {
@@ -66,8 +68,7 @@ class WindowsPipes extends AbstractPipes
         }
     }
 
-    public function __destruct()
-    {
+    public function __destruct() {
         $this->close();
         $this->removeFiles();
     }
@@ -75,8 +76,7 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-    public function getDescriptors()
-    {
+    public function getDescriptors() {
         if ($this->disableOutput) {
             $nullstream = fopen('NUL', 'c');
 
@@ -100,16 +100,14 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-    public function getFiles()
-    {
+    public function getFiles() {
         return $this->files;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function readAndWrite($blocking, $close = false)
-    {
+    public function readAndWrite($blocking, $close = false) {
         $this->write($blocking, $close);
 
         $read = array();
@@ -142,16 +140,14 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-    public function areOpen()
-    {
+    public function areOpen() {
         return (bool) $this->pipes && (bool) $this->fileHandles;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function close()
-    {
+    public function close() {
         parent::close();
         foreach ($this->fileHandles as $handle) {
             fclose($handle);
@@ -167,16 +163,14 @@ class WindowsPipes extends AbstractPipes
      *
      * @return WindowsPipes
      */
-    public static function create(Process $process, $input)
-    {
+    public static function create(Process $process, $input) {
         return new static($process->isOutputDisabled(), $input);
     }
 
     /**
      * Removes temporary files
      */
-    private function removeFiles()
-    {
+    private function removeFiles() {
         foreach ($this->files as $filename) {
             if (file_exists($filename)) {
                 @unlink($filename);
@@ -191,8 +185,7 @@ class WindowsPipes extends AbstractPipes
      * @param bool $blocking
      * @param bool $close
      */
-    private function write($blocking, $close)
-    {
+    private function write($blocking, $close) {
         if (empty($this->pipes)) {
             return;
         }
@@ -251,4 +244,5 @@ class WindowsPipes extends AbstractPipes
             unset($this->pipes[0]);
         }
     }
+
 }

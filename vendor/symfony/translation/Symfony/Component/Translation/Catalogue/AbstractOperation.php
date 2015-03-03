@@ -19,8 +19,8 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-abstract class AbstractOperation implements OperationInterface
-{
+abstract class AbstractOperation implements OperationInterface {
+
     /**
      * @var MessageCatalogueInterface
      */
@@ -52,8 +52,7 @@ abstract class AbstractOperation implements OperationInterface
      *
      * @throws \LogicException
      */
-    public function __construct(MessageCatalogueInterface $source, MessageCatalogueInterface $target)
-    {
+    public function __construct(MessageCatalogueInterface $source, MessageCatalogueInterface $target) {
         if ($source->getLocale() !== $target->getLocale()) {
             throw new \LogicException('Operated catalogues must belong to the same locale.');
         }
@@ -68,8 +67,7 @@ abstract class AbstractOperation implements OperationInterface
     /**
      * {@inheritdoc}
      */
-    public function getDomains()
-    {
+    public function getDomains() {
         if (null === $this->domains) {
             $this->domains = array_values(array_unique(array_merge($this->source->getDomains(), $this->target->getDomains())));
         }
@@ -80,8 +78,7 @@ abstract class AbstractOperation implements OperationInterface
     /**
      * {@inheritdoc}
      */
-    public function getMessages($domain)
-    {
+    public function getMessages($domain) {
         if (!in_array($domain, $this->getDomains())) {
             throw new \InvalidArgumentException(sprintf('Invalid domain: %s.', $domain));
         }
@@ -96,8 +93,7 @@ abstract class AbstractOperation implements OperationInterface
     /**
      * {@inheritdoc}
      */
-    public function getNewMessages($domain)
-    {
+    public function getNewMessages($domain) {
         if (!in_array($domain, $this->getDomains())) {
             throw new \InvalidArgumentException(sprintf('Invalid domain: %s.', $domain));
         }
@@ -112,8 +108,7 @@ abstract class AbstractOperation implements OperationInterface
     /**
      * {@inheritdoc}
      */
-    public function getObsoleteMessages($domain)
-    {
+    public function getObsoleteMessages($domain) {
         if (!in_array($domain, $this->getDomains())) {
             throw new \InvalidArgumentException(sprintf('Invalid domain: %s.', $domain));
         }
@@ -128,8 +123,7 @@ abstract class AbstractOperation implements OperationInterface
     /**
      * {@inheritdoc}
      */
-    public function getResult()
-    {
+    public function getResult() {
         foreach ($this->getDomains() as $domain) {
             if (!isset($this->messages[$domain])) {
                 $this->processDomain($domain);

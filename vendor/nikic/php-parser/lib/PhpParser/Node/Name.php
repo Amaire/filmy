@@ -7,8 +7,8 @@ use PhpParser\NodeAbstract;
 /**
  * @property array $parts Parts of the name
  */
-class Name extends NodeAbstract
-{
+class Name extends NodeAbstract {
+
     /**
      * Constructs a name node.
      *
@@ -21,10 +21,9 @@ class Name extends NodeAbstract
         }
 
         parent::__construct(
-            array(
-                'parts' => $parts,
-            ),
-            $attributes
+                array(
+            'parts' => $parts,
+                ), $attributes
         );
     }
 
@@ -166,7 +165,8 @@ class Name extends NodeAbstract
         }
 
         throw new \InvalidArgumentException(
-            'When changing a name you need to pass either a string, an array or a Name node'
+        'When changing a name you need to pass either a string, an array or a Name node'
         );
     }
+
 }

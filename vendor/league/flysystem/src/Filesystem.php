@@ -13,8 +13,8 @@ use League\Flysystem\Plugin\PluginNotFoundException;
  * @method array listPaths(string $path = '', boolean $recursive = false)
  * @method array listWith(array $keys = [], $directory = '', $recursive = false)
  */
-class Filesystem implements FilesystemInterface
-{
+class Filesystem implements FilesystemInterface {
+
     use PluggableTrait;
 
     /**
@@ -33,8 +33,7 @@ class Filesystem implements FilesystemInterface
      * @param AdapterInterface $adapter
      * @param Config|array     $config
      */
-    public function __construct(AdapterInterface $adapter, $config = null)
-    {
+    public function __construct(AdapterInterface $adapter, $config = null) {
         $this->adapter = $adapter;
         $this->config = Util::ensureConfig($config);
     }
@@ -44,8 +43,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return AdapterInterface adapter
      */
-    public function getAdapter()
-    {
+    public function getAdapter() {
         return $this->adapter;
     }
 
@@ -54,16 +52,14 @@ class Filesystem implements FilesystemInterface
      *
      * @return Config config object
      */
-    public function getConfig()
-    {
+    public function getConfig() {
         return $this->config;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function has($path)
-    {
+    public function has($path) {
         $path = Util::normalizePath($path);
 
         return (bool) $this->adapter->has($path);
@@ -72,8 +68,7 @@ class Filesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function write($path, $contents, array $config = [])
-    {
+    public function write($path, $contents, array $config = []) {
         $path = Util::normalizePath($path);
         $this->assertAbsent($path);
         $config = $this->prepareConfig($config);
@@ -84,10 +79,9 @@ class Filesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function writeStream($path, $resource, array $config = [])
-    {
-        if (! is_resource($resource)) {
-            throw new InvalidArgumentException(__METHOD__.' expects argument #2 to be a valid resource.');
+    public function writeStream($path, $resource, array $config = []) {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
         }
 
         $path = Util::normalizePath($path);
@@ -110,8 +104,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function put($path, $contents, array $config = [])
-    {
+    public function put($path, $contents, array $config = []) {
         $path = Util::normalizePath($path);
 
         if ($this->has($path)) {
@@ -130,8 +123,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function putStream($path, $resource, array $config = [])
-    {
+    public function putStream($path, $resource, array $config = []) {
         $path = Util::normalizePath($path);
 
         if ($this->has($path)) {
@@ -150,13 +142,12 @@ class Filesystem implements FilesystemInterface
      *
      * @return string file contents
      */
-    public function readAndDelete($path)
-    {
+    public function readAndDelete($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
         $contents = $this->read($path);
 
-        if (! $contents) {
+        if (!$contents) {
             return false;
         }
 
@@ -176,8 +167,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function update($path, $contents, array $config = [])
-    {
+    public function update($path, $contents, array $config = []) {
         $path = Util::normalizePath($path);
         $config = $this->prepareConfig($config);
 
@@ -197,10 +187,9 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function updateStream($path, $resource, array $config = [])
-    {
-        if (! is_resource($resource)) {
-            throw new InvalidArgumentException(__METHOD__.' expects argument #2 to be a valid resource.');
+    public function updateStream($path, $resource, array $config = []) {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
         }
 
         $path = Util::normalizePath($path);
@@ -221,12 +210,11 @@ class Filesystem implements FilesystemInterface
      * @return string|false file contents or FALSE when fails
      *                      to read existing file
      */
-    public function read($path)
-    {
+    public function read($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
 
-        if (! ($object = $this->adapter->read($path))) {
+        if (!($object = $this->adapter->read($path))) {
             return false;
         }
 
@@ -240,12 +228,11 @@ class Filesystem implements FilesystemInterface
      *
      * @return resource|false path resource or false when on failure
      */
-    public function readStream($path)
-    {
+    public function readStream($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
 
-        if (! $object = $this->adapter->readStream($path)) {
+        if (!$object = $this->adapter->readStream($path)) {
             return false;
         }
 
@@ -263,8 +250,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function rename($path, $newpath)
-    {
+    public function rename($path, $newpath) {
         $path = Util::normalizePath($path);
         $newpath = Util::normalizePath($newpath);
         $this->assertPresent($path);
@@ -281,8 +267,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool
      */
-    public function copy($path, $newpath)
-    {
+    public function copy($path, $newpath) {
         $path = Util::normalizePath($path);
         $newpath = Util::normalizePath($newpath);
         $this->assertPresent($path);
@@ -300,8 +285,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function delete($path)
-    {
+    public function delete($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
 
@@ -315,8 +299,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function deleteDir($dirname)
-    {
+    public function deleteDir($dirname) {
         $dirname = Util::normalizePath($dirname);
 
         if ($dirname === '') {
@@ -329,8 +312,7 @@ class Filesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function createDir($dirname, array $config = [])
-    {
+    public function createDir($dirname, array $config = []) {
         $dirname = Util::normalizePath($dirname);
         $config = $this->prepareConfig($config);
 
@@ -345,14 +327,13 @@ class Filesystem implements FilesystemInterface
      *
      * @return array contents
      */
-    public function listContents($directory = '', $recursive = false)
-    {
+    public function listContents($directory = '', $recursive = false) {
         $directory = Util::normalizePath($directory);
         $contents = $this->adapter->listContents($directory, $recursive);
         $mapper = function ($entry) use ($directory, $recursive) {
             $entry = $entry + Util::pathinfo($entry['path']);
 
-            if (! empty($directory) && strpos($entry['path'], $directory) === false) {
+            if (!empty($directory) && strpos($entry['path'], $directory) === false) {
                 return false;
             }
 
@@ -376,12 +357,11 @@ class Filesystem implements FilesystemInterface
      * @return string|false file mime-type or FALSE when fails
      *                      to fetch mime-type from existing file
      */
-    public function getMimetype($path)
-    {
+    public function getMimetype($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
 
-        if (! $object = $this->adapter->getMimetype($path)) {
+        if (!$object = $this->adapter->getMimetype($path)) {
             return false;
         }
 
@@ -398,12 +378,11 @@ class Filesystem implements FilesystemInterface
      * @return string|false timestamp or FALSE when fails
      *                      to fetch timestamp from existing file
      */
-    public function getTimestamp($path)
-    {
+    public function getTimestamp($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
 
-        if (! $object = $this->adapter->getTimestamp($path)) {
+        if (!$object = $this->adapter->getTimestamp($path)) {
             return false;
         }
 
@@ -418,8 +397,7 @@ class Filesystem implements FilesystemInterface
      * @return string|false visibility (public|private) or FALSE
      *                      when fails to check it in existing file
      */
-    public function getVisibility($path)
-    {
+    public function getVisibility($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
 
@@ -438,8 +416,7 @@ class Filesystem implements FilesystemInterface
      * @return int|false file size or FALSE when fails
      *                   to check size of existing file
      */
-    public function getSize($path)
-    {
+    public function getSize($path) {
         $path = Util::normalizePath($path);
 
         if (($object = $this->adapter->getSize($path)) === false || !isset($object['size'])) {
@@ -457,8 +434,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool success boolean
      */
-    public function setVisibility($path, $visibility)
-    {
+    public function setVisibility($path, $visibility) {
         $path = Util::normalizePath($path);
 
         return (bool) $this->adapter->setVisibility($path, $visibility);
@@ -474,8 +450,7 @@ class Filesystem implements FilesystemInterface
      * @return array|false file metadata or FALSE when fails
      *                     to fetch it from existing file
      */
-    public function getMetadata($path)
-    {
+    public function getMetadata($path) {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
 
@@ -490,11 +465,10 @@ class Filesystem implements FilesystemInterface
      *
      * @return Handler file or directory handler
      */
-    public function get($path, Handler $handler = null)
-    {
+    public function get($path, Handler $handler = null) {
         $path = Util::normalizePath($path);
 
-        if (! $handler) {
+        if (!$handler) {
             $metadata = $this->getMetadata($path);
             $handler = $metadata['type'] === 'file' ? new File($this, $path) : new Directory($this, $path);
         }
@@ -512,8 +486,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return Config
      */
-    protected function prepareConfig(array $config)
-    {
+    protected function prepareConfig(array $config) {
         $config = new Config($config);
         $config->setFallback($this->config);
 
@@ -527,9 +500,8 @@ class Filesystem implements FilesystemInterface
      *
      * @throws FileNotFoundException
      */
-    public function assertPresent($path)
-    {
-        if (! $this->has($path)) {
+    public function assertPresent($path) {
+        if (!$this->has($path)) {
             throw new FileNotFoundException($path);
         }
     }
@@ -541,8 +513,7 @@ class Filesystem implements FilesystemInterface
      *
      * @throws FileExistsException
      */
-    public function assertAbsent($path)
-    {
+    public function assertAbsent($path) {
         if ($this->has($path)) {
             throw new FileExistsException($path);
         }
@@ -558,16 +529,16 @@ class Filesystem implements FilesystemInterface
      *
      * @return mixed
      */
-    public function __call($method, array $arguments)
-    {
+    public function __call($method, array $arguments) {
         try {
             return $this->invokePlugin($method, $arguments, $this);
         } catch (PluginNotFoundException $e) {
             throw new BadMethodCallException(
-                'Call to undefined method '
-                .__CLASS__
-                .'::'.$method
+            'Call to undefined method '
+            . __CLASS__
+            . '::' . $method
             );
         }
     }
+
 }

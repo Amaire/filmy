@@ -9,8 +9,8 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 
-class NameResolver extends NodeVisitorAbstract
-{
+class NameResolver extends NodeVisitorAbstract {
+
     /**
      * @var null|Name Current namespace
      */
@@ -56,11 +56,7 @@ class NameResolver extends NodeVisitorAbstract
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
             }
-        } elseif ($node instanceof Expr\StaticCall
-                  || $node instanceof Expr\StaticPropertyFetch
-                  || $node instanceof Expr\ClassConstFetch
-                  || $node instanceof Expr\New_
-                  || $node instanceof Expr\Instanceof_
+        } elseif ($node instanceof Expr\StaticCall || $node instanceof Expr\StaticPropertyFetch || $node instanceof Expr\ClassConstFetch || $node instanceof Expr\New_ || $node instanceof Expr\Instanceof_
         ) {
             if ($node->class instanceof Name) {
                 $node->class = $this->resolveClassName($node->class);
@@ -78,7 +74,7 @@ class NameResolver extends NodeVisitorAbstract
                 $trait = $this->resolveClassName($trait);
             }
 
-            foreach($node->adaptations as $adaptation) {
+            foreach ($node->adaptations as $adaptation) {
                 if (null !== $adaptation->trait) {
                     $adaptation->trait = $this->resolveClassName($adaptation->trait);
                 }
@@ -89,9 +85,7 @@ class NameResolver extends NodeVisitorAbstract
                     }
                 }
             }
-
-        } elseif ($node instanceof Node\Param
-                  && $node->type instanceof Name
+        } elseif ($node instanceof Node\Param && $node->type instanceof Name
         ) {
             $node->type = $this->resolveClassName($node->type);
         }
@@ -99,8 +93,8 @@ class NameResolver extends NodeVisitorAbstract
 
     protected function resetState(Name $namespace = null) {
         $this->namespace = $namespace;
-        $this->aliases   = array(
-            Stmt\Use_::TYPE_NORMAL   => array(),
+        $this->aliases = array(
+            Stmt\Use_::TYPE_NORMAL => array(),
             Stmt\Use_::TYPE_FUNCTION => array(),
             Stmt\Use_::TYPE_CONSTANT => array(),
         );
@@ -116,17 +110,15 @@ class NameResolver extends NodeVisitorAbstract
 
         if (isset($this->aliases[$type][$aliasName])) {
             $typeStringMap = array(
-                Stmt\Use_::TYPE_NORMAL   => '',
+                Stmt\Use_::TYPE_NORMAL => '',
                 Stmt\Use_::TYPE_FUNCTION => 'function ',
                 Stmt\Use_::TYPE_CONSTANT => 'const ',
             );
 
             throw new Error(
-                sprintf(
-                    'Cannot use %s%s as %s because the name is already in use',
-                    $typeStringMap[$type], $use->name, $use->alias
-                ),
-                $use->getLine()
+            sprintf(
+                    'Cannot use %s%s as %s because the name is already in use', $typeStringMap[$type], $use->name, $use->alias
+            ), $use->getLine()
             );
         }
 
@@ -138,8 +130,7 @@ class NameResolver extends NodeVisitorAbstract
         if (in_array(strtolower($name), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
                 throw new Error(
-                    sprintf("'\\%s' is an invalid class name", $name->toString()),
-                    $name->getLine()
+                sprintf("'\\%s' is an invalid class name", $name->toString()), $name->getLine()
                 );
             }
 
@@ -202,4 +193,5 @@ class NameResolver extends NodeVisitorAbstract
             $node->namespacedName = new Name($node->name, $node->getAttributes());
         }
     }
+
 }

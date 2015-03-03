@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -20,8 +21,8 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class NumericComparator extends ScalarComparator
-{
+class NumericComparator extends ScalarComparator {
+
     /**
      * Returns whether the comparator can compare two values.
      *
@@ -29,13 +30,12 @@ class NumericComparator extends ScalarComparator
      * @param  mixed $actual The second value to compare
      * @return boolean
      */
-    public function accepts($expected, $actual)
-    {
+    public function accepts($expected, $actual) {
         // all numerical values, but not if one of them is a double
         // or both of them are strings
         return is_numeric($expected) && is_numeric($actual) &&
-               !(is_double($expected) || is_double($actual)) &&
-               !(is_string($expected) && is_string($actual));
+                !(is_double($expected) || is_double($actual)) &&
+                !(is_string($expected) && is_string($actual));
     }
 
     /**
@@ -53,27 +53,20 @@ class NumericComparator extends ScalarComparator
      *                           fails. Contains information about the
      *                           specific errors that lead to the failure.
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-    {
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false) {
         if (is_infinite($actual) && is_infinite($expected)) {
             return;
         }
 
         if ((is_infinite($actual) xor is_infinite($expected)) ||
-            (is_nan($actual) or is_nan($expected)) ||
-            abs($actual - $expected) > $delta) {
+                (is_nan($actual) or is_nan($expected)) ||
+                abs($actual - $expected) > $delta) {
             throw new ComparisonFailure(
-                $expected,
-                $actual,
-                '',
-                '',
-                false,
-                sprintf(
-                    'Failed asserting that %s matches expected %s.',
-                    $this->exporter->export($actual),
-                    $this->exporter->export($expected)
-                )
+            $expected, $actual, '', '', false, sprintf(
+                    'Failed asserting that %s matches expected %s.', $this->exporter->export($actual), $this->exporter->export($expected)
+            )
             );
         }
     }
+
 }

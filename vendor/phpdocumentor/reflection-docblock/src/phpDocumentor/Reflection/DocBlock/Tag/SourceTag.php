@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,15 +22,15 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class SourceTag extends Tag
-{
+class SourceTag extends Tag {
+
     /**
      * @var int The starting line, relative to the structural element's
      *     location.
      */
     protected $startingLine = 1;
 
-    /** 
+    /**
      * @var int|null The number of lines, relative to the starting line. NULL
      *     means "to the end".
      */
@@ -38,11 +39,9 @@ class SourceTag extends Tag
     /**
      * {@inheritdoc}
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
-            $this->content
-                = "{$this->startingLine} {$this->lineCount} {$this->description}";
+            $this->content = "{$this->startingLine} {$this->lineCount} {$this->description}";
         }
 
         return $this->content;
@@ -51,11 +50,10 @@ class SourceTag extends Tag
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         parent::setContent($content);
         if (preg_match(
-            '/^
+                        '/^
                 # Starting line
                 ([1-9]\d*)
                 \s*
@@ -66,13 +64,11 @@ class SourceTag extends Tag
                 )?
                 # Description
                 (.*)
-            $/sux',
-            $this->description,
-            $matches
-        )) {
-            $this->startingLine = (int)$matches[1];
+            $/sux', $this->description, $matches
+                )) {
+            $this->startingLine = (int) $matches[1];
             if (isset($matches[2]) && '' !== $matches[2]) {
-                $this->lineCount = (int)$matches[2];
+                $this->lineCount = (int) $matches[2];
             }
             $this->setDescription($matches[3]);
             $this->content = $content;
@@ -87,8 +83,7 @@ class SourceTag extends Tag
      * @return int The starting line, relative to the structural element's
      *     location.
      */
-    public function getStartingLine()
-    {
+    public function getStartingLine() {
         return $this->startingLine;
     }
 
@@ -100,8 +95,7 @@ class SourceTag extends Tag
      * 
      * @return $this
      */
-    public function setStartingLine($startingLine)
-    {
+    public function setStartingLine($startingLine) {
         $this->startingLine = $startingLine;
 
         $this->content = null;
@@ -114,8 +108,7 @@ class SourceTag extends Tag
      * @return int|null The number of lines, relative to the starting line. NULL
      *     means "to the end".
      */
-    public function getLineCount()
-    {
+    public function getLineCount() {
         return $this->lineCount;
     }
 
@@ -127,11 +120,11 @@ class SourceTag extends Tag
      * 
      * @return $this
      */
-    public function setLineCount($lineCount)
-    {
+    public function setLineCount($lineCount) {
         $this->lineCount = $lineCount;
 
         $this->content = null;
         return $this;
     }
+
 }

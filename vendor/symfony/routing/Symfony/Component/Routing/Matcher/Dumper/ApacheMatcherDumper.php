@@ -23,8 +23,8 @@ use Symfony\Component\Routing\Route;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Kris Wallsmith <kris@symfony.com>
  */
-class ApacheMatcherDumper extends MatcherDumper
-{
+class ApacheMatcherDumper extends MatcherDumper {
+
     /**
      * Dumps a set of Apache mod_rewrite rules.
      *
@@ -39,12 +39,11 @@ class ApacheMatcherDumper extends MatcherDumper
      *
      * @throws \LogicException When the route regex is invalid
      */
-    public function dump(array $options = array())
-    {
+    public function dump(array $options = array()) {
         $options = array_merge(array(
             'script_name' => 'app.php',
             'base_uri' => '',
-        ), $options);
+                ), $options);
 
         $options['script_name'] = self::escape($options['script_name'], ' ', '\\');
 
@@ -76,7 +75,7 @@ class ApacheMatcherDumper extends MatcherDumper
                 $variables[] = sprintf('E=__ROUTING_host_%s:1', $hostRegexUnique);
 
                 foreach ($compiledRoute->getHostVariables() as $i => $variable) {
-                    $variables[] = sprintf('E=__ROUTING_host_%s_%s:%%%d', $hostRegexUnique, $variable, $i+1);
+                    $variables[] = sprintf('E=__ROUTING_host_%s_%s:%%%d', $hostRegexUnique, $variable, $i + 1);
                 }
 
                 $variables = implode(',', $variables);
@@ -107,7 +106,7 @@ class ApacheMatcherDumper extends MatcherDumper
             $rules[] = implode("\n", $rule);
         }
 
-        return implode("\n\n", $rules)."\n";
+        return implode("\n\n", $rules) . "\n";
     }
 
     /**
@@ -120,31 +119,30 @@ class ApacheMatcherDumper extends MatcherDumper
      *
      * @return string The compiled route
      */
-    private function dumpRoute($name, $route, array $options, $hostRegexUnique)
-    {
+    private function dumpRoute($name, $route, array $options, $hostRegexUnique) {
         $compiledRoute = $route->compile();
 
         // prepare the apache regex
         $regex = $this->regexToApacheRegex($compiledRoute->getRegex());
-        $regex = '^'.self::escape(preg_quote($options['base_uri']).substr($regex, 1), ' ', '\\');
+        $regex = '^' . self::escape(preg_quote($options['base_uri']) . substr($regex, 1), ' ', '\\');
 
         $methods = $this->getRouteMethods($route);
 
         $hasTrailingSlash = (!$methods || in_array('HEAD', $methods)) && '/$' === substr($regex, -2) && '^/$' !== $regex;
 
-        $variables = array('E=_ROUTING_route:'.$name);
+        $variables = array('E=_ROUTING_route:' . $name);
         foreach ($compiledRoute->getHostVariables() as $variable) {
             $variables[] = sprintf('E=_ROUTING_param_%s:%%{ENV:__ROUTING_host_%s_%s}', $variable, $hostRegexUnique, $variable);
         }
         foreach ($compiledRoute->getPathVariables() as $i => $variable) {
-            $variables[] = 'E=_ROUTING_param_'.$variable.':%'.($i + 1);
+            $variables[] = 'E=_ROUTING_param_' . $variable . ':%' . ($i + 1);
         }
         foreach ($this->normalizeValues($route->getDefaults()) as $key => $value) {
-            $variables[] = 'E=_ROUTING_default_'.$key.':'.strtr($value, array(
-                ':' => '\\:',
-                '=' => '\\=',
-                '\\' => '\\\\',
-                ' ' => '\\ ',
+            $variables[] = 'E=_ROUTING_default_' . $key . ':' . strtr($value, array(
+                        ':' => '\\:',
+                        '=' => '\\=',
+                        '\\' => '\\\\',
+                        ' ' => '\\ ',
             ));
         }
         $variables = implode(',', $variables);
@@ -155,7 +153,7 @@ class ApacheMatcherDumper extends MatcherDumper
         if (0 < count($methods)) {
             $allow = array();
             foreach ($methods as $method) {
-                $allow[] = 'E=_ROUTING_allow_'.$method.':1';
+                $allow[] = 'E=_ROUTING_allow_' . $method . ':1';
             }
 
             if ($compiledRoute->getHostRegex()) {
@@ -173,7 +171,7 @@ class ApacheMatcherDumper extends MatcherDumper
                 $rule[] = sprintf("RewriteCond %%{ENV:__ROUTING_host_%s} =1", $hostRegexUnique);
             }
 
-            $rule[] = 'RewriteCond %{REQUEST_URI} '.substr($regex, 0, -2).'$';
+            $rule[] = 'RewriteCond %{REQUEST_URI} ' . substr($regex, 0, -2) . '$';
             $rule[] = 'RewriteRule .* $0/ [QSA,L,R=301]';
         }
 
@@ -196,8 +194,7 @@ class ApacheMatcherDumper extends MatcherDumper
      *
      * @return array The methods
      */
-    private function getRouteMethods(Route $route)
-    {
+    private function getRouteMethods(Route $route) {
         $methods = array();
         if ($req = $route->getRequirement('_method')) {
             $methods = explode('|', strtoupper($req));
@@ -217,8 +214,7 @@ class ApacheMatcherDumper extends MatcherDumper
      *
      * @return string The converted regex
      */
-    private function regexToApacheRegex($regex)
-    {
+    private function regexToApacheRegex($regex) {
         $regexPatternEnd = strrpos($regex, $regex[0]);
 
         return preg_replace('/\?P<.+?>/', '', substr($regex, 1, $regexPatternEnd - 1));
@@ -233,8 +229,7 @@ class ApacheMatcherDumper extends MatcherDumper
      *
      * @return string The escaped string
      */
-    private static function escape($string, $char, $with)
-    {
+    private static function escape($string, $char, $with) {
         $escaped = false;
         $output = '';
         foreach (str_split($string) as $symbol) {
@@ -244,7 +239,7 @@ class ApacheMatcherDumper extends MatcherDumper
                 continue;
             }
             if ($symbol === $char) {
-                $output .= $with.$char;
+                $output .= $with . $char;
                 continue;
             }
             if ($symbol === $with) {
@@ -263,8 +258,7 @@ class ApacheMatcherDumper extends MatcherDumper
      *
      * @return string[]
      */
-    private function normalizeValues(array $values)
-    {
+    private function normalizeValues(array $values) {
         $normalizedValues = array();
         foreach ($values as $key => $value) {
             if (is_array($value)) {
@@ -278,4 +272,5 @@ class ApacheMatcherDumper extends MatcherDumper
 
         return $normalizedValues;
     }
+
 }

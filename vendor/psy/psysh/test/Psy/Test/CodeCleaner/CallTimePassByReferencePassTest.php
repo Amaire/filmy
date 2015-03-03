@@ -14,11 +14,10 @@ namespace Psy\Test\CodeCleaner;
 use PHPParser_NodeTraverser as NodeTraverser;
 use Psy\CodeCleaner\CallTimePassByReferencePass;
 
-class CallTimePassByReferencePassTest extends CodeCleanerTestCase
-{
-    public function setUp()
-    {
-        $this->pass      = new CallTimePassByReferencePass();
+class CallTimePassByReferencePassTest extends CodeCleanerTestCase {
+
+    public function setUp() {
+        $this->pass = new CallTimePassByReferencePass();
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor($this->pass);
     }
@@ -27,8 +26,7 @@ class CallTimePassByReferencePassTest extends CodeCleanerTestCase
      * @dataProvider invalidStatements
      * @expectedException \Psy\Exception\FatalErrorException
      */
-    public function testProcessStatementFails($code)
-    {
+    public function testProcessStatementFails($code) {
         if (version_compare(PHP_VERSION, '5.4', '<')) {
             $this->markTestSkipped();
         }
@@ -37,8 +35,7 @@ class CallTimePassByReferencePassTest extends CodeCleanerTestCase
         $this->traverser->traverse($stmts);
     }
 
-    public function invalidStatements()
-    {
+    public function invalidStatements() {
         return array(
             array('f(&$arg)'),
             array('$object->method($first, &$arg)'),
@@ -50,14 +47,12 @@ class CallTimePassByReferencePassTest extends CodeCleanerTestCase
     /**
      * @dataProvider validStatements
      */
-    public function testProcessStatementPasses($code)
-    {
+    public function testProcessStatementPasses($code) {
         $stmts = $this->parse($code);
         $this->traverser->traverse($stmts);
     }
 
-    public function validStatements()
-    {
+    public function validStatements() {
         $data = array(
             array('array(&$var)'),
             array('$a = &$b'),
@@ -70,4 +65,5 @@ class CallTimePassByReferencePassTest extends CodeCleanerTestCase
 
         return $data;
     }
+
 }

@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface EncoderFactoryInterface
-{
+interface EncoderFactoryInterface {
+
     /**
      * Returns the password encoder to use for the given account.
      *

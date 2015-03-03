@@ -20,8 +20,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class AccessDecisionManager implements AccessDecisionManagerInterface
-{
+class AccessDecisionManager implements AccessDecisionManagerInterface {
+
     const STRATEGY_AFFIRMATIVE = 'affirmative';
     const STRATEGY_CONSENSUS = 'consensus';
     const STRATEGY_UNANIMOUS = 'unanimous';
@@ -41,13 +41,12 @@ class AccessDecisionManager implements AccessDecisionManagerInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $voters, $strategy = self::STRATEGY_AFFIRMATIVE, $allowIfAllAbstainDecisions = false, $allowIfEqualGrantedDeniedDecisions = true)
-    {
+    public function __construct(array $voters, $strategy = self::STRATEGY_AFFIRMATIVE, $allowIfAllAbstainDecisions = false, $allowIfEqualGrantedDeniedDecisions = true) {
         if (!$voters) {
             throw new \InvalidArgumentException('You must at least add one voter.');
         }
 
-        $strategyMethod = 'decide'.ucfirst($strategy);
+        $strategyMethod = 'decide' . ucfirst($strategy);
         if (!is_callable(array($this, $strategyMethod))) {
             throw new \InvalidArgumentException(sprintf('The strategy "%s" is not supported.', $strategy));
         }
@@ -61,16 +60,14 @@ class AccessDecisionManager implements AccessDecisionManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function decide(TokenInterface $token, array $attributes, $object = null)
-    {
+    public function decide(TokenInterface $token, array $attributes, $object = null) {
         return $this->{$this->strategy}($token, $attributes, $object);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supportsAttribute($attribute)
-    {
+    public function supportsAttribute($attribute) {
         foreach ($this->voters as $voter) {
             if ($voter->supportsAttribute($attribute)) {
                 return true;
@@ -83,8 +80,7 @@ class AccessDecisionManager implements AccessDecisionManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
-    {
+    public function supportsClass($class) {
         foreach ($this->voters as $voter) {
             if ($voter->supportsClass($class)) {
                 return true;
@@ -100,8 +96,7 @@ class AccessDecisionManager implements AccessDecisionManagerInterface
      * If all voters abstained from voting, the decision will be based on the
      * allowIfAllAbstainDecisions property value (defaults to false).
      */
-    private function decideAffirmative(TokenInterface $token, array $attributes, $object = null)
-    {
+    private function decideAffirmative(TokenInterface $token, array $attributes, $object = null) {
         $deny = 0;
         foreach ($this->voters as $voter) {
             $result = $voter->vote($token, $object, $attributes);
@@ -140,8 +135,7 @@ class AccessDecisionManager implements AccessDecisionManagerInterface
      * If all voters abstained from voting, the decision will be based on the
      * allowIfAllAbstainDecisions property value (defaults to false).
      */
-    private function decideConsensus(TokenInterface $token, array $attributes, $object = null)
-    {
+    private function decideConsensus(TokenInterface $token, array $attributes, $object = null) {
         $grant = 0;
         $deny = 0;
         $abstain = 0;
@@ -187,8 +181,7 @@ class AccessDecisionManager implements AccessDecisionManagerInterface
      * If all voters abstained from voting, the decision will be based on the
      * allowIfAllAbstainDecisions property value (defaults to false).
      */
-    private function decideUnanimous(TokenInterface $token, array $attributes, $object = null)
-    {
+    private function decideUnanimous(TokenInterface $token, array $attributes, $object = null) {
         $grant = 0;
         foreach ($attributes as $attribute) {
             foreach ($this->voters as $voter) {
@@ -216,4 +209,5 @@ class AccessDecisionManager implements AccessDecisionManagerInterface
 
         return $this->allowIfAllAbstainDecisions;
     }
+
 }

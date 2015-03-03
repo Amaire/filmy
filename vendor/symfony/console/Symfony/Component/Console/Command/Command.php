@@ -29,8 +29,8 @@ use Symfony\Component\Console\Helper\HelperSet;
  *
  * @api
  */
-class Command
-{
+class Command {
+
     private $application;
     private $name;
     private $processTitle;
@@ -54,8 +54,7 @@ class Command
      *
      * @api
      */
-    public function __construct($name = null)
-    {
+    public function __construct($name = null) {
         $this->definition = new InputDefinition();
 
         if (null !== $name) {
@@ -74,8 +73,7 @@ class Command
      *
      * This is mainly useful for the help command.
      */
-    public function ignoreValidationErrors()
-    {
+    public function ignoreValidationErrors() {
         $this->ignoreValidationErrors = true;
     }
 
@@ -86,8 +84,7 @@ class Command
      *
      * @api
      */
-    public function setApplication(Application $application = null)
-    {
+    public function setApplication(Application $application = null) {
         $this->application = $application;
         if ($application) {
             $this->setHelperSet($application->getHelperSet());
@@ -101,8 +98,7 @@ class Command
      *
      * @param HelperSet $helperSet A HelperSet instance
      */
-    public function setHelperSet(HelperSet $helperSet)
-    {
+    public function setHelperSet(HelperSet $helperSet) {
         $this->helperSet = $helperSet;
     }
 
@@ -111,8 +107,7 @@ class Command
      *
      * @return HelperSet A HelperSet instance
      */
-    public function getHelperSet()
-    {
+    public function getHelperSet() {
         return $this->helperSet;
     }
 
@@ -123,8 +118,7 @@ class Command
      *
      * @api
      */
-    public function getApplication()
-    {
+    public function getApplication() {
         return $this->application;
     }
 
@@ -136,16 +130,15 @@ class Command
      *
      * @return bool
      */
-    public function isEnabled()
-    {
+    public function isEnabled() {
         return true;
     }
 
     /**
      * Configures the current command.
      */
-    protected function configure()
-    {
+    protected function configure() {
+        
     }
 
     /**
@@ -165,8 +158,7 @@ class Command
      *
      * @see setCode()
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         throw new \LogicException('You must override the execute() method in the concrete command class.');
     }
 
@@ -176,8 +168,8 @@ class Command
      * @param InputInterface  $input  An InputInterface instance
      * @param OutputInterface $output An OutputInterface instance
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
+    protected function interact(InputInterface $input, OutputInterface $output) {
+        
     }
 
     /**
@@ -189,8 +181,8 @@ class Command
      * @param InputInterface  $input  An InputInterface instance
      * @param OutputInterface $output An OutputInterface instance
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
+    protected function initialize(InputInterface $input, OutputInterface $output) {
+        
     }
 
     /**
@@ -212,8 +204,7 @@ class Command
      *
      * @api
      */
-    public function run(InputInterface $input, OutputInterface $output)
-    {
+    public function run(InputInterface $input, OutputInterface $output) {
         // force the creation of the synopsis before the merge with the app definition
         $this->getSynopsis();
 
@@ -272,8 +263,7 @@ class Command
      *
      * @api
      */
-    public function setCode($code)
-    {
+    public function setCode($code) {
         if (!is_callable($code)) {
             throw new \InvalidArgumentException('Invalid callable provided to Command::setCode.');
         }
@@ -290,8 +280,7 @@ class Command
      *
      * @param bool $mergeArgs Whether to merge or not the Application definition arguments to Command definition arguments
      */
-    public function mergeApplicationDefinition($mergeArgs = true)
-    {
+    public function mergeApplicationDefinition($mergeArgs = true) {
         if (null === $this->application || (true === $this->applicationDefinitionMerged && ($this->applicationDefinitionMergedWithArgs || !$mergeArgs))) {
             return;
         }
@@ -319,8 +308,7 @@ class Command
      *
      * @api
      */
-    public function setDefinition($definition)
-    {
+    public function setDefinition($definition) {
         if ($definition instanceof InputDefinition) {
             $this->definition = $definition;
         } else {
@@ -339,8 +327,7 @@ class Command
      *
      * @api
      */
-    public function getDefinition()
-    {
+    public function getDefinition() {
         return $this->definition;
     }
 
@@ -354,8 +341,7 @@ class Command
      *
      * @return InputDefinition An InputDefinition instance
      */
-    public function getNativeDefinition()
-    {
+    public function getNativeDefinition() {
         return $this->getDefinition();
     }
 
@@ -371,8 +357,7 @@ class Command
      *
      * @api
      */
-    public function addArgument($name, $mode = null, $description = '', $default = null)
-    {
+    public function addArgument($name, $mode = null, $description = '', $default = null) {
         $this->definition->addArgument(new InputArgument($name, $mode, $description, $default));
 
         return $this;
@@ -391,8 +376,7 @@ class Command
      *
      * @api
      */
-    public function addOption($name, $shortcut = null, $mode = null, $description = '', $default = null)
-    {
+    public function addOption($name, $shortcut = null, $mode = null, $description = '', $default = null) {
         $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
 
         return $this;
@@ -414,8 +398,7 @@ class Command
      *
      * @api
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->validateName($name);
 
         $this->name = $name;
@@ -435,8 +418,7 @@ class Command
      *
      * @return Command The current instance
      */
-    public function setProcessTitle($title)
-    {
+    public function setProcessTitle($title) {
         $this->processTitle = $title;
 
         return $this;
@@ -449,8 +431,7 @@ class Command
      *
      * @api
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -463,8 +444,7 @@ class Command
      *
      * @api
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -477,8 +457,7 @@ class Command
      *
      * @api
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -491,8 +470,7 @@ class Command
      *
      * @api
      */
-    public function setHelp($help)
-    {
+    public function setHelp($help) {
         $this->help = $help;
 
         return $this;
@@ -505,8 +483,7 @@ class Command
      *
      * @api
      */
-    public function getHelp()
-    {
+    public function getHelp() {
         return $this->help;
     }
 
@@ -516,8 +493,7 @@ class Command
      *
      * @return string The processed help for the command
      */
-    public function getProcessedHelp()
-    {
+    public function getProcessedHelp() {
         $name = $this->name;
 
         $placeholders = array(
@@ -526,7 +502,7 @@ class Command
         );
         $replacements = array(
             $name,
-            $_SERVER['PHP_SELF'].' '.$name,
+            $_SERVER['PHP_SELF'] . ' ' . $name,
         );
 
         return str_replace($placeholders, $replacements, $this->getHelp());
@@ -543,8 +519,7 @@ class Command
      *
      * @api
      */
-    public function setAliases($aliases)
-    {
+    public function setAliases($aliases) {
         if (!is_array($aliases) && !$aliases instanceof \Traversable) {
             throw new \InvalidArgumentException('$aliases must be an array or an instance of \Traversable');
         }
@@ -565,8 +540,7 @@ class Command
      *
      * @api
      */
-    public function getAliases()
-    {
+    public function getAliases() {
         return $this->aliases;
     }
 
@@ -575,8 +549,7 @@ class Command
      *
      * @return string The synopsis
      */
-    public function getSynopsis()
-    {
+    public function getSynopsis() {
         if (null === $this->synopsis) {
             $this->synopsis = trim(sprintf('%s %s', $this->name, $this->definition->getSynopsis()));
         }
@@ -595,8 +568,7 @@ class Command
      *
      * @api
      */
-    public function getHelper($name)
-    {
+    public function getHelper($name) {
         return $this->helperSet->get($name);
     }
 
@@ -607,8 +579,7 @@ class Command
      *
      * @deprecated Deprecated since version 2.3, to be removed in 3.0.
      */
-    public function asText()
-    {
+    public function asText() {
         $descriptor = new TextDescriptor();
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
         $descriptor->describe($output, $this, array('raw_output' => true));
@@ -625,8 +596,7 @@ class Command
      *
      * @deprecated Deprecated since version 2.3, to be removed in 3.0.
      */
-    public function asXml($asDom = false)
-    {
+    public function asXml($asDom = false) {
         $descriptor = new XmlDescriptor();
 
         if ($asDom) {
@@ -648,10 +618,10 @@ class Command
      *
      * @throws \InvalidArgumentException When the name is invalid
      */
-    private function validateName($name)
-    {
+    private function validateName($name) {
         if (!preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
             throw new \InvalidArgumentException(sprintf('Command name "%s" is invalid.', $name));
         }
     }
+
 }

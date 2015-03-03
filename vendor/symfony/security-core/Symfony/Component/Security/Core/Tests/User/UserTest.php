@@ -13,14 +13,13 @@ namespace Symfony\Component\Security\Core\Tests\User;
 
 use Symfony\Component\Security\Core\User\User;
 
-class UserTest extends \PHPUnit_Framework_TestCase
-{
+class UserTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @covers Symfony\Component\Security\Core\User\User::__construct
      * @expectedException \InvalidArgumentException
      */
-    public function testConstructorException()
-    {
+    public function testConstructorException() {
         new User('', 'superpass');
     }
 
@@ -28,8 +27,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      * @covers Symfony\Component\Security\Core\User\User::__construct
      * @covers Symfony\Component\Security\Core\User\User::getRoles
      */
-    public function testGetRoles()
-    {
+    public function testGetRoles() {
         $user = new User('fabien', 'superpass');
         $this->assertEquals(array(), $user->getRoles());
 
@@ -41,8 +39,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      * @covers Symfony\Component\Security\Core\User\User::__construct
      * @covers Symfony\Component\Security\Core\User\User::getPassword
      */
-    public function testGetPassword()
-    {
+    public function testGetPassword() {
         $user = new User('fabien', 'superpass');
         $this->assertEquals('superpass', $user->getPassword());
     }
@@ -51,8 +48,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      * @covers Symfony\Component\Security\Core\User\User::__construct
      * @covers Symfony\Component\Security\Core\User\User::getUsername
      */
-    public function testGetUsername()
-    {
+    public function testGetUsername() {
         $user = new User('fabien', 'superpass');
         $this->assertEquals('fabien', $user->getUsername());
     }
@@ -60,8 +56,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\Security\Core\User\User::getSalt
      */
-    public function testGetSalt()
-    {
+    public function testGetSalt() {
         $user = new User('fabien', 'superpass');
         $this->assertEquals('', $user->getSalt());
     }
@@ -69,8 +64,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\Security\Core\User\User::isAccountNonExpired
      */
-    public function testIsAccountNonExpired()
-    {
+    public function testIsAccountNonExpired() {
         $user = new User('fabien', 'superpass');
         $this->assertTrue($user->isAccountNonExpired());
 
@@ -81,8 +75,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\Security\Core\User\User::isCredentialsNonExpired
      */
-    public function testIsCredentialsNonExpired()
-    {
+    public function testIsCredentialsNonExpired() {
         $user = new User('fabien', 'superpass');
         $this->assertTrue($user->isCredentialsNonExpired());
 
@@ -93,8 +86,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\Security\Core\User\User::isAccountNonLocked
      */
-    public function testIsAccountNonLocked()
-    {
+    public function testIsAccountNonLocked() {
         $user = new User('fabien', 'superpass');
         $this->assertTrue($user->isAccountNonLocked());
 
@@ -105,8 +97,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\Security\Core\User\User::isEnabled
      */
-    public function testIsEnabled()
-    {
+    public function testIsEnabled() {
         $user = new User('fabien', 'superpass');
         $this->assertTrue($user->isEnabled());
 
@@ -117,10 +108,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\Security\Core\User\User::eraseCredentials
      */
-    public function testEraseCredentials()
-    {
+    public function testEraseCredentials() {
         $user = new User('fabien', 'superpass');
         $user->eraseCredentials();
         $this->assertEquals('superpass', $user->getPassword());
     }
+
 }

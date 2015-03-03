@@ -18,8 +18,8 @@ namespace Symfony\Component\EventDispatcher;
  *
  * @author Drak <drak@zikula.org>
  */
-class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
-{
+class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate {
+
     /**
      * Event subject.
      *
@@ -40,8 +40,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      * @param mixed $subject   The subject of the event, usually an object.
      * @param array $arguments Arguments to store in the event.
      */
-    public function __construct($subject = null, array $arguments = array())
-    {
+    public function __construct($subject = null, array $arguments = array()) {
         $this->subject = $subject;
         $this->arguments = $arguments;
     }
@@ -51,8 +50,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return mixed $subject The observer subject.
      */
-    public function getSubject()
-    {
+    public function getSubject() {
         return $this->subject;
     }
 
@@ -65,8 +63,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return mixed Contents of array key.
      */
-    public function getArgument($key)
-    {
+    public function getArgument($key) {
         if ($this->hasArgument($key)) {
             return $this->arguments[$key];
         }
@@ -82,8 +79,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return GenericEvent
      */
-    public function setArgument($key, $value)
-    {
+    public function setArgument($key, $value) {
         $this->arguments[$key] = $value;
 
         return $this;
@@ -94,8 +90,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return array
      */
-    public function getArguments()
-    {
+    public function getArguments() {
         return $this->arguments;
     }
 
@@ -106,8 +101,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return GenericEvent
      */
-    public function setArguments(array $args = array())
-    {
+    public function setArguments(array $args = array()) {
         $this->arguments = $args;
 
         return $this;
@@ -120,8 +114,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return bool
      */
-    public function hasArgument($key)
-    {
+    public function hasArgument($key) {
         return array_key_exists($key, $this->arguments);
     }
 
@@ -134,8 +127,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return mixed
      */
-    public function offsetGet($key)
-    {
+    public function offsetGet($key) {
         return $this->getArgument($key);
     }
 
@@ -145,8 +137,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      * @param string $key   Array key to set.
      * @param mixed  $value Value.
      */
-    public function offsetSet($key, $value)
-    {
+    public function offsetSet($key, $value) {
         $this->setArgument($key, $value);
     }
 
@@ -155,8 +146,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $key Array key.
      */
-    public function offsetUnset($key)
-    {
+    public function offsetUnset($key) {
         if ($this->hasArgument($key)) {
             unset($this->arguments[$key]);
         }
@@ -169,8 +159,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return bool
      */
-    public function offsetExists($key)
-    {
+    public function offsetExists($key) {
         return $this->hasArgument($key);
     }
 
@@ -179,8 +168,8 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
-    {
+    public function getIterator() {
         return new \ArrayIterator($this->arguments);
     }
+
 }

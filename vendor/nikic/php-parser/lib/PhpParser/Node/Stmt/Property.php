@@ -9,8 +9,8 @@ use PhpParser\Error;
  * @property int                $type  Modifiers
  * @property PropertyProperty[] $props Properties
  */
-class Property extends Node\Stmt
-{
+class Property extends Node\Stmt {
+
     /**
      * Constructs a class property list node.
      *
@@ -33,11 +33,10 @@ class Property extends Node\Stmt
         }
 
         parent::__construct(
-            array(
-                'type'  => $type,
-                'props' => $props,
-            ),
-            $attributes
+                array(
+            'type' => $type,
+            'props' => $props,
+                ), $attributes
         );
     }
 
@@ -56,4 +55,5 @@ class Property extends Node\Stmt
     public function isStatic() {
         return (bool) ($this->type & Class_::MODIFIER_STATIC);
     }
+
 }

@@ -22,8 +22,8 @@ use Symfony\Component\HttpKernel\UriSigner;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class HIncludeFragmentRenderer extends RoutableFragmentRenderer
-{
+class HIncludeFragmentRenderer extends RoutableFragmentRenderer {
+
     private $globalDefaultTemplate;
     private $signer;
     private $templating;
@@ -37,8 +37,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
      * @param string                            $globalDefaultTemplate The global default content (it can be a template name or the content)
      * @param string                            $charset
      */
-    public function __construct($templating = null, UriSigner $signer = null, $globalDefaultTemplate = null, $charset = 'utf-8')
-    {
+    public function __construct($templating = null, UriSigner $signer = null, $globalDefaultTemplate = null, $charset = 'utf-8') {
         $this->setTemplating($templating);
         $this->globalDefaultTemplate = $globalDefaultTemplate;
         $this->signer = $signer;
@@ -52,8 +51,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
      *
      * @throws \InvalidArgumentException
      */
-    public function setTemplating($templating)
-    {
+    public function setTemplating($templating) {
         if (null !== $templating && !$templating instanceof EngineInterface && !$templating instanceof \Twig_Environment) {
             throw new \InvalidArgumentException('The hinclude rendering strategy needs an instance of \Twig_Environment or Symfony\Component\Templating\EngineInterface');
         }
@@ -66,8 +64,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
      *
      * @return bool true if the templating engine has been set, false otherwise
      */
-    public function hasTemplating()
-    {
+    public function hasTemplating() {
         return null !== $this->templating;
     }
 
@@ -80,8 +77,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
      *  * id:         An optional hx:include tag id attribute
      *  * attributes: An optional array of hx:include tag attributes
      */
-    public function render($uri, Request $request, array $options = array())
-    {
+    public function render($uri, Request $request, array $options = array()) {
         if ($uri instanceof ControllerReference) {
             if (null === $this->signer) {
                 throw new \LogicException('You must use a proper URI when using the Hinclude rendering strategy or set a URL signer.');
@@ -114,9 +110,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
             }
             foreach ($attributes as $attribute => $value) {
                 $renderedAttributes .= sprintf(
-                    ' %s="%s"',
-                    htmlspecialchars($attribute, $flags, $this->charset, false),
-                    htmlspecialchars($value, $flags, $this->charset, false)
+                        ' %s="%s"', htmlspecialchars($attribute, $flags, $this->charset, false), htmlspecialchars($value, $flags, $this->charset, false)
                 );
             }
         }
@@ -129,8 +123,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
      *
      * @return bool
      */
-    private function templateExists($template)
-    {
+    private function templateExists($template) {
         if ($this->templating instanceof EngineInterface) {
             try {
                 return $this->templating->exists($template);
@@ -149,6 +142,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
 
             return true;
         } catch (\Twig_Error_Loader $e) {
+            
         }
 
         return false;
@@ -157,8 +151,8 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'hinclude';
     }
+
 }

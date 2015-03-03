@@ -8,8 +8,8 @@ use PhpParser\Node\Expr;
  * @property Expr $left  The left hand side expression
  * @property Expr $right The right hand side expression
  */
-abstract class BinaryOp extends Expr
-{
+abstract class BinaryOp extends Expr {
+
     /**
      * Constructs a bitwise and node.
      *
@@ -19,11 +19,11 @@ abstract class BinaryOp extends Expr
      */
     public function __construct(Expr $left, Expr $right, array $attributes = array()) {
         parent::__construct(
-            array(
-                'left'  => $left,
-                'right' => $right
-            ),
-            $attributes
+                array(
+            'left' => $left,
+            'right' => $right
+                ), $attributes
         );
     }
+
 }

@@ -22,8 +22,8 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
  * @deprecated Deprecated since version 2.5, to be removed in 3.0.
  *             Use the question helper instead.
  */
-class DialogHelper extends InputAwareHelper
-{
+class DialogHelper extends InputAwareHelper {
+
     private $inputStream;
     private static $shell;
     private static $stty;
@@ -43,8 +43,7 @@ class DialogHelper extends InputAwareHelper
      *
      * @throws \InvalidArgumentException
      */
-    public function select(OutputInterface $output, $question, $choices, $default = null, $attempts = false, $errorMessage = 'Value "%s" is invalid', $multiselect = false)
-    {
+    public function select(OutputInterface $output, $question, $choices, $default = null, $attempts = false, $errorMessage = 'Value "%s" is invalid', $multiselect = false) {
         $width = max(array_map('strlen', array_keys($choices)));
 
         $messages = (array) $question;
@@ -99,15 +98,14 @@ class DialogHelper extends InputAwareHelper
      *
      * @throws \RuntimeException If there is no data to read in the input stream
      */
-    public function ask(OutputInterface $output, $question, $default = null, array $autocomplete = null)
-    {
+    public function ask(OutputInterface $output, $question, $default = null, array $autocomplete = null) {
         if ($this->input && !$this->input->isInteractive()) {
             return $default;
         }
 
         $output->write($question);
 
-        $inputStream = $this->inputStream ?: STDIN;
+        $inputStream = $this->inputStream ? : STDIN;
 
         if (null === $autocomplete || !$this->hasSttyAvailable()) {
             $ret = fgets($inputStream, 4096);
@@ -211,7 +209,7 @@ class DialogHelper extends InputAwareHelper
                     // Save cursor position
                     $output->write("\0337");
                     // Write highlighted text
-                    $output->write('<hl>'.substr($matches[$ofs], $i).'</hl>');
+                    $output->write('<hl>' . substr($matches[$ofs], $i) . '</hl>');
                     // Restore cursor position
                     $output->write("\0338");
                 }
@@ -235,8 +233,7 @@ class DialogHelper extends InputAwareHelper
      *
      * @return bool true if the user has confirmed, false otherwise
      */
-    public function askConfirmation(OutputInterface $output, $question, $default = true)
-    {
+    public function askConfirmation(OutputInterface $output, $question, $default = true) {
         $answer = 'z';
         while ($answer && !in_array(strtolower($answer[0]), array('y', 'n'))) {
             $answer = $this->ask($output, $question);
@@ -260,14 +257,13 @@ class DialogHelper extends InputAwareHelper
      *
      * @throws \RuntimeException In case the fallback is deactivated and the response can not be hidden
      */
-    public function askHiddenResponse(OutputInterface $output, $question, $fallback = true)
-    {
+    public function askHiddenResponse(OutputInterface $output, $question, $fallback = true) {
         if ('\\' === DIRECTORY_SEPARATOR) {
-            $exe = __DIR__.'/../Resources/bin/hiddeninput.exe';
+            $exe = __DIR__ . '/../Resources/bin/hiddeninput.exe';
 
             // handle code running from a phar
             if ('phar:' === substr(__FILE__, 0, 5)) {
-                $tmpExe = sys_get_temp_dir().'/hiddeninput.exe';
+                $tmpExe = sys_get_temp_dir() . '/hiddeninput.exe';
                 copy($exe, $tmpExe);
                 $exe = $tmpExe;
             }
@@ -289,7 +285,7 @@ class DialogHelper extends InputAwareHelper
             $sttyMode = shell_exec('stty -g');
 
             shell_exec('stty -echo');
-            $value = fgets($this->inputStream ?: STDIN, 4096);
+            $value = fgets($this->inputStream ? : STDIN, 4096);
             shell_exec(sprintf('stty %s', $sttyMode));
 
             if (false === $value) {
@@ -337,8 +333,7 @@ class DialogHelper extends InputAwareHelper
      *
      * @throws \Exception When any of the validators return an error
      */
-    public function askAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $default = null, array $autocomplete = null)
-    {
+    public function askAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $default = null, array $autocomplete = null) {
         $that = $this;
 
         $interviewer = function () use ($output, $question, $default, $autocomplete, $that) {
@@ -366,8 +361,7 @@ class DialogHelper extends InputAwareHelper
      * @throws \Exception        When any of the validators return an error
      * @throws \RuntimeException In case the fallback is deactivated and the response can not be hidden
      */
-    public function askHiddenResponseAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $fallback = true)
-    {
+    public function askHiddenResponseAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $fallback = true) {
         $that = $this;
 
         $interviewer = function () use ($output, $question, $fallback, $that) {
@@ -384,8 +378,7 @@ class DialogHelper extends InputAwareHelper
      *
      * @param resource $stream The input stream
      */
-    public function setInputStream($stream)
-    {
+    public function setInputStream($stream) {
         $this->inputStream = $stream;
     }
 
@@ -394,16 +387,14 @@ class DialogHelper extends InputAwareHelper
      *
      * @return string
      */
-    public function getInputStream()
-    {
+    public function getInputStream() {
         return $this->inputStream;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'dialog';
     }
 
@@ -412,8 +403,7 @@ class DialogHelper extends InputAwareHelper
      *
      * @return string|bool The valid shell name, false in case no valid shell is found
      */
-    private function getShell()
-    {
+    private function getShell() {
         if (null !== self::$shell) {
             return self::$shell;
         }
@@ -434,8 +424,7 @@ class DialogHelper extends InputAwareHelper
         return self::$shell;
     }
 
-    private function hasSttyAvailable()
-    {
+    private function hasSttyAvailable() {
         if (null !== self::$stty) {
             return self::$stty;
         }
@@ -457,8 +446,7 @@ class DialogHelper extends InputAwareHelper
      *
      * @throws \Exception In case the max number of attempts has been reached and no valid response has been given
      */
-    private function validateAttempts($interviewer, OutputInterface $output, $validator, $attempts)
-    {
+    private function validateAttempts($interviewer, OutputInterface $output, $validator, $attempts) {
         $error = null;
         while (false === $attempts || $attempts--) {
             if (null !== $error) {
@@ -468,9 +456,11 @@ class DialogHelper extends InputAwareHelper
             try {
                 return call_user_func($validator, $interviewer());
             } catch (\Exception $error) {
+                
             }
         }
 
         throw $error;
     }
+
 }

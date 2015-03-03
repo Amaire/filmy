@@ -18,8 +18,8 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-class FilePathsIterator extends \ArrayIterator
-{
+class FilePathsIterator extends \ArrayIterator {
+
     /**
      * @var string
      */
@@ -49,8 +49,7 @@ class FilePathsIterator extends \ArrayIterator
      * @param array  $paths   List of paths returned by shell command
      * @param string $baseDir Base dir for relative path building
      */
-    public function __construct(array $paths, $baseDir)
-    {
+    public function __construct(array $paths, $baseDir) {
         $this->baseDir = $baseDir;
         $this->baseDirLength = strlen($baseDir);
 
@@ -63,8 +62,7 @@ class FilePathsIterator extends \ArrayIterator
      *
      * @return mixed
      */
-    public function __call($name, array $arguments)
-    {
+    public function __call($name, array $arguments) {
         return call_user_func_array(array($this->current(), $name), $arguments);
     }
 
@@ -73,27 +71,23 @@ class FilePathsIterator extends \ArrayIterator
      *
      * @return SplFileInfo File information
      */
-    public function current()
-    {
+    public function current() {
         return $this->current;
     }
 
     /**
      * @return string
      */
-    public function key()
-    {
+    public function key() {
         return $this->current->getPathname();
     }
 
-    public function next()
-    {
+    public function next() {
         parent::next();
         $this->buildProperties();
     }
 
-    public function rewind()
-    {
+    public function rewind() {
         parent::rewind();
         $this->buildProperties();
     }
@@ -101,21 +95,18 @@ class FilePathsIterator extends \ArrayIterator
     /**
      * @return string
      */
-    public function getSubPath()
-    {
+    public function getSubPath() {
         return $this->subPath;
     }
 
     /**
      * @return string
      */
-    public function getSubPathname()
-    {
+    public function getSubPathname() {
         return $this->subPathname;
     }
 
-    private function buildProperties()
-    {
+    private function buildProperties() {
         $absolutePath = parent::current();
 
         if ($this->baseDir === substr($absolutePath, 0, $this->baseDirLength)) {
@@ -128,4 +119,5 @@ class FilePathsIterator extends \ArrayIterator
 
         $this->current = new SplFileInfo(parent::current(), $this->subPath, $this->subPathname);
     }
+
 }

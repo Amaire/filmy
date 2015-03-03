@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Link Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class LinkTagTest extends \PHPUnit_Framework_TestCase
-{
+class LinkTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\LinkTag can create
      * a link for the @link doc block.
@@ -38,11 +39,7 @@ class LinkTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exContent,
-        $exDescription,
-        $exLink
+    $type, $content, $exContent, $exDescription, $exLink
     ) {
         $tag = new LinkTag($type, $content);
 
@@ -57,8 +54,7 @@ class LinkTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type, $content, $exContent, $exDescription, $exLink
         return array(
             array(
@@ -84,4 +80,5 @@ class LinkTagTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

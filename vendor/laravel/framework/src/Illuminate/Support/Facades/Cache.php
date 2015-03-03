@@ -1,4 +1,6 @@
-<?php namespace Illuminate\Support\Facades;
+<?php
+
+namespace Illuminate\Support\Facades;
 
 /**
  * @see \Illuminate\Cache\CacheManager
@@ -6,11 +8,13 @@
  */
 class Cache extends Facade {
 
-	/**
-	 * Get the registered name of the component.
-	 *
-	 * @return string
-	 */
-	protected static function getFacadeAccessor() { return 'cache'; }
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor() {
+        return 'cache';
+    }
 
 }

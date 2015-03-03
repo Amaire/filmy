@@ -21,13 +21,12 @@ use Symfony\Component\Security\Core\Exception\AccountExpiredException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class UserChecker implements UserCheckerInterface
-{
+class UserChecker implements UserCheckerInterface {
+
     /**
      * {@inheritdoc}
      */
-    public function checkPreAuth(UserInterface $user)
-    {
+    public function checkPreAuth(UserInterface $user) {
         if (!$user instanceof AdvancedUserInterface) {
             return;
         }
@@ -54,8 +53,7 @@ class UserChecker implements UserCheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function checkPostAuth(UserInterface $user)
-    {
+    public function checkPostAuth(UserInterface $user) {
         if (!$user instanceof AdvancedUserInterface) {
             return;
         }
@@ -66,4 +64,5 @@ class UserChecker implements UserCheckerInterface
             throw $ex;
         }
     }
+
 }

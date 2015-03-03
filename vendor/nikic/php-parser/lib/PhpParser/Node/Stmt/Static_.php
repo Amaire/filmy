@@ -7,8 +7,8 @@ use PhpParser\Node\Stmt;
 /**
  * @property StaticVar[] $vars Variable definitions
  */
-class Static_ extends Stmt
-{
+class Static_ extends Stmt {
+
     /**
      * Constructs a static variables list node.
      *
@@ -17,10 +17,10 @@ class Static_ extends Stmt
      */
     public function __construct(array $vars, array $attributes = array()) {
         parent::__construct(
-            array(
-                'vars' => $vars,
-            ),
-            $attributes
+                array(
+            'vars' => $vars,
+                ), $attributes
         );
     }
+
 }

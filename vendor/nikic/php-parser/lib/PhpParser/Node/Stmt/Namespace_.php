@@ -9,10 +9,10 @@ use PhpParser\Error;
  * @property null|Node\Name $name  Name
  * @property Node[]         $stmts Statements
  */
-class Namespace_ extends Node\Stmt
-{
+class Namespace_ extends Node\Stmt {
+
     protected static $specialNames = array(
-        'self'   => true,
+        'self' => true,
         'parent' => true,
         'static' => true,
     );
@@ -26,11 +26,10 @@ class Namespace_ extends Node\Stmt
      */
     public function __construct(Node\Name $name = null, $stmts = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'name'  => $name,
-                'stmts' => $stmts,
-            ),
-            $attributes
+                array(
+            'name' => $name,
+            'stmts' => $stmts,
+                ), $attributes
         );
 
         if (isset(self::$specialNames[(string) $this->name])) {
@@ -45,4 +44,5 @@ class Namespace_ extends Node\Stmt
             }
         }
     }
+
 }

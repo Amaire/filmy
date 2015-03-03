@@ -19,21 +19,19 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Roman Marintšenko <inoryy@gmail.com>
  */
-abstract class AbstractVoter implements VoterInterface
-{
+abstract class AbstractVoter implements VoterInterface {
+
     /**
      * {@inheritdoc}
      */
-    public function supportsAttribute($attribute)
-    {
+    public function supportsAttribute($attribute) {
         return in_array($attribute, $this->getSupportedAttributes());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
-    {
+    public function supportsClass($class) {
         foreach ($this->getSupportedClasses() as $supportedClass) {
             if ($supportedClass === $class || is_subclass_of($class, $supportedClass)) {
                 return true;
@@ -56,8 +54,7 @@ abstract class AbstractVoter implements VoterInterface
      *
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
-    {
+    public function vote(TokenInterface $token, $object, array $attributes) {
         if (!$object || !$this->supportsClass(get_class($object))) {
             return self::ACCESS_ABSTAIN;
         }

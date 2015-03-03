@@ -13,10 +13,9 @@ namespace Psy\Test\Readline;
 
 use Psy\Readline\Transient;
 
-class TransientTest extends \PHPUnit_Framework_TestCase
-{
-    public function testHistory()
-    {
+class TransientTest extends \PHPUnit_Framework_TestCase {
+
+    public function testHistory() {
         $readline = new Transient();
         $this->assertEmpty($readline->listHistory());
         $readline->addHistory('foo');
@@ -32,8 +31,7 @@ class TransientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testHistory
      */
-    public function testHistorySize()
-    {
+    public function testHistorySize() {
         $readline = new Transient(null, 2);
         $this->assertEmpty($readline->listHistory());
         $readline->addHistory('foo');
@@ -50,8 +48,7 @@ class TransientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testHistory
      */
-    public function testHistoryEraseDups()
-    {
+    public function testHistoryEraseDups() {
         $readline = new Transient(null, 0, true);
         $this->assertEmpty($readline->listHistory());
         $readline->addHistory('foo');
@@ -66,11 +63,11 @@ class TransientTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($readline->listHistory());
     }
 
-    public function testSomeThingsAreAlwaysTrue()
-    {
+    public function testSomeThingsAreAlwaysTrue() {
         $readline = new Transient();
         $this->assertTrue(Transient::isSupported());
         $this->assertTrue($readline->readHistory());
         $this->assertTrue($readline->writeHistory());
     }
+
 }

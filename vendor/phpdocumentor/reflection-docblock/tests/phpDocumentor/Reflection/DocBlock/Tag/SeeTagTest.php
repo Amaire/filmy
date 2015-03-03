@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor See Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class SeeTagTest extends \PHPUnit_Framework_TestCase
-{
+class SeeTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the phpDocumentor_Reflection_DocBlock_Tag_See can create a link
      * for the @see doc block.
@@ -37,11 +38,7 @@ class SeeTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exContent,
-        $exDescription,
-        $exReference
+    $type, $content, $exContent, $exDescription, $exReference
     ) {
         $tag = new SeeTag($type, $content);
 
@@ -56,8 +53,7 @@ class SeeTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type, $content, $exContent, $exDescription, $exReference
         return array(
             array(
@@ -83,4 +79,5 @@ class SeeTagTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

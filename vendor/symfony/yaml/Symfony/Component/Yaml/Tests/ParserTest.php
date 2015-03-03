@@ -14,37 +14,33 @@ namespace Symfony\Component\Yaml\Tests;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Parser;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
-{
+class ParserTest extends \PHPUnit_Framework_TestCase {
+
     protected $parser;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->parser = new Parser();
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         $this->parser = null;
     }
 
     /**
      * @dataProvider getDataFormSpecifications
      */
-    public function testSpecifications($file, $expected, $yaml, $comment)
-    {
+    public function testSpecifications($file, $expected, $yaml, $comment) {
         $this->assertEquals($expected, var_export($this->parser->parse($yaml), true), $comment);
     }
 
-    public function getDataFormSpecifications()
-    {
+    public function getDataFormSpecifications() {
         $parser = new Parser();
-        $path = __DIR__.'/Fixtures';
+        $path = __DIR__ . '/Fixtures';
 
         $tests = array();
-        $files = $parser->parse(file_get_contents($path.'/index.yml'));
+        $files = $parser->parse(file_get_contents($path . '/index.yml'));
         foreach ($files as $file) {
-            $yamls = file_get_contents($path.'/'.$file.'.yml');
+            $yamls = file_get_contents($path . '/' . $file . '.yml');
 
             // split YAMLs documents
             foreach (preg_split('/^---( %YAML\:1\.0)?/m', $yamls) as $yaml) {
@@ -56,7 +52,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 if (isset($test['todo']) && $test['todo']) {
                     // TODO
                 } else {
-                    eval('$expected = '.trim($test['php']).';');
+                    eval('$expected = ' . trim($test['php']) . ';');
 
                     $tests[] = array($file, var_export($expected, true), $test['yaml'], $test['test']);
                 }
@@ -66,8 +62,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         return $tests;
     }
 
-    public function testTabsInYaml()
-    {
+    public function testTabsInYaml() {
         // test tabs in YAML
         $yamls = array(
             "foo:\n	bar",
@@ -83,13 +78,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $this->fail('YAML files must not contain tabs');
             } catch (\Exception $e) {
                 $this->assertInstanceOf('\Exception', $e, 'YAML files must not contain tabs');
-                $this->assertEquals('A YAML file cannot contain tabs as indentation at line 2 (near "'.strpbrk($yaml, "\t").'").', $e->getMessage(), 'YAML files must not contain tabs');
+                $this->assertEquals('A YAML file cannot contain tabs as indentation at line 2 (near "' . strpbrk($yaml, "\t") . '").', $e->getMessage(), 'YAML files must not contain tabs');
             }
         }
     }
 
-    public function testEndOfTheDocumentMarker()
-    {
+    public function testEndOfTheDocumentMarker() {
         $yaml = <<<EOF
 --- %YAML:1.0
 foo
@@ -99,8 +93,7 @@ EOF;
         $this->assertEquals('foo', $this->parser->parse($yaml));
     }
 
-    public function getBlockChompingTests()
-    {
+    public function getBlockChompingTests() {
         $tests = array();
 
         $yaml = <<<'EOF'
@@ -385,8 +378,7 @@ EOF;
     /**
      * @dataProvider getBlockChompingTests
      */
-    public function testBlockChomping($expected, $yaml)
-    {
+    public function testBlockChomping($expected, $yaml) {
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
 
@@ -395,8 +387,7 @@ EOF;
      *
      * @see https://github.com/symfony/symfony/issues/7989
      */
-    public function testBlockLiteralWithLeadingNewlines()
-    {
+    public function testBlockLiteralWithLeadingNewlines() {
         $yaml = <<<'EOF'
 foo: |-
 
@@ -411,8 +402,7 @@ EOF;
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
 
-    public function testObjectSupportEnabled()
-    {
+    public function testObjectSupportEnabled() {
         $input = <<<EOF
 foo: !!php/object:O:30:"Symfony\Component\Yaml\Tests\B":1:{s:1:"b";s:3:"foo";}
 bar: 1
@@ -420,8 +410,7 @@ EOF;
         $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, false, true), '->parse() is able to parse objects');
     }
 
-    public function testObjectSupportDisabledButNoExceptions()
-    {
+    public function testObjectSupportDisabledButNoExceptions() {
         $input = <<<EOF
 foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
 bar: 1
@@ -433,13 +422,11 @@ EOF;
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
-    public function testObjectsSupportDisabledWithExceptions()
-    {
+    public function testObjectsSupportDisabledWithExceptions() {
         $this->parser->parse('foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}', true, false);
     }
 
-    public function testNonUtf8Exception()
-    {
+    public function testNonUtf8Exception() {
         if (!function_exists('iconv')) {
             $this->markTestSkipped('Exceptions for non-utf8 charsets require the iconv() function.');
 
@@ -466,8 +453,7 @@ EOF;
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
-    public function testUnindentedCollectionException()
-    {
+    public function testUnindentedCollectionException() {
         $yaml = <<<EOF
 
 collection:
@@ -483,8 +469,7 @@ EOF;
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
-    public function testShortcutKeyUnindentedCollectionException()
-    {
+    public function testShortcutKeyUnindentedCollectionException() {
         $yaml = <<<EOF
 
 collection:
@@ -500,8 +485,7 @@ EOF;
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      * @expectedExceptionMessage Multiple documents are not supported.
      */
-    public function testMultipleDocumentsNotSupportedException()
-    {
+    public function testMultipleDocumentsNotSupportedException() {
         Yaml::parse(<<<EOL
 # Ranking of 1998 home runs
 ---
@@ -520,8 +504,7 @@ EOL
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
-    public function testSequenceInAMapping()
-    {
+    public function testSequenceInAMapping() {
         Yaml::parse(<<<EOF
 yaml:
   hash: me
@@ -533,8 +516,7 @@ EOF
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
-    public function testMappingInASequence()
-    {
+    public function testMappingInASequence() {
         Yaml::parse(<<<EOF
 yaml:
   - array stuff
@@ -555,8 +537,7 @@ EOF
      *
      * @covers \Symfony\Component\Yaml\Parser::parse
      */
-    public function testMappingDuplicateKeyBlock()
-    {
+    public function testMappingDuplicateKeyBlock() {
         $input = <<<EOD
 parent:
     child: first
@@ -576,8 +557,7 @@ EOD;
     /**
      * @covers \Symfony\Component\Yaml\Inline::parseMapping
      */
-    public function testMappingDuplicateKeyFlow()
-    {
+    public function testMappingDuplicateKeyFlow() {
         $input = <<<EOD
 parent: { child: first, child: duplicate }
 parent: { child: duplicate, child: duplicate }
@@ -590,8 +570,7 @@ EOD;
         $this->assertSame($expected, Yaml::parse($input));
     }
 
-    public function testEmptyValue()
-    {
+    public function testEmptyValue() {
         $input = <<<EOF
 hash:
 EOF;
@@ -599,8 +578,7 @@ EOF;
         $this->assertEquals(array('hash' => null), Yaml::parse($input));
     }
 
-    public function testStringBlockWithComments()
-    {
+    public function testStringBlockWithComments() {
         $this->assertEquals(array('content' => <<<EOT
 # comment 1
 header
@@ -612,7 +590,7 @@ header
 
 footer # comment3
 EOT
-        ), Yaml::parse(<<<EOF
+                ), Yaml::parse(<<<EOF
 content: |
     # comment 1
     header
@@ -627,8 +605,7 @@ EOF
         ));
     }
 
-    public function testFoldedStringBlockWithComments()
-    {
+    public function testFoldedStringBlockWithComments() {
         $this->assertEquals(array(array('content' => <<<EOT
 # comment 1
 header
@@ -640,7 +617,7 @@ header
 
 footer # comment3
 EOT
-        )), Yaml::parse(<<<EOF
+            )), Yaml::parse(<<<EOF
 -
     content: |
         # comment 1
@@ -656,11 +633,10 @@ EOF
         ));
     }
 
-    public function testNestedFoldedStringBlockWithComments()
-    {
+    public function testNestedFoldedStringBlockWithComments() {
         $this->assertEquals(array(array(
-            'title' => 'some title',
-            'content' => <<<EOT
+                'title' => 'some title',
+                'content' => <<<EOT
 # comment 1
 header
 
@@ -671,7 +647,7 @@ header
 
 footer # comment3
 EOT
-        )), Yaml::parse(<<<EOF
+            )), Yaml::parse(<<<EOF
 -
     title: some title
     content: |
@@ -688,8 +664,7 @@ EOF
         ));
     }
 
-    public function testReferenceResolvingInInlineStrings()
-    {
+    public function testReferenceResolvingInInlineStrings() {
         $this->assertEquals(array(
             'var' => 'var-value',
             'scalar' => 'var-value',
@@ -700,7 +675,7 @@ EOF
             'map' => array('key' => 'var-value'),
             'list_in_map' => array('key' => array('var-value')),
             'map_in_map' => array('foo' => array('bar' => 'var-value')),
-        ), Yaml::parse(<<<EOF
+                ), Yaml::parse(<<<EOF
 var:  &var var-value
 scalar: *var
 list: [ *var ]
@@ -714,8 +689,7 @@ EOF
         ));
     }
 
-    public function testYamlDirective()
-    {
+    public function testYamlDirective() {
         $yaml = <<<EOF
 %YAML 1.2
 ---
@@ -724,9 +698,11 @@ bar: 2
 EOF;
         $this->assertEquals(array('foo' => 1, 'bar' => 2), $this->parser->parse($yaml));
     }
+
 }
 
-class B
-{
+class B {
+
     public $b = 'foo';
+
 }

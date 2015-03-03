@@ -8,9 +8,9 @@ use PhpParser\Node\Stmt;
  * @property int      $type Type of alias
  * @property UseUse[] $uses Aliases
  */
-class Use_ extends Stmt
-{
-    const TYPE_NORMAL    = 1;
+class Use_ extends Stmt {
+
+    const TYPE_NORMAL = 1;
     const TYPE_FUNCTION = 2;
     const TYPE_CONSTANT = 3;
 
@@ -23,11 +23,11 @@ class Use_ extends Stmt
      */
     public function __construct(array $uses, $type = self::TYPE_NORMAL, array $attributes = array()) {
         parent::__construct(
-            array(
-                'type' => $type,
-                'uses' => $uses,
-            ),
-            $attributes
+                array(
+            'type' => $type,
+            'uses' => $uses,
+                ), $attributes
         );
     }
+
 }

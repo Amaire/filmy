@@ -14,8 +14,8 @@ namespace Symfony\Component\Finder\Shell;
 /**
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-class Shell
-{
+class Shell {
+
     const TYPE_UNIX = 1;
     const TYPE_DARWIN = 2;
     const TYPE_CYGWIN = 3;
@@ -32,8 +32,7 @@ class Shell
      *
      * @return int
      */
-    public function getType()
-    {
+    public function getType() {
         if (null === $this->type) {
             $this->type = $this->guessType();
         }
@@ -48,8 +47,7 @@ class Shell
      *
      * @return bool
      */
-    public function testCommand($command)
-    {
+    public function testCommand($command) {
         if (!function_exists('exec')) {
             return false;
         }
@@ -62,7 +60,7 @@ class Shell
 
         $command = escapeshellcmd($command);
 
-        exec($testCommand.$command, $output, $code);
+        exec($testCommand . $command, $output, $code);
 
         return 0 === $code && count($output) > 0;
     }
@@ -72,8 +70,7 @@ class Shell
      *
      * @return int
      */
-    private function guessType()
-    {
+    private function guessType() {
         $os = strtolower(PHP_OS);
 
         if (false !== strpos($os, 'cygwin')) {
@@ -94,4 +91,5 @@ class Shell
 
         return self::TYPE_UNIX;
     }
+
 }

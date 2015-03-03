@@ -26,8 +26,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class DaoAuthenticationProvider extends UserAuthenticationProvider
-{
+class DaoAuthenticationProvider extends UserAuthenticationProvider {
+
     private $encoderFactory;
     private $userProvider;
 
@@ -40,8 +40,7 @@ class DaoAuthenticationProvider extends UserAuthenticationProvider
      * @param EncoderFactoryInterface $encoderFactory             An EncoderFactoryInterface instance
      * @param bool                    $hideUserNotFoundExceptions Whether to hide user not found exception or not
      */
-    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true)
-    {
+    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true) {
         parent::__construct($userChecker, $providerKey, $hideUserNotFoundExceptions);
 
         $this->encoderFactory = $encoderFactory;
@@ -51,8 +50,7 @@ class DaoAuthenticationProvider extends UserAuthenticationProvider
     /**
      * {@inheritdoc}
      */
-    protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
-    {
+    protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token) {
         $currentUser = $token->getUser();
         if ($currentUser instanceof UserInterface) {
             if ($currentUser->getPassword() !== $user->getPassword()) {
@@ -72,8 +70,7 @@ class DaoAuthenticationProvider extends UserAuthenticationProvider
     /**
      * {@inheritdoc}
      */
-    protected function retrieveUser($username, UsernamePasswordToken $token)
-    {
+    protected function retrieveUser($username, UsernamePasswordToken $token) {
         $user = $token->getUser();
         if ($user instanceof UserInterface) {
             return $user;
@@ -96,4 +93,5 @@ class DaoAuthenticationProvider extends UserAuthenticationProvider
             throw $ex;
         }
     }
+
 }

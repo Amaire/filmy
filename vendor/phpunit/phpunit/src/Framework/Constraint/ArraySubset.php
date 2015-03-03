@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -22,8 +23,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 4.4.0
  */
-class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constraint {
+
     /**
      * @var array|ArrayAccess
      */
@@ -38,10 +39,9 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
      * @param array|ArrayAccess $subset
      * @param boolean           $strict Check for object identity
      */
-    public function __construct($subset, $strict = false)
-    {
+    public function __construct($subset, $strict = false) {
         parent::__construct();
-        $this->strict  = $strict;
+        $this->strict = $strict;
         $this->subset = $subset;
     }
 
@@ -52,8 +52,7 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
      * @param  array|ArrayAccess $other  Array or ArrayAcess object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         $patched = array_replace_recursive($other, $this->subset);
 
         if ($this->strict) {
@@ -68,8 +67,7 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'has the subset ' . $this->exporter->export($this->subset);
     }
 
@@ -82,8 +80,8 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         return 'an array ' . $this->toString();
     }
+
 }

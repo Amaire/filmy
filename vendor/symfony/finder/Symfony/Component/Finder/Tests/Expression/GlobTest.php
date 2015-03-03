@@ -13,13 +13,12 @@ namespace Symfony\Component\Finder\Tests\Expression;
 
 use Symfony\Component\Finder\Expression\Expression;
 
-class GlobTest extends \PHPUnit_Framework_TestCase
-{
+class GlobTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider getToRegexData
      */
-    public function testGlobToRegex($glob, $match, $noMatch)
-    {
+    public function testGlobToRegex($glob, $match, $noMatch) {
         foreach ($match as $m) {
             $this->assertRegExp(Expression::create($glob)->getRegex()->render(), $m, '::toRegex() converts a glob to a regexp');
         }
@@ -29,8 +28,7 @@ class GlobTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function getToRegexData()
-    {
+    public function getToRegexData() {
         return array(
             array('', array(''), array('f', '/')),
             array('*', array('foo'), array('foo/', '/foo')),
@@ -44,4 +42,5 @@ class GlobTest extends \PHPUnit_Framework_TestCase
             array('/foo', array('/foo'), array('foo')),
         );
     }
+
 }

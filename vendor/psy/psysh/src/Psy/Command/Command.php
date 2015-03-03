@@ -22,8 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * The Psy Shell base command.
  */
-abstract class Command extends BaseCommand
-{
+abstract class Command extends BaseCommand {
+
     /**
      * Sets the application instance for this command.
      *
@@ -31,8 +31,7 @@ abstract class Command extends BaseCommand
      *
      * @api
      */
-    public function setApplication(Application $application = null)
-    {
+    public function setApplication(Application $application = null) {
         if ($application !== null && !$application instanceof Shell) {
             throw new \InvalidArgumentException('PsySH Commands require an instance of Psy\Shell.');
         }
@@ -43,8 +42,7 @@ abstract class Command extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function asText()
-    {
+    public function asText() {
         $messages = array(
             '<comment>Usage:</comment>',
             ' ' . $this->getSynopsis(),
@@ -74,8 +72,7 @@ abstract class Command extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    private function getArguments()
-    {
+    private function getArguments() {
         $hidden = $this->getHiddenArguments();
 
         return array_filter($this->getNativeDefinition()->getArguments(), function ($argument) use ($hidden) {
@@ -88,16 +85,14 @@ abstract class Command extends BaseCommand
      *
      * @return array
      */
-    protected function getHiddenArguments()
-    {
+    protected function getHiddenArguments() {
         return array('command');
     }
 
     /**
      * {@inheritdoc}
      */
-    private function getOptions()
-    {
+    private function getOptions() {
         $hidden = $this->getHiddenOptions();
 
         return array_filter($this->getNativeDefinition()->getOptions(), function ($option) use ($hidden) {
@@ -110,8 +105,7 @@ abstract class Command extends BaseCommand
      *
      * @return array
      */
-    protected function getHiddenOptions()
-    {
+    protected function getHiddenOptions() {
         return array('verbose');
     }
 
@@ -120,8 +114,7 @@ abstract class Command extends BaseCommand
      *
      * @return string
      */
-    private function aliasesAsText()
-    {
+    private function aliasesAsText() {
         return '<comment>Aliases:</comment> <info>' . implode(', ', $this->getAliases()) . '</info>' . PHP_EOL;
     }
 
@@ -130,8 +123,7 @@ abstract class Command extends BaseCommand
      *
      * @return string
      */
-    private function argumentsAsText()
-    {
+    private function argumentsAsText() {
         $max = $this->getMaxWidth();
         $messages = array();
 
@@ -161,8 +153,7 @@ abstract class Command extends BaseCommand
      *
      * @return string
      */
-    private function optionsAsText()
-    {
+    private function optionsAsText() {
         $max = $this->getMaxWidth();
         $messages = array();
 
@@ -182,12 +173,7 @@ abstract class Command extends BaseCommand
 
                 $optionMax = $max - strlen($option->getName()) - 2;
                 $messages[] = sprintf(
-                    " <info>%s</info> %-${optionMax}s%s%s%s",
-                    '--' . $option->getName(),
-                    $option->getShortcut() ? sprintf('(-%s) ', $option->getShortcut()) : '',
-                    $description,
-                    $default,
-                    $multiple
+                        " <info>%s</info> %-${optionMax}s%s%s%s", '--' . $option->getName(), $option->getShortcut() ? sprintf('(-%s) ', $option->getShortcut()) : '', $description, $default, $multiple
                 );
             }
 
@@ -202,8 +188,7 @@ abstract class Command extends BaseCommand
      *
      * @return int
      */
-    private function getMaxWidth()
-    {
+    private function getMaxWidth() {
         $max = 0;
 
         foreach ($this->getOptions() as $option) {
@@ -229,8 +214,7 @@ abstract class Command extends BaseCommand
      *
      * @return string
      */
-    private function formatDefaultValue($default)
-    {
+    private function formatDefaultValue($default) {
         if (is_array($default) && $default === array_values($default)) {
             return sprintf("array('%s')", implode("', '", $default));
         }
@@ -245,23 +229,22 @@ abstract class Command extends BaseCommand
      *
      * @return Table|TableHelper
      */
-    protected function getTable(OutputInterface $output)
-    {
+    protected function getTable(OutputInterface $output) {
         if (!class_exists('Symfony\Component\Console\Helper\Table')) {
             return $this->getTableHelper();
         }
 
         $style = new TableStyle();
         $style
-            ->setVerticalBorderChar(' ')
-            ->setHorizontalBorderChar('')
-            ->setCrossingChar('');
+                ->setVerticalBorderChar(' ')
+                ->setHorizontalBorderChar('')
+                ->setCrossingChar('');
 
         $table = new Table($output);
 
         return $table
-            ->setRows(array())
-            ->setStyle($style);
+                        ->setRows(array())
+                        ->setStyle($style);
     }
 
     /**
@@ -269,14 +252,14 @@ abstract class Command extends BaseCommand
      *
      * @return TableHelper
      */
-    protected function getTableHelper()
-    {
+    protected function getTableHelper() {
         $table = $this->getApplication()->getHelperSet()->get('table');
 
         return $table
-            ->setRows(array())
-            ->setLayout(TableHelper::LAYOUT_BORDERLESS)
-            ->setHorizontalBorderChar('')
-            ->setCrossingChar('');
+                        ->setRows(array())
+                        ->setLayout(TableHelper::LAYOUT_BORDERLESS)
+                        ->setHorizontalBorderChar('')
+                        ->setCrossingChar('');
     }
+
 }

@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Formatter\Presenter\Differ;
 
-interface EngineInterface
-{
+interface EngineInterface {
+
     /**
      * @param mixed $expected
      * @param mixed $actual

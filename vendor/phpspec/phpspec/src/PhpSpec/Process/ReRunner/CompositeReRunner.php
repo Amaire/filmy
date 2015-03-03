@@ -15,8 +15,8 @@ namespace PhpSpec\Process\ReRunner;
 
 use PhpSpec\Process\ReRunner;
 
-class CompositeReRunner implements ReRunner
-{
+class CompositeReRunner implements ReRunner {
+
     /**
      * @var ReRunner
      */
@@ -25,8 +25,7 @@ class CompositeReRunner implements ReRunner
     /**
      * @param PlatformSpecificReRunner[] $reRunners
      */
-    public function __construct(array $reRunners)
-    {
+    public function __construct(array $reRunners) {
         foreach ($reRunners as $reRunner) {
             if ($reRunner->isSupported()) {
                 $this->reRunner = $reRunner;
@@ -35,8 +34,8 @@ class CompositeReRunner implements ReRunner
         }
     }
 
-    public function reRunSuite()
-    {
+    public function reRunSuite() {
         $this->reRunner->reRunSuite();
     }
+
 }

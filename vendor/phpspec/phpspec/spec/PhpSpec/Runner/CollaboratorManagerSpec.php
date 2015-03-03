@@ -4,41 +4,35 @@ namespace spec\PhpSpec\Runner;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-
 use PhpSpec\Formatter\Presenter\PresenterInterface;
-
 use ReflectionFunction;
 use ReflectionParameter;
 
-class CollaboratorManagerSpec extends ObjectBehavior
-{
-    function let(PresenterInterface $presenter)
-    {
+class CollaboratorManagerSpec extends ObjectBehavior {
+
+    function let(PresenterInterface $presenter) {
         $this->beConstructedWith($presenter);
     }
 
-    function it_stores_collaborators_by_name($collaborator)
-    {
+    function it_stores_collaborators_by_name($collaborator) {
         $this->set('custom_collaborator', $collaborator);
         $this->get('custom_collaborator')->shouldReturn($collaborator);
     }
 
-    function it_provides_a_method_to_check_if_collaborator_exists($collaborator)
-    {
+    function it_provides_a_method_to_check_if_collaborator_exists($collaborator) {
         $this->set('custom_collaborator', $collaborator);
 
         $this->has('custom_collaborator')->shouldReturn(true);
         $this->has('nonexistent')->shouldReturn(false);
     }
 
-    function it_throws_CollaboratorException_on_attempt_to_get_unexisting_collaborator()
-    {
+    function it_throws_CollaboratorException_on_attempt_to_get_unexisting_collaborator() {
         $this->shouldThrow('PhpSpec\Exception\Wrapper\CollaboratorException')
-            ->duringGet('nonexistent');
+                ->duringGet('nonexistent');
     }
 
     function it_creates_function_arguments_for_ReflectionFunction(
-        ReflectionFunction $function, ReflectionParameter $param1, ReflectionParameter $param2
+    ReflectionFunction $function, ReflectionParameter $param1, ReflectionParameter $param2
     ) {
         $this->set('arg1', '123');
         $this->set('arg2', '456');
@@ -52,7 +46,7 @@ class CollaboratorManagerSpec extends ObjectBehavior
     }
 
     function it_creates_null_function_arguments_for_ReflectionFunction_if_no_collaborator_found(
-        ReflectionFunction $function, ReflectionParameter $param1, ReflectionParameter $param2
+    ReflectionFunction $function, ReflectionParameter $param1, ReflectionParameter $param2
     ) {
         $this->set('arg1', '123');
         $this->set('arg2', '456');
@@ -64,4 +58,5 @@ class CollaboratorManagerSpec extends ObjectBehavior
 
         $this->getArgumentsFor($function)->shouldReturn(array(null, '789'));
     }
+
 }

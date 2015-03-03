@@ -13,38 +13,33 @@ namespace Symfony\Component\HttpFoundation\Tests;
 
 use Symfony\Component\HttpFoundation\HeaderBag;
 
-class HeaderBagTest extends \PHPUnit_Framework_TestCase
-{
+class HeaderBagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @covers Symfony\Component\HttpFoundation\HeaderBag::__construct
      */
-    public function testConstructor()
-    {
+    public function testConstructor() {
         $bag = new HeaderBag(array('foo' => 'bar'));
         $this->assertTrue($bag->has('foo'));
     }
 
-    public function testToStringNull()
-    {
+    public function testToStringNull() {
         $bag = new HeaderBag();
         $this->assertEquals('', $bag->__toString());
     }
 
-    public function testToStringNotNull()
-    {
+    public function testToStringNotNull() {
         $bag = new HeaderBag(array('foo' => 'bar'));
         $this->assertEquals("Foo: bar\r\n", $bag->__toString());
     }
 
-    public function testKeys()
-    {
+    public function testKeys() {
         $bag = new HeaderBag(array('foo' => 'bar'));
         $keys = $bag->keys();
         $this->assertEquals("foo", $keys[0]);
     }
 
-    public function testGetDate()
-    {
+    public function testGetDate() {
         $bag = new HeaderBag(array('foo' => 'Tue, 4 Sep 2012 20:00:00 +0200'));
         $headerDate = $bag->getDate('foo');
         $this->assertInstanceOf('DateTime', $headerDate);
@@ -53,14 +48,12 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testGetDateException()
-    {
+    public function testGetDateException() {
         $bag = new HeaderBag(array('foo' => 'Tue'));
         $headerDate = $bag->getDate('foo');
     }
 
-    public function testGetCacheControlHeader()
-    {
+    public function testGetCacheControlHeader() {
         $bag = new HeaderBag();
         $bag->addCacheControlDirective('public', '#a');
         $this->assertTrue($bag->hasCacheControlDirective('public'));
@@ -70,8 +63,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\HttpFoundation\HeaderBag::all
      */
-    public function testAll()
-    {
+    public function testAll() {
         $bag = new HeaderBag(array('foo' => 'bar'));
         $this->assertEquals(array('foo' => array('bar')), $bag->all(), '->all() gets all the input');
 
@@ -82,8 +74,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\HttpFoundation\HeaderBag::replace
      */
-    public function testReplace()
-    {
+    public function testReplace() {
         $bag = new HeaderBag(array('foo' => 'bar'));
 
         $bag->replace(array('NOPE' => 'BAR'));
@@ -94,8 +85,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\HttpFoundation\HeaderBag::get
      */
-    public function testGet()
-    {
+    public function testGet() {
         $bag = new HeaderBag(array('foo' => 'bar', 'fuzz' => 'bizz'));
         $this->assertEquals('bar', $bag->get('foo'), '->get return current value');
         $this->assertEquals('bar', $bag->get('FoO'), '->get key in case insensitive');
@@ -111,8 +101,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('bar', 'bor'), $bag->get('foo', 'nope', false), '->get return all values as array');
     }
 
-    public function testSetAssociativeArray()
-    {
+    public function testSetAssociativeArray() {
         $bag = new HeaderBag();
         $bag->set('foo', array('bad-assoc-index' => 'value'));
         $this->assertSame('value', $bag->get('foo'));
@@ -122,8 +111,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\HttpFoundation\HeaderBag::contains
      */
-    public function testContains()
-    {
+    public function testContains() {
         $bag = new HeaderBag(array('foo' => 'bar', 'fuzz' => 'bizz'));
         $this->assertTrue($bag->contains('foo', 'bar'), '->contains first value');
         $this->assertTrue($bag->contains('fuzz', 'bizz'), '->contains second value');
@@ -137,8 +125,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($bag->contains('foo', 'nope'), '->contains unknown value');
     }
 
-    public function testCacheControlDirectiveAccessors()
-    {
+    public function testCacheControlDirectiveAccessors() {
         $bag = new HeaderBag();
         $bag->addCacheControlDirective('public');
 
@@ -155,8 +142,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($bag->hasCacheControlDirective('max-age'));
     }
 
-    public function testCacheControlDirectiveParsing()
-    {
+    public function testCacheControlDirectiveParsing() {
         $bag = new HeaderBag(array('cache-control' => 'public, max-age=10'));
         $this->assertTrue($bag->hasCacheControlDirective('public'));
         $this->assertTrue($bag->getCacheControlDirective('public'));
@@ -168,15 +154,13 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('max-age=10, public, s-maxage=100', $bag->get('cache-control'));
     }
 
-    public function testCacheControlDirectiveParsingQuotedZero()
-    {
+    public function testCacheControlDirectiveParsingQuotedZero() {
         $bag = new HeaderBag(array('cache-control' => 'max-age="0"'));
         $this->assertTrue($bag->hasCacheControlDirective('max-age'));
         $this->assertEquals(0, $bag->getCacheControlDirective('max-age'));
     }
 
-    public function testCacheControlDirectiveOverrideWithReplace()
-    {
+    public function testCacheControlDirectiveOverrideWithReplace() {
         $bag = new HeaderBag(array('cache-control' => 'private, max-age=100'));
         $bag->replace(array('cache-control' => 'public, max-age=10'));
         $this->assertTrue($bag->hasCacheControlDirective('public'));
@@ -189,8 +173,7 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\HttpFoundation\HeaderBag::getIterator
      */
-    public function testGetIterator()
-    {
+    public function testGetIterator() {
         $headers = array('foo' => 'bar', 'hello' => 'world', 'third' => 'charm');
         $headerBag = new HeaderBag($headers);
 
@@ -206,11 +189,11 @@ class HeaderBagTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Symfony\Component\HttpFoundation\HeaderBag::count
      */
-    public function testCount()
-    {
+    public function testCount() {
         $headers = array('foo' => 'bar', 'HELLO' => 'WORLD');
         $headerBag = new HeaderBag($headers);
 
         $this->assertEquals(count($headers), count($headerBag));
     }
+
 }

@@ -25,8 +25,8 @@ use Monolog\Logger;
  * @author Rafael Dohms <rafael@doh.ms>
  * @see    https://www.hipchat.com/docs/api
  */
-class HipChatHandler extends SocketHandler
-{
+class HipChatHandler extends SocketHandler {
+
     /**
      * The maximum allowed length for the name used in the "from" field.
      */
@@ -73,13 +73,12 @@ class HipChatHandler extends SocketHandler
      * @param string  $format The format of the messages (default to text, can be set to html if you have html in the messages)
      * @param string  $host   The HipChat server hostname.
      */
-    public function __construct($token, $room, $name = 'Monolog', $notify = false, $level = Logger::CRITICAL, $bubble = true, $useSSL = true, $format = 'text', $host = 'api.hipchat.com')
-    {
+    public function __construct($token, $room, $name = 'Monolog', $notify = false, $level = Logger::CRITICAL, $bubble = true, $useSSL = true, $format = 'text', $host = 'api.hipchat.com') {
         if (!$this->validateStringLength($name, static::MAXIMUM_NAME_LENGTH)) {
             throw new \InvalidArgumentException('The supplied name is too long. HipChat\'s v1 API supports names up to 15 UTF-8 characters.');
         }
 
-        $connectionString = $useSSL ? 'ssl://'.$host.':443' : $host.':80';
+        $connectionString = $useSSL ? 'ssl://' . $host . ':443' : $host . ':80';
         parent::__construct($connectionString, $level, $bubble);
 
         $this->token = $token;
@@ -95,8 +94,7 @@ class HipChatHandler extends SocketHandler
      * @param  array  $record
      * @return string
      */
-    protected function generateDataStream($record)
-    {
+    protected function generateDataStream($record) {
         $content = $this->buildContent($record);
 
         return $this->buildHeader($content) . $content;
@@ -108,8 +106,7 @@ class HipChatHandler extends SocketHandler
      * @param  array  $record
      * @return string
      */
-    private function buildContent($record)
-    {
+    private function buildContent($record) {
         $dataArray = array(
             'from' => $this->name,
             'room_id' => $this->room,
@@ -128,9 +125,8 @@ class HipChatHandler extends SocketHandler
      * @param  string $content
      * @return string
      */
-    private function buildHeader($content)
-    {
-        $header = "POST /v1/rooms/message?format=json&auth_token=".$this->token." HTTP/1.1\r\n";
+    private function buildHeader($content) {
+        $header = "POST /v1/rooms/message?format=json&auth_token=" . $this->token . " HTTP/1.1\r\n";
         $header .= "Host: api.hipchat.com\r\n";
         $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
         $header .= "Content-Length: " . strlen($content) . "\r\n";
@@ -145,8 +141,7 @@ class HipChatHandler extends SocketHandler
      * @param  integer $level
      * @return string
      */
-    protected function getAlertColor($level)
-    {
+    protected function getAlertColor($level) {
         switch (true) {
             case $level >= Logger::ERROR:
                 return 'red';
@@ -166,8 +161,7 @@ class HipChatHandler extends SocketHandler
      *
      * @param array $record
      */
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         parent::write($record);
         $this->closeSocket();
     }
@@ -175,8 +169,7 @@ class HipChatHandler extends SocketHandler
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records)
-    {
+    public function handleBatch(array $records) {
         if (count($records) == 0) {
             return true;
         }
@@ -206,8 +199,7 @@ class HipChatHandler extends SocketHandler
      * @param $records
      * @return array
      */
-    private function combineRecords($records)
-    {
+    private function combineRecords($records) {
         $batchRecord = null;
         $batchRecords = array();
         $messages = array();
@@ -234,10 +226,10 @@ class HipChatHandler extends SocketHandler
             $formattedMessageStr = implode('', $formattedMessages);
 
             $batchRecord = array(
-                'message'   => $messgeStr,
+                'message' => $messgeStr,
                 'formatted' => $formattedMessageStr,
-                'context'   => array(),
-                'extra'     => array(),
+                'context' => array(),
+                'extra' => array(),
             );
 
             if (!$this->validateStringLength($batchRecord['formatted'], static::MAXIMUM_MESSAGE_LENGTH)) {
@@ -262,12 +254,11 @@ class HipChatHandler extends SocketHandler
         // Set the max level and datetime for all records
         foreach ($batchRecords as &$batchRecord) {
             $batchRecord = array_merge(
-                $batchRecord,
-                array(
-                    'level'      => $level,
-                    'level_name' => $levelName,
-                    'datetime'   => $datetime
-                )
+                    $batchRecord, array(
+                'level' => $level,
+                'level_name' => $levelName,
+                'datetime' => $datetime
+                    )
             );
         }
 
@@ -289,12 +280,12 @@ class HipChatHandler extends SocketHandler
      *
      * @return bool
      */
-    private function validateStringLength($str, $length)
-    {
+    private function validateStringLength($str, $length) {
         if (function_exists('mb_strlen')) {
             return (mb_strlen($str) <= $length);
         }
 
         return (strlen($str) <= $length);
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,8 +22,8 @@ use phpDocumentor\Reflection\DocBlock;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class Tag implements \Reflector
-{
+class Tag implements \Reflector {
+
     /**
      * PCRE regular expression matching a tag name.
      */
@@ -51,7 +52,7 @@ class Tag implements \Reflector
 
     /** @var DocBlock The DocBlock which this tag belongs to. */
     protected $docblock = null;
-    
+
     /**
      * @var array An array with a tag as a key, and an FQCN to a class that
      *     handles it as an array value. The class is expected to inherit this
@@ -59,43 +60,43 @@ class Tag implements \Reflector
      */
     private static $tagHandlerMappings = array(
         'author'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\AuthorTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\AuthorTag',
         'covers'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\CoversTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\CoversTag',
         'deprecated'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\DeprecatedTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\DeprecatedTag',
         'example'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ExampleTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\ExampleTag',
         'link'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\LinkTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\LinkTag',
         'method'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\MethodTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\MethodTag',
         'param'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ParamTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\ParamTag',
         'property-read'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyReadTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyReadTag',
         'property'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyTag',
         'property-write'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyWriteTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\PropertyWriteTag',
         'return'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ReturnTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\ReturnTag',
         'see'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\SeeTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\SeeTag',
         'since'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\SinceTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\SinceTag',
         'source'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\SourceTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\SourceTag',
         'throw'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
         'throws'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag',
         'uses'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\UsesTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\UsesTag',
         'var'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\VarTag',
+        => '\phpDocumentor\Reflection\DocBlock\Tag\VarTag',
         'version'
-            => '\phpDocumentor\Reflection\DocBlock\Tag\VersionTag'
+        => '\phpDocumentor\Reflection\DocBlock\Tag\VersionTag'
     );
 
     /**
@@ -110,17 +111,13 @@ class Tag implements \Reflector
      * @return static A new tag object.
      */
     final public static function createInstance(
-        $tag_line,
-        DocBlock $docblock = null,
-        Location $location = null
+    $tag_line, DocBlock $docblock = null, Location $location = null
     ) {
         if (!preg_match(
-            '/^@(' . self::REGEX_TAGNAME . ')(?:\s*([^\s].*)|$)?/us',
-            $tag_line,
-            $matches
-        )) {
+                        '/^@(' . self::REGEX_TAGNAME . ')(?:\s*([^\s].*)|$)?/us', $tag_line, $matches
+                )) {
             throw new \InvalidArgumentException(
-                'Invalid tag_line detected: ' . $tag_line
+            'Invalid tag_line detected: ' . $tag_line
             );
         }
 
@@ -128,9 +125,8 @@ class Tag implements \Reflector
         if (isset(self::$tagHandlerMappings[$matches[1]])) {
             $handler = self::$tagHandlerMappings[$matches[1]];
         } elseif (isset($docblock)) {
-            $tagName = (string)new Type\Collection(
-                array($matches[1]),
-                $docblock->getContext()
+            $tagName = (string) new Type\Collection(
+                    array($matches[1]), $docblock->getContext()
             );
 
             if (isset(self::$tagHandlerMappings[$tagName])) {
@@ -139,10 +135,7 @@ class Tag implements \Reflector
         }
 
         return new $handler(
-            $matches[1],
-            isset($matches[2]) ? $matches[2] : '',
-            $docblock,
-            $location
+                $matches[1], isset($matches[2]) ? $matches[2] : '', $docblock, $location
         );
     }
 
@@ -160,19 +153,15 @@ class Tag implements \Reflector
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
-    final public static function registerTagHandler($tag, $handler)
-    {
-        $tag = trim((string)$tag);
+    final public static function registerTagHandler($tag, $handler) {
+        $tag = trim((string) $tag);
 
         if (null === $handler) {
             unset(self::$tagHandlerMappings[$tag]);
             return true;
         }
 
-        if ('' !== $tag
-            && class_exists($handler, true)
-            && is_subclass_of($handler, __CLASS__)
-            && !strpos($tag, '\\') //Accept no slash, and 1st slash at offset 0.
+        if ('' !== $tag && class_exists($handler, true) && is_subclass_of($handler, __CLASS__) && !strpos($tag, '\\') //Accept no slash, and 1st slash at offset 0.
         ) {
             self::$tagHandlerMappings[$tag] = $handler;
             return true;
@@ -190,16 +179,13 @@ class Tag implements \Reflector
      * @param Location $location Location of the tag.
      */
     public function __construct(
-        $name,
-        $content,
-        DocBlock $docblock = null,
-        Location $location = null
+    $name, $content, DocBlock $docblock = null, Location $location = null
     ) {
         $this
-            ->setName($name)
-            ->setContent($content)
-            ->setDocBlock($docblock)
-            ->setLocation($location);
+                ->setName($name)
+                ->setContent($content)
+                ->setDocBlock($docblock)
+                ->setLocation($location);
     }
 
     /**
@@ -207,8 +193,7 @@ class Tag implements \Reflector
      *
      * @return string The name of this tag.
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->tag;
     }
 
@@ -220,11 +205,10 @@ class Tag implements \Reflector
      * @return $this
      * @throws \InvalidArgumentException When an invalid tag name is provided.
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         if (!preg_match('/^' . self::REGEX_TAGNAME . '$/u', $name)) {
             throw new \InvalidArgumentException(
-                'Invalid tag name supplied: ' . $name
+            'Invalid tag name supplied: ' . $name
             );
         }
 
@@ -238,8 +222,7 @@ class Tag implements \Reflector
      *
      * @return string
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
             $this->content = $this->description;
         }
@@ -254,8 +237,7 @@ class Tag implements \Reflector
      * 
      * @return $this
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         $this->setDescription($content);
         $this->content = $content;
 
@@ -267,8 +249,7 @@ class Tag implements \Reflector
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -279,8 +260,7 @@ class Tag implements \Reflector
      * 
      * @return $this
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->content = null;
         $this->parsedDescription = null;
         $this->description = trim($description);
@@ -294,8 +274,7 @@ class Tag implements \Reflector
      * @return array An array of strings and tag objects, in the order they
      *     occur within the description.
      */
-    public function getParsedDescription()
-    {
+    public function getParsedDescription() {
         if (null === $this->parsedDescription) {
             $description = new Description($this->description, $this->docblock);
             $this->parsedDescription = $description->getParsedContents();
@@ -308,8 +287,7 @@ class Tag implements \Reflector
      * 
      * @return DocBlock The docblock this tag belongs to.
      */
-    public function getDocBlock()
-    {
+    public function getDocBlock() {
         return $this->docblock;
     }
 
@@ -321,8 +299,7 @@ class Tag implements \Reflector
      * 
      * @return $this
      */
-    public function setDocBlock(DocBlock $docblock = null)
-    {
+    public function setDocBlock(DocBlock $docblock = null) {
         $this->docblock = $docblock;
 
         return $this;
@@ -333,11 +310,10 @@ class Tag implements \Reflector
      *
      * @return Location The tag's location.
      */
-    public function getLocation()
-    {
+    public function getLocation() {
         return $this->location;
     }
-    
+
     /**
      * Sets the location of the tag.
      * 
@@ -345,8 +321,7 @@ class Tag implements \Reflector
      * 
      * @return $this
      */
-    public function setLocation(Location $location = null)
-    {
+    public function setLocation(Location $location = null) {
         $this->location = $location;
 
         return $this;
@@ -360,8 +335,7 @@ class Tag implements \Reflector
      * @return void
      * @codeCoverageIgnore Not yet implemented
      */
-    public static function export()
-    {
+    public static function export() {
         throw new \Exception('Not yet implemented');
     }
 
@@ -370,8 +344,8 @@ class Tag implements \Reflector
      *
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         return "@{$this->getName()} {$this->getContent()}";
     }
+
 }

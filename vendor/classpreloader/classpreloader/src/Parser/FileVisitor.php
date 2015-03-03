@@ -12,8 +12,8 @@ use PhpParser\Node\Scalar\String;
  *
  * This is used to replace all references to __FILE__ with the actual file.
  */
-class FileVisitor extends AbstractNodeVisitor
-{
+class FileVisitor extends AbstractNodeVisitor {
+
     /**
      * Should we skip the file if it contains a file constant?
      *
@@ -28,8 +28,7 @@ class FileVisitor extends AbstractNodeVisitor
      *
      * @return void
      */
-    public function __construct($skip = false)
-    {
+    public function __construct($skip = false) {
         $this->skip = $skip;
     }
 
@@ -40,8 +39,7 @@ class FileVisitor extends AbstractNodeVisitor
      *
      * @return void
      */
-    public function enterNode(Node $node)
-    {
+    public function enterNode(Node $node) {
         if ($node instanceof File) {
             if ($this->skip) {
                 throw new SkipFileException('__FILE__ constant found, skipping...');
@@ -50,4 +48,5 @@ class FileVisitor extends AbstractNodeVisitor
             return new String($this->getFilename());
         }
     }
+
 }

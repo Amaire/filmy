@@ -18,8 +18,8 @@ namespace Psy\Presenter;
  * value presentation to the most recently registered Presenter capable of
  * presenting that value.
  */
-class PresenterManager implements Presenter, \IteratorAggregate
-{
+class PresenterManager implements Presenter, \IteratorAggregate {
+
     protected $presenters = array();
 
     /**
@@ -27,8 +27,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * Initializes default Presenters.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->addPresenters(array(
             new ObjectPresenter(), // lowest precedence
             new ArrayPresenter(),
@@ -48,8 +47,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @param Presenter[] $presenters
      */
-    public function addPresenters(array $presenters)
-    {
+    public function addPresenters(array $presenters) {
         foreach ($presenters as $presenter) {
             $this->addPresenter($presenter);
         }
@@ -66,8 +64,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @param Presenter $presenter
      */
-    public function addPresenter(Presenter $presenter)
-    {
+    public function addPresenter(Presenter $presenter) {
         $this->removePresenter($presenter);
 
         if ($presenter instanceof PresenterManagerAware) {
@@ -82,8 +79,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @param Presenter $presenter
      */
-    public function removePresenter(Presenter $presenter)
-    {
+    public function removePresenter(Presenter $presenter) {
         foreach ($this->presenters as $i => $p) {
             if ($p === $presenter) {
                 unset($this->presenters[$i]);
@@ -98,8 +94,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return $this->getPresenter($value) !== null;
     }
 
@@ -112,8 +107,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @return string
      */
-    public function presentRef($value)
-    {
+    public function presentRef($value) {
         if ($presenter = $this->getPresenter($value)) {
             return $presenter->presentRef($value);
         }
@@ -133,8 +127,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @return string
      */
-    public function present($value, $depth = null, $options = 0)
-    {
+    public function present($value, $depth = null, $options = 0) {
         if ($presenter = $this->getPresenter($value)) {
             return $presenter->present($value, $depth, $options);
         }
@@ -147,8 +140,7 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
-    {
+    public function getIterator() {
         return new \ArrayIterator(array_reverse($this->presenters));
     }
 
@@ -161,12 +153,12 @@ class PresenterManager implements Presenter, \IteratorAggregate
      *
      * @return null|Presenter
      */
-    protected function getPresenter($value)
-    {
+    protected function getPresenter($value) {
         foreach ($this->presenters as $presenter) {
             if ($presenter->canPresent($value)) {
                 return $presenter;
             }
         }
     }
+
 }

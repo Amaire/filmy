@@ -44,8 +44,8 @@ use LogicException;
  * @method assertAbsent($path)
  * @method Filesystem addPlugin(PluginInterface $plugin)
  */
-class MountManager
-{
+class MountManager {
+
     use PluggableTrait;
 
     /**
@@ -58,8 +58,7 @@ class MountManager
      *
      * @param array $filesystems
      */
-    public function __construct(array $filesystems = [])
-    {
+    public function __construct(array $filesystems = []) {
         $this->mountFilesystems($filesystems);
     }
 
@@ -70,8 +69,7 @@ class MountManager
      *
      * @return $this
      */
-    public function mountFilesystems(array $filesystems)
-    {
+    public function mountFilesystems(array $filesystems) {
         foreach ($filesystems as $prefix => $filesystem) {
             $this->mountFilesystem($prefix, $filesystem);
         }
@@ -87,10 +85,9 @@ class MountManager
      *
      * @return $this
      */
-    public function mountFilesystem($prefix, FilesystemInterface $filesystem)
-    {
-        if (! is_string($prefix)) {
-            throw new InvalidArgumentException(__METHOD__.' expects argument #1 to be a string.');
+    public function mountFilesystem($prefix, FilesystemInterface $filesystem) {
+        if (!is_string($prefix)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #1 to be a string.');
         }
 
         $this->filesystems[$prefix] = $filesystem;
@@ -107,10 +104,9 @@ class MountManager
      *
      * @return FilesystemInterface
      */
-    public function getFilesystem($prefix)
-    {
-        if (! isset($this->filesystems[$prefix])) {
-            throw new LogicException('No filesystem mounted with prefix '.$prefix);
+    public function getFilesystem($prefix) {
+        if (!isset($this->filesystems[$prefix])) {
+            throw new LogicException('No filesystem mounted with prefix ' . $prefix);
         }
 
         return $this->filesystems[$prefix];
@@ -123,20 +119,19 @@ class MountManager
      *
      * @return array [:prefix, :arguments]
      */
-    public function filterPrefix(array $arguments)
-    {
+    public function filterPrefix(array $arguments) {
         if (empty($arguments)) {
             throw new LogicException('At least one argument needed');
         }
 
         $path = array_shift($arguments);
 
-        if (! is_string($path)) {
+        if (!is_string($path)) {
             throw new InvalidArgumentException('First argument should be a string');
         }
 
-        if (! preg_match('#^[a-zA-Z0-9]+\:\/\/.*#', $path)) {
-            throw new InvalidArgumentException('No prefix detected in for path: '.$path);
+        if (!preg_match('#^[a-zA-Z0-9]+\:\/\/.*#', $path)) {
+            throw new InvalidArgumentException('No prefix detected in for path: ' . $path);
         }
 
         list($prefix, $path) = explode('://', $path, 2);
@@ -151,8 +146,7 @@ class MountManager
      *
      * @return array
      */
-    public function listContents($directory = '', $recursive = false)
-    {
+    public function listContents($directory = '', $recursive = false) {
         list($prefix, $arguments) = $this->filterPrefix([$directory]);
         $filesystem = $this->getFilesystem($prefix);
         $directory = array_shift($arguments);
@@ -173,8 +167,7 @@ class MountManager
      *
      * @return mixed
      */
-    public function __call($method, $arguments)
-    {
+    public function __call($method, $arguments) {
         list($prefix, $arguments) = $this->filterPrefix($arguments);
 
         $filesystem = $this->getFilesystem($prefix);
@@ -196,8 +189,7 @@ class MountManager
      *
      * @return bool
      */
-    public function copy($from, $to)
-    {
+    public function copy($from, $to) {
         list($prefixFrom, $arguments) = $this->filterPrefix([$from]);
 
         $fsFrom = $this->getFilesystem($prefixFrom);
@@ -210,7 +202,7 @@ class MountManager
         list($prefixTo, $arguments) = $this->filterPrefix([$to]);
 
         $fsTo = $this->getFilesystem($prefixTo);
-        $result =  call_user_func_array([$fsTo, 'writeStream'], array_merge($arguments, [$buffer]));
+        $result = call_user_func_array([$fsTo, 'writeStream'], array_merge($arguments, [$buffer]));
 
         if (is_resource($buffer)) {
             fclose($buffer);
@@ -225,8 +217,7 @@ class MountManager
      * @param $from
      * @param $to
      */
-    public function move($from, $to)
-    {
+    public function move($from, $to) {
         $copied = $this->copy($from, $to);
 
         if ($copied) {
@@ -235,4 +226,5 @@ class MountManager
 
         return false;
     }
+
 }

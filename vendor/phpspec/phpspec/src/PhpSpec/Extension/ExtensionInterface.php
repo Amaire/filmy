@@ -19,8 +19,8 @@ use PhpSpec\ServiceContainer;
  * Interface ExtensionInterface is used for PhpSpec extensions to interface
  * with PhpSpec through the service container
  */
-interface ExtensionInterface
-{
+interface ExtensionInterface {
+
     /**
      * @param ServiceContainer $container
      */

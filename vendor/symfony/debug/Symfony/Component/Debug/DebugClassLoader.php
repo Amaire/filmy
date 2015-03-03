@@ -24,8 +24,8 @@ namespace Symfony\Component\Debug;
  *
  * @api
  */
-class DebugClassLoader
-{
+class DebugClassLoader {
+
     private $classLoader;
     private $isFinder;
     private $wasFinder;
@@ -39,8 +39,7 @@ class DebugClassLoader
      * @api
      * @deprecated since 2.5, passing an object is deprecated and support for it will be removed in 3.0
      */
-    public function __construct($classLoader)
-    {
+    public function __construct($classLoader) {
         $this->wasFinder = is_object($classLoader) && method_exists($classLoader, 'findFile');
 
         if ($this->wasFinder) {
@@ -63,16 +62,14 @@ class DebugClassLoader
      *
      * @deprecated since 2.5, returning an object is deprecated and support for it will be removed in 3.0
      */
-    public function getClassLoader()
-    {
+    public function getClassLoader() {
         return $this->wasFinder ? $this->classLoader[0] : $this->classLoader;
     }
 
     /**
      * Wraps all autoloaders
      */
-    public static function enable()
-    {
+    public static function enable() {
         // Ensures we don't hit https://bugs.php.net/42098
         class_exists('Symfony\Component\Debug\ErrorHandler');
         class_exists('Psr\Log\LogLevel');
@@ -97,8 +94,7 @@ class DebugClassLoader
     /**
      * Disables the wrapping.
      */
-    public static function disable()
-    {
+    public static function disable() {
         if (!is_array($functions = spl_autoload_functions())) {
             return;
         }
@@ -125,8 +121,7 @@ class DebugClassLoader
      *
      * @deprecated Deprecated since 2.5, to be removed in 3.0.
      */
-    public function findFile($class)
-    {
+    public function findFile($class) {
         if ($this->wasFinder) {
             return $this->classLoader[0]->findFile($class);
         }
@@ -141,8 +136,7 @@ class DebugClassLoader
      *
      * @throws \RuntimeException
      */
-    public function loadClass($class)
-    {
+    public function loadClass($class) {
         ErrorHandler::stackErrors();
 
         try {
@@ -196,8 +190,8 @@ class DebugClassLoader
                     chdir(substr($real, 0, $basename));
                     $basename = substr($real, $basename + 1);
                     // glob() patterns are case-sensitive even if the underlying fs is not
-                    if (!in_array($basename, glob($basename.'*', GLOB_NOSORT), true)) {
-                        $real = getcwd().'/';
+                    if (!in_array($basename, glob($basename . '*', GLOB_NOSORT), true)) {
+                        $real = getcwd() . '/';
                         $h = opendir('.');
                         while (false !== $f = readdir($h)) {
                             if (0 === strcasecmp($f, $basename)) {
@@ -210,8 +204,7 @@ class DebugClassLoader
                     chdir($cwd);
                 }
 
-                if (0 === substr_compare($real, $tail, -strlen($tail), strlen($tail), true)
-                  && 0 !== substr_compare($real, $tail, -strlen($tail), strlen($tail), false)
+                if (0 === substr_compare($real, $tail, -strlen($tail), strlen($tail), true) && 0 !== substr_compare($real, $tail, -strlen($tail), strlen($tail), false)
                 ) {
                     throw new \RuntimeException(sprintf('Case mismatch between class and source file names: %s vs %s', $class, $real));
                 }
@@ -220,4 +213,5 @@ class DebugClassLoader
             return true;
         }
     }
+
 }

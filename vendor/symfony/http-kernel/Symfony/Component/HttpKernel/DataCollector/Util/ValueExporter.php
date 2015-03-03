@@ -14,8 +14,8 @@ namespace Symfony\Component\HttpKernel\DataCollector\Util;
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class ValueExporter
-{
+class ValueExporter {
+
     /**
      * Converts a PHP value to a string.
      *
@@ -25,8 +25,7 @@ class ValueExporter
      *
      * @return string The string representation of the given value
      */
-    public function exportValue($value, $depth = 1, $deep = false)
-    {
+    public function exportValue($value, $depth = 1, $deep = false) {
         if (is_object($value)) {
             if ($value instanceof \DateTime || $value instanceof \DateTimeInterface) {
                 return sprintf('Object(%s) - %s', get_class($value), $value->format(\DateTime::ISO8601));
@@ -75,4 +74,5 @@ class ValueExporter
 
         return (string) $value;
     }
+
 }

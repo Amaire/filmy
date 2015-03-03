@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface VoterInterface
-{
+interface VoterInterface {
+
     const ACCESS_GRANTED = 1;
     const ACCESS_ABSTAIN = 0;
     const ACCESS_DENIED = -1;

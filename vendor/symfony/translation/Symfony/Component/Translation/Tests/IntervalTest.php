@@ -13,26 +13,23 @@ namespace Symfony\Component\Translation\Tests;
 
 use Symfony\Component\Translation\Interval;
 
-class IntervalTest extends \PHPUnit_Framework_TestCase
-{
+class IntervalTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider getTests
      */
-    public function testTest($expected, $number, $interval)
-    {
+    public function testTest($expected, $number, $interval) {
         $this->assertEquals($expected, Interval::test($number, $interval));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testTestException()
-    {
+    public function testTestException() {
         Interval::test(1, 'foobar');
     }
 
-    public function getTests()
-    {
+    public function getTests() {
         return array(
             array(true, 3, '{1,2, 3 ,4}'),
             array(false, 10, '{1,2, 3 ,4}'),
@@ -45,4 +42,5 @@ class IntervalTest extends \PHPUnit_Framework_TestCase
             array(true, -log(0), '[-2,+Inf]'),
         );
     }
+
 }

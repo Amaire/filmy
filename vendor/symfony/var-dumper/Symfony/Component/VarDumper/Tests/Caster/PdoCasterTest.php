@@ -17,10 +17,9 @@ use Symfony\Component\VarDumper\Cloner\Stub;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class PdoCasterTest extends \PHPUnit_Framework_TestCase
-{
-    public function testCastPdo()
-    {
+class PdoCasterTest extends \PHPUnit_Framework_TestCase {
+
+    public function testCastPdo() {
         if (!extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('pdo_sqlite extension is required');
         }
@@ -46,8 +45,8 @@ class PdoCasterTest extends \PHPUnit_Framework_TestCase
                 'CLIENT_VERSION' => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
                 'SERVER_VERSION' => $pdo->getAttribute(\PDO::ATTR_SERVER_VERSION),
                 'STATEMENT_CLASS' => array(
-                  'PDOStatement',
-                  array($pdo),
+                    'PDOStatement',
+                    array($pdo),
                 ),
                 'DEFAULT_FETCH_MODE' => $attr['DEFAULT_FETCH_MODE'],
             ),
@@ -55,4 +54,5 @@ class PdoCasterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($xCast, $cast);
     }
+
 }

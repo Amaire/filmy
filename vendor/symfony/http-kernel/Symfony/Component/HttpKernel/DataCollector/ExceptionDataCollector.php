@@ -20,13 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ExceptionDataCollector extends DataCollector
-{
+class ExceptionDataCollector extends DataCollector {
+
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Exception $exception = null)
-    {
+    public function collect(Request $request, Response $response, \Exception $exception = null) {
         if (null !== $exception) {
             $this->data = array(
                 'exception' => FlattenException::create($exception),
@@ -39,8 +38,7 @@ class ExceptionDataCollector extends DataCollector
      *
      * @return bool true if the exception is not null, false otherwise
      */
-    public function hasException()
-    {
+    public function hasException() {
         return isset($this->data['exception']);
     }
 
@@ -49,8 +47,7 @@ class ExceptionDataCollector extends DataCollector
      *
      * @return \Exception The exception
      */
-    public function getException()
-    {
+    public function getException() {
         return $this->data['exception'];
     }
 
@@ -59,8 +56,7 @@ class ExceptionDataCollector extends DataCollector
      *
      * @return string The exception message
      */
-    public function getMessage()
-    {
+    public function getMessage() {
         return $this->data['exception']->getMessage();
     }
 
@@ -69,8 +65,7 @@ class ExceptionDataCollector extends DataCollector
      *
      * @return int The exception code
      */
-    public function getCode()
-    {
+    public function getCode() {
         return $this->data['exception']->getCode();
     }
 
@@ -79,8 +74,7 @@ class ExceptionDataCollector extends DataCollector
      *
      * @return int The status code
      */
-    public function getStatusCode()
-    {
+    public function getStatusCode() {
         return $this->data['exception']->getStatusCode();
     }
 
@@ -89,16 +83,15 @@ class ExceptionDataCollector extends DataCollector
      *
      * @return array The exception trace
      */
-    public function getTrace()
-    {
+    public function getTrace() {
         return $this->data['exception']->getTrace();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'exception';
     }
+
 }

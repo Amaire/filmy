@@ -14,8 +14,8 @@ namespace Psy\Presenter;
 /**
  * An object Presenter.
  */
-class ObjectPresenter extends RecursivePresenter
-{
+class ObjectPresenter extends RecursivePresenter {
+
     const FMT = '<object>\\<<class>%s</class> <strong>#%s</strong>></object>';
 
     /**
@@ -25,8 +25,7 @@ class ObjectPresenter extends RecursivePresenter
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return is_object($value);
     }
 
@@ -37,8 +36,7 @@ class ObjectPresenter extends RecursivePresenter
      *
      * @return string
      */
-    public function presentRef($value)
-    {
+    public function presentRef($value) {
         return sprintf(self::FMT, get_class($value), spl_object_hash($value));
     }
 
@@ -51,8 +49,7 @@ class ObjectPresenter extends RecursivePresenter
      *
      * @return string
      */
-    protected function presentValue($value, $depth = null, $options = 0)
-    {
+    protected function presentValue($value, $depth = null, $options = 0) {
         if ($depth === 0) {
             return $this->presentRef($value);
         }
@@ -74,8 +71,7 @@ class ObjectPresenter extends RecursivePresenter
      *
      * @return string
      */
-    protected function formatProperties($props)
-    {
+    protected function formatProperties($props) {
         if (empty($props)) {
             return '{}';
         }
@@ -86,7 +82,7 @@ class ObjectPresenter extends RecursivePresenter
         }
 
         $template = sprintf('{%s%s%%s%s}', PHP_EOL, self::INDENT, PHP_EOL);
-        $glue     = sprintf(',%s%s', PHP_EOL, self::INDENT);
+        $glue = sprintf(',%s%s', PHP_EOL, self::INDENT);
 
         return sprintf($template, implode($glue, $formatted));
     }
@@ -100,8 +96,7 @@ class ObjectPresenter extends RecursivePresenter
      *
      * @return array
      */
-    protected function getProperties($value, \ReflectionClass $class, $propertyFilter)
-    {
+    protected function getProperties($value, \ReflectionClass $class, $propertyFilter) {
         $deprecated = false;
         set_error_handler(function ($errno, $errstr) use (&$deprecated) {
             if (in_array($errno, array(E_DEPRECATED, E_USER_DEPRECATED))) {
@@ -129,8 +124,7 @@ class ObjectPresenter extends RecursivePresenter
         return $props;
     }
 
-    protected function propertyKey(\ReflectionProperty $prop)
-    {
+    protected function propertyKey(\ReflectionProperty $prop) {
         $key = $prop->getName();
         if ($prop->isProtected()) {
             return sprintf('<protected>%s</protected>', $key);
@@ -140,4 +134,5 @@ class ObjectPresenter extends RecursivePresenter
 
         return $key;
     }
+
 }

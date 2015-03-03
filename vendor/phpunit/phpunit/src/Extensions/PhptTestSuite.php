@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.4
  */
-class PHPUnit_Extensions_PhptTestSuite extends PHPUnit_Framework_TestSuite
-{
+class PHPUnit_Extensions_PhptTestSuite extends PHPUnit_Framework_TestSuite {
+
     /**
      * Constructs a new TestSuite for .phpt test cases.
      *
@@ -29,13 +30,12 @@ class PHPUnit_Extensions_PhptTestSuite extends PHPUnit_Framework_TestSuite
      *                                                key being the name if the setting, value the ini value.
      * @throws PHPUnit_Framework_Exception
      */
-    public function __construct($directory, array $options = array())
-    {
+    public function __construct($directory, array $options = array()) {
         if (is_string($directory) && is_dir($directory)) {
             $this->setName($directory);
 
             $facade = new File_Iterator_Facade;
-            $files  = $facade->getFilesAsArray($directory, '.phpt');
+            $files = $facade->getFilesAsArray($directory, '.phpt');
 
             foreach ($files as $file) {
                 $this->addTestFile($file, $options);
@@ -44,4 +44,5 @@ class PHPUnit_Extensions_PhptTestSuite extends PHPUnit_Framework_TestSuite
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'directory name');
         }
     }
+
 }

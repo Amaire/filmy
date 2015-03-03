@@ -34,12 +34,8 @@ use ArrayAccess;
  * @method void shouldHaveType($type)
  * @method \PhpSpec\Wrapper\Subject\Expectation\DuringCall shouldThrow($exception = null)
  */
-class ObjectBehavior implements ArrayAccess,
-                                MatchersProviderInterface,
-                                SubjectContainerInterface,
-                                WrapperInterface,
-                                SpecificationInterface
-{
+class ObjectBehavior implements ArrayAccess, MatchersProviderInterface, SubjectContainerInterface, WrapperInterface, SpecificationInterface {
+
     /**
      * @var Subject
      */
@@ -51,8 +47,7 @@ class ObjectBehavior implements ArrayAccess,
      * @link http://phpspec.net/cookbook/matchers.html Matchers cookbook
      * @return array a list of inline matchers
      */
-    public function getMatchers()
-    {
+    public function getMatchers() {
         return array();
     }
 
@@ -63,8 +58,7 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @param Subject $subject
      */
-    public function setSpecificationSubject(Subject $subject)
-    {
+    public function setSpecificationSubject(Subject $subject) {
         $this->object = $subject;
     }
 
@@ -73,8 +67,7 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @return object
      */
-    public function getWrappedObject()
-    {
+    public function getWrappedObject() {
         return $this->object->getWrappedObject();
     }
 
@@ -85,8 +78,7 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @return Subject
      */
-    public function offsetExists($key)
-    {
+    public function offsetExists($key) {
         return $this->object->offsetExists($key);
     }
 
@@ -97,8 +89,7 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @return Subject
      */
-    public function offsetGet($key)
-    {
+    public function offsetGet($key) {
         return $this->object->offsetGet($key);
     }
 
@@ -108,8 +99,7 @@ class ObjectBehavior implements ArrayAccess,
      * @param string|integer $key
      * @param mixed          $value
      */
-    public function offsetSet($key, $value)
-    {
+    public function offsetSet($key, $value) {
         $this->object->offsetSet($key, $value);
     }
 
@@ -118,8 +108,7 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @param string|integer $key
      */
-    public function offsetUnset($key)
-    {
+    public function offsetUnset($key) {
         return $this->object->offsetUnset($key);
     }
 
@@ -131,8 +120,7 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @return mixed
      */
-    public function __call($method, array $arguments = array())
-    {
+    public function __call($method, array $arguments = array()) {
         return call_user_func_array(array($this->object, $method), $arguments);
     }
 
@@ -142,8 +130,7 @@ class ObjectBehavior implements ArrayAccess,
      * @param string $property
      * @param mixed  $value
      */
-    public function __set($property, $value)
-    {
+    public function __set($property, $value) {
         $this->object->$property = $value;
     }
 
@@ -154,8 +141,7 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @return mixed
      */
-    public function __get($property)
-    {
+    public function __get($property) {
         return $this->object->$property;
     }
 
@@ -164,8 +150,8 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @return mixed
      */
-    public function __invoke()
-    {
+    public function __invoke() {
         return call_user_func_array(array($this->object, '__invoke'), func_get_args());
     }
+
 }

@@ -12,8 +12,8 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
-class Local extends AbstractAdapter
-{
+class Local extends AbstractAdapter {
+
     protected static $permissions = [
         'public' => 0744,
         'private' => 0700,
@@ -29,12 +29,11 @@ class Local extends AbstractAdapter
      *
      * @param string $root
      */
-    public function __construct($root)
-    {
+    public function __construct($root) {
         $realRoot = $this->ensureDirectory($root);
 
-        if (! is_writable($realRoot)) {
-            throw new \LogicException('The root path '.$root.' is not writable.');
+        if (!is_writable($realRoot)) {
+            throw new \LogicException('The root path ' . $root . ' is not writable.');
         }
 
         $this->setPathPrefix($realRoot);
@@ -47,8 +46,7 @@ class Local extends AbstractAdapter
      *
      * @return string real path to root
      */
-    protected function ensureDirectory($root)
-    {
+    protected function ensureDirectory($root) {
         if (is_dir($root) === false) {
             mkdir($root, 0755, true);
         }
@@ -59,8 +57,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function has($path)
-    {
+    public function has($path) {
         $location = $this->applyPathPrefix($path);
 
         return file_exists($location);
@@ -69,8 +66,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function write($path, $contents, Config $config)
-    {
+    public function write($path, $contents, Config $config) {
         $location = $this->applyPathPrefix($path);
         $this->ensureDirectory(dirname($location));
 
@@ -92,20 +88,19 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function writeStream($path, $resource, Config $config)
-    {
+    public function writeStream($path, $resource, Config $config) {
         $location = $this->applyPathPrefix($path);
         $this->ensureDirectory(dirname($location));
 
-        if (! $stream = fopen($location, 'w+')) {
+        if (!$stream = fopen($location, 'w+')) {
             return false;
         }
 
-        while (! feof($resource)) {
+        while (!feof($resource)) {
             fwrite($stream, fread($resource, 1024), 1024);
         }
 
-        if (! fclose($stream)) {
+        if (!fclose($stream)) {
             return false;
         }
 
@@ -119,8 +114,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function readStream($path)
-    {
+    public function readStream($path) {
         $location = $this->applyPathPrefix($path);
         $stream = fopen($location, 'r');
 
@@ -130,16 +124,14 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function updateStream($path, $resource, Config $config)
-    {
+    public function updateStream($path, $resource, Config $config) {
         return $this->writeStream($path, $resource, $config);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function update($path, $contents, Config $config)
-    {
+    public function update($path, $contents, Config $config) {
         $location = $this->applyPathPrefix($path);
         $mimetype = Util::guessMimeType($path, $contents);
 
@@ -153,8 +145,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function read($path)
-    {
+    public function read($path) {
         $location = $this->applyPathPrefix($path);
         $contents = file_get_contents($location);
 
@@ -168,8 +159,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function rename($path, $newpath)
-    {
+    public function rename($path, $newpath) {
         $location = $this->applyPathPrefix($path);
         $destination = $this->applyPathPrefix($newpath);
         $parentDirectory = $this->applyPathPrefix(Util::dirname($newpath));
@@ -181,8 +171,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function copy($path, $newpath)
-    {
+    public function copy($path, $newpath) {
         $location = $this->applyPathPrefix($path);
         $destination = $this->applyPathPrefix($newpath);
         $this->ensureDirectory(dirname($destination));
@@ -193,8 +182,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function delete($path)
-    {
+    public function delete($path) {
         $location = $this->applyPathPrefix($path);
 
         return unlink($location);
@@ -203,12 +191,11 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function listContents($directory = '', $recursive = false)
-    {
+    public function listContents($directory = '', $recursive = false) {
         $result = [];
-        $location = $this->applyPathPrefix($directory).$this->pathSeparator;
+        $location = $this->applyPathPrefix($directory) . $this->pathSeparator;
 
-        if (! is_dir($location)) {
+        if (!is_dir($location)) {
             return [];
         }
 
@@ -228,8 +215,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function getMetadata($path)
-    {
+    public function getMetadata($path) {
         $location = $this->applyPathPrefix($path);
         $info = new SplFileInfo($location);
 
@@ -239,16 +225,14 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function getSize($path)
-    {
+    public function getSize($path) {
         return $this->getMetadata($path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMimetype($path)
-    {
+    public function getMimetype($path) {
         $location = $this->applyPathPrefix($path);
         $finfo = new Finfo(FILEINFO_MIME_TYPE);
 
@@ -258,16 +242,14 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function getTimestamp($path)
-    {
+    public function getTimestamp($path) {
         return $this->getMetadata($path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getVisibility($path)
-    {
+    public function getVisibility($path) {
         $location = $this->applyPathPrefix($path);
         clearstatcache(false, $location);
         $permissions = octdec(substr(sprintf('%o', fileperms($location)), -4));
@@ -279,8 +261,7 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function setVisibility($path, $visibility)
-    {
+    public function setVisibility($path, $visibility) {
         $location = $this->applyPathPrefix($path);
         chmod($location, static::$permissions[$visibility]);
 
@@ -290,11 +271,10 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function createDir($dirname, Config $config)
-    {
+    public function createDir($dirname, Config $config) {
         $location = $this->applyPathPrefix($dirname);
 
-        if (! is_dir($location) && ! mkdir($location, 0777, true)) {
+        if (!is_dir($location) && !mkdir($location, 0777, true)) {
             return false;
         }
 
@@ -304,11 +284,10 @@ class Local extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function deleteDir($dirname)
-    {
+    public function deleteDir($dirname) {
         $location = $this->applyPathPrefix($dirname);
 
-        if (! is_dir($location)) {
+        if (!is_dir($location)) {
             return false;
         }
 
@@ -333,8 +312,7 @@ class Local extends AbstractAdapter
      *
      * @return array
      */
-    protected function normalizeFileInfo(SplFileInfo $file)
-    {
+    protected function normalizeFileInfo(SplFileInfo $file) {
         $normalized = [
             'type' => $file->getType(),
             'path' => $this->getFilePath($file),
@@ -355,8 +333,7 @@ class Local extends AbstractAdapter
      *
      * @return string
      */
-    protected function getFilePath(SplFileInfo $file)
-    {
+    protected function getFilePath(SplFileInfo $file) {
         $path = $file->getPathname();
         $path = $this->removePathPrefix($path);
 
@@ -368,8 +345,7 @@ class Local extends AbstractAdapter
      *
      * @return RecursiveIteratorIterator
      */
-    protected function getRecursiveDirectoryIterator($path)
-    {
+    protected function getRecursiveDirectoryIterator($path) {
         $directory = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
 
@@ -381,10 +357,10 @@ class Local extends AbstractAdapter
      *
      * @return DirectoryIterator
      */
-    protected function getDirectoryIterator($path)
-    {
+    protected function getDirectoryIterator($path) {
         $iterator = new DirectoryIterator($path);
 
         return $iterator;
     }
+
 }

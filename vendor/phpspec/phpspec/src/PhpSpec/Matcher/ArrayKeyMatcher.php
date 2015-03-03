@@ -17,8 +17,8 @@ use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 use ArrayAccess;
 
-class ArrayKeyMatcher extends BasicMatcher
-{
+class ArrayKeyMatcher extends BasicMatcher {
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
@@ -27,8 +27,7 @@ class ArrayKeyMatcher extends BasicMatcher
     /**
      * @param PresenterInterface $presenter
      */
-    public function __construct(PresenterInterface $presenter)
-    {
+    public function __construct(PresenterInterface $presenter) {
         $this->presenter = $presenter;
     }
 
@@ -39,11 +38,8 @@ class ArrayKeyMatcher extends BasicMatcher
      *
      * @return bool
      */
-    public function supports($name, $subject, array $arguments)
-    {
-        return 'haveKey' === $name
-            && 1 == count($arguments)
-            && (is_array($subject) || $subject instanceof ArrayAccess)
+    public function supports($name, $subject, array $arguments) {
+        return 'haveKey' === $name && 1 == count($arguments) && (is_array($subject) || $subject instanceof ArrayAccess)
         ;
     }
 
@@ -53,8 +49,7 @@ class ArrayKeyMatcher extends BasicMatcher
      *
      * @return bool
      */
-    protected function matches($subject, array $arguments)
-    {
+    protected function matches($subject, array $arguments) {
         $key = $arguments[0];
 
         if ($subject instanceof ArrayAccess) {
@@ -71,12 +66,9 @@ class ArrayKeyMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getFailureException($name, $subject, array $arguments)
-    {
+    protected function getFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Expected %s to have %s key, but it does not.',
-            $this->presenter->presentValue($subject),
-            $this->presenter->presentString($arguments[0])
+                        'Expected %s to have %s key, but it does not.', $this->presenter->presentValue($subject), $this->presenter->presentString($arguments[0])
         ));
     }
 
@@ -87,12 +79,10 @@ class ArrayKeyMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getNegativeFailureException($name, $subject, array $arguments)
-    {
+    protected function getNegativeFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Expected %s not to have %s key, but it does.',
-            $this->presenter->presentValue($subject),
-            $this->presenter->presentString($arguments[0])
+                        'Expected %s not to have %s key, but it does.', $this->presenter->presentValue($subject), $this->presenter->presentString($arguments[0])
         ));
     }
+
 }

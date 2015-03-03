@@ -9,8 +9,8 @@ use PhpParser\Error;
  * @property Node\Name $name  Namespace/Class to alias
  * @property string    $alias Alias
  */
-class UseUse extends Node\Stmt
-{
+class UseUse extends Node\Stmt {
+
     /**
      * Constructs an alias (use) node.
      *
@@ -25,17 +25,16 @@ class UseUse extends Node\Stmt
 
         if ('self' == $alias || 'parent' == $alias) {
             throw new Error(sprintf(
-                'Cannot use %s as %s because \'%2$s\' is a special class name',
-                $name, $alias
+                    'Cannot use %s as %s because \'%2$s\' is a special class name', $name, $alias
             ));
         }
 
         parent::__construct(
-            array(
-                'name'  => $name,
-                'alias' => $alias,
-            ),
-            $attributes
+                array(
+            'name' => $name,
+            'alias' => $alias,
+                ), $attributes
         );
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -17,8 +18,8 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 2.0.0
  */
-class PHP_CodeCoverage_Report_XML_Node
-{
+class PHP_CodeCoverage_Report_XML_Node {
+
     /**
      * @var DOMDocument
      */
@@ -29,46 +30,40 @@ class PHP_CodeCoverage_Report_XML_Node
      */
     private $contextNode;
 
-    public function __construct(DOMElement $context)
-    {
+    public function __construct(DOMElement $context) {
         $this->setContextNode($context);
     }
 
-    protected function setContextNode(DOMElement $context)
-    {
-        $this->dom         = $context->ownerDocument;
+    protected function setContextNode(DOMElement $context) {
+        $this->dom = $context->ownerDocument;
         $this->contextNode = $context;
     }
 
-    public function getDom()
-    {
+    public function getDom() {
         return $this->dom;
     }
 
-    protected function getContextNode()
-    {
+    protected function getContextNode() {
         return $this->contextNode;
     }
 
-    public function getTotals()
-    {
+    public function getTotals() {
         $totalsContainer = $this->getContextNode()->firstChild;
 
         if (!$totalsContainer) {
             $totalsContainer = $this->getContextNode()->appendChild(
-                $this->dom->createElementNS(
-                    'http://schema.phpunit.de/coverage/1.0', 'totals'
-                )
+                    $this->dom->createElementNS(
+                            'http://schema.phpunit.de/coverage/1.0', 'totals'
+                    )
             );
         }
 
         return new PHP_CodeCoverage_Report_XML_Totals($totalsContainer);
     }
 
-    public function addDirectory($name)
-    {
+    public function addDirectory($name) {
         $dirNode = $this->getDom()->createElementNS(
-            'http://schema.phpunit.de/coverage/1.0', 'directory'
+                'http://schema.phpunit.de/coverage/1.0', 'directory'
         );
 
         $dirNode->setAttribute('name', $name);
@@ -77,10 +72,9 @@ class PHP_CodeCoverage_Report_XML_Node
         return new PHP_CodeCoverage_Report_XML_Directory($dirNode);
     }
 
-    public function addFile($name, $href)
-    {
+    public function addFile($name, $href) {
         $fileNode = $this->getDom()->createElementNS(
-            'http://schema.phpunit.de/coverage/1.0', 'file'
+                'http://schema.phpunit.de/coverage/1.0', 'file'
         );
 
         $fileNode->setAttribute('name', $name);
@@ -89,4 +83,5 @@ class PHP_CodeCoverage_Report_XML_Node
 
         return new PHP_CodeCoverage_Report_XML_File($fileNode);
     }
+
 }

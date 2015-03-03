@@ -19,8 +19,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander <iam.asm89@gmail.com>
  */
-class AuthenticationException extends \RuntimeException implements \Serializable
-{
+class AuthenticationException extends \RuntimeException implements \Serializable {
+
     private $token;
 
     /**
@@ -28,8 +28,7 @@ class AuthenticationException extends \RuntimeException implements \Serializable
      *
      * @return TokenInterface
      */
-    public function getToken()
-    {
+    public function getToken() {
         return $this->token;
     }
 
@@ -38,13 +37,11 @@ class AuthenticationException extends \RuntimeException implements \Serializable
      *
      * @param TokenInterface $token
      */
-    public function setToken(TokenInterface $token)
-    {
+    public function setToken(TokenInterface $token) {
         $this->token = $token;
     }
 
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(array(
             $this->token,
             $this->code,
@@ -54,15 +51,14 @@ class AuthenticationException extends \RuntimeException implements \Serializable
         ));
     }
 
-    public function unserialize($str)
-    {
+    public function unserialize($str) {
         list(
-            $this->token,
-            $this->code,
-            $this->message,
-            $this->file,
-            $this->line
-        ) = unserialize($str);
+                $this->token,
+                $this->code,
+                $this->message,
+                $this->file,
+                $this->line
+                ) = unserialize($str);
     }
 
     /**
@@ -70,8 +66,7 @@ class AuthenticationException extends \RuntimeException implements \Serializable
      *
      * @return string
      */
-    public function getMessageKey()
-    {
+    public function getMessageKey() {
         return 'An authentication exception occurred.';
     }
 
@@ -80,8 +75,8 @@ class AuthenticationException extends \RuntimeException implements \Serializable
      *
      * @return array
      */
-    public function getMessageData()
-    {
+    public function getMessageData() {
         return array();
     }
+
 }

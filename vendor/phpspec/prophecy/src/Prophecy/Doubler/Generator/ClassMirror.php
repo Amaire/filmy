@@ -23,8 +23,8 @@ use ReflectionParameter;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ClassMirror
-{
+class ClassMirror {
+
     private static $reflectableMethods = array(
         '__construct',
         '__destruct',
@@ -44,16 +44,14 @@ class ClassMirror
      *
      * @throws \Prophecy\Exception\InvalidArgumentException
      */
-    public function reflect(ReflectionClass $class = null, array $interfaces)
-    {
+    public function reflect(ReflectionClass $class = null, array $interfaces) {
         $node = new Node\ClassNode;
 
         if (null !== $class) {
             if (true === $class->isInterface()) {
                 throw new InvalidArgumentException(sprintf(
-                    "Could not reflect %s as a class, because it\n".
-                    "is interface - use the second argument instead.",
-                    $class->getName()
+                        "Could not reflect %s as a class, because it\n" .
+                        "is interface - use the second argument instead.", $class->getName()
                 ));
             }
 
@@ -63,16 +61,14 @@ class ClassMirror
         foreach ($interfaces as $interface) {
             if (!$interface instanceof ReflectionClass) {
                 throw new InvalidArgumentException(sprintf(
-                    "[ReflectionClass \$interface1 [, ReflectionClass \$interface2]] array expected as\n".
-                    "a second argument to `ClassMirror::reflect(...)`, but got %s.",
-                    is_object($interface) ? get_class($interface).' class' : gettype($interface)
+                        "[ReflectionClass \$interface1 [, ReflectionClass \$interface2]] array expected as\n" .
+                        "a second argument to `ClassMirror::reflect(...)`, but got %s.", is_object($interface) ? get_class($interface) . ' class' : gettype($interface)
                 ));
             }
             if (false === $interface->isInterface()) {
                 throw new InvalidArgumentException(sprintf(
-                    "Could not reflect %s as an interface, because it\n".
-                    "is class - use the first argument instead.",
-                    $interface->getName()
+                        "Could not reflect %s as an interface, because it\n" .
+                        "is class - use the first argument instead.", $interface->getName()
                 ));
             }
 
@@ -84,11 +80,10 @@ class ClassMirror
         return $node;
     }
 
-    private function reflectClassToNode(ReflectionClass $class, Node\ClassNode $node)
-    {
+    private function reflectClassToNode(ReflectionClass $class, Node\ClassNode $node) {
         if (true === $class->isFinal()) {
             throw new ClassMirrorException(sprintf(
-                'Could not reflect class %s as it is marked final.', $class->getName()
+                    'Could not reflect class %s as it is marked final.', $class->getName()
             ), $class);
         }
 
@@ -103,8 +98,7 @@ class ClassMirror
         }
 
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if (0 === strpos($method->getName(), '_')
-                && !in_array($method->getName(), self::$reflectableMethods)) {
+            if (0 === strpos($method->getName(), '_') && !in_array($method->getName(), self::$reflectableMethods)) {
                 continue;
             }
 
@@ -116,8 +110,7 @@ class ClassMirror
         }
     }
 
-    private function reflectInterfaceToNode(ReflectionClass $interface, Node\ClassNode $node)
-    {
+    private function reflectInterfaceToNode(ReflectionClass $interface, Node\ClassNode $node) {
         $node->addInterface($interface->getName());
 
         foreach ($interface->getMethods() as $method) {
@@ -125,8 +118,7 @@ class ClassMirror
         }
     }
 
-    private function reflectMethodToNode(ReflectionMethod $method, Node\ClassNode $classNode)
-    {
+    private function reflectMethodToNode(ReflectionMethod $method, Node\ClassNode $classNode) {
         $node = new Node\MethodNode($method->getName());
 
         if (true === $method->isProtected()) {
@@ -146,8 +138,7 @@ class ClassMirror
         $classNode->addMethod($node);
     }
 
-    private function reflectArgumentToNode(ReflectionParameter $parameter, Node\MethodNode $methodNode)
-    {
+    private function reflectArgumentToNode(ReflectionParameter $parameter, Node\MethodNode $methodNode) {
         $name = $parameter->getName() == '...' ? '__dot_dot_dot__' : $parameter->getName();
         $node = new Node\ArgumentNode($name);
 
@@ -166,8 +157,7 @@ class ClassMirror
         $methodNode->addArgument($node);
     }
 
-    private function getTypeHint(ReflectionParameter $parameter)
-    {
+    private function getTypeHint(ReflectionParameter $parameter) {
         if (null !== $className = $this->getParameterClassName($parameter)) {
             return $className;
         }
@@ -183,8 +173,7 @@ class ClassMirror
         return null;
     }
 
-    private function getParameterClassName(ReflectionParameter $parameter)
-    {
+    private function getParameterClassName(ReflectionParameter $parameter) {
         try {
             return $parameter->getClass() ? $parameter->getClass()->getName() : null;
         } catch (\ReflectionException $e) {
@@ -193,4 +182,5 @@ class ClassMirror
             return isset($matches[1]) ? $matches[1] : null;
         }
     }
+
 }

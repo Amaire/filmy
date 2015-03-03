@@ -7,8 +7,8 @@ use PhpParser\Node\Scalar;
 /**
  * @property int $value Number value
  */
-class LNumber extends Scalar
-{
+class LNumber extends Scalar {
+
     /**
      * Constructs an integer number scalar node.
      *
@@ -17,10 +17,9 @@ class LNumber extends Scalar
      */
     public function __construct($value = 0, array $attributes = array()) {
         parent::__construct(
-            array(
-                'value' => $value
-            ),
-            $attributes
+                array(
+            'value' => $value
+                ), $attributes
         );
     }
 
@@ -58,4 +57,5 @@ class LNumber extends Scalar
         // dec
         return (int) $str;
     }
+
 }

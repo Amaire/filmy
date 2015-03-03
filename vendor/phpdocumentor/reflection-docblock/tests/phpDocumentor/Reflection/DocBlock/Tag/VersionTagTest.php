@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Version Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class VersionTagTest extends \PHPUnit_Framework_TestCase
-{
+class VersionTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\LinkTag can create
      * a link for the @version doc block.
@@ -38,11 +39,7 @@ class VersionTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exContent,
-        $exDescription,
-        $exVersion
+    $type, $content, $exContent, $exDescription, $exVersion
     ) {
         $tag = new VersionTag($type, $content);
 
@@ -57,8 +54,7 @@ class VersionTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type, $content, $exContent, $exDescription, $exVersion
         return array(
             array(
@@ -112,4 +108,5 @@ class VersionTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

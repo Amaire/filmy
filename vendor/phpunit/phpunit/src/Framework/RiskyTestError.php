@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -20,6 +21,6 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 4.0.0
  */
-class PHPUnit_Framework_RiskyTestError extends PHPUnit_Framework_AssertionFailedError implements PHPUnit_Framework_RiskyTest
-{
+class PHPUnit_Framework_RiskyTestError extends PHPUnit_Framework_AssertionFailedError implements PHPUnit_Framework_RiskyTest {
+    
 }

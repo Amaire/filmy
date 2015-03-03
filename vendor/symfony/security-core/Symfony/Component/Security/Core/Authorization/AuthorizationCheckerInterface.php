@@ -16,8 +16,8 @@ namespace Symfony\Component\Security\Core\Authorization;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface AuthorizationCheckerInterface
-{
+interface AuthorizationCheckerInterface {
+
     /**
      * Checks if the attributes are granted against the current authentication token and optionally supplied object.
      *

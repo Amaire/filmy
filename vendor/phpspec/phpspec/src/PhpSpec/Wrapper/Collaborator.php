@@ -15,8 +15,8 @@ namespace PhpSpec\Wrapper;
 
 use Prophecy\Prophecy\ObjectProphecy;
 
-class Collaborator implements WrapperInterface
-{
+class Collaborator implements WrapperInterface {
+
     /**
      * @var \Prophecy\Prophecy\ObjectProphecy
      */
@@ -25,16 +25,14 @@ class Collaborator implements WrapperInterface
     /**
      * @param ObjectProphecy $prophecy
      */
-    public function __construct(ObjectProphecy $prophecy)
-    {
-        $this->prophecy  = $prophecy;
+    public function __construct(ObjectProphecy $prophecy) {
+        $this->prophecy = $prophecy;
     }
 
     /**
      * @param string $classOrInterface
      */
-    public function beADoubleOf($classOrInterface)
-    {
+    public function beADoubleOf($classOrInterface) {
         if (interface_exists($classOrInterface)) {
             $this->prophecy->willImplement($classOrInterface);
         } else {
@@ -45,16 +43,14 @@ class Collaborator implements WrapperInterface
     /**
      * @param array $arguments
      */
-    public function beConstructedWith(array $arguments = null)
-    {
+    public function beConstructedWith(array $arguments = null) {
         $this->prophecy->willBeConstructedWith($arguments);
     }
 
     /**
      * @param string $interface
      */
-    public function implement($interface)
-    {
+    public function implement($interface) {
         $this->prophecy->willImplement($interface);
     }
 
@@ -64,8 +60,7 @@ class Collaborator implements WrapperInterface
      *
      * @return mixed
      */
-    public function __call($method, array $arguments)
-    {
+    public function __call($method, array $arguments) {
         return call_user_func_array(array($this->prophecy, '__call'), array($method, $arguments));
     }
 
@@ -73,8 +68,7 @@ class Collaborator implements WrapperInterface
      * @param string $parameter
      * @param mixed  $value
      */
-    public function __set($parameter, $value)
-    {
+    public function __set($parameter, $value) {
         $this->prophecy->$parameter = $value;
     }
 
@@ -83,16 +77,15 @@ class Collaborator implements WrapperInterface
      *
      * @return mixed
      */
-    public function __get($parameter)
-    {
+    public function __get($parameter) {
         return $this->prophecy->$parameter;
     }
 
     /**
      * @return object
      */
-    public function getWrappedObject()
-    {
+    public function getWrappedObject() {
         return $this->prophecy->reveal();
     }
+
 }

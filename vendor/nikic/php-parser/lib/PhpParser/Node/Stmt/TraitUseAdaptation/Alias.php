@@ -10,8 +10,8 @@ use PhpParser\Node;
  * @property null|int       $newModifier New modifier
  * @property null|string    $newName     New name
  */
-class Alias extends Node\Stmt\TraitUseAdaptation
-{
+class Alias extends Node\Stmt\TraitUseAdaptation {
+
     /**
      * Constructs a trait use precedence adaptation node.
      *
@@ -23,13 +23,13 @@ class Alias extends Node\Stmt\TraitUseAdaptation
      */
     public function __construct($trait, $method, $newModifier, $newName, array $attributes = array()) {
         parent::__construct(
-            array(
-                'trait'       => $trait,
-                'method'      => $method,
-                'newModifier' => $newModifier,
-                'newName'     => $newName,
-            ),
-            $attributes
+                array(
+            'trait' => $trait,
+            'method' => $method,
+            'newModifier' => $newModifier,
+            'newName' => $newName,
+                ), $attributes
         );
     }
+
 }

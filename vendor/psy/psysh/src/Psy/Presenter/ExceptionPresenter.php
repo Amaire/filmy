@@ -14,8 +14,8 @@ namespace Psy\Presenter;
 /**
  * An Exception Presenter.
  */
-class ExceptionPresenter extends ObjectPresenter
-{
+class ExceptionPresenter extends ObjectPresenter {
+
     /**
      * ExceptionPresenter can present Exceptions.
      *
@@ -23,8 +23,7 @@ class ExceptionPresenter extends ObjectPresenter
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return $value instanceof \Exception;
     }
 
@@ -37,16 +36,16 @@ class ExceptionPresenter extends ObjectPresenter
      *
      * @return array
      */
-    protected function getProperties($value, \ReflectionClass $class, $options = 0)
-    {
+    protected function getProperties($value, \ReflectionClass $class, $options = 0) {
         $props = array(
-            'message'  => $value->getMessage(),
-            'code'     => $value->getCode(),
-            'file'     => $value->getFile(),
-            'line'     => $value->getLine(),
+            'message' => $value->getMessage(),
+            'code' => $value->getCode(),
+            'file' => $value->getFile(),
+            'line' => $value->getLine(),
             'previous' => $value->getPrevious(),
         );
 
         return array_merge(array_filter($props), parent::getProperties($value, $class, $options));
     }
+
 }

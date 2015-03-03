@@ -2,17 +2,15 @@
 
 namespace PhpParser;
 
-class Lexer
-{
+class Lexer {
+
     protected $code;
     protected $tokens;
     protected $pos;
     protected $line;
     protected $filePos;
-
     protected $tokenMap;
     protected $dropTokens;
-
     protected $usedAttributes;
 
     /**
@@ -57,14 +55,16 @@ class Lexer
         ini_set('xdebug.scream', $scream);
 
         $this->code = $code; // keep the code around for __halt_compiler() handling
-        $this->pos  = -1;
-        $this->line =  1;
+        $this->pos = -1;
+        $this->line = 1;
         $this->filePos = 0;
     }
 
     protected function resetErrors() {
         // set error_get_last() to defined state by forcing an undefined variable error
-        set_error_handler(function() { return false; }, 0);
+        set_error_handler(function() {
+            return false;
+        }, 0);
         @$undefinedVariable;
         restore_error_handler();
     }
@@ -73,19 +73,16 @@ class Lexer
         $error = error_get_last();
 
         if (preg_match(
-            '~^Unterminated comment starting line ([0-9]+)$~',
-            $error['message'], $matches
-        )) {
+                        '~^Unterminated comment starting line ([0-9]+)$~', $error['message'], $matches
+                )) {
             throw new Error('Unterminated comment', $matches[1]);
         }
 
         if (preg_match(
-            '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s',
-            $error['message'], $matches
-        )) {
+                        '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s', $error['message'], $matches
+                )) {
             throw new Error(sprintf(
-                'Unexpected character "%s" (ASCII %d)',
-                $matches[1], $matches[2]
+                    'Unexpected character "%s" (ASCII %d)', $matches[1], $matches[2]
             ));
         }
 
@@ -119,7 +116,7 @@ class Lexer
      */
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
         $startAttributes = array();
-        $endAttributes   = array();
+        $endAttributes = array();
 
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
@@ -261,15 +258,14 @@ class Lexer
             // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
             if (T_DOUBLE_COLON === $i) {
                 $tokenMap[$i] = Parser::T_PAAMAYIM_NEKUDOTAYIM;
-            // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
-            } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
+                // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
+            } elseif (T_OPEN_TAG_WITH_ECHO === $i) {
                 $tokenMap[$i] = Parser::T_ECHO;
-            // T_CLOSE_TAG is equivalent to ';'
-            } elseif(T_CLOSE_TAG === $i) {
+                // T_CLOSE_TAG is equivalent to ';'
+            } elseif (T_CLOSE_TAG === $i) {
                 $tokenMap[$i] = ord(';');
-            // and the others can be mapped directly
-            } elseif ('UNKNOWN' !== ($name = token_name($i))
-                      && defined($name = 'PhpParser\Parser::' . $name)
+                // and the others can be mapped directly
+            } elseif ('UNKNOWN' !== ($name = token_name($i)) && defined($name = 'PhpParser\Parser::' . $name)
             ) {
                 $tokenMap[$i] = constant($name);
             }
@@ -282,4 +278,5 @@ class Lexer
 
         return $tokenMap;
     }
+
 }

@@ -19,13 +19,12 @@ namespace Psy\TabCompletion\Matcher;
  *
  * @author Marc Garcia <markcial@gmail.com>
  */
-class ObjectMethodsMatcher extends AbstractContextAwareMatcher
-{
+class ObjectMethodsMatcher extends AbstractContextAwareMatcher {
+
     /**
      * {@inheritDoc}
      */
-    public function getMatches(array $tokens, array $info = array())
-    {
+    public function getMatches(array $tokens, array $info = array()) {
         $input = $this->getInput($tokens);
 
         $firstToken = array_pop($tokens);
@@ -38,18 +37,16 @@ class ObjectMethodsMatcher extends AbstractContextAwareMatcher
         $object = $this->getVariable($objectName);
 
         return array_filter(
-            get_class_methods($object),
-            function ($var) use ($input) {
-                return AbstractMatcher::startsWith($input, $var);
-            }
+                get_class_methods($object), function ($var) use ($input) {
+            return AbstractMatcher::startsWith($input, $var);
+        }
         );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function hasMatched(array $tokens)
-    {
+    public function hasMatched(array $tokens) {
         $token = array_pop($tokens);
         $prevToken = array_pop($tokens);
 
@@ -61,4 +58,5 @@ class ObjectMethodsMatcher extends AbstractContextAwareMatcher
 
         return false;
     }
+
 }

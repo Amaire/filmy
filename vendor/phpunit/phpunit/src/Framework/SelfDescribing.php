@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 3.0.0
  */
-interface PHPUnit_Framework_SelfDescribing
-{
+interface PHPUnit_Framework_SelfDescribing {
+
     /**
      * Returns a string representation of the object.
      *

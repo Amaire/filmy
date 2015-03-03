@@ -14,10 +14,9 @@ namespace Monolog\Formatter;
 /**
  * @covers Monolog\Formatter\NormalizerFormatter
  */
-class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
-{
-    public function testFormat()
-    {
+class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase {
+
+    public function testFormat() {
         $formatter = new NormalizerFormatter('Y-m-d');
         $formatted = $formatter->format(array(
             'level_name' => 'ERROR',
@@ -46,11 +45,10 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
                 'foo' => 'bar',
                 'baz' => 'qux',
             )
-        ), $formatted);
+                ), $formatted);
     }
 
-    public function testFormatExceptions()
-    {
+    public function testFormatExceptions() {
         $formatter = new NormalizerFormatter('Y-m-d');
         $e = new \LogicException('bar');
         $e2 = new \RuntimeException('foo', 0, $e);
@@ -64,16 +62,15 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(
             'exception' => array(
-                'class'   => get_class($e2),
+                'class' => get_class($e2),
                 'message' => $e2->getMessage(),
-                'code'    => $e2->getCode(),
-                'file'    => $e2->getFile().':'.$e2->getLine(),
+                'code' => $e2->getCode(),
+                'file' => $e2->getFile() . ':' . $e2->getLine(),
             )
-        ), $formatted);
+                ), $formatted);
     }
 
-    public function testBatchFormat()
-    {
+    public function testBatchFormat() {
         $formatter = new NormalizerFormatter('Y-m-d');
         $formatted = $formatter->formatBatch(array(
             array(
@@ -110,14 +107,13 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
                 'datetime' => date('Y-m-d'),
                 'extra' => array(),
             ),
-        ), $formatted);
+                ), $formatted);
     }
 
     /**
      * Test issue #137
      */
-    public function testIgnoresRecursiveObjectReferences()
-    {
+    public function testIgnoresRecursiveObjectReferences() {
         // set up the recursion
         $foo = new \stdClass();
         $bar = new \stdClass();
@@ -144,8 +140,7 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(@json_encode(array($foo, $bar)), $res);
     }
 
-    public function testIgnoresInvalidTypes()
-    {
+    public function testIgnoresInvalidTypes() {
         // set up the recursion
         $resource = fopen(__FILE__, 'r');
 
@@ -168,8 +163,7 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(@json_encode(array($resource)), $res);
     }
 
-    public function testExceptionTraceWithArgs()
-    {
+    public function testExceptionTraceWithArgs() {
         if (defined('HHVM_VERSION')) {
             $this->markTestSkipped('Not supported in HHVM since it detects errors differently');
         }
@@ -196,8 +190,7 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
         $result = $formatter->format($record);
 
         $this->assertRegExp(
-            '%"resource":"\[resource\]"%',
-            $result['context']['exception']['trace'][0]
+                '%"resource":"\[resource\]"%', $result['context']['exception']['trace'][0]
         );
 
         if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
@@ -208,40 +201,40 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
 
         // Tests that the wrapped resource is ignored while encoding, only works for PHP <= 5.4
         $this->assertRegExp(
-            $pattern,
-            $result['context']['exception']['trace'][0]
+                $pattern, $result['context']['exception']['trace'][0]
         );
     }
+
 }
 
-class TestFooNorm
-{
+class TestFooNorm {
+
     public $foo = 'foo';
+
 }
 
-class TestBarNorm
-{
-    public function __toString()
-    {
+class TestBarNorm {
+
+    public function __toString() {
         return 'bar';
     }
+
 }
 
-class TestStreamFoo
-{
+class TestStreamFoo {
+
     public $foo;
     public $resource;
 
-    public function __construct($resource)
-    {
+    public function __construct($resource) {
         $this->resource = $resource;
         $this->foo = 'BAR';
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         fseek($this->resource, 0);
 
         return $this->foo . ' - ' . (string) stream_get_contents($this->resource);
     }
+
 }

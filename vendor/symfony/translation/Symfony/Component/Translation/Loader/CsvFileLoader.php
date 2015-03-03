@@ -22,8 +22,8 @@ use Symfony\Component\Config\Resource\FileResource;
  *
  * @api
  */
-class CsvFileLoader extends ArrayLoader implements LoaderInterface
-{
+class CsvFileLoader extends ArrayLoader implements LoaderInterface {
+
     private $delimiter = ';';
     private $enclosure = '"';
     private $escape = '\\';
@@ -33,8 +33,7 @@ class CsvFileLoader extends ArrayLoader implements LoaderInterface
      *
      * @api
      */
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -83,10 +82,10 @@ class CsvFileLoader extends ArrayLoader implements LoaderInterface
      * @param string $enclosure enclosure character
      * @param string $escape    escape character
      */
-    public function setCsvControl($delimiter = ';', $enclosure = '"', $escape = '\\')
-    {
+    public function setCsvControl($delimiter = ';', $enclosure = '"', $escape = '\\') {
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
         $this->escape = $escape;
     }
+
 }

@@ -18,13 +18,12 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
  *
  * @author Drak <drak@zikula.org>
  */
-class NativeProxy extends AbstractProxy
-{
+class NativeProxy extends AbstractProxy {
+
     /**
      * Constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         // this makes an educated guess as to what the handler is since it should already be set.
         $this->saveHandlerName = ini_get('session.save_handler');
     }
@@ -34,8 +33,8 @@ class NativeProxy extends AbstractProxy
      *
      * @return bool False.
      */
-    public function isWrapper()
-    {
+    public function isWrapper() {
         return false;
     }
+
 }

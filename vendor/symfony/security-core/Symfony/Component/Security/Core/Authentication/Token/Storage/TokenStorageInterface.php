@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface TokenStorageInterface
-{
+interface TokenStorageInterface {
+
     /**
      * Returns the current security token.
      *

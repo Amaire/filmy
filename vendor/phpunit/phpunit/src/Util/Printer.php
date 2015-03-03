@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class PHPUnit_Util_Printer
-{
+class PHPUnit_Util_Printer {
+
     /**
      * If true, flush output after every write.
      *
@@ -49,8 +50,7 @@ class PHPUnit_Util_Printer
      * @param  mixed                       $out
      * @throws PHPUnit_Framework_Exception
      */
-    public function __construct($out = null)
-    {
+    public function __construct($out = null) {
         if ($out !== null) {
             if (is_string($out)) {
                 if (strpos($out, 'socket://') === 0) {
@@ -63,7 +63,7 @@ class PHPUnit_Util_Printer
                     $this->out = fsockopen($out[0], $out[1]);
                 } else {
                     if (strpos($out, 'php://') === false &&
-                        !is_dir(dirname($out))) {
+                            !is_dir(dirname($out))) {
                         mkdir(dirname($out), 0777, true);
                     }
 
@@ -80,22 +80,20 @@ class PHPUnit_Util_Printer
     /**
      * Flush buffer, optionally tidy up HTML, and close output if it's not to a php stream
      */
-    public function flush()
-    {
+    public function flush() {
         if ($this->out && strncmp($this->outTarget, 'php://', 6) !== 0) {
             fclose($this->out);
         }
 
         if ($this->printsHTML === true &&
-            $this->outTarget !== null &&
-            strpos($this->outTarget, 'php://') !== 0 &&
-            strpos($this->outTarget, 'socket://') !== 0 &&
-            extension_loaded('tidy')) {
+                $this->outTarget !== null &&
+                strpos($this->outTarget, 'php://') !== 0 &&
+                strpos($this->outTarget, 'socket://') !== 0 &&
+                extension_loaded('tidy')) {
             file_put_contents(
-                $this->outTarget,
-                tidy_repair_file(
-                    $this->outTarget, array('indent' => true, 'wrap' => 0), 'utf8'
-                )
+                    $this->outTarget, tidy_repair_file(
+                            $this->outTarget, array('indent' => true, 'wrap' => 0), 'utf8'
+                    )
             );
         }
     }
@@ -109,8 +107,7 @@ class PHPUnit_Util_Printer
      *
      * @since  Method available since Release 3.3.0
      */
-    public function incrementalFlush()
-    {
+    public function incrementalFlush() {
         if ($this->out) {
             fflush($this->out);
         } else {
@@ -121,8 +118,7 @@ class PHPUnit_Util_Printer
     /**
      * @param string $buffer
      */
-    public function write($buffer)
-    {
+    public function write($buffer) {
         if ($this->out) {
             fwrite($this->out, $buffer);
 
@@ -148,8 +144,7 @@ class PHPUnit_Util_Printer
      * @return boolean
      * @since  Method available since Release 3.3.0
      */
-    public function getAutoFlush()
-    {
+    public function getAutoFlush() {
         return $this->autoFlush;
     }
 
@@ -162,12 +157,12 @@ class PHPUnit_Util_Printer
      * @param boolean $autoFlush
      * @since  Method available since Release 3.3.0
      */
-    public function setAutoFlush($autoFlush)
-    {
+    public function setAutoFlush($autoFlush) {
         if (is_bool($autoFlush)) {
             $this->autoFlush = $autoFlush;
         } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'boolean');
         }
     }
+
 }

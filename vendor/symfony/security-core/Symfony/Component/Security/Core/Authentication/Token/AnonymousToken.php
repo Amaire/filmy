@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class AnonymousToken extends AbstractToken
-{
+class AnonymousToken extends AbstractToken {
+
     private $key;
 
     /**
@@ -29,8 +29,7 @@ class AnonymousToken extends AbstractToken
      * @param string          $user  The user
      * @param RoleInterface[] $roles An array of roles
      */
-    public function __construct($key, $user, array $roles = array())
-    {
+    public function __construct($key, $user, array $roles = array()) {
         parent::__construct($roles);
 
         $this->key = $key;
@@ -41,8 +40,7 @@ class AnonymousToken extends AbstractToken
     /**
      * {@inheritdoc}
      */
-    public function getCredentials()
-    {
+    public function getCredentials() {
         return '';
     }
 
@@ -51,25 +49,23 @@ class AnonymousToken extends AbstractToken
      *
      * @return string The Key
      */
-    public function getKey()
-    {
+    public function getKey() {
         return $this->key;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(array($this->key, parent::serialize()));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         list($this->key, $parentStr) = unserialize($serialized);
         parent::unserialize($parentStr);
     }
+
 }

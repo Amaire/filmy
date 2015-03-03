@@ -18,10 +18,9 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class CutStub extends Stub
-{
-    public function __construct($value)
-    {
+class CutStub extends Stub {
+
+    public function __construct($value) {
         $this->value = $value;
 
         switch (gettype($value)) {
@@ -53,4 +52,5 @@ class CutStub extends Stub
                 break;
         }
     }
+
 }

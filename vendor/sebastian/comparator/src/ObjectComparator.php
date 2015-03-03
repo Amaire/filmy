@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,8 +20,8 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class ObjectComparator extends ArrayComparator
-{
+class ObjectComparator extends ArrayComparator {
+
     /**
      * Returns whether the comparator can compare two values.
      *
@@ -28,8 +29,7 @@ class ObjectComparator extends ArrayComparator
      * @param  mixed $actual The second value to compare
      * @return boolean
      */
-    public function accepts($expected, $actual)
-    {
+    public function accepts($expected, $actual) {
         return is_object($expected) && is_object($actual);
     }
 
@@ -49,26 +49,18 @@ class ObjectComparator extends ArrayComparator
      *                           fails. Contains information about the
      *                           specific errors that lead to the failure.
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false, array &$processed = array())
-    {
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false, array &$processed = array()) {
         if (get_class($actual) !== get_class($expected)) {
             throw new ComparisonFailure(
-                $expected,
-                $actual,
-                $this->exporter->export($expected),
-                $this->exporter->export($actual),
-                false,
-                sprintf(
-                    '%s is not instance of expected class "%s".',
-                    $this->exporter->export($actual),
-                    get_class($expected)
-                )
+            $expected, $actual, $this->exporter->export($expected), $this->exporter->export($actual), false, sprintf(
+                    '%s is not instance of expected class "%s".', $this->exporter->export($actual), get_class($expected)
+            )
             );
         }
 
         // don't compare twice to allow for cyclic dependencies
         if (in_array(array($actual, $expected), $processed, true) ||
-            in_array(array($expected, $actual), $processed, true)) {
+                in_array(array($expected, $actual), $processed, true)) {
             return;
         }
 
@@ -80,22 +72,13 @@ class ObjectComparator extends ArrayComparator
         if ($actual !== $expected) {
             try {
                 parent::assertEquals(
-                    $this->toArray($expected),
-                    $this->toArray($actual),
-                    $delta,
-                    $canonicalize,
-                    $ignoreCase,
-                    $processed
+                        $this->toArray($expected), $this->toArray($actual), $delta, $canonicalize, $ignoreCase, $processed
                 );
             } catch (ComparisonFailure $e) {
                 throw new ComparisonFailure(
-                    $expected,
-                    $actual,
-                    // replace "Array" with "MyClass object"
-                    substr_replace($e->getExpectedAsString(), get_class($expected) . ' Object', 0, 5),
-                    substr_replace($e->getActualAsString(), get_class($actual) . ' Object', 0, 5),
-                    false,
-                    'Failed asserting that two objects are equal.'
+                $expected, $actual,
+                // replace "Array" with "MyClass object"
+                substr_replace($e->getExpectedAsString(), get_class($expected) . ' Object', 0, 5), substr_replace($e->getActualAsString(), get_class($actual) . ' Object', 0, 5), false, 'Failed asserting that two objects are equal.'
                 );
             }
         }
@@ -108,8 +91,8 @@ class ObjectComparator extends ArrayComparator
      * @param  object $object
      * @return array
      */
-    protected function toArray($object)
-    {
+    protected function toArray($object) {
         return $this->exporter->toArray($object);
     }
+
 }

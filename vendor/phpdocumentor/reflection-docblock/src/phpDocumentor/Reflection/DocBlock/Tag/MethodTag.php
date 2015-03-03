@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,31 +22,29 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class MethodTag extends ReturnTag
-{
+class MethodTag extends ReturnTag {
 
     /** @var string */
     protected $method_name = '';
 
     /** @var string */
     protected $arguments = '';
-    
+
     /** @var bool */
     protected $isStatic = false;
 
     /**
      * {@inheritdoc}
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
             $this->content = '';
             if ($this->isStatic) {
                 $this->content .= 'static ';
             }
             $this->content .= $this->type .
-                " {$this->method_name}({$this->arguments}) " .
-                $this->description;
+                    " {$this->method_name}({$this->arguments}) " .
+                    $this->description;
         }
 
         return $this->content;
@@ -54,8 +53,7 @@ class MethodTag extends ReturnTag
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         Tag::setContent($content);
         // 1. none or more whitespace
         // 2. optionally the keyword "static" followed by whitespace
@@ -67,7 +65,7 @@ class MethodTag extends ReturnTag
         //    until a ) and whitespace : as method name with signature
         // 6. any remaining text : as description
         if (preg_match(
-            '/^
+                        '/^
                 # Static keyword
                 # Declates a static method ONLY if type is also present
                 (?:
@@ -90,18 +88,16 @@ class MethodTag extends ReturnTag
                 \s*
                 # Description
                 (.*)
-            $/sux',
-            $this->description,
-            $matches
-        )) {
+            $/sux', $this->description, $matches
+                )) {
             list(
-                ,
-                $static,
-                $this->type,
-                $this->method_name,
-                $this->arguments,
-                $this->description
-            ) = $matches;
+                    ,
+                    $static,
+                    $this->type,
+                    $this->method_name,
+                    $this->arguments,
+                    $this->description
+                    ) = $matches;
             if ($static) {
                 if (!$this->type) {
                     $this->type = 'static';
@@ -126,8 +122,7 @@ class MethodTag extends ReturnTag
      *
      * @return $this
      */
-    public function setMethodName($method_name)
-    {
+    public function setMethodName($method_name) {
         $this->method_name = $method_name;
 
         $this->content = null;
@@ -139,8 +134,7 @@ class MethodTag extends ReturnTag
      *
      * @return string
      */
-    public function getMethodName()
-    {
+    public function getMethodName() {
         return $this->method_name;
     }
 
@@ -151,8 +145,7 @@ class MethodTag extends ReturnTag
      *
      * @return void
      */
-    public function setArguments($arguments)
-    {
+    public function setArguments($arguments) {
         $this->arguments = $arguments;
 
         $this->content = null;
@@ -167,8 +160,7 @@ class MethodTag extends ReturnTag
      *
      * @return string[]
      */
-    public function getArguments()
-    {
+    public function getArguments() {
         if (empty($this->arguments)) {
             return array();
         }
@@ -180,18 +172,17 @@ class MethodTag extends ReturnTag
 
         return $arguments;
     }
-    
+
     /**
      * Checks whether the method tag describes a static method or not.
      * 
      * @return bool TRUE if the method declaration is for a static method, FALSE
      *     otherwise.
      */
-    public function isStatic()
-    {
+    public function isStatic() {
         return $this->isStatic;
     }
-    
+
     /**
      * Sets a new value for whether the method is static or not.
      * 
@@ -199,11 +190,11 @@ class MethodTag extends ReturnTag
      * 
      * @return $this
      */
-    public function setIsStatic($isStatic)
-    {
+    public function setIsStatic($isStatic) {
         $this->isStatic = $isStatic;
 
         $this->content = null;
         return $this;
     }
+
 }

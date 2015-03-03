@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -55,8 +56,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
-interface PHPUnit_Framework_MockObject_Builder_Namespace
-{
+interface PHPUnit_Framework_MockObject_Builder_Namespace {
+
     /**
      * Looks up the match builder with identification $id and returns it.
      *

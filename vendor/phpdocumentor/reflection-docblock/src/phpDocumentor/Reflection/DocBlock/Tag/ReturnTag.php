@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -22,19 +23,18 @@ use phpDocumentor\Reflection\DocBlock\Type\Collection;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class ReturnTag extends Tag
-{
+class ReturnTag extends Tag {
+
     /** @var string The raw type component. */
     protected $type = '';
-    
+
     /** @var Collection The parsed type component. */
     protected $types = null;
 
     /**
      * {@inheritdoc}
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
             $this->content = "{$this->type} {$this->description}";
         }
@@ -45,8 +45,7 @@ class ReturnTag extends Tag
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         parent::setContent($content);
 
         $parts = preg_split('/\s+/Su', $this->description, 2);
@@ -66,8 +65,7 @@ class ReturnTag extends Tag
      *
      * @return string[]
      */
-    public function getTypes()
-    {
+    public function getTypes() {
         return $this->getTypesCollection()->getArrayCopy();
     }
 
@@ -76,8 +74,7 @@ class ReturnTag extends Tag
      *
      * @return string
      */
-    public function getType()
-    {
+    public function getType() {
         return (string) $this->getTypesCollection();
     }
 
@@ -86,14 +83,13 @@ class ReturnTag extends Tag
      * 
      * @return void
      */
-    protected function getTypesCollection()
-    {
+    protected function getTypesCollection() {
         if (null === $this->types) {
             $this->types = new Collection(
-                array($this->type),
-                $this->docblock ? $this->docblock->getContext() : null
+                    array($this->type), $this->docblock ? $this->docblock->getContext() : null
             );
         }
         return $this->types;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class PHPUnit_Framework_Warning extends PHPUnit_Framework_TestCase
-{
+class PHPUnit_Framework_Warning extends PHPUnit_Framework_TestCase {
+
     /**
      * @var string
      */
@@ -49,8 +50,7 @@ class PHPUnit_Framework_Warning extends PHPUnit_Framework_TestCase
     /**
      * @param string $message
      */
-    public function __construct($message = '')
-    {
+    public function __construct($message = '') {
         $this->message = $message;
         parent::__construct('Warning');
     }
@@ -58,8 +58,7 @@ class PHPUnit_Framework_Warning extends PHPUnit_Framework_TestCase
     /**
      * @throws PHPUnit_Framework_Exception
      */
-    protected function runTest()
-    {
+    protected function runTest() {
         $this->fail($this->message);
     }
 
@@ -67,8 +66,7 @@ class PHPUnit_Framework_Warning extends PHPUnit_Framework_TestCase
      * @return string
      * @since  Method available since Release 3.0.0
      */
-    public function getMessage()
-    {
+    public function getMessage() {
         return $this->message;
     }
 
@@ -78,8 +76,8 @@ class PHPUnit_Framework_Warning extends PHPUnit_Framework_TestCase
      * @return string
      * @since  Method available since Release 3.4.0
      */
-    public function toString()
-    {
+    public function toString() {
         return 'Warning';
     }
+
 }

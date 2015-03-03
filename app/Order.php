@@ -9,7 +9,8 @@ class Order extends Model {
     public function users() {
         return $this->belongsTo('App\User');
     }
-            public function movies() {
+
+    public function movies() {
         return $this->belongsToMany('App\Movie');
     }
 

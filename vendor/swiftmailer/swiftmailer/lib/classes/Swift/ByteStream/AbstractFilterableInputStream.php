@@ -13,8 +13,8 @@
  *
  * @author     Chris Corbyn
  */
-abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_InputByteStream, Swift_Filterable
-{
+abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_InputByteStream, Swift_Filterable {
+
     /**
      * Write sequence.
      */
@@ -55,8 +55,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
      * @param Swift_StreamFilter $filter
      * @param string             $key
      */
-    public function addFilter(Swift_StreamFilter $filter, $key)
-    {
+    public function addFilter(Swift_StreamFilter $filter, $key) {
         $this->_filters[$key] = $filter;
     }
 
@@ -65,8 +64,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
      *
      * @param string $key
      */
-    public function removeFilter($key)
-    {
+    public function removeFilter($key) {
         unset($this->_filters[$key]);
     }
 
@@ -79,8 +77,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
      *
      * @throws Swift_IoException
      */
-    public function write($bytes)
-    {
+    public function write($bytes) {
         $this->_writeBuffer .= $bytes;
         foreach ($this->_filters as $filter) {
             if ($filter->shouldBuffer($this->_writeBuffer)) {
@@ -98,8 +95,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
      *
      * @throws Swift_IoException
      */
-    public function commit()
-    {
+    public function commit() {
         $this->_doWrite($this->_writeBuffer);
     }
 
@@ -111,8 +107,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
      *
      * @param Swift_InputByteStream $is
      */
-    public function bind(Swift_InputByteStream $is)
-    {
+    public function bind(Swift_InputByteStream $is) {
         $this->_mirrors[] = $is;
     }
 
@@ -125,8 +120,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
      *
      * @param Swift_InputByteStream $is
      */
-    public function unbind(Swift_InputByteStream $is)
-    {
+    public function unbind(Swift_InputByteStream $is) {
         foreach ($this->_mirrors as $k => $stream) {
             if ($is === $stream) {
                 if ($this->_writeBuffer !== '') {
@@ -143,8 +137,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
      *
      * @throws Swift_IoException
      */
-    public function flushBuffers()
-    {
+    public function flushBuffers() {
         if ($this->_writeBuffer !== '') {
             $this->_doWrite($this->_writeBuffer);
         }
@@ -156,8 +149,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
     }
 
     /** Run $bytes through all filters */
-    private function _filter($bytes)
-    {
+    private function _filter($bytes) {
         foreach ($this->_filters as $filter) {
             $bytes = $filter->filter($bytes);
         }
@@ -166,8 +158,7 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
     }
 
     /** Just write the bytes to the stream */
-    private function _doWrite($bytes)
-    {
+    private function _doWrite($bytes) {
         $this->_commit($this->_filter($bytes));
 
         foreach ($this->_mirrors as $stream) {
@@ -176,4 +167,5 @@ abstract class Swift_ByteStream_AbstractFilterableInputStream implements Swift_I
 
         $this->_writeBuffer = '';
     }
+
 }

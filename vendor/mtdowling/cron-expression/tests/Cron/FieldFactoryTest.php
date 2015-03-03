@@ -7,13 +7,12 @@ use Cron\FieldFactory;
 /**
  * @author Michael Dowling <mtdowling@gmail.com>
  */
-class FieldFactoryTest extends \PHPUnit_Framework_TestCase
-{
+class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @covers Cron\FieldFactory::getField
      */
-    public function testRetrievesFieldInstances()
-    {
+    public function testRetrievesFieldInstances() {
         $mappings = array(
             0 => 'Cron\MinutesField',
             1 => 'Cron\HoursField',
@@ -34,9 +33,9 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase
      * @covers Cron\FieldFactory::getField
      * @expectedException InvalidArgumentException
      */
-    public function testValidatesFieldPosition()
-    {
+    public function testValidatesFieldPosition() {
         $f = new FieldFactory();
         $f->getField(-1);
     }
+
 }

@@ -16,8 +16,8 @@ namespace Symfony\Component\Finder\Comparator;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Comparator
-{
+class Comparator {
+
     private $target;
     private $operator = '==';
 
@@ -26,8 +26,7 @@ class Comparator
      *
      * @return string The target value
      */
-    public function getTarget()
-    {
+    public function getTarget() {
         return $this->target;
     }
 
@@ -36,8 +35,7 @@ class Comparator
      *
      * @param string $target The target value
      */
-    public function setTarget($target)
-    {
+    public function setTarget($target) {
         $this->target = $target;
     }
 
@@ -46,8 +44,7 @@ class Comparator
      *
      * @return string The operator
      */
-    public function getOperator()
-    {
+    public function getOperator() {
         return $this->operator;
     }
 
@@ -58,8 +55,7 @@ class Comparator
      *
      * @throws \InvalidArgumentException
      */
-    public function setOperator($operator)
-    {
+    public function setOperator($operator) {
         if (!$operator) {
             $operator = '==';
         }
@@ -78,8 +74,7 @@ class Comparator
      *
      * @return bool
      */
-    public function test($test)
-    {
+    public function test($test) {
         switch ($this->operator) {
             case '>':
                 return $test > $this->target;
@@ -95,4 +90,5 @@ class Comparator
 
         return $test == $this->target;
     }
+
 }

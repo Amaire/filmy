@@ -6,8 +6,8 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use Net_SFTP;
 
-abstract class AbstractFtpAdapter extends AbstractAdapter
-{
+abstract class AbstractFtpAdapter extends AbstractAdapter {
+
     protected $connection;
     protected $host;
     protected $port = 21;
@@ -27,8 +27,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @param array $config
      */
-    public function __construct(array $config)
-    {
+    public function __construct(array $config) {
         $this->setConfig($config);
     }
 
@@ -39,13 +38,12 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setConfig(array $config)
-    {
+    public function setConfig(array $config) {
         foreach ($this->configurable as $setting) {
-            if (! isset($config[$setting])) {
+            if (!isset($config[$setting])) {
                 continue;
             }
-            $this->{'set'.ucfirst($setting)}($config[$setting]);
+            $this->{'set' . ucfirst($setting)}($config[$setting]);
         }
 
         return $this;
@@ -56,8 +54,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return string
      */
-    public function getHost()
-    {
+    public function getHost() {
         return $this->host;
     }
 
@@ -68,8 +65,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setHost($host)
-    {
+    public function setHost($host) {
         $this->host = $host;
 
         return $this;
@@ -82,8 +78,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setPermPublic($permPublic)
-    {
+    public function setPermPublic($permPublic) {
         $this->permPublic = $permPublic;
 
         return $this;
@@ -96,8 +91,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setPermPrivate($permPrivate)
-    {
+    public function setPermPrivate($permPrivate) {
         $this->permPrivate = $permPrivate;
 
         return $this;
@@ -108,8 +102,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return int
      */
-    public function getPort()
-    {
+    public function getPort() {
         return $this->port;
     }
 
@@ -118,8 +111,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return string
      */
-    public function getRoot()
-    {
+    public function getRoot() {
         return $this->root;
     }
 
@@ -130,8 +122,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setPort($port)
-    {
+    public function setPort($port) {
         $this->port = (int) $port;
 
         return $this;
@@ -144,9 +135,8 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setRoot($root)
-    {
-        $this->root = rtrim($root, '\\/').$this->separator;
+    public function setRoot($root) {
+        $this->root = rtrim($root, '\\/') . $this->separator;
 
         return $this;
     }
@@ -156,8 +146,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return string username
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return empty($this->username) ? 'anonymous' : $this->username;
     }
 
@@ -168,8 +157,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
 
         return $this;
@@ -180,8 +168,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return string password
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -192,8 +179,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
 
         return $this;
@@ -204,8 +190,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return int
      */
-    public function getTimeout()
-    {
+    public function getTimeout() {
         return $this->timeout;
     }
 
@@ -216,8 +201,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return $this
      */
-    public function setTimeout($timeout)
-    {
+    public function setTimeout($timeout) {
         $this->timeout = (int) $timeout;
 
         return $this;
@@ -226,8 +210,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function listContents($directory = '', $recursive = false)
-    {
+    public function listContents($directory = '', $recursive = false) {
         return $this->listDirectoryContents($directory, $recursive);
     }
 
@@ -239,8 +222,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return array directory listing
      */
-    protected function normalizeListing(array $listing, $prefix = '')
-    {
+    protected function normalizeListing(array $listing, $prefix = '') {
         $base = $prefix;
         $result = [];
         $listing = $this->removeDotDirectories($listing);
@@ -264,8 +246,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return array sorted listing
      */
-    protected function sortListing(array $result)
-    {
+    protected function sortListing(array $result) {
         $compare = function ($one, $two) {
             return strnatcmp($one['path'], $two['path']);
         };
@@ -283,13 +264,12 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return array normalized file array
      */
-    protected function normalizeObject($item, $base)
-    {
+    protected function normalizeObject($item, $base) {
         $item = preg_replace('#\s+#', ' ', trim($item));
         list($permissions, /* $number */, /* $owner */, /* $group */, $size, $month, $day, $time, $name) = explode(' ', $item, 9);
         $type = $this->detectType($permissions);
-        $timestamp = strtotime($month.' '.$day.' '.$time);
-        $path = empty($base) ? $name : $base.$this->separator.$name;
+        $timestamp = strtotime($month . ' ' . $day . ' ' . $time);
+        $path = empty($base) ? $name : $base . $this->separator . $name;
 
         if ($type === 'dir') {
             return compact('type', 'path', 'timestamp');
@@ -309,8 +289,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return string file type
      */
-    protected function detectType($permissions)
-    {
+    protected function detectType($permissions) {
         return substr($permissions, 0, 1) === 'd' ? 'dir' : 'file';
     }
 
@@ -321,8 +300,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return int
      */
-    protected function normalizePermissions($permissions)
-    {
+    protected function normalizePermissions($permissions) {
         // remove the type identifier
         $permissions = substr($permissions, 1);
 
@@ -349,10 +327,9 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return array
      */
-    public function removeDotDirectories(array $list)
-    {
+    public function removeDotDirectories(array $list) {
         $filter = function ($line) {
-            if (! empty($line) && ! preg_match('#.* \.(\.)?$|^total#', $line)) {
+            if (!empty($line) && !preg_match('#.* \.(\.)?$|^total#', $line)) {
                 return true;
             }
 
@@ -365,32 +342,28 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function has($path)
-    {
+    public function has($path) {
         return $this->getMetadata($path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSize($path)
-    {
+    public function getSize($path) {
         return $this->getMetadata($path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTimestamp($path)
-    {
+    public function getTimestamp($path) {
         return $this->getMetadata($path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getVisibility($path)
-    {
+    public function getVisibility($path) {
         return $this->getMetadata($path);
     }
 
@@ -399,9 +372,8 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @param string $dirname
      */
-    public function ensureDirectory($dirname)
-    {
-        if (! empty($dirname) && ! $this->has($dirname)) {
+    public function ensureDirectory($dirname) {
+        if (!empty($dirname) && !$this->has($dirname)) {
             $this->createDir($dirname, new Config());
         }
     }
@@ -409,9 +381,8 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
     /**
      * @return resource|Net_SFTP
      */
-    public function getConnection()
-    {
-        if (! $this->connection) {
+    public function getConnection() {
+        if (!$this->connection) {
             $this->connect();
         }
 
@@ -423,8 +394,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return int
      */
-    public function getPermPublic()
-    {
+    public function getPermPublic() {
         return $this->permPublic;
     }
 
@@ -433,16 +403,14 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      *
      * @return int
      */
-    public function getPermPrivate()
-    {
+    public function getPermPrivate() {
         return $this->permPrivate;
     }
 
     /**
      * Disconnect on destruction.
      */
-    public function __destruct()
-    {
+    public function __destruct() {
         $this->disconnect();
     }
 

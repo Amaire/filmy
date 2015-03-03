@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -41,7 +42,6 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      File available since Release 1.0.0
  */
-
 use SebastianBergmann\Exporter\Exporter;
 
 /**
@@ -55,31 +55,31 @@ use SebastianBergmann\Exporter\Exporter;
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Class available since Release 1.0.0
  */
-class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framework_MockObject_Invocation, PHPUnit_Framework_SelfDescribing
-{
+class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framework_MockObject_Invocation, PHPUnit_Framework_SelfDescribing {
+
     /**
      * @var array
      */
     protected static $uncloneableExtensions = array(
-      'mysqli' => TRUE,
-      'SQLite' => TRUE,
-      'sqlite3' => TRUE,
-      'tidy' => TRUE,
-      'xmlwriter' => TRUE,
-      'xsl' => TRUE
+        'mysqli' => TRUE,
+        'SQLite' => TRUE,
+        'sqlite3' => TRUE,
+        'tidy' => TRUE,
+        'xmlwriter' => TRUE,
+        'xsl' => TRUE
     );
 
     /**
      * @var array
      */
     protected static $uncloneableClasses = array(
-      'Closure',
-      'COMPersistHelper',
-      'IteratorIterator',
-      'RecursiveIteratorIterator',
-      'SplFileObject',
-      'PDORow',
-      'ZipArchive'
+        'Closure',
+        'COMPersistHelper',
+        'IteratorIterator',
+        'RecursiveIteratorIterator',
+        'SplFileObject',
+        'PDORow',
+        'ZipArchive'
     );
 
     /**
@@ -103,9 +103,8 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
      * @param array   $parameters
      * @param boolean $cloneObjects
      */
-    public function __construct($className, $methodName, array $parameters, $cloneObjects = FALSE)
-    {
-        $this->className  = $className;
+    public function __construct($className, $methodName, array $parameters, $cloneObjects = FALSE) {
+        $this->className = $className;
         $this->methodName = $methodName;
         $this->parameters = $parameters;
 
@@ -123,22 +122,15 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
     /**
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         $exporter = new Exporter;
 
         return sprintf(
-          "%s::%s(%s)",
-
-          $this->className,
-          $this->methodName,
-          join(
-            ', ',
-            array_map(
-              array($exporter, 'shortenedExport'),
-              $this->parameters
-            )
-          )
+                "%s::%s(%s)", $this->className, $this->methodName, join(
+                        ', ', array_map(
+                                array($exporter, 'shortenedExport'), $this->parameters
+                        )
+                )
         );
     }
 
@@ -146,15 +138,14 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
      * @param  object $original
      * @return object
      */
-    protected function cloneObject($original)
-    {
+    protected function cloneObject($original) {
         $cloneable = NULL;
-        $object    = new ReflectionObject($original);
+        $object = new ReflectionObject($original);
 
         // Check the blacklist before asking PHP reflection to work around
         // https://bugs.php.net/bug.php?id=53967
         if ($object->isInternal() &&
-            isset(self::$uncloneableExtensions[$object->getExtensionName()])) {
+                isset(self::$uncloneableExtensions[$object->getExtensionName()])) {
             $cloneable = FALSE;
         }
 
@@ -172,7 +163,7 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
         }
 
         if ($cloneable === NULL && $object->hasMethod('__clone')) {
-            $method    = $object->getMethod('__clone');
+            $method = $object->getMethod('__clone');
             $cloneable = $method->isPublic();
         }
 
@@ -190,4 +181,5 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
             return $original;
         }
     }
+
 }

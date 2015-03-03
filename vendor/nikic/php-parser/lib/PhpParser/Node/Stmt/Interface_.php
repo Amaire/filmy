@@ -10,10 +10,10 @@ use PhpParser\Error;
  * @property Node\Name[] $extends Extended interfaces
  * @property Node[]      $stmts   Statements
  */
-class Interface_ extends Node\Stmt
-{
+class Interface_ extends Node\Stmt {
+
     protected static $specialNames = array(
-        'self'   => true,
+        'self' => true,
         'parent' => true,
         'static' => true,
     );
@@ -29,12 +29,11 @@ class Interface_ extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'name'    => $name,
-                'extends' => isset($subNodes['extends']) ? $subNodes['extends'] : array(),
-                'stmts'   => isset($subNodes['stmts'])   ? $subNodes['stmts']   : array(),
-            ),
-            $attributes
+                array(
+            'name' => $name,
+            'extends' => isset($subNodes['extends']) ? $subNodes['extends'] : array(),
+            'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
+                ), $attributes
         );
 
         if (isset(self::$specialNames[(string) $this->name])) {
@@ -47,4 +46,5 @@ class Interface_ extends Node\Stmt
             }
         }
     }
+
 }

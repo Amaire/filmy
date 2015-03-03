@@ -13,7 +13,7 @@
 
 namespace PhpSpec\Process;
 
-interface ReRunner
-{
+interface ReRunner {
+
     public function reRunSuite();
 }

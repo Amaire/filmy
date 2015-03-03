@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Matcher;
 
-interface MatchersProviderInterface
-{
+interface MatchersProviderInterface {
+
     /**
      * @return array
      */

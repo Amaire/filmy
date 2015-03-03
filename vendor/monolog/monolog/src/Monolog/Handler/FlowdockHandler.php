@@ -24,8 +24,8 @@ use Monolog\Logger;
  * @author Dominik Liebler <liebler.dominik@gmail.com>
  * @see https://www.flowdock.com/api/push
  */
-class FlowdockHandler extends SocketHandler
-{
+class FlowdockHandler extends SocketHandler {
+
     /**
      * @var string
      */
@@ -38,8 +38,7 @@ class FlowdockHandler extends SocketHandler
      *
      * @throws MissingExtensionException if OpenSSL is missing
      */
-    public function __construct($apiToken, $level = Logger::DEBUG, $bubble = true)
-    {
+    public function __construct($apiToken, $level = Logger::DEBUG, $bubble = true) {
         if (!extension_loaded('openssl')) {
             throw new MissingExtensionException('The OpenSSL PHP extension is required to use the FlowdockHandler');
         }
@@ -53,8 +52,7 @@ class FlowdockHandler extends SocketHandler
      *
      * @param array $record
      */
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         parent::write($record);
 
         $this->closeSocket();
@@ -66,8 +64,7 @@ class FlowdockHandler extends SocketHandler
      * @param  array  $record
      * @return string
      */
-    protected function generateDataStream($record)
-    {
+    protected function generateDataStream($record) {
         $content = $this->buildContent($record);
 
         return $this->buildHeader($content) . $content;
@@ -79,8 +76,7 @@ class FlowdockHandler extends SocketHandler
      * @param  array  $record
      * @return string
      */
-    private function buildContent($record)
-    {
+    private function buildContent($record) {
         return json_encode($record['formatted']['flowdock']);
     }
 
@@ -90,8 +86,7 @@ class FlowdockHandler extends SocketHandler
      * @param  string $content
      * @return string
      */
-    private function buildHeader($content)
-    {
+    private function buildHeader($content) {
         $header = "POST /v1/messages/team_inbox/" . $this->apiToken . " HTTP/1.1\r\n";
         $header .= "Host: api.flowdock.com\r\n";
         $header .= "Content-Type: application/json\r\n";
@@ -100,4 +95,5 @@ class FlowdockHandler extends SocketHandler
 
         return $header;
     }
+
 }

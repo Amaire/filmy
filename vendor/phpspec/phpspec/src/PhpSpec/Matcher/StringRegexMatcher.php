@@ -16,8 +16,8 @@ namespace PhpSpec\Matcher;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 
-class StringRegexMatcher extends BasicMatcher
-{
+class StringRegexMatcher extends BasicMatcher {
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
@@ -26,8 +26,7 @@ class StringRegexMatcher extends BasicMatcher
     /**
      * @param PresenterInterface $presenter
      */
-    public function __construct(PresenterInterface $presenter)
-    {
+    public function __construct(PresenterInterface $presenter) {
         $this->presenter = $presenter;
     }
 
@@ -38,11 +37,8 @@ class StringRegexMatcher extends BasicMatcher
      *
      * @return bool
      */
-    public function supports($name, $subject, array $arguments)
-    {
-        return 'match' === $name
-            && is_string($subject)
-            && 1 == count($arguments)
+    public function supports($name, $subject, array $arguments) {
+        return 'match' === $name && is_string($subject) && 1 == count($arguments)
         ;
     }
 
@@ -52,8 +48,7 @@ class StringRegexMatcher extends BasicMatcher
      *
      * @return bool
      */
-    protected function matches($subject, array $arguments)
-    {
+    protected function matches($subject, array $arguments) {
         return (Boolean) preg_match($arguments[0], $subject);
     }
 
@@ -64,12 +59,9 @@ class StringRegexMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getFailureException($name, $subject, array $arguments)
-    {
+    protected function getFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Expected %s to match %s regex, but it does not.',
-            $this->presenter->presentString($subject),
-            $this->presenter->presentString($arguments[0])
+                        'Expected %s to match %s regex, but it does not.', $this->presenter->presentString($subject), $this->presenter->presentString($arguments[0])
         ));
     }
 
@@ -80,12 +72,10 @@ class StringRegexMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getNegativeFailureException($name, $subject, array $arguments)
-    {
+    protected function getNegativeFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Expected %s not to match %s regex, but it does.',
-            $this->presenter->presentString($subject),
-            $this->presenter->presentString($arguments[0])
+                        'Expected %s not to match %s regex, but it does.', $this->presenter->presentString($subject), $this->presenter->presentString($arguments[0])
         ));
     }
+
 }

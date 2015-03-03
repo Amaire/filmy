@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -17,8 +18,8 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 2.0.0
  */
-class PHP_CodeCoverage_Report_Crap4j
-{
+class PHP_CodeCoverage_Report_Crap4j {
+
     private $threshold = 30;
 
     /**
@@ -27,8 +28,7 @@ class PHP_CodeCoverage_Report_Crap4j
      * @param  string           $name
      * @return string
      */
-    public function process(PHP_CodeCoverage $coverage, $target = null, $name = null)
-    {
+    public function process(PHP_CodeCoverage $coverage, $target = null, $name = null) {
         $document = new DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = true;
 
@@ -42,7 +42,7 @@ class PHP_CodeCoverage_Report_Crap4j
         $stats = $document->createElement('stats');
         $methodsNode = $document->createElement('methods');
 
-        $report   = $coverage->getReport();
+        $report = $coverage->getReport();
         unset($coverage);
 
         $fullMethodCount = 0;
@@ -110,8 +110,7 @@ class PHP_CodeCoverage_Report_Crap4j
         }
     }
 
-    private function getCrapLoad($crapValue, $cyclomaticComplexity, $coveragePercent)
-    {
+    private function getCrapLoad($crapValue, $cyclomaticComplexity, $coveragePercent) {
         $crapLoad = 0;
         if ($crapValue >= $this->threshold) {
             $crapLoad += $cyclomaticComplexity * (1.0 - $coveragePercent / 100);
@@ -121,8 +120,8 @@ class PHP_CodeCoverage_Report_Crap4j
         return $crapLoad;
     }
 
-    private function roundValue($value)
-    {
+    private function roundValue($value) {
         return round($value, 2);
     }
+
 }

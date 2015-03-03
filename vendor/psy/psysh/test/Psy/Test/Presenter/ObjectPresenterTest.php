@@ -18,32 +18,28 @@ use Psy\Presenter\PresenterManager;
 use Psy\Presenter\ScalarPresenter;
 use Psy\Test\Presenter\Fixtures\SimpleClass;
 
-class ObjectPresenterTest extends \PHPUnit_Framework_TestCase
-{
+class ObjectPresenterTest extends \PHPUnit_Framework_TestCase {
+
     private $presenter;
     private $manager;
 
-    public function setUp()
-    {
+    public function setUp() {
         $this->presenter = new ObjectPresenter();
 
-        $this->manager   = new PresenterManager();
+        $this->manager = new PresenterManager();
         $this->manager->addPresenter(new ScalarPresenter());
         $this->manager->addPresenter(new ArrayPresenter());
         $this->manager->addPresenter($this->presenter);
     }
 
-    public function testPresentEmptyObject()
-    {
+    public function testPresentEmptyObject() {
         $empty = new \StdClass();
         $this->assertEquals(
-            $this->presenter->presentRef($empty) . ' {}',
-            $this->presenter->present($empty)
+                $this->presenter->presentRef($empty) . ' {}', $this->presenter->present($empty)
         );
     }
 
-    public function testPresentWithDepth()
-    {
+    public function testPresentWithDepth() {
         $obj = new \StdClass();
         $obj->name = 'std';
         $obj->type = 'class';
@@ -51,7 +47,7 @@ class ObjectPresenterTest extends \PHPUnit_Framework_TestCase
         $obj->child = new \StdClass();
         $obj->child->name = 'std, jr';
 
-        $hash      = spl_object_hash($obj);
+        $hash = spl_object_hash($obj);
         $childHash = spl_object_hash($obj->child);
 
         $expected = <<<EOS
@@ -66,8 +62,7 @@ EOS;
         $this->assertStringMatchesFormat($expected, $this->presenter->present($obj, 1));
     }
 
-    public function testPresentWithoutDepth()
-    {
+    public function testPresentWithoutDepth() {
         $obj = new \StdClass();
         $obj->name = 'std';
         $obj->type = 'class';
@@ -75,7 +70,7 @@ EOS;
         $obj->child = new \StdClass();
         $obj->child->name = 'std, jr';
 
-        $hash      = spl_object_hash($obj);
+        $hash = spl_object_hash($obj);
         $childHash = spl_object_hash($obj->child);
 
         $expected = <<<EOS
@@ -95,8 +90,7 @@ EOS;
         $this->assertStringMatchesFormat($expected, $this->presenter->present($obj));
     }
 
-    public function testPresentRef()
-    {
+    public function testPresentRef() {
         $obj = new \StdClass();
 
         $formatted = $this->presenter->presentRef($obj);
@@ -105,8 +99,7 @@ EOS;
         $this->assertContains(spl_object_hash($obj), $formatted);
     }
 
-    public function testPresentVerbose()
-    {
+    public function testPresentVerbose() {
         $obj = new SimpleClass();
         $hash = spl_object_hash($obj);
 
@@ -120,4 +113,5 @@ EOS;
 
         $this->assertStringMatchesFormat($expected, $this->presenter->present($obj, null, Presenter::VERBOSE));
     }
+
 }

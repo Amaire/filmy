@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -19,8 +20,8 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 1.0.0
  */
-interface PHP_CodeCoverage_Driver
-{
+interface PHP_CodeCoverage_Driver {
+
     /**
      * Start collection of code coverage information.
      */

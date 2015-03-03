@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -23,8 +24,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constraint {
+
     /**
      * @var string
      */
@@ -33,8 +34,7 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
     /**
      * @param string $className
      */
-    public function __construct($className)
-    {
+    public function __construct($className) {
         parent::__construct();
         $this->className = $className;
     }
@@ -46,8 +46,7 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         return ($other instanceof $this->className);
     }
 
@@ -60,13 +59,9 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         return sprintf(
-            '%s is an instance of %s "%s"',
-            $this->exporter->shortenedExport($other),
-            $this->getType(),
-            $this->className
+                '%s is an instance of %s "%s"', $this->exporter->shortenedExport($other), $this->getType(), $this->className
         );
     }
 
@@ -75,25 +70,23 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return sprintf(
-            'is instance of %s "%s"',
-            $this->getType(),
-            $this->className
+                'is instance of %s "%s"', $this->getType(), $this->className
         );
     }
 
-    private function getType()
-    {
+    private function getType() {
         try {
             $reflection = new ReflectionClass($this->className);
             if ($reflection->isInterface()) {
                 return 'interface';
             }
         } catch (ReflectionException $e) {
+            
         }
 
         return 'class';
     }
+
 }

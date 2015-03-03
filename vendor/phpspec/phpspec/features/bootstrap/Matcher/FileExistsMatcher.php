@@ -5,8 +5,8 @@ namespace Matcher;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\MatcherInterface;
 
-class FileExistsMatcher implements MatcherInterface
-{
+class FileExistsMatcher implements MatcherInterface {
+
     /**
      * Checks if matcher supports provided subject and matcher name.
      *
@@ -16,8 +16,7 @@ class FileExistsMatcher implements MatcherInterface
      *
      * @return Boolean
      */
-    public function supports($name, $subject, array $arguments)
-    {
+    public function supports($name, $subject, array $arguments) {
         return ('exist' == $name && is_string($subject));
     }
 
@@ -28,12 +27,10 @@ class FileExistsMatcher implements MatcherInterface
      * @param mixed $subject
      * @param array $arguments
      */
-    public function positiveMatch($name, $subject, array $arguments)
-    {
+    public function positiveMatch($name, $subject, array $arguments) {
         if (!file_exists($subject)) {
             throw new FailureException(sprintf(
-                "File did not exist at path '%s'",
-                $subject
+                    "File did not exist at path '%s'", $subject
             ));
         }
     }
@@ -45,12 +42,10 @@ class FileExistsMatcher implements MatcherInterface
      * @param mixed $subject
      * @param array $arguments
      */
-    public function negativeMatch($name, $subject, array $arguments)
-    {
+    public function negativeMatch($name, $subject, array $arguments) {
         if (file_exists($subject)) {
             throw new FailureException(sprintf(
-                "File unexpectedly exists at path '%s'",
-                $subject
+                    "File unexpectedly exists at path '%s'", $subject
             ));
         }
     }
@@ -60,8 +55,8 @@ class FileExistsMatcher implements MatcherInterface
      *
      * @return integer
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 0;
     }
+
 }

@@ -19,10 +19,9 @@ use Symfony\Component\VarDumper\Cloner\Data;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class DumpDataCollectorTest extends \PHPUnit_Framework_TestCase
-{
-    public function testDump()
-    {
+class DumpDataCollectorTest extends \PHPUnit_Framework_TestCase {
+
+    public function testDump() {
         $data = new Data(array(array(123)));
 
         $collector = new DumpDataCollector();
@@ -50,16 +49,14 @@ class DumpDataCollectorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($xDump, $dump);
 
         $this->assertStringMatchesFormat(
-            'a:1:{i:0;a:5:{s:4:"data";O:39:"Symfony\Component\VarDumper\Cloner\Data":4:{s:45:"Symfony\Component\VarDumper\Cloner\Datadata";a:1:{i:0;a:1:{i:0;i:123;}}s:49:"Symfony\Component\VarDumper\Cloner\DatamaxDepth";i:%i;s:57:"Symfony\Component\VarDumper\Cloner\DatamaxItemsPerDepth";i:%i;s:54:"Symfony\Component\VarDumper\Cloner\DatauseRefHandles";i:%i;}s:4:"name";s:25:"DumpDataCollectorTest.php";s:4:"file";s:%a',
-            str_replace("\0", '', $collector->serialize())
+                'a:1:{i:0;a:5:{s:4:"data";O:39:"Symfony\Component\VarDumper\Cloner\Data":4:{s:45:"Symfony\Component\VarDumper\Cloner\Datadata";a:1:{i:0;a:1:{i:0;i:123;}}s:49:"Symfony\Component\VarDumper\Cloner\DatamaxDepth";i:%i;s:57:"Symfony\Component\VarDumper\Cloner\DatamaxItemsPerDepth";i:%i;s:54:"Symfony\Component\VarDumper\Cloner\DatauseRefHandles";i:%i;}s:4:"name";s:25:"DumpDataCollectorTest.php";s:4:"file";s:%a', str_replace("\0", '', $collector->serialize())
         );
 
         $this->assertSame(0, $collector->getDumpsCount());
         $this->assertSame('a:0:{}', $collector->serialize());
     }
 
-    public function testFlush()
-    {
+    public function testFlush() {
         $data = new Data(array(array(456)));
         $collector = new DumpDataCollector();
         $collector->dump($data);
@@ -69,4 +66,5 @@ class DumpDataCollectorTest extends \PHPUnit_Framework_TestCase
         $collector = null;
         $this->assertSame("DumpDataCollectorTest.php on line {$line}:\n456\n", ob_get_clean());
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,16 +22,15 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class SeeTag extends Tag
-{
+class SeeTag extends Tag {
+
     /** @var string */
     protected $refers = null;
 
     /**
      * {@inheritdoc}
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
             $this->content = "{$this->refers} {$this->description}";
         }
@@ -40,8 +40,7 @@ class SeeTag extends Tag
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         parent::setContent($content);
         $parts = preg_split('/\s+/Su', $this->description, 2);
 
@@ -59,8 +58,7 @@ class SeeTag extends Tag
      *
      * @return string
      */
-    public function getReference()
-    {
+    public function getReference() {
         return $this->refers;
     }
 
@@ -71,11 +69,11 @@ class SeeTag extends Tag
      * 
      * @return $this
      */
-    public function setReference($refers)
-    {
+    public function setReference($refers) {
         $this->refers = $refers;
 
         $this->content = null;
         return $this;
     }
+
 }

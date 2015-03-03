@@ -14,8 +14,8 @@
  *
  * @author     Sebastiaan Stok <s.stok@rollerscapes.net>
  */
-class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentEncoder
-{
+class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentEncoder {
+
     /**
      * Encode a given string to produce an encoded string.
      *
@@ -24,8 +24,7 @@ class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentE
      * @param  int    $maxLineLength   ignored
      * @return string
      */
-    public function encodeString($string, $firstLineOffset = 0, $maxLineLength = 0)
-    {
+    public function encodeString($string, $firstLineOffset = 0, $maxLineLength = 0) {
         return $string;
     }
 
@@ -37,8 +36,7 @@ class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentE
      * @param int                    $firstLineOffset ignored
      * @param int                    $maxLineLength   ignored
      */
-    public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0)
-    {
+    public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0) {
         while (false !== ($bytes = $os->read(8192))) {
             $is->write($bytes);
         }
@@ -49,15 +47,15 @@ class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentE
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return 'raw';
     }
 
     /**
      * Not used.
      */
-    public function charsetChanged($charset)
-    {
+    public function charsetChanged($charset) {
+        
     }
+
 }

@@ -7,8 +7,8 @@ use PhpParser\Node\Stmt;
 /**
  * @property string $name Name
  */
-class Label extends Stmt
-{
+class Label extends Stmt {
+
     /**
      * Constructs a label node.
      *
@@ -17,10 +17,10 @@ class Label extends Stmt
      */
     public function __construct($name, array $attributes = array()) {
         parent::__construct(
-            array(
-                'name' => $name,
-            ),
-            $attributes
+                array(
+            'name' => $name,
+                ), $attributes
         );
     }
+
 }

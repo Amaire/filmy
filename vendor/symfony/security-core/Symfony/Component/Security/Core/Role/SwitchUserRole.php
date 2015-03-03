@@ -19,8 +19,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class SwitchUserRole extends Role
-{
+class SwitchUserRole extends Role {
+
     private $source;
 
     /**
@@ -29,8 +29,7 @@ class SwitchUserRole extends Role
      * @param string         $role   The role as a string
      * @param TokenInterface $source The original token
      */
-    public function __construct($role, TokenInterface $source)
-    {
+    public function __construct($role, TokenInterface $source) {
         parent::__construct($role);
 
         $this->source = $source;
@@ -41,8 +40,8 @@ class SwitchUserRole extends Role
      *
      * @return TokenInterface The original TokenInterface instance
      */
-    public function getSource()
-    {
+    public function getSource() {
         return $this->source;
     }
+
 }

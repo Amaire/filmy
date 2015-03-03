@@ -1,12 +1,14 @@
-<?php namespace SuperClosure;
+<?php
+
+namespace SuperClosure;
 
 use SuperClosure\Exception\ClosureUnserializationException;
 
 /**
  * Interface for a serializer that is used to serialize Closure objects.
  */
-interface SerializerInterface
-{
+interface SerializerInterface {
+
     /**
      * Takes a Closure object, decorates it with a SerializableClosure object,
      * then performs the serialization.

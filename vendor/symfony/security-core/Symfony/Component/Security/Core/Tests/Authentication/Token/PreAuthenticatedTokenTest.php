@@ -14,10 +14,9 @@ namespace Symfony\Component\Security\Core\Tests\Authentication\Token;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Role\Role;
 
-class PreAuthenticatedTokenTest extends \PHPUnit_Framework_TestCase
-{
-    public function testConstructor()
-    {
+class PreAuthenticatedTokenTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConstructor() {
         $token = new PreAuthenticatedToken('foo', 'bar', 'key');
         $this->assertFalse($token->isAuthenticated());
 
@@ -27,22 +26,20 @@ class PreAuthenticatedTokenTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('key', $token->getProviderKey());
     }
 
-    public function testGetCredentials()
-    {
+    public function testGetCredentials() {
         $token = new PreAuthenticatedToken('foo', 'bar', 'key');
         $this->assertEquals('bar', $token->getCredentials());
     }
 
-    public function testGetUser()
-    {
+    public function testGetUser() {
         $token = new PreAuthenticatedToken('foo', 'bar', 'key');
         $this->assertEquals('foo', $token->getUser());
     }
 
-    public function testEraseCredentials()
-    {
+    public function testEraseCredentials() {
         $token = new PreAuthenticatedToken('foo', 'bar', 'key');
         $token->eraseCredentials();
         $this->assertEquals('', $token->getCredentials());
     }
+
 }

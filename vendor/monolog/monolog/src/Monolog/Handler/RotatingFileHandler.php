@@ -22,8 +22,8 @@ use Monolog\Logger;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class RotatingFileHandler extends StreamHandler
-{
+class RotatingFileHandler extends StreamHandler {
+
     protected $filename;
     protected $maxFiles;
     protected $mustRotate;
@@ -39,8 +39,7 @@ class RotatingFileHandler extends StreamHandler
      * @param int|null $filePermission Optional file permissions (default (0644) are only for owner read/write)
      * @param Boolean  $useLocking     Try to lock log file before doing any writes
      */
-    public function __construct($filename, $maxFiles = 0, $level = Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false)
-    {
+    public function __construct($filename, $maxFiles = 0, $level = Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false) {
         $this->filename = $filename;
         $this->maxFiles = (int) $maxFiles;
         $this->nextRotation = new \DateTime('tomorrow');
@@ -53,8 +52,7 @@ class RotatingFileHandler extends StreamHandler
     /**
      * {@inheritdoc}
      */
-    public function close()
-    {
+    public function close() {
         parent::close();
 
         if (true === $this->mustRotate) {
@@ -62,8 +60,7 @@ class RotatingFileHandler extends StreamHandler
         }
     }
 
-    public function setFilenameFormat($filenameFormat, $dateFormat)
-    {
+    public function setFilenameFormat($filenameFormat, $dateFormat) {
         $this->filenameFormat = $filenameFormat;
         $this->dateFormat = $dateFormat;
         $this->url = $this->getTimedFilename();
@@ -73,8 +70,7 @@ class RotatingFileHandler extends StreamHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         // on the first record written, if the log is new, we should rotate (once per day)
         if (null === $this->mustRotate) {
             $this->mustRotate = !file_exists($this->url);
@@ -91,8 +87,7 @@ class RotatingFileHandler extends StreamHandler
     /**
      * Rotates the files.
      */
-    protected function rotate()
-    {
+    protected function rotate() {
         // update filename
         $this->url = $this->getTimedFilename();
         $this->nextRotation = new \DateTime('tomorrow');
@@ -120,34 +115,29 @@ class RotatingFileHandler extends StreamHandler
         }
     }
 
-    protected function getTimedFilename()
-    {
+    protected function getTimedFilename() {
         $fileInfo = pathinfo($this->filename);
         $timedFilename = str_replace(
-            array('{filename}', '{date}'),
-            array($fileInfo['filename'], date($this->dateFormat)),
-            $fileInfo['dirname'] . '/' . $this->filenameFormat
+                array('{filename}', '{date}'), array($fileInfo['filename'], date($this->dateFormat)), $fileInfo['dirname'] . '/' . $this->filenameFormat
         );
 
         if (!empty($fileInfo['extension'])) {
-            $timedFilename .= '.'.$fileInfo['extension'];
+            $timedFilename .= '.' . $fileInfo['extension'];
         }
 
         return $timedFilename;
     }
 
-    protected function getGlobPattern()
-    {
+    protected function getGlobPattern() {
         $fileInfo = pathinfo($this->filename);
         $glob = str_replace(
-            array('{filename}', '{date}'),
-            array($fileInfo['filename'], '*'),
-            $fileInfo['dirname'] . '/' . $this->filenameFormat
+                array('{filename}', '{date}'), array($fileInfo['filename'], '*'), $fileInfo['dirname'] . '/' . $this->filenameFormat
         );
         if (!empty($fileInfo['extension'])) {
-            $glob .= '.'.$fileInfo['extension'];
+            $glob .= '.' . $fileInfo['extension'];
         }
 
         return $glob;
     }
+
 }

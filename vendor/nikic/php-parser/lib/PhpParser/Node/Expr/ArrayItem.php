@@ -9,8 +9,8 @@ use PhpParser\Node\Expr;
  * @property null|Expr $key   Key
  * @property bool                     $byRef Whether to assign by reference
  */
-class ArrayItem extends Expr
-{
+class ArrayItem extends Expr {
+
     /**
      * Constructs an array item node.
      *
@@ -21,12 +21,12 @@ class ArrayItem extends Expr
      */
     public function __construct(Expr $value, Expr $key = null, $byRef = false, array $attributes = array()) {
         parent::__construct(
-            array(
-                'key'   => $key,
-                'value' => $value,
-                'byRef' => $byRef
-            ),
-            $attributes
+                array(
+            'key' => $key,
+            'value' => $value,
+            'byRef' => $byRef
+                ), $attributes
         );
     }
+
 }

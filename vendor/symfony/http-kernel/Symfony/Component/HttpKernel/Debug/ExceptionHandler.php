@@ -20,6 +20,6 @@ use Symfony\Component\Debug\ExceptionHandler as DebugExceptionHandler;
  *
  * @deprecated Deprecated in 2.3, to be removed in 3.0. Use the same class from the Debug component instead.
  */
-class ExceptionHandler extends DebugExceptionHandler
-{
+class ExceptionHandler extends DebugExceptionHandler {
+    
 }

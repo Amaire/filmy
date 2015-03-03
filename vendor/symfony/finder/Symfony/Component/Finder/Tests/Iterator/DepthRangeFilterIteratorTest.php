@@ -13,13 +13,12 @@ namespace Symfony\Component\Finder\Tests\Iterator;
 
 use Symfony\Component\Finder\Iterator\DepthRangeFilterIterator;
 
-class DepthRangeFilterIteratorTest extends RealIteratorTestCase
-{
+class DepthRangeFilterIteratorTest extends RealIteratorTestCase {
+
     /**
      * @dataProvider getAcceptData
      */
-    public function testAccept($minDepth, $maxDepth, $expected)
-    {
+    public function testAccept($minDepth, $maxDepth, $expected) {
         $inner = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->toAbsolute(), \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
 
         $iterator = new DepthRangeFilterIterator($inner, $minDepth, $maxDepth);
@@ -30,8 +29,7 @@ class DepthRangeFilterIteratorTest extends RealIteratorTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function getAcceptData()
-    {
+    public function getAcceptData() {
         $lessThan1 = array(
             '.git',
             'test.py',
@@ -77,4 +75,5 @@ class DepthRangeFilterIteratorTest extends RealIteratorTestCase
             array(1, 1, $this->toAbsolute($equalTo1)),
         );
     }
+
 }

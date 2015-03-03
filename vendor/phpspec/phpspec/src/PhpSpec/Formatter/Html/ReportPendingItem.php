@@ -16,16 +16,18 @@ namespace PhpSpec\Formatter\Html;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Formatter\Template as TemplateInterface;
 
-class ReportPendingItem
-{
+class ReportPendingItem {
+
     /**
      * @var \PhpSpec\Formatter\Template
      */
     private $template;
+
     /**
      * @var \PhpSpec\Event\ExampleEvent
      */
     private $event;
+
     /**
      * @var int
      */
@@ -35,8 +37,7 @@ class ReportPendingItem
      * @param TemplateInterface $template
      * @param ExampleEvent      $event
      */
-    public function __construct(TemplateInterface $template, ExampleEvent $event)
-    {
+    public function __construct(TemplateInterface $template, ExampleEvent $event) {
         $this->template = $template;
         $this->event = $event;
     }
@@ -44,12 +45,12 @@ class ReportPendingItem
     /**
      *
      */
-    public function write()
-    {
-        $this->template->render(Template::DIR.'/Template/ReportPending.html', array(
+    public function write() {
+        $this->template->render(Template::DIR . '/Template/ReportPending.html', array(
             'title' => $this->event->getTitle(),
             'pendingExamplesCount' => self::$pendingExamplesCount
         ));
         self::$pendingExamplesCount++;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -19,15 +20,14 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 1.0.0
  */
-class PHP_CodeCoverage_Util
-{
+class PHP_CodeCoverage_Util {
+
     /**
      * @param  float $a
      * @param  float $b
      * @return float ($a / $b) * 100
      */
-    public static function percent($a, $b, $asString = false, $fixedWidth = false)
-    {
+    public static function percent($a, $b, $asString = false, $fixedWidth = false) {
         if ($asString && $b == 0) {
             return '';
         }
@@ -48,4 +48,5 @@ class PHP_CodeCoverage_Util
             return $percent;
         }
     }
+
 }

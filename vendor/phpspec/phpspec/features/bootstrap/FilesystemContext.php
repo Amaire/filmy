@@ -12,8 +12,8 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Defines application features from the specific context.
  */
-class FilesystemContext implements Context, MatchersProviderInterface
-{
+class FilesystemContext implements Context, MatchersProviderInterface {
+
     /**
      * @var string
      */
@@ -24,16 +24,14 @@ class FilesystemContext implements Context, MatchersProviderInterface
      */
     private $filesystem;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->filesystem = new Filesystem();
     }
 
     /**
      * @beforeScenario
      */
-    public function prepWorkingDirectory()
-    {
+    public function prepWorkingDirectory() {
         $this->workingDirectory = tempnam(sys_get_temp_dir(), 'phpspec-behat');
         $this->filesystem->remove($this->workingDirectory);
         $this->filesystem->mkdir($this->workingDirectory);
@@ -43,25 +41,22 @@ class FilesystemContext implements Context, MatchersProviderInterface
     /**
      * @afterScenario
      */
-    public function removeWorkingDirectory()
-    {
+    public function removeWorkingDirectory() {
         $this->filesystem->remove($this->workingDirectory);
     }
 
     /**
      * @Given the bootstrap file :file contains:
      */
-    public function theFileContains($file, PyStringNode $contents)
-    {
-        $this->filesystem->dumpFile($file, (string)$contents);
+    public function theFileContains($file, PyStringNode $contents) {
+        $this->filesystem->dumpFile($file, (string) $contents);
     }
 
     /**
      * @Given the class file :file contains:
      * @Given the spec file :file contains:
      */
-    public function theClassOrSpecFileContains($file, PyStringNode $contents)
-    {
+    public function theClassOrSpecFileContains($file, PyStringNode $contents) {
         $this->theFileContains($file, $contents);
         require_once($file);
     }
@@ -69,16 +64,14 @@ class FilesystemContext implements Context, MatchersProviderInterface
     /**
      * @Given the config file contains:
      */
-    public function theConfigFileContains(PyStringNode $contents)
-    {
+    public function theConfigFileContains(PyStringNode $contents) {
         $this->theFileContains('phpspec.yml', $contents);
     }
 
     /**
      * @Given there is no file :file
      */
-    public function thereIsNoFile($file)
-    {
+    public function thereIsNoFile($file) {
         expect($file)->toNotExist();
         expect(file_exists($file))->toBe(false);
     }
@@ -87,8 +80,7 @@ class FilesystemContext implements Context, MatchersProviderInterface
      * @Then the class in :file should contain:
      * @Then a new class/spec should be generated in the :file:
      */
-    public function theFileShouldContain($file, PyStringNode $contents)
-    {
+    public function theFileShouldContain($file, PyStringNode $contents) {
         expect($file)->toExist();
         expect($file)->toHaveContents($contents);
     }
@@ -96,11 +88,11 @@ class FilesystemContext implements Context, MatchersProviderInterface
     /**
      * @return array
      */
-    public function getMatchers()
-    {
+    public function getMatchers() {
         return array(
             new FileExistsMatcher(),
             new FileHasContentsMatcher()
         );
     }
+
 }

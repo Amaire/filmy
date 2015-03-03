@@ -9,8 +9,8 @@ use PhpParser\Node\Expr;
  * @property null|Expr $if   Expression for true
  * @property Expr      $else Expression for false
  */
-class Ternary extends Expr
-{
+class Ternary extends Expr {
+
     /**
      * Constructs a ternary operator node.
      *
@@ -21,12 +21,12 @@ class Ternary extends Expr
      */
     public function __construct(Expr $cond, $if, Expr $else, array $attributes = array()) {
         parent::__construct(
-            array(
-                'cond' => $cond,
-                'if'   => $if,
-                'else' => $else
-            ),
-            $attributes
+                array(
+            'cond' => $cond,
+            'if' => $if,
+            'else' => $else
+                ), $attributes
         );
     }
+
 }

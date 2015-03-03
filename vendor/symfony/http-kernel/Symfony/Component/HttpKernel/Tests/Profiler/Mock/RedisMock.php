@@ -16,8 +16,8 @@ namespace Symfony\Component\HttpKernel\Tests\Profiler\Mock;
  *
  * @author Andrej Hudec <pulzarraider@gmail.com>
  */
-class RedisMock
-{
+class RedisMock {
+
     private $connected = false;
     private $storage = array();
 
@@ -30,8 +30,7 @@ class RedisMock
      *
      * @return bool
      */
-    public function connect($host, $port = 6379, $timeout = 0)
-    {
+    public function connect($host, $port = 6379, $timeout = 0) {
         if ('127.0.0.1' == $host && 6379 == $port) {
             $this->connected = true;
 
@@ -49,8 +48,7 @@ class RedisMock
      *
      * @return bool
      */
-    public function setOption($name, $value)
-    {
+    public function setOption($name, $value) {
         if (!$this->connected) {
             return false;
         }
@@ -65,8 +63,7 @@ class RedisMock
      *
      * @return bool
      */
-    public function exists($key)
-    {
+    public function exists($key) {
         if (!$this->connected) {
             return false;
         }
@@ -83,8 +80,7 @@ class RedisMock
      *
      * @return bool
      */
-    public function setex($key, $ttl, $value)
-    {
+    public function setex($key, $ttl, $value) {
         if (!$this->connected) {
             return false;
         }
@@ -102,8 +98,7 @@ class RedisMock
      *
      * @return bool
      */
-    public function setTimeout($key, $ttl)
-    {
+    public function setTimeout($key, $ttl) {
         if (!$this->connected) {
             return false;
         }
@@ -122,8 +117,7 @@ class RedisMock
      *
      * @return bool
      */
-    public function get($key)
-    {
+    public function get($key) {
         if (!$this->connected) {
             return false;
         }
@@ -139,14 +133,13 @@ class RedisMock
      *
      * @return int Size of the value after the append.
      */
-    public function append($key, $value)
-    {
+    public function append($key, $value) {
         if (!$this->connected) {
             return false;
         }
 
         if (isset($this->storage[$key])) {
-            $this->storeData($key, $this->getData($key).$value);
+            $this->storeData($key, $this->getData($key) . $value);
 
             return strlen($this->storage[$key]);
         }
@@ -161,8 +154,7 @@ class RedisMock
      *
      * @return int
      */
-    public function delete($key)
-    {
+    public function delete($key) {
         if (!$this->connected) {
             return false;
         }
@@ -193,8 +185,7 @@ class RedisMock
      *
      * @return bool
      */
-    public function flushAll()
-    {
+    public function flushAll() {
         if (!$this->connected) {
             return false;
         }
@@ -209,15 +200,13 @@ class RedisMock
      *
      * @return bool
      */
-    public function close()
-    {
+    public function close() {
         $this->connected = false;
 
         return true;
     }
 
-    private function getData($key)
-    {
+    private function getData($key) {
         if (isset($this->storage[$key])) {
             return unserialize($this->storage[$key]);
         }
@@ -225,15 +214,13 @@ class RedisMock
         return false;
     }
 
-    private function storeData($key, $value)
-    {
+    private function storeData($key, $value) {
         $this->storage[$key] = serialize($value);
 
         return true;
     }
 
-    public function select($dbnum)
-    {
+    public function select($dbnum) {
         if (!$this->connected) {
             return false;
         }
@@ -244,4 +231,5 @@ class RedisMock
 
         return true;
     }
+
 }

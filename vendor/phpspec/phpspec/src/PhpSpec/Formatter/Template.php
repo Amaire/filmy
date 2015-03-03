@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Formatter;
 
-interface Template
-{
+interface Template {
+
     /**
      * @param string $text
      * @param array  $templateVars

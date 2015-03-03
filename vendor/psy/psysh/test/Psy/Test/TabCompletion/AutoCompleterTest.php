@@ -9,13 +9,12 @@ use Psy\Context;
 use Psy\ContextAware;
 use Psy\TabCompletion\Matcher;
 
-class AutoCompleterTest extends \PHPUnit_Framework_TestCase
-{
+class AutoCompleterTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider classesInput
      */
-    public function testClassesCompletion($line, $expect)
-    {
+    public function testClassesCompletion($line, $expect) {
         $context = new Context();
 
         $commands = array(
@@ -48,16 +47,15 @@ class AutoCompleterTest extends \PHPUnit_Framework_TestCase
         $context->setAll(array('foo' => 12, 'bar' => new \DOMDocument()));
 
         $code = $tabCompletion->processCallback('', 0, array(
-           'line_buffer' => $line,
-           'point'       => 0,
-           'end'         => strlen($line),
+            'line_buffer' => $line,
+            'point' => 0,
+            'end' => strlen($line),
         ));
 
         $this->assertContains($expect, $code);
     }
 
-    public function classesInput()
-    {
+    public function classesInput() {
         return array(
             array('T_OPE', 'T_OPEN_TAG'),
             array('st', 'stdClass'),
@@ -66,12 +64,12 @@ class AutoCompleterTest extends \PHPUnit_Framework_TestCase
             array('\s', 'stdClass'),
             array('array_', 'array_search'),
             array('$bar->', 'load'),
-            array('$b', 'bar' ),
-            array('6 + $b', 'bar' ),
-            array('$f', 'foo' ),
+            array('$b', 'bar'),
+            array('6 + $b', 'bar'),
+            array('$f', 'foo'),
             array('l', 'ls'),
             array('sho', 'show'),
-            array('12 + clone $', 'foo' ),
+            array('12 + clone $', 'foo'),
             array(
                 'Psy\Test\TabCompletion\StaticSample::CO',
                 'Psy\Test\TabCompletion\StaticSample::CONSTANT_VALUE',
@@ -86,4 +84,5 @@ class AutoCompleterTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

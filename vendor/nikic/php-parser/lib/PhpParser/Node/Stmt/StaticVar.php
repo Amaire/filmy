@@ -8,8 +8,8 @@ use PhpParser\Node;
  * @property string         $name    Name
  * @property null|Node\Expr $default Default value
  */
-class StaticVar extends Node\Stmt
-{
+class StaticVar extends Node\Stmt {
+
     /**
      * Constructs a static variable node.
      *
@@ -19,11 +19,11 @@ class StaticVar extends Node\Stmt
      */
     public function __construct($name, Node\Expr $default = null, array $attributes = array()) {
         parent::__construct(
-            array(
-                'name'    => $name,
-                'default' => $default,
-            ),
-            $attributes
+                array(
+            'name' => $name,
+            'default' => $default,
+                ), $attributes
         );
     }
+
 }

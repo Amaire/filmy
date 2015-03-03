@@ -18,8 +18,8 @@ use PhpSpec\Event\ExampleEvent;
 /**
  * Class ResultConverter converts Example result into exit code
  */
-class ResultConverter
-{
+class ResultConverter {
+
     /**
      * Convert Example result into exit code
      *
@@ -27,8 +27,7 @@ class ResultConverter
      *
      * @return 0|1
      */
-    public function convert($result)
-    {
+    public function convert($result) {
         switch ($result) {
             case ExampleEvent::PASSED:
             case ExampleEvent::SKIPPED:
@@ -37,4 +36,5 @@ class ResultConverter
 
         return 1;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -53,8 +54,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
-interface PHPUnit_Framework_MockObject_Verifiable
-{
+interface PHPUnit_Framework_MockObject_Verifiable {
+
     /**
      * Verifies that the current expectation is valid. If everything is OK the
      * code should just return, if not it must throw an exception.

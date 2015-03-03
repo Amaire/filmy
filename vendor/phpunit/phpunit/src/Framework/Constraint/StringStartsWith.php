@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -21,8 +22,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.4.0
  */
-class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Constraint {
+
     /**
      * @var string
      */
@@ -31,8 +32,7 @@ class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Co
     /**
      * @param string $prefix
      */
-    public function __construct($prefix)
-    {
+    public function __construct($prefix) {
         parent::__construct();
         $this->prefix = $prefix;
     }
@@ -44,8 +44,7 @@ class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Co
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         return strpos($other, $this->prefix) === 0;
     }
 
@@ -54,8 +53,8 @@ class PHPUnit_Framework_Constraint_StringStartsWith extends PHPUnit_Framework_Co
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'starts with "' . $this->prefix . '"';
     }
+
 }

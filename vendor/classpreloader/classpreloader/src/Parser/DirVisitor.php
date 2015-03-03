@@ -12,8 +12,8 @@ use PhpParser\Node\Scalar\String;
  *
  * This is used to replace all references to __DIR__ with the actual directory.
  */
-class DirVisitor extends AbstractNodeVisitor
-{
+class DirVisitor extends AbstractNodeVisitor {
+
     /**
      * Should we skip the file if it contains a dir constant?
      *
@@ -28,8 +28,7 @@ class DirVisitor extends AbstractNodeVisitor
      *
      * @return void
      */
-    public function __construct($skip = false)
-    {
+    public function __construct($skip = false) {
         $this->skip = $skip;
     }
 
@@ -40,8 +39,7 @@ class DirVisitor extends AbstractNodeVisitor
      *
      * @return void
      */
-    public function enterNode(Node $node)
-    {
+    public function enterNode(Node $node) {
         if ($node instanceof Dir) {
             if ($this->skip) {
                 throw new SkipFileException('__DIR__ constant found, skipping...');
@@ -50,4 +48,5 @@ class DirVisitor extends AbstractNodeVisitor
             return new String($this->getDir());
         }
     }
+
 }

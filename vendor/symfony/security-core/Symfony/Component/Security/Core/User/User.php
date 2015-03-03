@@ -18,8 +18,8 @@ namespace Symfony\Component\Security\Core\User;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-final class User implements AdvancedUserInterface
-{
+final class User implements AdvancedUserInterface {
+
     private $username;
     private $password;
     private $enabled;
@@ -28,8 +28,7 @@ final class User implements AdvancedUserInterface
     private $accountNonLocked;
     private $roles;
 
-    public function __construct($username, $password, array $roles = array(), $enabled = true, $userNonExpired = true, $credentialsNonExpired = true, $userNonLocked = true)
-    {
+    public function __construct($username, $password, array $roles = array(), $enabled = true, $userNonExpired = true, $credentialsNonExpired = true, $userNonLocked = true) {
         if (empty($username)) {
             throw new \InvalidArgumentException('The username cannot be empty.');
         }
@@ -46,70 +45,64 @@ final class User implements AdvancedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoles()
-    {
+    public function getRoles() {
         return $this->roles;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSalt()
-    {
+    public function getSalt() {
+        
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isAccountNonExpired()
-    {
+    public function isAccountNonExpired() {
         return $this->accountNonExpired;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isAccountNonLocked()
-    {
+    public function isAccountNonLocked() {
         return $this->accountNonLocked;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isCredentialsNonExpired()
-    {
+    public function isCredentialsNonExpired() {
         return $this->credentialsNonExpired;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isEnabled()
-    {
+    public function isEnabled() {
         return $this->enabled;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
-    {
+    public function eraseCredentials() {
+        
     }
+
 }

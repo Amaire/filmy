@@ -10,8 +10,8 @@ use PhpParser\Error;
  * @property Catch_[] $catches      Catches
  * @property Node[]   $finallyStmts Finally statements
  */
-class TryCatch extends Node\Stmt
-{
+class TryCatch extends Node\Stmt {
+
     /**
      * Constructs a try catch node.
      *
@@ -26,12 +26,12 @@ class TryCatch extends Node\Stmt
         }
 
         parent::__construct(
-            array(
-                'stmts'        => $stmts,
-                'catches'      => $catches,
-                'finallyStmts' => $finallyStmts,
-            ),
-            $attributes
+                array(
+            'stmts' => $stmts,
+            'catches' => $catches,
+            'finallyStmts' => $finallyStmts,
+                ), $attributes
         );
     }
+
 }

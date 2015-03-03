@@ -7,8 +7,8 @@ namespace ClassPreloader;
  *
  * This maintains a list of classes using a sort of doubly-linked list.
  */
-class ClassList
-{
+class ClassList {
+
     /**
      * The head node of the list.
      *
@@ -28,8 +28,7 @@ class ClassList
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->clear();
     }
 
@@ -38,8 +37,7 @@ class ClassList
      *
      * @return void
      */
-    public function clear()
-    {
+    public function clear() {
         $this->head = new ClassNode();
         $this->current = $this->head;
     }
@@ -49,8 +47,7 @@ class ClassList
      *
      * @return void
      */
-    public function next()
-    {
+    public function next() {
         if (isset($this->current->next)) {
             $this->current = $this->current->next;
         } else {
@@ -69,8 +66,7 @@ class ClassList
      *
      * @return void
      */
-    public function push($value)
-    {
+    public function push($value) {
         if (!$this->current->value) {
             $this->current->value = $value;
         } else {
@@ -91,8 +87,7 @@ class ClassList
      *
      * @return array
      */
-    public function getClasses()
-    {
+    public function getClasses() {
         $classes = array();
         $current = $this->head;
         while ($current && $current->value) {
@@ -102,4 +97,5 @@ class ClassList
 
         return array_filter($classes);
     }
+
 }

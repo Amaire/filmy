@@ -18,6 +18,6 @@ use PhpSpec\Exception\Exception;
 /**
  * Class CollaboratorException holds information about collaborators exceptions
  */
-class CollaboratorException extends Exception
-{
+class CollaboratorException extends Exception {
+    
 }

@@ -16,8 +16,8 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
  *
  * @author Drak <drak@zikula.org>
  */
-abstract class AbstractProxy
-{
+abstract class AbstractProxy {
+
     /**
      * Flag if handler wraps an internal PHP session handler (using \SessionHandler).
      *
@@ -40,8 +40,7 @@ abstract class AbstractProxy
      *
      * @return string
      */
-    public function getSaveHandlerName()
-    {
+    public function getSaveHandlerName() {
         return $this->saveHandlerName;
     }
 
@@ -50,8 +49,7 @@ abstract class AbstractProxy
      *
      * @return bool
      */
-    public function isSessionHandlerInterface()
-    {
+    public function isSessionHandlerInterface() {
         return ($this instanceof \SessionHandlerInterface);
     }
 
@@ -60,8 +58,7 @@ abstract class AbstractProxy
      *
      * @return bool
      */
-    public function isWrapper()
-    {
+    public function isWrapper() {
         return $this->wrapper;
     }
 
@@ -70,8 +67,7 @@ abstract class AbstractProxy
      *
      * @return bool
      */
-    public function isActive()
-    {
+    public function isActive() {
         if (PHP_VERSION_ID >= 50400) {
             return $this->active = \PHP_SESSION_ACTIVE === session_status();
         }
@@ -91,8 +87,7 @@ abstract class AbstractProxy
      *
      * @throws \LogicException
      */
-    public function setActive($flag)
-    {
+    public function setActive($flag) {
         if (PHP_VERSION_ID >= 50400) {
             throw new \LogicException('This method is disabled in PHP 5.4.0+');
         }
@@ -105,8 +100,7 @@ abstract class AbstractProxy
      *
      * @return string
      */
-    public function getId()
-    {
+    public function getId() {
         return session_id();
     }
 
@@ -117,8 +111,7 @@ abstract class AbstractProxy
      *
      * @throws \LogicException
      */
-    public function setId($id)
-    {
+    public function setId($id) {
         if ($this->isActive()) {
             throw new \LogicException('Cannot change the ID of an active session');
         }
@@ -131,8 +124,7 @@ abstract class AbstractProxy
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return session_name();
     }
 
@@ -143,12 +135,12 @@ abstract class AbstractProxy
      *
      * @throws \LogicException
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         if ($this->isActive()) {
             throw new \LogicException('Cannot change the name of an active session');
         }
 
         session_name($name);
     }
+
 }

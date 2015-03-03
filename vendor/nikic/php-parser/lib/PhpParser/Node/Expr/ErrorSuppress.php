@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr $expr Expression
  */
-class ErrorSuppress extends Expr
-{
+class ErrorSuppress extends Expr {
+
     /**
      * Constructs an error suppress node.
      *
@@ -17,10 +17,10 @@ class ErrorSuppress extends Expr
      */
     public function __construct(Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

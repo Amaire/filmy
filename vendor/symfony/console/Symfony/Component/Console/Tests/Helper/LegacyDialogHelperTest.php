@@ -17,15 +17,13 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\StreamOutput;
 
-class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
-{
-    public function setUp()
-    {
+class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase {
+
+    public function setUp() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
     }
 
-    public function testSelect()
-    {
+    public function testSelect() {
         $dialog = new DialogHelper();
 
         $helperSet = new HelperSet(array(new FormatterHelper()));
@@ -56,8 +54,7 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('0', '1'), $dialog->select($this->getOutputStream(), 'What is your favorite superhero?', $heroes, ' 0 , 1 ', false, 'Input "%s" is not a superhero!', true));
     }
 
-    public function testAsk()
-    {
+    public function testAsk() {
         $dialog = new DialogHelper();
 
         $dialog->setInputStream($this->getInputStream("\n8AM\n"));
@@ -69,8 +66,7 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('What time is it?', stream_get_contents($output->getStream()));
     }
 
-    public function testAskWithAutocomplete()
-    {
+    public function testAskWithAutocomplete() {
         if (!$this->hasSttyAvailable()) {
             $this->markTestSkipped('`stty` is required to test autocomplete functionality');
         }
@@ -103,8 +99,7 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @group tty
      */
-    public function testAskHiddenResponse()
-    {
+    public function testAskHiddenResponse() {
         if ('\\' === DIRECTORY_SEPARATOR) {
             $this->markTestSkipped('This test is not supported on Windows');
         }
@@ -116,8 +111,7 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('8AM', $dialog->askHiddenResponse($this->getOutputStream(), 'What time is it?'));
     }
 
-    public function testAskConfirmation()
-    {
+    public function testAskConfirmation() {
         $dialog = new DialogHelper();
 
         $dialog->setInputStream($this->getInputStream("\n\n"));
@@ -133,8 +127,7 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($dialog->askConfirmation($this->getOutputStream(), 'Do you like French fries?', true));
     }
 
-    public function testAskAndValidate()
-    {
+    public function testAskAndValidate() {
         $dialog = new DialogHelper();
         $helperSet = new HelperSet(array(new FormatterHelper()));
         $dialog->setHelperSet($helperSet);
@@ -162,8 +155,7 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testNoInteraction()
-    {
+    public function testNoInteraction() {
         $dialog = new DialogHelper();
 
         $input = new ArrayInput(array());
@@ -174,8 +166,7 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('not yet', $dialog->ask($this->getOutputStream(), 'Do you have a job?', 'not yet'));
     }
 
-    protected function getInputStream($input)
-    {
+    protected function getInputStream($input) {
         $stream = fopen('php://memory', 'r+', false);
         fputs($stream, $input);
         rewind($stream);
@@ -183,15 +174,14 @@ class LegacyDialogHelperTest extends \PHPUnit_Framework_TestCase
         return $stream;
     }
 
-    protected function getOutputStream()
-    {
+    protected function getOutputStream() {
         return new StreamOutput(fopen('php://memory', 'r+', false));
     }
 
-    private function hasSttyAvailable()
-    {
+    private function hasSttyAvailable() {
         exec('stty 2>&1', $output, $exitcode);
 
         return $exitcode === 0;
     }
+
 }

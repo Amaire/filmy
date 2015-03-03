@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property ArrayItem[] $items Items
  */
-class Array_ extends Expr
-{
+class Array_ extends Expr {
+
     /**
      * Constructs an array node.
      *
@@ -17,10 +17,10 @@ class Array_ extends Expr
      */
     public function __construct(array $items = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'items' => $items
-            ),
-            $attributes
+                array(
+            'items' => $items
+                ), $attributes
         );
     }
+
 }

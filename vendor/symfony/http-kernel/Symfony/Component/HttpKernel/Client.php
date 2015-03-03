@@ -28,8 +28,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @api
  */
-class Client extends BaseClient
-{
+class Client extends BaseClient {
+
     protected $kernel;
 
     /**
@@ -40,8 +40,7 @@ class Client extends BaseClient
      * @param History             $history   A History instance to store the browser history
      * @param CookieJar           $cookieJar A CookieJar instance to store the cookies
      */
-    public function __construct(HttpKernelInterface $kernel, array $server = array(), History $history = null, CookieJar $cookieJar = null)
-    {
+    public function __construct(HttpKernelInterface $kernel, array $server = array(), History $history = null, CookieJar $cookieJar = null) {
         // These class properties must be set before calling the parent constructor, as it may depend on it.
         $this->kernel = $kernel;
         $this->followRedirects = false;
@@ -54,8 +53,7 @@ class Client extends BaseClient
      *
      * @return Request|null A Request instance
      */
-    public function getRequest()
-    {
+    public function getRequest() {
         return parent::getRequest();
     }
 
@@ -64,8 +62,7 @@ class Client extends BaseClient
      *
      * @return Response|null A Response instance
      */
-    public function getResponse()
-    {
+    public function getResponse() {
         return parent::getResponse();
     }
 
@@ -76,8 +73,7 @@ class Client extends BaseClient
      *
      * @return Response A Response instance
      */
-    protected function doRequest($request)
-    {
+    protected function doRequest($request) {
         $response = $this->kernel->handle($request);
 
         if ($this->kernel instanceof TerminableInterface) {
@@ -94,14 +90,13 @@ class Client extends BaseClient
      *
      * @return string
      */
-    protected function getScript($request)
-    {
+    protected function getScript($request) {
         $kernel = str_replace("'", "\\'", serialize($this->kernel));
         $request = str_replace("'", "\\'", serialize($request));
 
         $r = new \ReflectionClass('\\Symfony\\Component\\ClassLoader\\ClassLoader');
         $requirePath = str_replace("'", "\\'", $r->getFileName());
-        $symfonyPath = str_replace("'", "\\'", realpath(__DIR__.'/../../..'));
+        $symfonyPath = str_replace("'", "\\'", realpath(__DIR__ . '/../../..'));
         $errorReporting = error_reporting();
 
         $code = <<<EOF
@@ -119,11 +114,10 @@ require_once '$requirePath';
 \$request = unserialize('$request');
 EOF;
 
-        return $code.$this->getHandleScript();
+        return $code . $this->getHandleScript();
     }
 
-    protected function getHandleScript()
-    {
+    protected function getHandleScript() {
         return <<<'EOF'
 $response = $kernel->handle($request);
 
@@ -142,8 +136,7 @@ EOF;
      *
      * @return Request A Request instance
      */
-    protected function filterRequest(DomRequest $request)
-    {
+    protected function filterRequest(DomRequest $request) {
         $httpRequest = Request::create($request->getUri(), $request->getMethod(), $request->getParameters(), $request->getCookies(), $request->getFiles(), $request->getServer(), $request->getContent());
 
         foreach ($this->filterFiles($httpRequest->files->all()) as $key => $value) {
@@ -168,8 +161,7 @@ EOF;
      *
      * @return array An array with all uploaded files marked as already moved
      */
-    protected function filterFiles(array $files)
-    {
+    protected function filterFiles(array $files) {
         $filtered = array();
         foreach ($files as $key => $value) {
             if (is_array($value)) {
@@ -177,21 +169,11 @@ EOF;
             } elseif ($value instanceof UploadedFile) {
                 if ($value->isValid() && $value->getSize() > UploadedFile::getMaxFilesize()) {
                     $filtered[$key] = new UploadedFile(
-                        '',
-                        $value->getClientOriginalName(),
-                        $value->getClientMimeType(),
-                        0,
-                        UPLOAD_ERR_INI_SIZE,
-                        true
+                            '', $value->getClientOriginalName(), $value->getClientMimeType(), 0, UPLOAD_ERR_INI_SIZE, true
                     );
                 } else {
                     $filtered[$key] = new UploadedFile(
-                        $value->getPathname(),
-                        $value->getClientOriginalName(),
-                        $value->getClientMimeType(),
-                        $value->getClientSize(),
-                        $value->getError(),
-                        true
+                            $value->getPathname(), $value->getClientOriginalName(), $value->getClientMimeType(), $value->getClientSize(), $value->getError(), true
                     );
                 }
             }
@@ -207,8 +189,7 @@ EOF;
      *
      * @return DomResponse A DomResponse instance
      */
-    protected function filterResponse($response)
-    {
+    protected function filterResponse($response) {
         $headers = $response->headers->all();
         if ($response->headers->getCookies()) {
             $cookies = array();
@@ -225,4 +206,5 @@ EOF;
 
         return new DomResponse($content, $response->getStatusCode(), $headers);
     }
+
 }

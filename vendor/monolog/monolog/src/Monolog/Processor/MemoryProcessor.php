@@ -16,8 +16,8 @@ namespace Monolog\Processor;
  *
  * @author Rob Jensen
  */
-abstract class MemoryProcessor
-{
+abstract class MemoryProcessor {
+
     /**
      * @var boolean If true, get the real size of memory allocated from system. Else, only the memory used by emalloc() is reported.
      */
@@ -32,8 +32,7 @@ abstract class MemoryProcessor
      * @param boolean $realUsage     Set this to true to get the real size of memory allocated from system.
      * @param boolean $useFormatting If true, then format memory size to human readable string (MB, KB, B depending on size)
      */
-    public function __construct($realUsage = true, $useFormatting = true)
-    {
+    public function __construct($realUsage = true, $useFormatting = true) {
         $this->realUsage = (boolean) $realUsage;
         $this->useFormatting = (boolean) $useFormatting;
     }
@@ -44,20 +43,20 @@ abstract class MemoryProcessor
      * @param  int        $bytes
      * @return string|int Formatted string if $this->useFormatting is true, otherwise return $bytes as is
      */
-    protected function formatBytes($bytes)
-    {
+    protected function formatBytes($bytes) {
         $bytes = (int) $bytes;
 
         if (!$this->useFormatting) {
             return $bytes;
         }
 
-        if ($bytes > 1024*1024) {
-            return round($bytes/1024/1024, 2).' MB';
+        if ($bytes > 1024 * 1024) {
+            return round($bytes / 1024 / 1024, 2) . ' MB';
         } elseif ($bytes > 1024) {
-            return round($bytes/1024, 2).' KB';
+            return round($bytes / 1024, 2) . ' KB';
         }
 
         return $bytes . ' B';
     }
+
 }

@@ -18,8 +18,8 @@ use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Exception\Example\StopOnFailureException;
 use PhpSpec\Console\IO;
 
-class StopOnFailureListener implements EventSubscriberInterface
-{
+class StopOnFailureListener implements EventSubscriberInterface {
+
     /**
      * @var IO
      */
@@ -28,16 +28,14 @@ class StopOnFailureListener implements EventSubscriberInterface
     /**
      * @param IO $io
      */
-    public function __construct(IO $io)
-    {
+    public function __construct(IO $io) {
         $this->io = $io;
     }
 
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             'afterExample' => array('afterExample', -100),
         );
@@ -48,15 +46,14 @@ class StopOnFailureListener implements EventSubscriberInterface
      *
      * @throws \PhpSpec\Exception\Example\StopOnFailureException
      */
-    public function afterExample(ExampleEvent $event)
-    {
+    public function afterExample(ExampleEvent $event) {
         if (!$this->io->isStopOnFailureEnabled()) {
             return;
         }
 
-        if ($event->getResult() === ExampleEvent::FAILED
-         || $event->getResult() === ExampleEvent::BROKEN) {
+        if ($event->getResult() === ExampleEvent::FAILED || $event->getResult() === ExampleEvent::BROKEN) {
             throw new StopOnFailureException('Example failed', 0, null, $event->getResult());
         }
     }
+
 }

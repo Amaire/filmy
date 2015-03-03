@@ -18,10 +18,9 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class SplCaster
-{
-    public static function castArrayObject(\ArrayObject $c, array $a, Stub $stub, $isNested)
-    {
+class SplCaster {
+
+    public static function castArrayObject(\ArrayObject $c, array $a, Stub $stub, $isNested) {
         $class = $stub->class;
         $flags = $c->getFlags();
 
@@ -43,7 +42,7 @@ class SplCaster
                     foreach ($a as $k => $p) {
                         if (!isset($k[0]) || ("\0" !== $k[0] && !$class->hasProperty($k))) {
                             unset($a[$k]);
-                            $a["\0+\0".$k] = $p;
+                            $a["\0+\0" . $k] = $p;
                         }
                     }
                 }
@@ -57,8 +56,7 @@ class SplCaster
         return $a;
     }
 
-    public static function castHeap(\Iterator $c, array $a, Stub $stub, $isNested)
-    {
+    public static function castHeap(\Iterator $c, array $a, Stub $stub, $isNested) {
         $a += array(
             "\0~\0heap" => iterator_to_array(clone $c),
         );
@@ -66,13 +64,12 @@ class SplCaster
         return $a;
     }
 
-    public static function castDoublyLinkedList(\SplDoublyLinkedList $c, array $a, Stub $stub, $isNested)
-    {
+    public static function castDoublyLinkedList(\SplDoublyLinkedList $c, array $a, Stub $stub, $isNested) {
         $mode = $c->getIteratorMode();
         $c->setIteratorMode(\SplDoublyLinkedList::IT_MODE_KEEP | $mode & ~\SplDoublyLinkedList::IT_MODE_DELETE);
 
         $a += array(
-            "\0~\0mode" => new ConstStub((($mode & \SplDoublyLinkedList::IT_MODE_LIFO) ? 'IT_MODE_LIFO' : 'IT_MODE_FIFO').' | '.(($mode & \SplDoublyLinkedList::IT_MODE_KEEP) ? 'IT_MODE_KEEP' : 'IT_MODE_DELETE'), $mode),
+            "\0~\0mode" => new ConstStub((($mode & \SplDoublyLinkedList::IT_MODE_LIFO) ? 'IT_MODE_LIFO' : 'IT_MODE_FIFO') . ' | ' . (($mode & \SplDoublyLinkedList::IT_MODE_KEEP) ? 'IT_MODE_KEEP' : 'IT_MODE_DELETE'), $mode),
             "\0~\0dllist" => iterator_to_array($c),
         );
         $c->setIteratorMode($mode);
@@ -80,8 +77,7 @@ class SplCaster
         return $a;
     }
 
-    public static function castFixedArray(\SplFixedArray $c, array $a, Stub $stub, $isNested)
-    {
+    public static function castFixedArray(\SplFixedArray $c, array $a, Stub $stub, $isNested) {
         $a += array(
             "\0~\0storage" => $c->toArray(),
         );
@@ -89,8 +85,7 @@ class SplCaster
         return $a;
     }
 
-    public static function castObjectStorage(\SplObjectStorage $c, array $a, Stub $stub, $isNested)
-    {
+    public static function castObjectStorage(\SplObjectStorage $c, array $a, Stub $stub, $isNested) {
         $storage = array();
         unset($a["\0+\0\0gcdata"]); // Don't hit https://bugs.php.net/65967
 
@@ -98,7 +93,7 @@ class SplCaster
             $storage[spl_object_hash($obj)] = array(
                 'object' => $obj,
                 'info' => $c->getInfo(),
-             );
+            );
         }
 
         $a += array(
@@ -107,4 +102,5 @@ class SplCaster
 
         return $a;
     }
+
 }

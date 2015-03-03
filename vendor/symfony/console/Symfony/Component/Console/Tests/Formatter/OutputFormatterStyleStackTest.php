@@ -14,10 +14,9 @@ namespace Symfony\Component\Console\Tests\Formatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyleStack;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
-class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
-{
-    public function testPush()
-    {
+class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase {
+
+    public function testPush() {
         $stack = new OutputFormatterStyleStack();
         $stack->push($s1 = new OutputFormatterStyle('white', 'black'));
         $stack->push($s2 = new OutputFormatterStyle('yellow', 'blue'));
@@ -29,8 +28,7 @@ class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($s3, $stack->getCurrent());
     }
 
-    public function testPop()
-    {
+    public function testPop() {
         $stack = new OutputFormatterStyleStack();
         $stack->push($s1 = new OutputFormatterStyle('white', 'black'));
         $stack->push($s2 = new OutputFormatterStyle('yellow', 'blue'));
@@ -39,16 +37,14 @@ class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($s1, $stack->pop());
     }
 
-    public function testPopEmpty()
-    {
+    public function testPopEmpty() {
         $stack = new OutputFormatterStyleStack();
         $style = new OutputFormatterStyle();
 
         $this->assertEquals($style, $stack->pop());
     }
 
-    public function testPopNotLast()
-    {
+    public function testPopNotLast() {
         $stack = new OutputFormatterStyleStack();
         $stack->push($s1 = new OutputFormatterStyle('white', 'black'));
         $stack->push($s2 = new OutputFormatterStyle('yellow', 'blue'));
@@ -61,10 +57,10 @@ class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testInvalidPop()
-    {
+    public function testInvalidPop() {
         $stack = new OutputFormatterStyleStack();
         $stack->push(new OutputFormatterStyle('white', 'black'));
         $stack->pop(new OutputFormatterStyle('yellow', 'blue'));
     }
+
 }

@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr $expr Expression
  */
-class Empty_ extends Expr
-{
+class Empty_ extends Expr {
+
     /**
      * Constructs an empty() node.
      *
@@ -17,10 +17,10 @@ class Empty_ extends Expr
      */
     public function __construct(Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

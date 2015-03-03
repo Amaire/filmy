@@ -20,12 +20,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ResponseListener implements EventSubscriberInterface
-{
+class ResponseListener implements EventSubscriberInterface {
+
     private $charset;
 
-    public function __construct($charset)
-    {
+    public function __construct($charset) {
         $this->charset = $charset;
     }
 
@@ -34,8 +33,7 @@ class ResponseListener implements EventSubscriberInterface
      *
      * @param FilterResponseEvent $event A FilterResponseEvent instance
      */
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
+    public function onKernelResponse(FilterResponseEvent $event) {
         if (!$event->isMasterRequest()) {
             return;
         }
@@ -49,10 +47,10 @@ class ResponseListener implements EventSubscriberInterface
         $response->prepare($event->getRequest());
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             KernelEvents::RESPONSE => 'onKernelResponse',
         );
     }
+
 }

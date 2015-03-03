@@ -24,8 +24,8 @@ use Symfony\Component\Process\Exception\RuntimeException;
  *
  * @api
  */
-class PhpProcess extends Process
-{
+class PhpProcess extends Process {
+
     private $executableFinder;
 
     /**
@@ -39,8 +39,7 @@ class PhpProcess extends Process
      *
      * @api
      */
-    public function __construct($script, $cwd = null, array $env = array(), $timeout = 60, array $options = array())
-    {
+    public function __construct($script, $cwd = null, array $env = array(), $timeout = 60, array $options = array()) {
         parent::__construct(null, $cwd, $env, $script, $timeout, $options);
 
         $this->executableFinder = new PhpExecutableFinder();
@@ -51,16 +50,14 @@ class PhpProcess extends Process
      *
      * @api
      */
-    public function setPhpBinary($php)
-    {
+    public function setPhpBinary($php) {
         $this->setCommandLine($php);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function start($callback = null)
-    {
+    public function start($callback = null) {
         if (null === $this->getCommandLine()) {
             if (false === $php = $this->executableFinder->find()) {
                 throw new RuntimeException('Unable to find the PHP executable.');
@@ -70,4 +67,5 @@ class PhpProcess extends Process
 
         parent::start($callback);
     }
+
 }

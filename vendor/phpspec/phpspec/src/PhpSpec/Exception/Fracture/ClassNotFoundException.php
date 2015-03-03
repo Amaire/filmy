@@ -16,8 +16,8 @@ namespace PhpSpec\Exception\Fracture;
 /**
  * Class ClassNotFoundException holds information about class not found exception
  */
-class ClassNotFoundException extends FractureException
-{
+class ClassNotFoundException extends FractureException {
+
     /**
      * @var string
      */
@@ -27,8 +27,7 @@ class ClassNotFoundException extends FractureException
      * @param string $message
      * @param string $classname
      */
-    public function __construct($message, $classname)
-    {
+    public function __construct($message, $classname) {
         parent::__construct($message);
 
         $this->classname = $classname;
@@ -37,8 +36,8 @@ class ClassNotFoundException extends FractureException
     /**
      * @return string
      */
-    public function getClassname()
-    {
+    public function getClassname() {
         return $this->classname;
     }
+
 }

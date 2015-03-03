@@ -21,21 +21,18 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class PostResponseEvent extends Event
-{
+class PostResponseEvent extends Event {
+
     /**
      * The kernel in which this event was thrown.
      *
      * @var HttpKernelInterface
      */
     private $kernel;
-
     private $request;
-
     private $response;
 
-    public function __construct(HttpKernelInterface $kernel, Request $request, Response $response)
-    {
+    public function __construct(HttpKernelInterface $kernel, Request $request, Response $response) {
         $this->kernel = $kernel;
         $this->request = $request;
         $this->response = $response;
@@ -46,8 +43,7 @@ class PostResponseEvent extends Event
      *
      * @return HttpKernelInterface
      */
-    public function getKernel()
-    {
+    public function getKernel() {
         return $this->kernel;
     }
 
@@ -56,8 +52,7 @@ class PostResponseEvent extends Event
      *
      * @return Request
      */
-    public function getRequest()
-    {
+    public function getRequest() {
         return $this->request;
     }
 
@@ -66,8 +61,8 @@ class PostResponseEvent extends Event
      *
      * @return Response
      */
-    public function getResponse()
-    {
+    public function getResponse() {
         return $this->response;
     }
+
 }

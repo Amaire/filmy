@@ -14,4 +14,4 @@ PHPUnit_TextUI_Command::main();
 PHPUnit %s by Sebastian Bergmann and contributors.
 
 DataProvider
- [ ] Add
+[ ] Add

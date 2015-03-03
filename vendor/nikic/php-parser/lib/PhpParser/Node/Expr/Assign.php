@@ -8,8 +8,8 @@ use PhpParser\Node\Expr;
  * @property Expr $var  Variable
  * @property Expr $expr Expression
  */
-class Assign extends Expr
-{
+class Assign extends Expr {
+
     /**
      * Constructs an assignment node.
      *
@@ -19,11 +19,11 @@ class Assign extends Expr
      */
     public function __construct(Expr $var, Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'var'  => $var,
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'var' => $var,
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

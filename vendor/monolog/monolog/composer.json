@@ -37,7 +37,9 @@
         "rollbar/rollbar": "Allow sending log messages to Rollbar"
     },
     "autoload": {
-        "psr-4": {"Monolog\\": "src/Monolog"}
+        "psr-4": {
+            "Monolog\\": "src/Monolog"
+        }
     },
     "provide": {
         "psr/log-implementation": "1.0.0"

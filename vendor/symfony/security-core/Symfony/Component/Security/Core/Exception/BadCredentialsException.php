@@ -17,13 +17,13 @@ namespace Symfony\Component\Security\Core\Exception;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander <iam.asm89@gmail.com>
  */
-class BadCredentialsException extends AuthenticationException
-{
+class BadCredentialsException extends AuthenticationException {
+
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
-    {
+    public function getMessageKey() {
         return 'Invalid credentials.';
     }
+
 }

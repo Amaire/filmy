@@ -10,8 +10,8 @@ use PhpParser\Node\Expr;
  * @property string|Expr    $name  Method name
  * @property Node\Arg[]     $args  Arguments
  */
-class StaticCall extends Expr
-{
+class StaticCall extends Expr {
+
     /**
      * Constructs a static method call node.
      *
@@ -22,12 +22,12 @@ class StaticCall extends Expr
      */
     public function __construct($class, $name, array $args = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'class' => $class,
-                'name'  => $name,
-                'args'  => $args
-            ),
-            $attributes
+                array(
+            'class' => $class,
+            'name' => $name,
+            'args' => $args
+                ), $attributes
         );
     }
+
 }

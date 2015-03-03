@@ -17,13 +17,13 @@ namespace Symfony\Component\Security\Core\Exception;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Alexander <iam.asm89@gmail.com>
  */
-class TokenNotFoundException extends AuthenticationException
-{
+class TokenNotFoundException extends AuthenticationException {
+
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
-    {
+    public function getMessageKey() {
         return 'No token could be found.';
     }
+
 }

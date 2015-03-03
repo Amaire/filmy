@@ -17,13 +17,12 @@ use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProfilerTest extends \PHPUnit_Framework_TestCase
-{
+class ProfilerTest extends \PHPUnit_Framework_TestCase {
+
     private $tmp;
     private $storage;
 
-    public function testCollect()
-    {
+    public function testCollect() {
         $request = new Request();
         $request->query->set('foo', 'bar');
         $response = new Response();
@@ -37,29 +36,25 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('foo' => 'bar'), $profiler->get('request')->getRequestQuery()->all());
     }
 
-    public function testFindWorksWithDates()
-    {
+    public function testFindWorksWithDates() {
         $profiler = new Profiler($this->storage);
 
         $this->assertCount(0, $profiler->find(null, null, null, null, '7th April 2014', '9th April 2014'));
     }
 
-    public function testFindWorksWithTimestamps()
-    {
+    public function testFindWorksWithTimestamps() {
         $profiler = new Profiler($this->storage);
 
         $this->assertCount(0, $profiler->find(null, null, null, null, '1396828800', '1397001600'));
     }
 
-    public function testFindWorksWithInvalidDates()
-    {
+    public function testFindWorksWithInvalidDates() {
         $profiler = new Profiler($this->storage);
 
         $this->assertCount(0, $profiler->find(null, null, null, null, 'some string', ''));
     }
 
-    protected function setUp()
-    {
+    protected function setUp() {
         if (!class_exists('SQLite3') && (!class_exists('PDO') || !in_array('sqlite', \PDO::getAvailableDrivers()))) {
             $this->markTestSkipped('This test requires SQLite support in your environment');
         }
@@ -69,12 +64,11 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
             @unlink($this->tmp);
         }
 
-        $this->storage = new SqliteProfilerStorage('sqlite:'.$this->tmp);
+        $this->storage = new SqliteProfilerStorage('sqlite:' . $this->tmp);
         $this->storage->purge();
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         if (null !== $this->storage) {
             $this->storage->purge();
             $this->storage = null;
@@ -82,4 +76,5 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
             @unlink($this->tmp);
         }
     }
+
 }

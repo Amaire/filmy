@@ -29,12 +29,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class DebugHandlersListenerTest extends \PHPUnit_Framework_TestCase
-{
-    public function testConfigure()
-    {
+class DebugHandlersListenerTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConfigure() {
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $userHandler = function () {};
+        $userHandler = function () {
+            
+        };
         $listener = new DebugHandlersListener($userHandler, $logger);
         $xHandler = new ExceptionHandler();
         $eHandler = new ErrorHandler();
@@ -46,6 +47,7 @@ class DebugHandlersListenerTest extends \PHPUnit_Framework_TestCase
         try {
             $listener->configure();
         } catch (\Exception $exception) {
+            
         }
         restore_exception_handler();
         restore_error_handler();
@@ -62,8 +64,7 @@ class DebugHandlersListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array($logger, LogLevel::INFO), $loggers[E_DEPRECATED]);
     }
 
-    public function testConsoleEvent()
-    {
+    public function testConsoleEvent() {
         $dispatcher = new EventDispatcher();
         $listener = new DebugHandlersListener(null);
         $app = $this->getMock('Symfony\Component\Console\Application');
@@ -87,6 +88,7 @@ class DebugHandlersListenerTest extends \PHPUnit_Framework_TestCase
         try {
             $dispatcher->dispatch(ConsoleEvents::COMMAND, $event);
         } catch (\Exception $exception) {
+            
         }
         restore_exception_handler();
         restore_error_handler();
@@ -99,8 +101,9 @@ class DebugHandlersListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Closure', $xHandler);
 
         $app->expects($this->once())
-            ->method('renderException');
+                ->method('renderException');
 
         $xHandler(new \Exception());
     }
+
 }

@@ -17,8 +17,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * Compiler pass to register tagged services for an event dispatcher.
  */
-class RegisterListenersPass implements CompilerPassInterface
-{
+class RegisterListenersPass implements CompilerPassInterface {
+
     /**
      * @var string
      */
@@ -41,15 +41,13 @@ class RegisterListenersPass implements CompilerPassInterface
      * @param string $listenerTag       Tag name used for listener
      * @param string $subscriberTag     Tag name used for subscribers
      */
-    public function __construct($dispatcherService = 'event_dispatcher', $listenerTag = 'kernel.event_listener', $subscriberTag = 'kernel.event_subscriber')
-    {
+    public function __construct($dispatcherService = 'event_dispatcher', $listenerTag = 'kernel.event_listener', $subscriberTag = 'kernel.event_subscriber') {
         $this->dispatcherService = $dispatcherService;
         $this->listenerTag = $listenerTag;
         $this->subscriberTag = $subscriberTag;
     }
 
-    public function process(ContainerBuilder $container)
-    {
+    public function process(ContainerBuilder $container) {
         if (!$container->hasDefinition($this->dispatcherService) && !$container->hasAlias($this->dispatcherService)) {
             return;
         }
@@ -74,10 +72,12 @@ class RegisterListenersPass implements CompilerPassInterface
                 }
 
                 if (!isset($event['method'])) {
-                    $event['method'] = 'on'.preg_replace_callback(array(
-                        '/(?<=\b)[a-z]/i',
-                        '/[^a-z0-9]/i',
-                    ), function ($matches) { return strtoupper($matches[0]); }, $event['event']);
+                    $event['method'] = 'on' . preg_replace_callback(array(
+                                '/(?<=\b)[a-z]/i',
+                                '/[^a-z0-9]/i',
+                                    ), function ($matches) {
+                                return strtoupper($matches[0]);
+                            }, $event['event']);
                     $event['method'] = preg_replace('/[^a-z0-9]/i', '', $event['method']);
                 }
 
@@ -107,4 +107,5 @@ class RegisterListenersPass implements CompilerPassInterface
             $definition->addMethodCall('addSubscriberService', array($id, $class));
         }
     }
+
 }

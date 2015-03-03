@@ -24,28 +24,25 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @deprecated since 2.6, to be removed in 3.0. Use DebugHandlersListener instead.
  */
-class ErrorsLoggerListener implements EventSubscriberInterface
-{
-    private $channel;
+class ErrorsLoggerListener implements EventSubscriberInterface {
 
+    private $channel;
     private $logger;
 
-    public function __construct($channel, LoggerInterface $logger = null)
-    {
+    public function __construct($channel, LoggerInterface $logger = null) {
         $this->channel = $channel;
         $this->logger = $logger;
     }
 
-    public function injectLogger()
-    {
+    public function injectLogger() {
         if (null !== $this->logger) {
             ErrorHandler::setLogger($this->logger, $this->channel);
             $this->logger = null;
         }
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(KernelEvents::REQUEST => array('injectLogger', 2048));
     }
+
 }

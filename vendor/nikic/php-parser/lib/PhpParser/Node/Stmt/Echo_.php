@@ -7,8 +7,8 @@ use PhpParser\Node;
 /**
  * @property Node\Expr[] $exprs Expressions
  */
-class Echo_ extends Node\Stmt
-{
+class Echo_ extends Node\Stmt {
+
     /**
      * Constructs an echo node.
      *
@@ -17,10 +17,10 @@ class Echo_ extends Node\Stmt
      */
     public function __construct(array $exprs, array $attributes = array()) {
         parent::__construct(
-            array(
-                'exprs' => $exprs,
-            ),
-            $attributes
+                array(
+            'exprs' => $exprs,
+                ), $attributes
         );
     }
+
 }

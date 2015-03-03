@@ -7,17 +7,17 @@ use PhpParser\Node\Scalar;
 /**
  * @property string $value String value
  */
-class String extends Scalar
-{
+class String extends Scalar {
+
     protected static $replacements = array(
         '\\' => '\\',
-        '$'  =>  '$',
-        'n'  => "\n",
-        'r'  => "\r",
-        't'  => "\t",
-        'f'  => "\f",
-        'v'  => "\v",
-        'e'  => "\x1B",
+        '$' => '$',
+        'n' => "\n",
+        'r' => "\r",
+        't' => "\t",
+        'f' => "\f",
+        'v' => "\v",
+        'e' => "\x1B",
     );
 
     /**
@@ -28,10 +28,9 @@ class String extends Scalar
      */
     public function __construct($value = '', array $attributes = array()) {
         parent::__construct(
-            array(
-                'value' => $value
-            ),
-            $attributes
+                array(
+            'value' => $value
+                ), $attributes
         );
     }
 
@@ -52,9 +51,7 @@ class String extends Scalar
 
         if ('\'' === $str[$bLength]) {
             return str_replace(
-                array('\\\\', '\\\''),
-                array(  '\\',   '\''),
-                substr($str, $bLength + 1, -1)
+                    array('\\\\', '\\\''), array('\\', '\''), substr($str, $bLength + 1, -1)
             );
         } else {
             return self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
@@ -77,9 +74,7 @@ class String extends Scalar
         }
 
         return preg_replace_callback(
-            '~\\\\([\\\\$nrtfve]|[xX][0-9a-fA-F]{1,2}|[0-7]{1,3})~',
-            array(__CLASS__, 'parseCallback'),
-            $str
+                '~\\\\([\\\\$nrtfve]|[xX][0-9a-fA-F]{1,2}|[0-7]{1,3})~', array(__CLASS__, 'parseCallback'), $str
         );
     }
 
@@ -116,4 +111,5 @@ class String extends Scalar
 
         return self::parseEscapeSequences($str, null);
     }
+
 }

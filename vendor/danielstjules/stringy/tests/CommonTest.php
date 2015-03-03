@@ -2,20 +2,18 @@
 
 use Stringy\Stringy;
 
-abstract class CommonTest extends PHPUnit_Framework_TestCase
-{
+abstract class CommonTest extends PHPUnit_Framework_TestCase {
+
     /**
      * Asserts that a variable is of a Stringy instance.
      *
      * @param mixed $actual
      */
-    public function assertStringy($actual)
-    {
+    public function assertStringy($actual) {
         $this->assertInstanceOf('Stringy\Stringy', $actual);
     }
 
-    public function charsProvider()
-    {
+    public function charsProvider() {
         return array(
             array(array(), ''),
             array(array('T', 'e', 's', 't'), 'Test'),
@@ -23,8 +21,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function upperCaseFirstProvider()
-    {
+    public function upperCaseFirstProvider() {
         return array(
             array('Test', 'Test'),
             array('Test', 'test'),
@@ -34,8 +31,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function lowerCaseFirstProvider()
-    {
+    public function lowerCaseFirstProvider() {
         return array(
             array('test', 'Test'),
             array('test', 'test'),
@@ -45,8 +41,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function camelizeProvider()
-    {
+    public function camelizeProvider() {
         return array(
             array('camelCase', 'CamelCase'),
             array('camelCase', 'Camel-Case'),
@@ -64,8 +59,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function upperCamelizeProvider()
-    {
+    public function upperCamelizeProvider() {
         return array(
             array('CamelCase', 'camelCase'),
             array('CamelCase', 'Camel-Case'),
@@ -83,8 +77,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function dasherizeProvider()
-    {
+    public function dasherizeProvider() {
         return array(
             array('test-case', 'testCase'),
             array('test-case', 'Test-Case'),
@@ -104,8 +97,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function underscoredProvider()
-    {
+    public function underscoredProvider() {
         return array(
             array('test_case', 'testCase'),
             array('test_case', 'Test-Case'),
@@ -125,8 +117,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function swapCaseProvider()
-    {
+    public function swapCaseProvider() {
         return array(
             array('TESTcASE', 'testCase'),
             array('tEST-cASE', 'Test-Case'),
@@ -135,8 +126,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function titleizeProvider()
-    {
+    public function titleizeProvider() {
         $ignore = array('at', 'by', 'for', 'in', 'of', 'on', 'out', 'to', 'the');
 
         return array(
@@ -148,8 +138,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function humanizeProvider()
-    {
+    public function humanizeProvider() {
         return array(
             array('Author', 'author_id'),
             array('Test user', ' _test_user_'),
@@ -157,8 +146,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function tidyProvider()
-    {
+    public function tidyProvider() {
         return array(
             array('"I see..."', '“I see…”'),
             array("'This too'", "‘This too’"),
@@ -167,8 +155,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function collapseWhitespaceProvider()
-    {
+    public function collapseWhitespaceProvider() {
         return array(
             array('foo bar', '  foo   bar  '),
             array('test string', 'test string'),
@@ -185,8 +172,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function toAsciiProvider()
-    {
+    public function toAsciiProvider() {
         return array(
             array('foo bar', 'fòô bàř'),
             array(' TEST ', ' ŤÉŚŢ '),
@@ -208,24 +194,20 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function padProvider()
-    {
+    public function padProvider() {
         return array(
             // length <= str
             array('foo bar', 'foo bar', -1),
             array('foo bar', 'foo bar', 7),
             array('fòô bàř', 'fòô bàř', 7, ' ', 'right', 'UTF-8'),
-
             // right
             array('foo bar  ', 'foo bar', 9),
             array('foo bar_*', 'foo bar', 9, '_*', 'right'),
             array('fòô bàř¬ø¬', 'fòô bàř', 10, '¬ø', 'right', 'UTF-8'),
-
             // left
             array('  foo bar', 'foo bar', 9, ' ', 'left'),
             array('_*foo bar', 'foo bar', 9, '_*', 'left'),
             array('¬ø¬fòô bàř', 'fòô bàř', 10, '¬ø', 'left', 'UTF-8'),
-
             // both
             array('foo bar ', 'foo bar', 8, ' ', 'both'),
             array('¬fòô bàř¬ø', 'fòô bàř', 10, '¬ø', 'both', 'UTF-8'),
@@ -233,8 +215,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function padLeftProvider()
-    {
+    public function padLeftProvider() {
         return array(
             array('  foo bar', 'foo bar', 9),
             array('_*foo bar', 'foo bar', 9, '_*'),
@@ -246,8 +227,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function padRightProvider()
-    {
+    public function padRightProvider() {
         return array(
             array('foo bar  ', 'foo bar', 9),
             array('foo bar_*', 'foo bar', 9, '_*'),
@@ -259,8 +239,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function padBothProvider()
-    {
+    public function padBothProvider() {
         return array(
             array('foo bar ', 'foo bar', 8),
             array(' foo bar ', 'foo bar', 9, ' '),
@@ -276,8 +255,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function startsWithProvider()
-    {
+    public function startsWithProvider() {
         return array(
             array(true, 'foo bars', 'foo bar'),
             array(true, 'FOO bars', 'foo bar', false),
@@ -293,8 +271,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function endsWithProvider()
-    {
+    public function endsWithProvider() {
         return array(
             array(true, 'foo bars', 'o bars'),
             array(true, 'FOO bars', 'o bars', false),
@@ -310,8 +287,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function toSpacesProvider()
-    {
+    public function toSpacesProvider() {
         return array(
             array('    foo    bar    ', '	foo	bar	'),
             array('     foo     bar     ', '	foo	bar	', 5),
@@ -322,8 +298,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function toTabsProvider()
-    {
+    public function toTabsProvider() {
         return array(
             array('	foo	bar	', '    foo    bar    '),
             array('	foo	bar	', '     foo     bar     ', 5),
@@ -333,8 +308,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function toLowerCaseProvider()
-    {
+    public function toLowerCaseProvider() {
         return array(
             array('foo bar', 'FOO BAR'),
             array(' foo_bar ', ' FOO_bar '),
@@ -344,8 +318,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function toTitleCaseProvider()
-    {
+    public function toTitleCaseProvider() {
         return array(
             array('Foo Bar', 'foo bar'),
             array(' Foo_Bar ', ' foo_bar '),
@@ -355,8 +328,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function toUpperCaseProvider()
-    {
+    public function toUpperCaseProvider() {
         return array(
             array('FOO BAR', 'foo bar'),
             array(' FOO_BAR ', ' FOO_bar '),
@@ -366,8 +338,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function slugifyProvider()
-    {
+    public function slugifyProvider() {
         return array(
             array('foo-bar', ' foo  bar '),
             array('foo-bar', 'foo -.-"-...bar'),
@@ -387,11 +358,10 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function containsProvider()
-    {
+    public function containsProvider() {
         return array(
             array(true, 'Str contains foo bar', 'foo bar'),
-            array(true, '12398!@(*%!@# @!%#*&^%',  ' @!%#*&^%'),
+            array(true, '12398!@(*%!@# @!%#*&^%', ' @!%#*&^%'),
             array(true, 'Ο συγγραφέας είπε', 'συγγραφέας', 'UTF-8'),
             array(true, 'å´¥©¨ˆßå˚ ∆∂˙©å∑¥øœ¬', 'å´¥©', true, 'UTF-8'),
             array(true, 'å´¥©¨ˆßå˚ ∆∂˙©å∑¥øœ¬', 'å˚ ∆', true, 'UTF-8'),
@@ -402,7 +372,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
             array(false, 'Ο συγγραφέας είπε', '  συγγραφέας ', true, 'UTF-8'),
             array(false, 'å´¥©¨ˆßå˚ ∆∂˙©å∑¥øœ¬', ' ßå˚', true, 'UTF-8'),
             array(true, 'Str contains foo bar', 'Foo bar', false),
-            array(true, '12398!@(*%!@# @!%#*&^%',  ' @!%#*&^%', false),
+            array(true, '12398!@(*%!@# @!%#*&^%', ' @!%#*&^%', false),
             array(true, 'Ο συγγραφέας είπε', 'ΣΥΓΓΡΑΦΈΑΣ', false, 'UTF-8'),
             array(true, 'å´¥©¨ˆßå˚ ∆∂˙©å∑¥øœ¬', 'Å´¥©', false, 'UTF-8'),
             array(true, 'å´¥©¨ˆßå˚ ∆∂˙©å∑¥øœ¬', 'Å˚ ∆', false, 'UTF-8'),
@@ -414,8 +384,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function containsAnyProvider()
-    {
+    public function containsAnyProvider() {
         // One needle
         $singleNeedle = array_map(function ($array) {
             $array[2] = array($array[2]);
@@ -452,8 +421,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         return array_merge($singleNeedle, $provider);
     }
 
-    public function containsAllProvider()
-    {
+    public function containsAllProvider() {
         // One needle
         $singleNeedle = array_map(function ($array) {
             $array[2] = array($array[2]);
@@ -490,8 +458,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         return array_merge($singleNeedle, $provider);
     }
 
-    public function surroundProvider()
-    {
+    public function surroundProvider() {
         return array(
             array('__foobar__', 'foobar', '__'),
             array('test', 'test', ''),
@@ -501,8 +468,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function insertProvider()
-    {
+    public function insertProvider() {
         return array(
             array('foo bar', 'oo bar', 'f', 0),
             array('foo bar', 'f bar', 'oo', 1),
@@ -514,8 +480,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function truncateProvider()
-    {
+    public function truncateProvider() {
         return array(
             array('Test foo bar', 'Test foo bar', 12),
             array('Test foo ba', 'Test foo bar', 11),
@@ -542,8 +507,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function safeTruncateProvider()
-    {
+    public function safeTruncateProvider() {
         return array(
             array('Test foo bar', 'Test foo bar', 12),
             array('Test foo', 'Test foo bar', 11),
@@ -570,8 +534,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function reverseProvider()
-    {
+    public function reverseProvider() {
         return array(
             array('', ''),
             array('raboof', 'foobar'),
@@ -581,8 +544,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function shuffleProvider()
-    {
+    public function shuffleProvider() {
         return array(
             array('foo bar'),
             array('∂∆ ˚åß', 'UTF-8'),
@@ -590,8 +552,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function trimProvider()
-    {
+    public function trimProvider() {
         return array(
             array('foo   bar', '  foo   bar  '),
             array('foo bar', ' foo bar'),
@@ -604,8 +565,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function longestCommonPrefixProvider()
-    {
+    public function longestCommonPrefixProvider() {
         return array(
             array('foo', 'foobar', 'foo bar'),
             array('foo bar', 'foo bar', 'foo bar'),
@@ -620,8 +580,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function longestCommonSuffixProvider()
-    {
+    public function longestCommonSuffixProvider() {
         return array(
             array('bar', 'foobar', 'foo bar'),
             array('foo bar', 'foo bar', 'foo bar'),
@@ -636,8 +595,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function longestCommonSubstringProvider()
-    {
+    public function longestCommonSubstringProvider() {
         return array(
             array('foo', 'foobar', 'foo bar'),
             array('foo bar', 'foo bar', 'foo bar'),
@@ -652,8 +610,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function lengthProvider()
-    {
+    public function lengthProvider() {
         return array(
             array(11, '  foo bar  '),
             array(1, 'f'),
@@ -662,8 +619,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function substrProvider()
-    {
+    public function substrProvider() {
         return array(
             array('foo bar', 'foo bar', 0),
             array('bar', 'foo bar', 4),
@@ -677,8 +633,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function atProvider()
-    {
+    public function atProvider() {
         return array(
             array('f', 'foo bar', 0),
             array('o', 'foo bar', 1),
@@ -691,8 +646,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function firstProvider()
-    {
+    public function firstProvider() {
         return array(
             array('', 'foo bar', -5),
             array('', 'foo bar', 0),
@@ -709,8 +663,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function lastProvider()
-    {
+    public function lastProvider() {
         return array(
             array('', 'foo bar', -5),
             array('', 'foo bar', 0),
@@ -727,8 +680,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function ensureLeftProvider()
-    {
+    public function ensureLeftProvider() {
         return array(
             array('foobar', 'foobar', 'f'),
             array('foobar', 'foobar', 'foo'),
@@ -743,8 +695,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function ensureRightProvider()
-    {
+    public function ensureRightProvider() {
         return array(
             array('foobar', 'foobar', 'r'),
             array('foobar', 'foobar', 'bar'),
@@ -759,8 +710,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function removeLeftProvider()
-    {
+    public function removeLeftProvider() {
         return array(
             array('foo bar', 'foo bar', ''),
             array('oo bar', 'foo bar', 'f'),
@@ -777,8 +727,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function removeRightProvider()
-    {
+    public function removeRightProvider() {
         return array(
             array('foo bar', 'foo bar', ''),
             array('foo ba', 'foo bar', 'r'),
@@ -795,8 +744,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isAlphaProvider()
-    {
+    public function isAlphaProvider() {
         return array(
             array(true, ''),
             array(true, 'foobar'),
@@ -811,8 +759,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isAlphanumericProvider()
-    {
+    public function isAlphanumericProvider() {
         return array(
             array(true, ''),
             array(true, 'foobar1'),
@@ -830,8 +777,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isBlankProvider()
-    {
+    public function isBlankProvider() {
         return array(
             array(true, ''),
             array(true, ' '),
@@ -851,8 +797,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isJsonProvider()
-    {
+    public function isJsonProvider() {
         return array(
             array(true, ''),
             array(true, '123'),
@@ -871,8 +816,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isLowerCaseProvider()
-    {
+    public function isLowerCaseProvider() {
         return array(
             array(true, ''),
             array(true, 'foobar'),
@@ -885,8 +829,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function hasLowerCaseProvider()
-    {
+    public function hasLowerCaseProvider() {
         return array(
             array(false, ''),
             array(true, 'foobar'),
@@ -903,8 +846,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isSerializedProvider()
-    {
+    public function isSerializedProvider() {
         return array(
             array(false, ''),
             array(true, 'a:1:{s:3:"foo";s:3:"bar";}'),
@@ -916,8 +858,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isUpperCaseProvider()
-    {
+    public function isUpperCaseProvider() {
         return array(
             array(true, ''),
             array(true, 'FOOBAR'),
@@ -930,8 +871,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function hasUpperCaseProvider()
-    {
+    public function hasUpperCaseProvider() {
         return array(
             array(false, ''),
             array(true, 'FOOBAR'),
@@ -948,8 +888,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function isHexadecimalProvider()
-    {
+    public function isHexadecimalProvider() {
         return array(
             array(true, ''),
             array(true, 'abcdef'),
@@ -967,8 +906,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function countSubstrProvider()
-    {
+    public function countSubstrProvider() {
         return array(
             array(0, '', 'foo'),
             array(0, 'foo', 'bar'),
@@ -988,8 +926,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function replaceProvider()
-    {
+    public function replaceProvider() {
         return array(
             array('', '', '', ''),
             array('foo', '', '', 'foo'),
@@ -1010,8 +947,7 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function regexReplaceProvider()
-    {
+    public function regexReplaceProvider() {
         return array(
             array('', '', '', ''),
             array('bar', 'foo', 'f[o]+', 'bar'),
@@ -1023,4 +959,5 @@ abstract class CommonTest extends PHPUnit_Framework_TestCase
             array('fòô', 'bàř', '[[:alpha:]]{3}', 'fòô', 'msr', 'UTF-8')
         );
     }
+
 }

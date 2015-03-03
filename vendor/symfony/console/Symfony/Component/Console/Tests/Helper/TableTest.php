@@ -16,17 +16,15 @@ use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Output\StreamOutput;
 
-class TableTest extends \PHPUnit_Framework_TestCase
-{
+class TableTest extends \PHPUnit_Framework_TestCase {
+
     protected $stream;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->stream = fopen('php://memory', 'r+');
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         fclose($this->stream);
         $this->stream = null;
     }
@@ -34,13 +32,12 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider testRenderProvider
      */
-    public function testRender($headers, $rows, $style, $expected)
-    {
+    public function testRender($headers, $rows, $style, $expected) {
         $table = new Table($output = $this->getOutputStream());
         $table
-            ->setHeaders($headers)
-            ->setRows($rows)
-            ->setStyle($style)
+                ->setHeaders($headers)
+                ->setRows($rows)
+                ->setStyle($style)
         ;
         $table->render();
 
@@ -50,13 +47,12 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider testRenderProvider
      */
-    public function testRenderAddRows($headers, $rows, $style, $expected)
-    {
+    public function testRenderAddRows($headers, $rows, $style, $expected) {
         $table = new Table($output = $this->getOutputStream());
         $table
-            ->setHeaders($headers)
-            ->addRows($rows)
-            ->setStyle($style)
+                ->setHeaders($headers)
+                ->addRows($rows)
+                ->setStyle($style)
         ;
         $table->render();
 
@@ -66,12 +62,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider testRenderProvider
      */
-    public function testRenderAddRowsOneByOne($headers, $rows, $style, $expected)
-    {
+    public function testRenderAddRowsOneByOne($headers, $rows, $style, $expected) {
         $table = new Table($output = $this->getOutputStream());
         $table
-            ->setHeaders($headers)
-            ->setStyle($style)
+                ->setHeaders($headers)
+                ->setStyle($style)
         ;
         foreach ($rows as $row) {
             $table->addRow($row);
@@ -81,8 +76,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->getOutputContent($output));
     }
 
-    public function testRenderProvider()
-    {
+    public function testRenderProvider() {
         $books = array(
             array('99921-58-10-7', 'Divine Comedy', 'Dante Alighieri'),
             array('9971-5-0210-0', 'A Tale of Two Cities', 'Charles Dickens'),
@@ -95,7 +89,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
                 array('ISBN', 'Title', 'Author'),
                 $books,
                 'default',
-<<<TABLE
+                <<<TABLE
 +---------------+--------------------------+------------------+
 | ISBN          | Title                    | Author           |
 +---------------+--------------------------+------------------+
@@ -111,7 +105,7 @@ TABLE
                 array('ISBN', 'Title', 'Author'),
                 $books,
                 'compact',
-<<<TABLE
+                <<<TABLE
  ISBN          Title                    Author           
  99921-58-10-7 Divine Comedy            Dante Alighieri  
  9971-5-0210-0 A Tale of Two Cities     Charles Dickens  
@@ -124,7 +118,7 @@ TABLE
                 array('ISBN', 'Title', 'Author'),
                 $books,
                 'borderless',
-<<<TABLE
+                <<<TABLE
  =============== ========================== ================== 
   ISBN            Title                      Author            
  =============== ========================== ================== 
@@ -145,7 +139,7 @@ TABLE
                     array('80-902734-1-6', 'And Then There Were None', 'Agatha Christie'),
                 ),
                 'default',
-<<<TABLE
+                <<<TABLE
 +---------------+--------------------------+------------------+
 | ISBN          | Title                    |                  |
 +---------------+--------------------------+------------------+
@@ -166,7 +160,7 @@ TABLE
                     array('80-902734-1-6', 'And Then There Were None', 'Agatha Christie'),
                 ),
                 'default',
-<<<TABLE
+                <<<TABLE
 +---------------+--------------------------+------------------+
 | 99921-58-10-7 | Divine Comedy            | Dante Alighieri  |
 | 9971-5-0210-0 |                          |                  |
@@ -185,7 +179,7 @@ TABLE
                     array("960-425-059-0", "The Lord of the Rings", "J. R. R.\nTolkien"),
                 ),
                 'default',
-<<<TABLE
+                <<<TABLE
 +---------------+----------------------------+-----------------+
 | ISBN          | Title                      | Author          |
 +---------------+----------------------------+-----------------+
@@ -205,7 +199,7 @@ TABLE
                 array('ISBN', 'Title'),
                 array(),
                 'default',
-<<<TABLE
+                <<<TABLE
 +------+-------+
 | ISBN | Title |
 +------+-------+
@@ -225,7 +219,7 @@ TABLE
                     array('9971-5-0210-0', 'A Tale of Two Cities', '<info>Charles Dickens</>'),
                 ),
                 'default',
-<<<TABLE
+                <<<TABLE
 +---------------+----------------------+-----------------+
 | ISBN          | Title                | Author          |
 +---------------+----------------------+-----------------+
@@ -242,7 +236,7 @@ TABLE
                     array('9971-5-0210-0', 'A Tale of Two Cities', 'Charles Dickens'),
                 ),
                 'default',
-<<<TABLE
+                <<<TABLE
 +----------------------------------+----------------------+-----------------+
 | ISBN                             | Title                | Author          |
 +----------------------------------+----------------------+-----------------+
@@ -255,22 +249,20 @@ TABLE
         );
     }
 
-    public function testRenderMultiByte()
-    {
+    public function testRenderMultiByte() {
         if (!function_exists('mb_strlen')) {
             $this->markTestSkipped('The "mbstring" extension is not available');
         }
 
         $table = new Table($output = $this->getOutputStream());
         $table
-            ->setHeaders(array('■■'))
-            ->setRows(array(array(1234)))
-            ->setStyle('default')
+                ->setHeaders(array('■■'))
+                ->setRows(array(array(1234)))
+                ->setStyle('default')
         ;
         $table->render();
 
-        $expected =
-<<<TABLE
+        $expected = <<<TABLE
 +------+
 | ■■   |
 +------+
@@ -282,25 +274,23 @@ TABLE;
         $this->assertEquals($expected, $this->getOutputContent($output));
     }
 
-    public function testStyle()
-    {
+    public function testStyle() {
         $style = new TableStyle();
         $style
-            ->setHorizontalBorderChar('.')
-            ->setVerticalBorderChar('.')
-            ->setCrossingChar('.')
+                ->setHorizontalBorderChar('.')
+                ->setVerticalBorderChar('.')
+                ->setCrossingChar('.')
         ;
 
         Table::setStyleDefinition('dotfull', $style);
         $table = new Table($output = $this->getOutputStream());
         $table
-            ->setHeaders(array('Foo'))
-            ->setRows(array(array('Bar')))
-            ->setStyle('dotfull');
+                ->setHeaders(array('Foo'))
+                ->setRows(array(array('Bar')))
+                ->setStyle('dotfull');
         $table->render();
 
-        $expected =
-<<<TABLE
+        $expected = <<<TABLE
 .......
 . Foo .
 .......
@@ -312,22 +302,20 @@ TABLE;
         $this->assertEquals($expected, $this->getOutputContent($output));
     }
 
-    public function testRowSeparator()
-    {
+    public function testRowSeparator() {
         $table = new Table($output = $this->getOutputStream());
         $table
-            ->setHeaders(array('Foo'))
-            ->setRows(array(
-                array('Bar1'),
-                new TableSeparator(),
-                array('Bar2'),
-                new TableSeparator(),
-                array('Bar3'),
-            ));
+                ->setHeaders(array('Foo'))
+                ->setRows(array(
+                    array('Bar1'),
+                    new TableSeparator(),
+                    array('Bar2'),
+                    new TableSeparator(),
+                    array('Bar3'),
+        ));
         $table->render();
 
-        $expected =
-<<<TABLE
+        $expected = <<<TABLE
 +------+
 | Foo  |
 +------+
@@ -343,15 +331,14 @@ TABLE;
         $this->assertEquals($expected, $this->getOutputContent($output));
     }
 
-    protected function getOutputStream()
-    {
+    protected function getOutputStream() {
         return new StreamOutput($this->stream, StreamOutput::VERBOSITY_NORMAL, false);
     }
 
-    protected function getOutputContent(StreamOutput $output)
-    {
+    protected function getOutputContent(StreamOutput $output) {
         rewind($output->getStream());
 
         return str_replace(PHP_EOL, "\n", stream_get_contents($output->getStream()));
     }
+
 }

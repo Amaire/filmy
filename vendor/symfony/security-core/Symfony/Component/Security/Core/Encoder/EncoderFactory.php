@@ -16,20 +16,18 @@ namespace Symfony\Component\Security\Core\Encoder;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class EncoderFactory implements EncoderFactoryInterface
-{
+class EncoderFactory implements EncoderFactoryInterface {
+
     private $encoders;
 
-    public function __construct(array $encoders)
-    {
+    public function __construct(array $encoders) {
         $this->encoders = $encoders;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getEncoder($user)
-    {
+    public function getEncoder($user) {
         $encoderKey = null;
 
         if ($user instanceof EncoderAwareInterface && (null !== $encoderName = $user->getEncoderName())) {
@@ -67,8 +65,7 @@ class EncoderFactory implements EncoderFactoryInterface
      *
      * @throws \InvalidArgumentException
      */
-    private function createEncoder(array $config)
-    {
+    private function createEncoder(array $config) {
         if (!isset($config['class'])) {
             throw new \InvalidArgumentException(sprintf('"class" must be set in %s.', json_encode($config)));
         }
@@ -80,4 +77,5 @@ class EncoderFactory implements EncoderFactoryInterface
 
         return $reflection->newInstanceArgs($config['arguments']);
     }
+
 }

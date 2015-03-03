@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -20,8 +21,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint {
+
     /**
      * @var PHPUnit_Framework_Constraint[]
      */
@@ -30,14 +31,13 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
     /**
      * @param PHPUnit_Framework_Constraint[] $constraints
      */
-    public function setConstraints(array $constraints)
-    {
+    public function setConstraints(array $constraints) {
         $this->constraints = array();
 
         foreach ($constraints as $constraint) {
             if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
                 $constraint = new PHPUnit_Framework_Constraint_IsEqual(
-                    $constraint
+                        $constraint
                 );
             }
 
@@ -61,8 +61,7 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
      * @return mixed
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    public function evaluate($other, $description = '', $returnResult = false)
-    {
+    public function evaluate($other, $description = '', $returnResult = false) {
         $success = false;
         $constraint = null;
 
@@ -87,8 +86,7 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         $text = '';
 
         foreach ($this->constraints as $key => $constraint) {
@@ -108,8 +106,7 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
      * @return integer
      * @since  Method available since Release 3.4.0
      */
-    public function count()
-    {
+    public function count() {
         $count = 0;
 
         foreach ($this->constraints as $constraint) {
@@ -118,4 +115,5 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
 
         return $count;
     }
+
 }

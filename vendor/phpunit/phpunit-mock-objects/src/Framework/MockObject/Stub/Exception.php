@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -55,26 +56,22 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Class available since Release 1.0.0
  */
-class PHPUnit_Framework_MockObject_Stub_Exception implements PHPUnit_Framework_MockObject_Stub
-{
+class PHPUnit_Framework_MockObject_Stub_Exception implements PHPUnit_Framework_MockObject_Stub {
+
     protected $exception;
 
-    public function __construct(Exception $exception)
-    {
+    public function __construct(Exception $exception) {
         $this->exception = $exception;
     }
 
-    public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation)
-    {
+    public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation) {
         throw $this->exception;
     }
 
-    public function toString()
-    {
+    public function toString() {
         return sprintf(
-          'raise user-specified exception %s',
-
-          PHPUnit_Util_Type::export($this->exception)
+                'raise user-specified exception %s', PHPUnit_Util_Type::export($this->exception)
         );
     }
+
 }

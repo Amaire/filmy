@@ -19,10 +19,9 @@ use Symfony\Component\VarDumper\Cloner\Data;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class HtmlDumper extends CliDumper
-{
-    public static $defaultOutput = 'php://output';
+class HtmlDumper extends CliDumper {
 
+    public static $defaultOutput = 'php://output';
     protected $dumpHeader;
     protected $dumpPrefix = '<pre class=sf-dump id=%s data-indent-pad="%s">';
     protected $dumpSuffix = '</pre><script>Sfdump("%s")</script>';
@@ -49,8 +48,7 @@ class HtmlDumper extends CliDumper
     /**
      * {@inheritdoc}
      */
-    public function setOutput($output)
-    {
+    public function setOutput($output) {
         if ($output !== $prev = parent::setOutput($output)) {
             $this->headerIsDumped = false;
         }
@@ -61,8 +59,7 @@ class HtmlDumper extends CliDumper
     /**
      * {@inheritdoc}
      */
-    public function setStyles(array $styles)
-    {
+    public function setStyles(array $styles) {
         $this->headerIsDumped = false;
         $this->styles = $styles + $this->styles;
     }
@@ -72,8 +69,7 @@ class HtmlDumper extends CliDumper
      *
      * @param string $header An HTML string.
      */
-    public function setDumpHeader($header)
-    {
+    public function setDumpHeader($header) {
         $this->dumpHeader = $header;
     }
 
@@ -83,8 +79,7 @@ class HtmlDumper extends CliDumper
      * @param string $prefix The prepended HTML string.
      * @param string $suffix The appended HTML string.
      */
-    public function setDumpBoundaries($prefix, $suffix)
-    {
+    public function setDumpBoundaries($prefix, $suffix) {
         $this->dumpPrefix = $prefix;
         $this->dumpSuffix = $suffix;
     }
@@ -92,17 +87,15 @@ class HtmlDumper extends CliDumper
     /**
      * {@inheritdoc}
      */
-    public function dump(Data $data, $output = null)
-    {
-        $this->dumpId = 'sf-dump-'.mt_rand();
+    public function dump(Data $data, $output = null) {
+        $this->dumpId = 'sf-dump-' . mt_rand();
         parent::dump($data, $output);
     }
 
     /**
      * Dumps the HTML header.
      */
-    protected function getDumpHeader()
-    {
+    protected function getDumpHeader() {
         $this->headerIsDumped = true;
 
         if (null !== $this->dumpHeader) {
@@ -272,17 +265,16 @@ pre.sf-dump a {
 EOHTML;
 
         foreach ($this->styles as $class => $style) {
-            $line .= 'pre.sf-dump'.('default' !== $class ? ' .sf-dump-'.$class : '').'{'.$style.'}';
+            $line .= 'pre.sf-dump' . ('default' !== $class ? ' .sf-dump-' . $class : '') . '{' . $style . '}';
         }
 
-        return $this->dumpHeader = preg_replace('/\s+/', ' ', $line).'</style>'.$this->dumpHeader;
+        return $this->dumpHeader = preg_replace('/\s+/', ' ', $line) . '</style>' . $this->dumpHeader;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function enterHash(Cursor $cursor, $type, $class, $hasChild)
-    {
+    public function enterHash(Cursor $cursor, $type, $class, $hasChild) {
         parent::enterHash($cursor, $type, $class, false);
 
         if ($hasChild) {
@@ -301,8 +293,7 @@ EOHTML;
     /**
      * {@inheritdoc}
      */
-    public function leaveHash(Cursor $cursor, $type, $class, $hasChild, $cut)
-    {
+    public function leaveHash(Cursor $cursor, $type, $class, $hasChild, $cut) {
         $this->dumpEllipsis($cursor, $hasChild, $cut);
         if ($hasChild) {
             $this->line .= '</samp>';
@@ -313,8 +304,7 @@ EOHTML;
     /**
      * {@inheritdoc}
      */
-    protected function style($style, $value, $attr = array())
-    {
+    protected function style($style, $value, $attr = array()) {
         if ('' === $value) {
             return '';
         }
@@ -329,7 +319,7 @@ EOHTML;
             if (empty($attr['count'])) {
                 return sprintf('<a class=sf-dump-ref>%s</a>', $v);
             }
-            $r = ('#' !== $v[0] ? 1 - ('@' !== $v[0]) : 2).substr($value, 1);
+            $r = ('#' !== $v[0] ? 1 - ('@' !== $v[0]) : 2) . substr($value, 1);
 
             return sprintf('<a class=sf-dump-ref href=#%s-ref%s title="%d occurrences">%s</a>', $this->dumpId, $r, 1 + $attr['count'], $v);
         }
@@ -342,7 +332,7 @@ EOHTML;
             $style .= sprintf(' title="%s%s characters"', $attr['length'], $attr['binary'] ? ' binary or non-UTF-8' : '');
         } elseif ('note' === $style) {
             if (false !== $c = strrpos($v, '\\')) {
-                return sprintf('<abbr title="%s" class=sf-dump-%s>%s</abbr>', $v, $style, substr($v, $c+1));
+                return sprintf('<abbr title="%s" class=sf-dump-%s>%s</abbr>', $v, $style, substr($v, $c + 1));
             } elseif (':' === $v[0]) {
                 return sprintf('<abbr title="`%s` resource" class=sf-dump-%s>%s</abbr>', substr($v, 1), $style, $v);
             }
@@ -358,13 +348,12 @@ EOHTML;
     /**
      * {@inheritdoc}
      */
-    protected function dumpLine($depth)
-    {
+    protected function dumpLine($depth) {
         if (-1 === $this->lastDepth) {
-            $this->line = sprintf($this->dumpPrefix, $this->dumpId, $this->indentPad).$this->line;
+            $this->line = sprintf($this->dumpPrefix, $this->dumpId, $this->indentPad) . $this->line;
         }
         if (!$this->headerIsDumped) {
-            $this->line = $this->getDumpHeader().$this->line;
+            $this->line = $this->getDumpHeader() . $this->line;
         }
 
         if (-1 === $depth) {
@@ -374,27 +363,25 @@ EOHTML;
 
         // Replaces non-ASCII UTF-8 chars by numeric HTML entities
         $this->line = preg_replace_callback(
-            '/[\x80-\xFF]+/',
-            function ($m) {
-                $m = unpack('C*', $m[0]);
-                $i = 1;
-                $entities = '';
+                '/[\x80-\xFF]+/', function ($m) {
+            $m = unpack('C*', $m[0]);
+            $i = 1;
+            $entities = '';
 
-                while (isset($m[$i])) {
-                    if (0xF0 <= $m[$i]) {
-                        $c = (($m[$i++] - 0xF0) << 18) + (($m[$i++] - 0x80) << 12) + (($m[$i++] - 0x80) << 6) + $m[$i++] - 0x80;
-                    } elseif (0xE0 <= $m[$i]) {
-                        $c = (($m[$i++] - 0xE0) << 12) + (($m[$i++] - 0x80) << 6) + $m[$i++]  - 0x80;
-                    } else {
-                        $c = (($m[$i++] - 0xC0) << 6) + $m[$i++] - 0x80;
-                    }
-
-                    $entities .= '&#'.$c.';';
+            while (isset($m[$i])) {
+                if (0xF0 <= $m[$i]) {
+                    $c = (($m[$i++] - 0xF0) << 18) + (($m[$i++] - 0x80) << 12) + (($m[$i++] - 0x80) << 6) + $m[$i++] - 0x80;
+                } elseif (0xE0 <= $m[$i]) {
+                    $c = (($m[$i++] - 0xE0) << 12) + (($m[$i++] - 0x80) << 6) + $m[$i++] - 0x80;
+                } else {
+                    $c = (($m[$i++] - 0xC0) << 6) + $m[$i++] - 0x80;
                 }
 
-                return $entities;
-            },
-            $this->line
+                $entities .= '&#' . $c . ';';
+            }
+
+            return $entities;
+        }, $this->line
         );
 
         if (-1 === $depth) {
@@ -402,4 +389,5 @@ EOHTML;
         }
         AbstractDumper::dumpLine($depth);
     }
+
 }

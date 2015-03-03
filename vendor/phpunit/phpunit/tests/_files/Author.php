@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -18,15 +19,14 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.6.0
  */
-class Author
-{
+class Author {
+
     // the order of properties is important for testing the cycle!
     public $books = array();
-
     private $name = '';
 
-    public function __construct($name)
-    {
+    public function __construct($name) {
         $this->name = $name;
     }
+
 }

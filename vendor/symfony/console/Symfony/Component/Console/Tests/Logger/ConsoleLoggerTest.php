@@ -22,8 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class ConsoleLoggerTest extends LoggerInterfaceTest
-{
+class ConsoleLoggerTest extends LoggerInterfaceTest {
+
     /**
      * @var DummyOutput
      */
@@ -32,8 +32,7 @@ class ConsoleLoggerTest extends LoggerInterfaceTest
     /**
      * {@inheritdoc}
      */
-    public function getLogger()
-    {
+    public function getLogger() {
         $this->output = new DummyOutput(OutputInterface::VERBOSITY_VERBOSE);
 
         return new ConsoleLogger($this->output, array(
@@ -51,8 +50,8 @@ class ConsoleLoggerTest extends LoggerInterfaceTest
     /**
      * {@inheritdoc}
      */
-    public function getLogs()
-    {
+    public function getLogs() {
         return $this->output->getLogs();
     }
+
 }

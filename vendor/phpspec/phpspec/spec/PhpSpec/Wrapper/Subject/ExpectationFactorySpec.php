@@ -6,20 +6,17 @@ use PhpSpec\Matcher\MatcherInterface;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Wrapper\Subject;
 use Prophecy\Argument;
-
 use PhpSpec\Loader\Node\ExampleNode;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use PhpSpec\Runner\MatcherManager;
 
-class ExpectationFactorySpec extends ObjectBehavior
-{
-    function let(ExampleNode $example, EventDispatcherInterface $dispatcher, MatcherManager $matchers)
-    {
+class ExpectationFactorySpec extends ObjectBehavior {
+
+    function let(ExampleNode $example, EventDispatcherInterface $dispatcher, MatcherManager $matchers) {
         $this->beConstructedWith($example, $dispatcher, $matchers);
     }
 
-    function it_creates_positive_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject)
-    {
+    function it_creates_positive_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject) {
         $matchers->find(Argument::cetera())->willReturn($matcher);
 
         $subject->__call('getWrappedObject', array())->willReturn(new \stdClass());
@@ -29,8 +26,7 @@ class ExpectationFactorySpec extends ObjectBehavior
         $decoratedExpecation->getNestedExpectation()->shouldHaveType('PhpSpec\Wrapper\Subject\Expectation\Positive');
     }
 
-    function it_creates_negative_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject)
-    {
+    function it_creates_negative_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject) {
         $matchers->find(Argument::cetera())->willReturn($matcher);
 
         $subject->__call('getWrappedObject', array())->willReturn(new \stdClass());
@@ -40,8 +36,7 @@ class ExpectationFactorySpec extends ObjectBehavior
         $decoratedExpecation->getNestedExpectation()->shouldHaveType('PhpSpec\Wrapper\Subject\Expectation\Negative');
     }
 
-    function it_creates_positive_throw_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject)
-    {
+    function it_creates_positive_throw_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject) {
         $matchers->find(Argument::cetera())->willReturn($matcher);
 
         $subject->__call('getWrappedObject', array())->willReturn(new \stdClass());
@@ -50,8 +45,7 @@ class ExpectationFactorySpec extends ObjectBehavior
         $expectation->shouldHaveType('PhpSpec\Wrapper\Subject\Expectation\PositiveThrow');
     }
 
-    function it_creates_negative_throw_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject)
-    {
+    function it_creates_negative_throw_expectations(MatcherManager $matchers, MatcherInterface $matcher, Subject $subject) {
         $matchers->find(Argument::cetera())->willReturn($matcher);
 
         $subject->__call('getWrappedObject', array())->willReturn(new \stdClass());
@@ -59,4 +53,5 @@ class ExpectationFactorySpec extends ObjectBehavior
 
         $expectation->shouldHaveType('PhpSpec\Wrapper\Subject\Expectation\NegativeThrow');
     }
+
 }

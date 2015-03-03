@@ -13,34 +13,30 @@ namespace Symfony\Component\HttpFoundation\Tests\Session\Storage\Handler;
 
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
-class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
-{
+class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase {
+
     private $dbFile;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         if (!class_exists('PDO') || !in_array('sqlite', \PDO::getAvailableDrivers())) {
             $this->markTestSkipped('This test requires SQLite support in your environment');
         }
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         // make sure the temporary database file is deleted when it has been created (even when a test fails)
         if ($this->dbFile) {
             @unlink($this->dbFile);
         }
     }
 
-    protected function getPersistentSqliteDsn()
-    {
+    protected function getPersistentSqliteDsn() {
         $this->dbFile = tempnam(sys_get_temp_dir(), 'sf2_sqlite_sessions');
 
-        return 'sqlite:'.$this->dbFile;
+        return 'sqlite:' . $this->dbFile;
     }
 
-    protected function getMemorySqlitePdo()
-    {
+    protected function getMemorySqlitePdo() {
         $pdo = new \PDO('sqlite::memory:');
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $storage = new PdoSessionHandler($pdo);
@@ -52,8 +48,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testWrongPdoErrMode()
-    {
+    public function testWrongPdoErrMode() {
         $pdo = $this->getMemorySqlitePdo();
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
 
@@ -63,8 +58,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testInexistentTable()
-    {
+    public function testInexistentTable() {
         $storage = new PdoSessionHandler($this->getMemorySqlitePdo(), array('db_table' => 'inexistent_table'));
         $storage->open('', 'sid');
         $storage->read('id');
@@ -75,14 +69,12 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function testCreateTableTwice()
-    {
+    public function testCreateTableTwice() {
         $storage = new PdoSessionHandler($this->getMemorySqlitePdo());
         $storage->createTable();
     }
 
-    public function testWithLazyDsnConnection()
-    {
+    public function testWithLazyDsnConnection() {
         $dsn = $this->getPersistentSqliteDsn();
 
         $storage = new PdoSessionHandler($dsn);
@@ -99,8 +91,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('data', $data, 'Written value can be read back correctly');
     }
 
-    public function testWithLazySavePathConnection()
-    {
+    public function testWithLazySavePathConnection() {
         $dsn = $this->getPersistentSqliteDsn();
 
         // Open is called with what ini_set('session.save_path', $dsn) would mean
@@ -118,9 +109,8 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('data', $data, 'Written value can be read back correctly');
     }
 
-    public function testReadWriteReadWithNullByte()
-    {
-        $sessionData = 'da'."\0".'ta';
+    public function testReadWriteReadWithNullByte() {
+        $sessionData = 'da' . "\0" . 'ta';
 
         $storage = new PdoSessionHandler($this->getMemorySqlitePdo());
         $storage->open('', 'sid');
@@ -135,8 +125,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($sessionData, $readData, 'Written value can be read back correctly');
     }
 
-    public function testReadConvertsStreamToString()
-    {
+    public function testReadConvertsStreamToString() {
         $pdo = new MockPdo('pgsql');
         $pdo->prepareResult = $this->getMock('PDOStatement');
 
@@ -144,7 +133,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $stream = $this->createStream($content);
 
         $pdo->prepareResult->expects($this->once())->method('fetchAll')
-            ->will($this->returnValue(array(array($stream, 42, time()))));
+                ->will($this->returnValue(array(array($stream, 42, time()))));
 
         $storage = new PdoSessionHandler($pdo);
         $result = $storage->read('foo');
@@ -152,8 +141,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($content, $result);
     }
 
-    public function testReadLockedConvertsStreamToString()
-    {
+    public function testReadLockedConvertsStreamToString() {
         $pdo = new MockPdo('pgsql');
         $selectStmt = $this->getMock('PDOStatement');
         $insertStmt = $this->getMock('PDOStatement');
@@ -167,14 +155,14 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $exception = null;
 
         $selectStmt->expects($this->atLeast(2))->method('fetchAll')
-            ->will($this->returnCallback(function () use (&$exception, $stream) {
-                return $exception ? array(array($stream, 42, time())) : array();
-            }));
+                ->will($this->returnCallback(function () use (&$exception, $stream) {
+                            return $exception ? array(array($stream, 42, time())) : array();
+                        }));
 
         $insertStmt->expects($this->once())->method('execute')
-            ->will($this->returnCallback(function () use (&$exception) {
-                throw $exception = new \PDOException('', '23');
-            }));
+                ->will($this->returnCallback(function () use (&$exception) {
+                            throw $exception = new \PDOException('', '23');
+                        }));
 
         $storage = new PdoSessionHandler($pdo);
         $result = $storage->read('foo');
@@ -182,8 +170,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($content, $result);
     }
 
-    public function testReadingRequiresExactlySameId()
-    {
+    public function testReadingRequiresExactlySameId() {
         $storage = new PdoSessionHandler($this->getMemorySqlitePdo());
         $storage->open('', 'sid');
         $storage->write('id', 'data');
@@ -207,8 +194,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Simulates session_regenerate_id(true) which will require an INSERT or UPDATE (replace)
      */
-    public function testWriteDifferentSessionIdThanRead()
-    {
+    public function testWriteDifferentSessionIdThanRead() {
         $storage = new PdoSessionHandler($this->getMemorySqlitePdo());
         $storage->open('', 'sid');
         $storage->read('id');
@@ -223,8 +209,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('data_of_new_session_id', $data, 'Data of regenerated session id is available');
     }
 
-    public function testWrongUsageStillWorks()
-    {
+    public function testWrongUsageStillWorks() {
         // wrong method sequence that should no happen, but still works
         $storage = new PdoSessionHandler($this->getMemorySqlitePdo());
         $storage->write('id', 'data');
@@ -239,8 +224,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('other_data', $otherData);
     }
 
-    public function testSessionDestroy()
-    {
+    public function testSessionDestroy() {
         $pdo = $this->getMemorySqlitePdo();
         $storage = new PdoSessionHandler($pdo);
 
@@ -262,8 +246,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('', $data, 'Destroyed session returns empty string');
     }
 
-    public function testSessionGC()
-    {
+    public function testSessionGC() {
         $previousLifeTime = ini_set('session.gc_maxlifetime', 1000);
         $pdo = $this->getMemorySqlitePdo();
         $storage = new PdoSessionHandler($pdo);
@@ -291,8 +274,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $pdo->query('SELECT COUNT(*) FROM sessions')->fetchColumn(), 'Expired session is pruned');
     }
 
-    public function testGetConnection()
-    {
+    public function testGetConnection() {
         $storage = new PdoSessionHandler($this->getMemorySqlitePdo());
 
         $method = new \ReflectionMethod($storage, 'getConnection');
@@ -301,8 +283,7 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\PDO', $method->invoke($storage));
     }
 
-    public function testGetConnectionConnectsIfNeeded()
-    {
+    public function testGetConnectionConnectsIfNeeded() {
         $storage = new PdoSessionHandler('sqlite::memory:');
 
         $method = new \ReflectionMethod($storage, 'getConnection');
@@ -311,30 +292,28 @@ class PdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\PDO', $method->invoke($storage));
     }
 
-    private function createStream($content)
-    {
+    private function createStream($content) {
         $stream = tmpfile();
         fwrite($stream, $content);
         fseek($stream, 0);
 
         return $stream;
     }
+
 }
 
-class MockPdo extends \PDO
-{
+class MockPdo extends \PDO {
+
     public $prepareResult;
     private $driverName;
     private $errorMode;
 
-    public function __construct($driverName = null, $errorMode = null)
-    {
+    public function __construct($driverName = null, $errorMode = null) {
         $this->driverName = $driverName;
-        $this->errorMode = null !== $errorMode ?: \PDO::ERRMODE_EXCEPTION;
+        $this->errorMode = null !== $errorMode ? : \PDO::ERRMODE_EXCEPTION;
     }
 
-    public function getAttribute($attribute)
-    {
+    public function getAttribute($attribute) {
         if (\PDO::ATTR_ERRMODE === $attribute) {
             return $this->errorMode;
         }
@@ -346,14 +325,12 @@ class MockPdo extends \PDO
         return parent::getAttribute($attribute);
     }
 
-    public function prepare($statement, $driverOptions = array())
-    {
-        return is_callable($this->prepareResult)
-            ? call_user_func($this->prepareResult, $statement, $driverOptions)
-            : $this->prepareResult;
+    public function prepare($statement, $driverOptions = array()) {
+        return is_callable($this->prepareResult) ? call_user_func($this->prepareResult, $statement, $driverOptions) : $this->prepareResult;
     }
 
-    public function beginTransaction()
-    {
+    public function beginTransaction() {
+        
     }
+
 }

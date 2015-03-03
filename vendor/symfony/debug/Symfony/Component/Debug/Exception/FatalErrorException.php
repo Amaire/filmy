@@ -20,8 +20,8 @@ namespace Symfony\Component\HttpKernel\Exception;
  *
  * @deprecated Deprecated in 2.3, to be removed in 3.0. Use the same class from the Debug component instead.
  */
-class FatalErrorException extends \ErrorException
-{
+class FatalErrorException extends \ErrorException {
+    
 }
 
 namespace Symfony\Component\Debug\Exception;
@@ -33,10 +33,9 @@ use Symfony\Component\HttpKernel\Exception\FatalErrorException as LegacyFatalErr
  *
  * @author Konstanton Myakshin <koc-dp@yandex.ru>
  */
-class FatalErrorException extends LegacyFatalErrorException
-{
-    public function __construct($message, $code, $severity, $filename, $lineno, $traceOffset = null, $traceArgs = true)
-    {
+class FatalErrorException extends LegacyFatalErrorException {
+
+    public function __construct($message, $code, $severity, $filename, $lineno, $traceOffset = null, $traceArgs = true) {
         parent::__construct($message, $code, $severity, $filename, $lineno);
 
         if (null !== $traceOffset) {
@@ -77,10 +76,10 @@ class FatalErrorException extends LegacyFatalErrorException
         }
     }
 
-    protected function setTrace($trace)
-    {
+    protected function setTrace($trace) {
         $traceReflector = new \ReflectionProperty('Exception', 'trace');
         $traceReflector->setAccessible(true);
         $traceReflector->setValue($this, $trace);
     }
+
 }

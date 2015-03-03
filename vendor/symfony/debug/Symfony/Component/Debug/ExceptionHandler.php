@@ -27,18 +27,17 @@ use Symfony\Component\Debug\Exception\OutOfMemoryException;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class ExceptionHandler
-{
+class ExceptionHandler {
+
     private $debug;
     private $handler;
     private $caughtBuffer;
     private $caughtLength;
     private $fileLinkFormat;
 
-    public function __construct($debug = true, $fileLinkFormat = null)
-    {
+    public function __construct($debug = true, $fileLinkFormat = null) {
         $this->debug = $debug;
-        $this->fileLinkFormat = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $this->fileLinkFormat = $fileLinkFormat ? : ini_get('xdebug.file_link_format') ? : get_cfg_var('xdebug.file_link_format');
     }
 
     /**
@@ -48,8 +47,7 @@ class ExceptionHandler
      *
      * @return ExceptionHandler The registered exception handler
      */
-    public static function register($debug = true, $fileLinkFormat = null)
-    {
+    public static function register($debug = true, $fileLinkFormat = null) {
         $handler = new static($debug, $fileLinkFormat);
 
         $prev = set_exception_handler(array($handler, 'handle'));
@@ -68,8 +66,7 @@ class ExceptionHandler
      *
      * @return callable|null The previous exception handler if any
      */
-    public function setHandler($handler)
-    {
+    public function setHandler($handler) {
         if (null !== $handler && !is_callable($handler)) {
             throw new \LogicException('The exception handler must be a valid PHP callable.');
         }
@@ -86,8 +83,7 @@ class ExceptionHandler
      *
      * @return string The previous file link format.
      */
-    public function setFileLinkFormat($format)
-    {
+    public function setFileLinkFormat($format) {
         $old = $this->fileLinkFormat;
         $this->fileLinkFormat = $format;
 
@@ -102,8 +98,7 @@ class ExceptionHandler
      * The latter takes precedence and any output from the former is cancelled,
      * if and only if nothing bad happens in this handling path.
      */
-    public function handle(\Exception $exception)
-    {
+    public function handle(\Exception $exception) {
         if (null === $this->handler || $exception instanceof OutOfMemoryException) {
             $this->failSafeHandle($exception);
 
@@ -147,8 +142,7 @@ class ExceptionHandler
      * @see sendPhpResponse()
      * @see createResponse()
      */
-    private function failSafeHandle(\Exception $exception)
-    {
+    private function failSafeHandle(\Exception $exception) {
         if (class_exists('Symfony\Component\HttpFoundation\Response', false)) {
             $response = $this->createResponse($exception);
             $response->sendHeaders();
@@ -166,8 +160,7 @@ class ExceptionHandler
      *
      * @param \Exception|FlattenException $exception An \Exception instance
      */
-    public function sendPhpResponse($exception)
-    {
+    public function sendPhpResponse($exception) {
         if (!$exception instanceof FlattenException) {
             $exception = FlattenException::create($exception);
         }
@@ -175,7 +168,7 @@ class ExceptionHandler
         if (!headers_sent()) {
             header(sprintf('HTTP/1.0 %s', $exception->getStatusCode()));
             foreach ($exception->getHeaders() as $name => $value) {
-                header($name.': '.$value, false);
+                header($name . ': ' . $value, false);
             }
         }
 
@@ -189,8 +182,7 @@ class ExceptionHandler
      *
      * @return Response A Response instance
      */
-    public function createResponse($exception)
-    {
+    public function createResponse($exception) {
         if (!$exception instanceof FlattenException) {
             $exception = FlattenException::create($exception);
         }
@@ -205,8 +197,7 @@ class ExceptionHandler
      *
      * @return string The content as a string
      */
-    public function getContent(FlattenException $exception)
-    {
+    public function getContent(FlattenException $exception) {
         switch ($exception->getStatusCode()) {
             case 404:
                 $title = 'Sorry, the page you are looking for could not be found.';
@@ -234,7 +225,7 @@ class ExceptionHandler
                             <ol class="traces list_exception">
 
 EOF
-                        , $ind, $total, $class, $this->formatPath($e['trace'][0]['file'], $e['trace'][0]['line']), $message);
+                            , $ind, $total, $class, $this->formatPath($e['trace'][0]['file'], $e['trace'][0]['line']), $message);
                     foreach ($e['trace'] as $trace) {
                         $content .= '       <li>';
                         if ($trace['function']) {
@@ -273,8 +264,7 @@ EOF;
      *
      * @return string The stylesheet as a string
      */
-    public function getStylesheet(FlattenException $exception)
-    {
+    public function getStylesheet(FlattenException $exception) {
         return <<<EOF
             .sf-reset { font: 11px Verdana, Arial, sans-serif; color: #333 }
             .sf-reset .clear { clear:both; height:0; font-size:0; line-height:0; }
@@ -331,8 +321,7 @@ EOF;
 EOF;
     }
 
-    private function decorate($content, $css)
-    {
+    private function decorate($content, $css) {
         return <<<EOF
 <!DOCTYPE html>
 <html>
@@ -356,15 +345,13 @@ EOF;
 EOF;
     }
 
-    private function formatClass($class)
-    {
+    private function formatClass($class) {
         $parts = explode('\\', $class);
 
         return sprintf("<abbr title=\"%s\">%s</abbr>", $class, array_pop($parts));
     }
 
-    private function formatPath($path, $line)
-    {
+    private function formatPath($path, $line) {
         $path = self::utf8Htmlize($path);
         $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
 
@@ -384,8 +371,7 @@ EOF;
      *
      * @return string
      */
-    private function formatArgs(array $args)
-    {
+    private function formatArgs(array $args) {
         $result = array();
         foreach ($args as $key => $item) {
             if ('object' === $item[0]) {
@@ -397,7 +383,7 @@ EOF;
             } elseif ('null' === $item[0]) {
                 $formattedValue = '<em>null</em>';
             } elseif ('boolean' === $item[0]) {
-                $formattedValue = '<em>'.strtolower(var_export($item[1], true)).'</em>';
+                $formattedValue = '<em>' . strtolower(var_export($item[1], true)) . '</em>';
             } elseif ('resource' === $item[0]) {
                 $formattedValue = '<em>resource</em>';
             } else {
@@ -413,8 +399,7 @@ EOF;
     /**
      * Returns an UTF-8 and HTML encoded string
      */
-    protected static function utf8Htmlize($str)
-    {
+    protected static function utf8Htmlize($str) {
         if (!preg_match('//u', $str) && function_exists('iconv')) {
             set_error_handler('var_dump', 0);
             $charset = ini_get('default_charset');
@@ -432,8 +417,7 @@ EOF;
     /**
      * @internal
      */
-    public function catchOutput($buffer)
-    {
+    public function catchOutput($buffer) {
         $this->caughtBuffer = $buffer;
 
         return '';
@@ -442,8 +426,7 @@ EOF;
     /**
      * @internal
      */
-    public function cleanOutput($buffer)
-    {
+    public function cleanOutput($buffer) {
         if ($this->caughtLength) {
             // use substr_replace() instead of substr() for mbstring overloading resistance
             $cleanBuffer = substr_replace($buffer, '', 0, $this->caughtLength);
@@ -454,4 +437,5 @@ EOF;
 
         return $buffer;
     }
+
 }

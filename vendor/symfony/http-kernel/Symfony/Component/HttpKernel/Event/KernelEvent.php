@@ -22,8 +22,8 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * @api
  */
-class KernelEvent extends Event
-{
+class KernelEvent extends Event {
+
     /**
      * The kernel in which this event was thrown.
      *
@@ -46,8 +46,7 @@ class KernelEvent extends Event
      */
     private $requestType;
 
-    public function __construct(HttpKernelInterface $kernel, Request $request, $requestType)
-    {
+    public function __construct(HttpKernelInterface $kernel, Request $request, $requestType) {
         $this->kernel = $kernel;
         $this->request = $request;
         $this->requestType = $requestType;
@@ -60,8 +59,7 @@ class KernelEvent extends Event
      *
      * @api
      */
-    public function getKernel()
-    {
+    public function getKernel() {
         return $this->kernel;
     }
 
@@ -72,8 +70,7 @@ class KernelEvent extends Event
      *
      * @api
      */
-    public function getRequest()
-    {
+    public function getRequest() {
         return $this->request;
     }
 
@@ -85,8 +82,7 @@ class KernelEvent extends Event
      *
      * @api
      */
-    public function getRequestType()
-    {
+    public function getRequestType() {
         return $this->requestType;
     }
 
@@ -97,8 +93,8 @@ class KernelEvent extends Event
      *
      * @api
      */
-    public function isMasterRequest()
-    {
+    public function isMasterRequest() {
         return HttpKernelInterface::MASTER_REQUEST === $this->requestType;
     }
+
 }

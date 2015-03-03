@@ -5,15 +5,13 @@ namespace Cron;
 /**
  * Hours field.  Allows: * , / -
  */
-class HoursField extends AbstractField
-{
-    public function isSatisfiedBy(\DateTime $date, $value)
-    {
+class HoursField extends AbstractField {
+
+    public function isSatisfiedBy(\DateTime $date, $value) {
         return $this->isSatisfied($date->format('H'), $value);
     }
 
-    public function increment(\DateTime $date, $invert = false)
-    {
+    public function increment(\DateTime $date, $invert = false) {
         // Change timezone to UTC temporarily. This will
         // allow us to go back or forwards and hour even
         // if DST will be changed between the hours.
@@ -31,8 +29,8 @@ class HoursField extends AbstractField
         return $this;
     }
 
-    public function validate($value)
-    {
+    public function validate($value) {
         return (bool) preg_match('/^[\*,\/\-0-9]+$/', $value);
     }
+
 }

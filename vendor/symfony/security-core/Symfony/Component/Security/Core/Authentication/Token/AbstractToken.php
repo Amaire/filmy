@@ -23,8 +23,8 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-abstract class AbstractToken implements TokenInterface
-{
+abstract class AbstractToken implements TokenInterface {
+
     private $user;
     private $roles = array();
     private $authenticated = false;
@@ -37,8 +37,7 @@ abstract class AbstractToken implements TokenInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $roles = array())
-    {
+    public function __construct(array $roles = array()) {
         foreach ($roles as $role) {
             if (is_string($role)) {
                 $role = new Role($role);
@@ -53,16 +52,14 @@ abstract class AbstractToken implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoles()
-    {
+    public function getRoles() {
         return $this->roles;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         if ($this->user instanceof UserInterface) {
             return $this->user->getUsername();
         }
@@ -73,8 +70,7 @@ abstract class AbstractToken implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -88,8 +84,7 @@ abstract class AbstractToken implements TokenInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function setUser($user)
-    {
+    public function setUser($user) {
         if (!($user instanceof UserInterface || (is_object($user) && method_exists($user, '__toString')) || is_string($user))) {
             throw new \InvalidArgumentException('$user must be an instanceof UserInterface, an object implementing a __toString method, or a primitive string.');
         }
@@ -118,24 +113,21 @@ abstract class AbstractToken implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function isAuthenticated()
-    {
+    public function isAuthenticated() {
         return $this->authenticated;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setAuthenticated($authenticated)
-    {
+    public function setAuthenticated($authenticated) {
         $this->authenticated = (bool) $authenticated;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
-    {
+    public function eraseCredentials() {
         if ($this->getUser() instanceof UserInterface) {
             $this->getUser()->eraseCredentials();
         }
@@ -144,23 +136,21 @@ abstract class AbstractToken implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(
-            array(
-                is_object($this->user) ? clone $this->user : $this->user,
-                $this->authenticated,
-                $this->roles,
-                $this->attributes,
-            )
+                array(
+                    is_object($this->user) ? clone $this->user : $this->user,
+                    $this->authenticated,
+                    $this->roles,
+                    $this->attributes,
+                )
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         list($this->user, $this->authenticated, $this->roles, $this->attributes) = unserialize($serialized);
     }
 
@@ -169,8 +159,7 @@ abstract class AbstractToken implements TokenInterface
      *
      * @return array The token attributes
      */
-    public function getAttributes()
-    {
+    public function getAttributes() {
         return $this->attributes;
     }
 
@@ -179,8 +168,7 @@ abstract class AbstractToken implements TokenInterface
      *
      * @param array $attributes The token attributes
      */
-    public function setAttributes(array $attributes)
-    {
+    public function setAttributes(array $attributes) {
         $this->attributes = $attributes;
     }
 
@@ -191,8 +179,7 @@ abstract class AbstractToken implements TokenInterface
      *
      * @return bool true if the attribute exists, false otherwise
      */
-    public function hasAttribute($name)
-    {
+    public function hasAttribute($name) {
         return array_key_exists($name, $this->attributes);
     }
 
@@ -205,8 +192,7 @@ abstract class AbstractToken implements TokenInterface
      *
      * @throws \InvalidArgumentException When attribute doesn't exist for this token
      */
-    public function getAttribute($name)
-    {
+    public function getAttribute($name) {
         if (!array_key_exists($name, $this->attributes)) {
             throw new \InvalidArgumentException(sprintf('This token has no "%s" attribute.', $name));
         }
@@ -220,18 +206,16 @@ abstract class AbstractToken implements TokenInterface
      * @param string $name  The attribute name
      * @param mixed  $value The attribute value
      */
-    public function setAttribute($name, $value)
-    {
+    public function setAttribute($name, $value) {
         $this->attributes[$name] = $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function __toString()
-    {
+    public function __toString() {
         $class = get_class($this);
-        $class = substr($class, strrpos($class, '\\')+1);
+        $class = substr($class, strrpos($class, '\\') + 1);
 
         $roles = array();
         foreach ($this->roles as $role) {
@@ -241,14 +225,13 @@ abstract class AbstractToken implements TokenInterface
         return sprintf('%s(user="%s", authenticated=%s, roles="%s")', $class, $this->getUsername(), json_encode($this->authenticated), implode(', ', $roles));
     }
 
-    private function hasUserChanged(UserInterface $user)
-    {
+    private function hasUserChanged(UserInterface $user) {
         if (!($this->user instanceof UserInterface)) {
             throw new \BadMethodCallException('Method "hasUserChanged" should be called when current user class is instance of "UserInterface".');
         }
 
         if ($this->user instanceof EquatableInterface) {
-            return ! (bool) $this->user->isEqualTo($user);
+            return !(bool) $this->user->isEqualTo($user);
         }
 
         if ($this->user->getPassword() !== $user->getPassword()) {
@@ -285,4 +268,5 @@ abstract class AbstractToken implements TokenInterface
 
         return false;
     }
+
 }

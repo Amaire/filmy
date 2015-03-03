@@ -21,23 +21,22 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Lists available commands, and gives command-specific help when asked nicely.
  */
-class HelpCommand extends Command
-{
+class HelpCommand extends Command {
+
     private $command;
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
-            ->setName('help')
-            ->setAliases(array('?'))
-            ->setDefinition(array(
-                new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', null),
-            ))
-            ->setDescription('Show a list of commands. Type `help [foo]` for information about [foo].')
-            ->setHelp('My. How meta.');
+                ->setName('help')
+                ->setAliases(array('?'))
+                ->setDefinition(array(
+                    new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', null),
+                ))
+                ->setDescription('Show a list of commands. Type `help [foo]` for information about [foo].')
+                ->setHelp('My. How meta.');
     }
 
     /**
@@ -45,16 +44,14 @@ class HelpCommand extends Command
      *
      * @param Command $command
      */
-    public function setCommand($command)
-    {
+    public function setCommand($command) {
         $this->command = $command;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         if ($this->command !== null) {
             // help for an individual command
             $output->page($this->command->asText());
@@ -95,4 +92,5 @@ class HelpCommand extends Command
             $output->stopPaging();
         }
     }
+
 }

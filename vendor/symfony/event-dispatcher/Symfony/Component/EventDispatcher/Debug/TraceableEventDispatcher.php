@@ -24,11 +24,10 @@ use Psr\Log\LoggerInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class TraceableEventDispatcher implements TraceableEventDispatcherInterface
-{
+class TraceableEventDispatcher implements TraceableEventDispatcherInterface {
+
     protected $logger;
     protected $stopwatch;
-
     private $called;
     private $dispatcher;
 
@@ -39,8 +38,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
      * @param Stopwatch                $stopwatch  A Stopwatch instance
      * @param LoggerInterface          $logger     A LoggerInterface instance
      */
-    public function __construct(EventDispatcherInterface $dispatcher, Stopwatch $stopwatch, LoggerInterface $logger = null)
-    {
+    public function __construct(EventDispatcherInterface $dispatcher, Stopwatch $stopwatch, LoggerInterface $logger = null) {
         $this->dispatcher = $dispatcher;
         $this->stopwatch = $stopwatch;
         $this->logger = $logger;
@@ -50,56 +48,49 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function addListener($eventName, $listener, $priority = 0)
-    {
+    public function addListener($eventName, $listener, $priority = 0) {
         $this->dispatcher->addListener($eventName, $listener, $priority);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addSubscriber(EventSubscriberInterface $subscriber)
-    {
+    public function addSubscriber(EventSubscriberInterface $subscriber) {
         $this->dispatcher->addSubscriber($subscriber);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function removeListener($eventName, $listener)
-    {
+    public function removeListener($eventName, $listener) {
         return $this->dispatcher->removeListener($eventName, $listener);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function removeSubscriber(EventSubscriberInterface $subscriber)
-    {
+    public function removeSubscriber(EventSubscriberInterface $subscriber) {
         return $this->dispatcher->removeSubscriber($subscriber);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getListeners($eventName = null)
-    {
+    public function getListeners($eventName = null) {
         return $this->dispatcher->getListeners($eventName);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasListeners($eventName = null)
-    {
+    public function hasListeners($eventName = null) {
         return $this->dispatcher->hasListeners($eventName);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function dispatch($eventName, Event $event = null)
-    {
+    public function dispatch($eventName, Event $event = null) {
         if (null === $event) {
             $event = new Event();
         }
@@ -124,13 +115,12 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getCalledListeners()
-    {
+    public function getCalledListeners() {
         $called = array();
         foreach ($this->called as $eventName => $listeners) {
             foreach ($listeners as $listener) {
                 $info = $this->getListenerInfo($listener->getWrappedListener(), $eventName);
-                $called[$eventName.'.'.$info['pretty']] = $info;
+                $called[$eventName . '.' . $info['pretty']] = $info;
             }
         }
 
@@ -140,8 +130,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getNotCalledListeners()
-    {
+    public function getNotCalledListeners() {
         try {
             $allListeners = $this->getListeners();
         } catch (\Exception $e) {
@@ -169,7 +158,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
 
                 if (!$called) {
                     $info = $this->getListenerInfo($listener, $eventName);
-                    $notCalled[$eventName.'.'.$info['pretty']] = $info;
+                    $notCalled[$eventName . '.' . $info['pretty']] = $info;
                 }
             }
         }
@@ -185,8 +174,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
      *
      * @return mixed
      */
-    public function __call($method, $arguments)
-    {
+    public function __call($method, $arguments) {
         return call_user_func_array(array($this->dispatcher, $method), $arguments);
     }
 
@@ -196,8 +184,8 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
      * @param string $eventName The event name
      * @param Event  $event     The event
      */
-    protected function preDispatch($eventName, Event $event)
-    {
+    protected function preDispatch($eventName, Event $event) {
+        
     }
 
     /**
@@ -206,12 +194,11 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
      * @param string $eventName The event name
      * @param Event  $event     The event
      */
-    protected function postDispatch($eventName, Event $event)
-    {
+    protected function postDispatch($eventName, Event $event) {
+        
     }
 
-    private function preProcess($eventName)
-    {
+    private function preProcess($eventName) {
         foreach ($this->dispatcher->getListeners($eventName) as $listener) {
             $this->dispatcher->removeListener($eventName, $listener);
             $info = $this->getListenerInfo($listener, $eventName);
@@ -220,8 +207,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
         }
     }
 
-    private function postProcess($eventName)
-    {
+    private function postProcess($eventName) {
         $skipped = false;
         foreach ($this->dispatcher->getListeners($eventName) as $listener) {
             if (!$listener instanceof WrappedListener) { // #12845: a new listener was added during dispatch.
@@ -266,8 +252,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
      *
      * @return array Information about the listener
      */
-    private function getListenerInfo($listener, $eventName)
-    {
+    private function getListenerInfo($listener, $eventName) {
         $info = array(
             'event' => $eventName,
         );
@@ -311,10 +296,11 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
                 'method' => $listener[1],
                 'file' => $file,
                 'line' => $line,
-                'pretty' => $class.'::'.$listener[1],
+                'pretty' => $class . '::' . $listener[1],
             );
         }
 
         return $info;
     }
+
 }

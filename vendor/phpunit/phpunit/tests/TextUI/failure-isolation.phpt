@@ -25,10 +25,10 @@ Failed asserting that two arrays are equal.
 --- Expected
 +++ Actual
 @@ @@
- Array (
+Array (
 -    0 => 1
 +    0 => 2
- )
+)
 
 %s:%i
 
@@ -44,10 +44,10 @@ Failed asserting that two objects are equal.
 --- Expected
 +++ Actual
 @@ @@
- stdClass Object (
+stdClass Object (
 -    'foo' => 'bar'
 +    'bar' => 'foo'
- )
+)
 
 %s:%i
 
@@ -74,10 +74,10 @@ Failed asserting that two strings are equal.
 --- Expected
 +++ Actual
 @@ @@
- 'foo
+'foo
 -bar
 +baz
- '
+'
 
 %s:%i
 

@@ -17,8 +17,8 @@ use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Process\ReRunner;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class RerunListener implements EventSubscriberInterface
-{
+class RerunListener implements EventSubscriberInterface {
+
     /**
      * @var ReRunner
      */
@@ -27,26 +27,24 @@ class RerunListener implements EventSubscriberInterface
     /**
      * @param ReRunner $reRunner
      */
-    public function __construct(ReRunner $reRunner)
-    {
+    public function __construct(ReRunner $reRunner) {
         $this->reRunner = $reRunner;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array('afterSuite' => array('afterSuite', -1000));
     }
 
     /**
      * @param SuiteEvent $suiteEvent
      */
-    public function afterSuite(SuiteEvent $suiteEvent)
-    {
+    public function afterSuite(SuiteEvent $suiteEvent) {
         if ($suiteEvent->isWorthRerunning()) {
             $this->reRunner->reRunSuite();
         }
     }
+
 }

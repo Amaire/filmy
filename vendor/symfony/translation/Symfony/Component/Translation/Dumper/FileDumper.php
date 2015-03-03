@@ -22,8 +22,8 @@ use Symfony\Component\Translation\MessageCatalogue;
  *
  * @author Michel Salib <michelsalib@hotmail.com>
  */
-abstract class FileDumper implements DumperInterface
-{
+abstract class FileDumper implements DumperInterface {
+
     /**
      * A template for the relative paths to files.
      *
@@ -43,8 +43,7 @@ abstract class FileDumper implements DumperInterface
      *
      * @param string $relativePathTemplate A template for the relative paths to files
      */
-    public function setRelativePathTemplate($relativePathTemplate)
-    {
+    public function setRelativePathTemplate($relativePathTemplate) {
         $this->relativePathTemplate = $relativePathTemplate;
     }
 
@@ -53,16 +52,14 @@ abstract class FileDumper implements DumperInterface
      *
      * @param bool
      */
-    public function setBackup($backup)
-    {
+    public function setBackup($backup) {
         $this->backup = $backup;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function dump(MessageCatalogue $messages, $options = array())
-    {
+    public function dump(MessageCatalogue $messages, $options = array()) {
         if (!array_key_exists('path', $options)) {
             throw new \InvalidArgumentException('The file dumper needs a path option.');
         }
@@ -70,10 +67,10 @@ abstract class FileDumper implements DumperInterface
         // save a file for each domain
         foreach ($messages->getDomains() as $domain) {
             // backup
-            $fullpath = $options['path'].'/'.$this->getRelativePath($domain, $messages->getLocale());
+            $fullpath = $options['path'] . '/' . $this->getRelativePath($domain, $messages->getLocale());
             if (file_exists($fullpath)) {
                 if ($this->backup) {
-                    copy($fullpath, $fullpath.'~');
+                    copy($fullpath, $fullpath . '~');
                 }
             } else {
                 $directory = dirname($fullpath);
@@ -111,12 +108,12 @@ abstract class FileDumper implements DumperInterface
      *
      * @return string The relative file path
      */
-    private function getRelativePath($domain, $locale)
-    {
+    private function getRelativePath($domain, $locale) {
         return strtr($this->relativePathTemplate, array(
             '%domain%' => $domain,
             '%locale%' => $locale,
             '%extension%' => $this->getExtension(),
         ));
     }
+
 }

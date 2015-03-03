@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -51,30 +52,29 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class Framework_ProxyObjectTest extends PHPUnit_Framework_TestCase
-{
-    public function testMockedMethodIsProxiedToOriginalMethod()
-    {
+class Framework_ProxyObjectTest extends PHPUnit_Framework_TestCase {
+
+    public function testMockedMethodIsProxiedToOriginalMethod() {
         $proxy = $this->getMockBuilder('Bar')
-                      ->enableProxyingToOriginalMethods()
-                      ->getMock();
+                ->enableProxyingToOriginalMethods()
+                ->getMock();
 
         $proxy->expects($this->once())
-              ->method('doSomethingElse');
+                ->method('doSomethingElse');
 
         $foo = new Foo;
         $this->assertEquals('result', $foo->doSomething($proxy));
     }
 
-    public function testMockedMethodWithReferenceIsProxiedToOriginalMethod()
-    {
+    public function testMockedMethodWithReferenceIsProxiedToOriginalMethod() {
         $proxy = $this->getMockBuilder('MethodCallbackByReference')
-                      ->enableProxyingToOriginalMethods()
-                      ->getMock();
+                ->enableProxyingToOriginalMethods()
+                ->getMock();
         $a = $b = $c = 0;
 
         $proxy->callback($a, $b, $c);
 
         $this->assertEquals(1, $b);
     }
+
 }

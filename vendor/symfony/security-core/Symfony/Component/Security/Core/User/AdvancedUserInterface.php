@@ -35,8 +35,8 @@ use Symfony\Component\Security\Core\Exception\DisabledException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface AdvancedUserInterface extends UserInterface
-{
+interface AdvancedUserInterface extends UserInterface {
+
     /**
      * Checks whether the user's account has expired.
      *

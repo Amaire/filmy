@@ -21,8 +21,8 @@ use PhpSpec\Locator\ResourceInterface;
 /**
  * Base class with common behaviour for generating class and spec class
  */
-abstract class PromptingGenerator implements GeneratorInterface
-{
+abstract class PromptingGenerator implements GeneratorInterface {
+
     /**
      * @var \PhpSpec\Console\IO
      */
@@ -43,19 +43,17 @@ abstract class PromptingGenerator implements GeneratorInterface
      * @param TemplateRenderer $templates
      * @param Filesystem       $filesystem
      */
-    public function __construct(IO $io, TemplateRenderer $templates, Filesystem $filesystem = null)
-    {
-        $this->io         = $io;
-        $this->templates  = $templates;
-        $this->filesystem = $filesystem ?: new Filesystem();
+    public function __construct(IO $io, TemplateRenderer $templates, Filesystem $filesystem = null) {
+        $this->io = $io;
+        $this->templates = $templates;
+        $this->filesystem = $filesystem ? : new Filesystem();
     }
 
     /**
      * @param ResourceInterface $resource
      * @param array             $data
      */
-    public function generate(ResourceInterface $resource, array $data = array())
-    {
+    public function generate(ResourceInterface $resource, array $data = array()) {
         $filepath = $this->getFilePath($resource);
 
         if ($this->ifFileAlreadyExists($filepath)) {
@@ -73,8 +71,7 @@ abstract class PromptingGenerator implements GeneratorInterface
     /**
      * @return TemplateRenderer
      */
-    protected function getTemplateRenderer()
-    {
+    protected function getTemplateRenderer() {
         return $this->templates;
     }
 
@@ -106,8 +103,7 @@ abstract class PromptingGenerator implements GeneratorInterface
      *
      * @return bool
      */
-    private function ifFileAlreadyExists($filepath)
-    {
+    private function ifFileAlreadyExists($filepath) {
         return $this->filesystem->pathExists($filepath);
     }
 
@@ -116,8 +112,7 @@ abstract class PromptingGenerator implements GeneratorInterface
      *
      * @return bool
      */
-    private function userAborts($filepath)
-    {
+    private function userAborts($filepath) {
         $message = sprintf('File "%s" already exists. Overwrite?', basename($filepath));
 
         return !$this->io->askConfirmation($message, false);
@@ -126,8 +121,7 @@ abstract class PromptingGenerator implements GeneratorInterface
     /**
      * @param string $filepath
      */
-    private function createDirectoryIfItDoesExist($filepath)
-    {
+    private function createDirectoryIfItDoesExist($filepath) {
         $path = dirname($filepath);
         if (!$this->filesystem->isDirectory($path)) {
             $this->filesystem->makeDirectory($path);
@@ -138,11 +132,11 @@ abstract class PromptingGenerator implements GeneratorInterface
      * @param ResourceInterface $resource
      * @param string            $filepath
      */
-    private function generateFileAndRenderTemplate(ResourceInterface $resource, $filepath)
-    {
+    private function generateFileAndRenderTemplate(ResourceInterface $resource, $filepath) {
         $content = $this->renderTemplate($resource, $filepath);
 
         $this->filesystem->putFileContents($filepath, $content);
         $this->io->writeln($this->getGeneratedMessage($resource, $filepath));
     }
+
 }

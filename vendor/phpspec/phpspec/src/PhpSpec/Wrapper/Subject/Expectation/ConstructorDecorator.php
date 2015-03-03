@@ -19,13 +19,12 @@ use PhpSpec\Exception\Fracture\FractureException;
 use PhpSpec\Util\Instantiator;
 use PhpSpec\Wrapper\Subject\WrappedObject;
 
-class ConstructorDecorator extends Decorator implements ExpectationInterface
-{
+class ConstructorDecorator extends Decorator implements ExpectationInterface {
+
     /**
      * @param ExpectationInterface $expectation
      */
-    public function __construct(ExpectationInterface $expectation)
-    {
+    public function __construct(ExpectationInterface $expectation) {
         $this->setExpectation($expectation);
     }
 
@@ -42,8 +41,7 @@ class ConstructorDecorator extends Decorator implements ExpectationInterface
      * @throws \Exception
      * @throws \PhpSpec\Exception\Fracture\FractureException
      */
-    public function match($alias, $subject, array $arguments = array(), WrappedObject $wrappedObject = null)
-    {
+    public function match($alias, $subject, array $arguments = array(), WrappedObject $wrappedObject = null) {
         try {
             $wrapped = $subject->getWrappedObject();
         } catch (ErrorException $e) {
@@ -59,4 +57,5 @@ class ConstructorDecorator extends Decorator implements ExpectationInterface
 
         return $this->getExpectation()->match($alias, $wrapped, $arguments);
     }
+
 }

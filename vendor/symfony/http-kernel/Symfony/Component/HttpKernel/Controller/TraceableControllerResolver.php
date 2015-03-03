@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class TraceableControllerResolver implements ControllerResolverInterface
-{
+class TraceableControllerResolver implements ControllerResolverInterface {
+
     private $resolver;
     private $stopwatch;
 
@@ -30,8 +30,7 @@ class TraceableControllerResolver implements ControllerResolverInterface
      * @param ControllerResolverInterface $resolver  A ControllerResolverInterface instance
      * @param Stopwatch                   $stopwatch A Stopwatch instance
      */
-    public function __construct(ControllerResolverInterface $resolver, Stopwatch $stopwatch)
-    {
+    public function __construct(ControllerResolverInterface $resolver, Stopwatch $stopwatch) {
         $this->resolver = $resolver;
         $this->stopwatch = $stopwatch;
     }
@@ -39,8 +38,7 @@ class TraceableControllerResolver implements ControllerResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function getController(Request $request)
-    {
+    public function getController(Request $request) {
         $e = $this->stopwatch->start('controller.get_callable');
 
         $ret = $this->resolver->getController($request);
@@ -53,8 +51,7 @@ class TraceableControllerResolver implements ControllerResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function getArguments(Request $request, $controller)
-    {
+    public function getArguments(Request $request, $controller) {
         $e = $this->stopwatch->start('controller.get_arguments');
 
         $ret = $this->resolver->getArguments($request, $controller);
@@ -63,4 +60,5 @@ class TraceableControllerResolver implements ControllerResolverInterface
 
         return $ret;
     }
+
 }

@@ -16,6 +16,6 @@ namespace Symfony\Component\Console\Helper;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class TableSeparator
-{
+class TableSeparator {
+    
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Source Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class SourceTagTest extends \PHPUnit_Framework_TestCase
-{
+class SourceTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\SourceTag can
      * understand the @source DocBlock.
@@ -38,12 +39,7 @@ class SourceTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exContent,
-        $exDescription,
-        $exStartingLine,
-        $exLineCount
+    $type, $content, $exContent, $exDescription, $exStartingLine, $exLineCount
     ) {
         $tag = new SourceTag($type, $content);
 
@@ -59,8 +55,7 @@ class SourceTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type, $content, $exContent, $exDescription, $exStartingLine, $exLineCount
         return array(
             array(
@@ -113,4 +108,5 @@ class SourceTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

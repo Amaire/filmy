@@ -27,10 +27,10 @@ use PhpParser\Node\Stmt\Use_ as UseStmt;
  * ... which it then applies implicitly to all future evaluated code, until the
  * current namespace is replaced by another namespace.
  */
-class UseStatementPass extends NamespaceAwarePass
-{
-    private $aliases       = array();
-    private $lastAliases   = array();
+class UseStatementPass extends NamespaceAwarePass {
+
+    private $aliases = array();
+    private $lastAliases = array();
     private $lastNamespace = null;
 
     /**
@@ -42,8 +42,7 @@ class UseStatementPass extends NamespaceAwarePass
      *
      * @param Node $node
      */
-    public function enterNode(Node $node)
-    {
+    public function enterNode(Node $node) {
         if ($node instanceof NamespaceStmt) {
             // If this is the same namespace as last namespace, let's do ourselves
             // a favor and reload all the aliases...
@@ -60,8 +59,7 @@ class UseStatementPass extends NamespaceAwarePass
      *
      * @param Node $node
      */
-    public function leaveNode(Node $node)
-    {
+    public function leaveNode(Node $node) {
         if ($node instanceof UseStmt) {
             // Store a reference to every "use" statement, because we'll need
             // them in a bit.
@@ -73,8 +71,8 @@ class UseStatementPass extends NamespaceAwarePass
         } elseif ($node instanceof NamespaceStmt) {
             // start fresh, since we're done with this namespace.
             $this->lastNamespace = $node->name;
-            $this->lastAliases   = $this->aliases;
-            $this->aliases       = array();
+            $this->lastAliases = $this->aliases;
+            $this->aliases = array();
         } elseif ($node instanceof \Traversable) {
             foreach ($node as $name => $subNode) {
                 if ($subNode instanceof Name) {
@@ -96,8 +94,7 @@ class UseStatementPass extends NamespaceAwarePass
      *
      * @return Name
      */
-    private function findAlias(Name $name)
-    {
+    private function findAlias(Name $name) {
         $that = strtolower($name);
         foreach ($this->aliases as $alias => $prefix) {
             if ($that === $alias) {
@@ -107,4 +104,5 @@ class UseStatementPass extends NamespaceAwarePass
             }
         }
     }
+
 }

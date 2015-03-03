@@ -17,8 +17,8 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
  * @author Elnur Abdurrakhimov <elnur@elnur.pro>
  * @author Terje Bråten <terje@braten.be>
  */
-class BCryptPasswordEncoder extends BasePasswordEncoder
-{
+class BCryptPasswordEncoder extends BasePasswordEncoder {
+
     /**
      * @var string
      */
@@ -32,8 +32,7 @@ class BCryptPasswordEncoder extends BasePasswordEncoder
      * @throws \RuntimeException         When no BCrypt encoder is available
      * @throws \InvalidArgumentException if cost is out of range
      */
-    public function __construct($cost)
-    {
+    public function __construct($cost) {
         if (!function_exists('password_hash')) {
             throw new \RuntimeException('To use the BCrypt encoder, you need to upgrade to PHP 5.5 or install the "ircmaxell/password-compat" via Composer.');
         }
@@ -66,8 +65,7 @@ class BCryptPasswordEncoder extends BasePasswordEncoder
      *
      * @link http://lxr.php.net/xref/PHP_5_5/ext/standard/password.c#111
      */
-    public function encodePassword($raw, $salt)
-    {
+    public function encodePassword($raw, $salt) {
         if ($this->isPasswordTooLong($raw)) {
             throw new BadCredentialsException('Invalid password.');
         }
@@ -84,8 +82,8 @@ class BCryptPasswordEncoder extends BasePasswordEncoder
     /**
      * {@inheritdoc}
      */
-    public function isPasswordValid($encoded, $raw, $salt)
-    {
+    public function isPasswordValid($encoded, $raw, $salt) {
         return !$this->isPasswordTooLong($raw) && password_verify($raw, $encoded);
     }
+
 }

@@ -18,8 +18,8 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class PdoCaster
-{
+class PdoCaster {
+
     private static $pdoAttributes = array(
         'CASE' => array(
             \PDO::CASE_LOWER => 'LOWER',
@@ -57,8 +57,7 @@ class PdoCaster
         ),
     );
 
-    public static function castPdo(\PDO $c, array $a, Stub $stub, $isNested)
-    {
+    public static function castPdo(\PDO $c, array $a, Stub $stub, $isNested) {
         $a = array();
         $errmode = $c->getAttribute(\PDO::ATTR_ERRMODE);
         $c->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -75,24 +74,25 @@ class PdoCaster
                     $a[$attr] = new ConstStub($values[$a[$attr]], $a[$attr]);
                 }
             } catch (\Exception $m) {
+                
             }
         }
 
         $m = "\0~\0";
         $a = (array) $c + array(
-            $m.'inTransaction' => method_exists($c, 'inTransaction'),
-            $m.'errorInfo' => $c->errorInfo(),
-            $m.'attributes' => $a,
+            $m . 'inTransaction' => method_exists($c, 'inTransaction'),
+            $m . 'errorInfo' => $c->errorInfo(),
+            $m . 'attributes' => $a,
         );
 
-        if ($a[$m.'inTransaction']) {
-            $a[$m.'inTransaction'] = $c->inTransaction();
+        if ($a[$m . 'inTransaction']) {
+            $a[$m . 'inTransaction'] = $c->inTransaction();
         } else {
-            unset($a[$m.'inTransaction']);
+            unset($a[$m . 'inTransaction']);
         }
 
-        if (!isset($a[$m.'errorInfo'][1], $a[$m.'errorInfo'][2])) {
-            unset($a[$m.'errorInfo']);
+        if (!isset($a[$m . 'errorInfo'][1], $a[$m . 'errorInfo'][2])) {
+            unset($a[$m . 'errorInfo']);
         }
 
         $c->setAttribute(\PDO::ATTR_ERRMODE, $errmode);
@@ -100,15 +100,15 @@ class PdoCaster
         return $a;
     }
 
-    public static function castPdoStatement(\PDOStatement $c, array $a, Stub $stub, $isNested)
-    {
+    public static function castPdoStatement(\PDOStatement $c, array $a, Stub $stub, $isNested) {
         $m = "\0~\0";
-        $a[$m.'errorInfo'] = $c->errorInfo();
+        $a[$m . 'errorInfo'] = $c->errorInfo();
 
-        if (!isset($a[$m.'errorInfo'][1], $a[$m.'errorInfo'][2])) {
-            unset($a[$m.'errorInfo']);
+        if (!isset($a[$m . 'errorInfo'][1], $a[$m . 'errorInfo'][2])) {
+            unset($a[$m . 'errorInfo']);
         }
 
         return $a;
     }
+
 }

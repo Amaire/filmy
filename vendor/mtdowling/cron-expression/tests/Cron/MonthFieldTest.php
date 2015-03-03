@@ -8,13 +8,12 @@ use DateTime;
 /**
  * @author Michael Dowling <mtdowling@gmail.com>
  */
-class MonthFieldTest extends \PHPUnit_Framework_TestCase
-{
+class MonthFieldTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @covers Cron\MonthField::validate
      */
-    public function testValdatesField()
-    {
+    public function testValdatesField() {
         $f = new MonthField();
         $this->assertTrue($f->validate('12'));
         $this->assertTrue($f->validate('*'));
@@ -25,8 +24,7 @@ class MonthFieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Cron\MonthField::increment
      */
-    public function testIncrementsDate()
-    {
+    public function testIncrementsDate() {
         $d = new DateTime('2011-03-15 11:15:00');
         $f = new MonthField();
         $f->increment($d);
@@ -40,8 +38,7 @@ class MonthFieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Cron\MonthField::increment
      */
-    public function testIncrementsYearAsNeeded()
-    {
+    public function testIncrementsYearAsNeeded() {
         $f = new MonthField();
         $d = new DateTime('2011-12-15 00:00:00');
         $f->increment($d);
@@ -51,11 +48,11 @@ class MonthFieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Cron\MonthField::increment
      */
-    public function testDecrementsYearAsNeeded()
-    {
+    public function testDecrementsYearAsNeeded() {
         $f = new MonthField();
         $d = new DateTime('2011-01-15 00:00:00');
         $f->increment($d, true);
         $this->assertEquals('2010-12-31 23:59:00', $d->format('Y-m-d H:i:s'));
     }
+
 }

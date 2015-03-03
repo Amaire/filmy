@@ -18,6 +18,6 @@ use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass 
  *
  * @deprecated Deprecated in 2.5, to be removed in 3.0. Use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass instead.
  */
-class RegisterListenersPass extends BaseRegisterListenersPass
-{
+class RegisterListenersPass extends BaseRegisterListenersPass {
+    
 }

@@ -18,8 +18,8 @@ namespace Symfony\Component\Console\Helper;
  *
  * @api
  */
-interface HelperInterface
-{
+interface HelperInterface {
+
     /**
      * Sets the helper set associated with this helper.
      *

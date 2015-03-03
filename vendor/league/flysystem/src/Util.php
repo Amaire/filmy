@@ -5,8 +5,8 @@ namespace League\Flysystem;
 use League\Flysystem\Util\MimeType;
 use LogicException;
 
-class Util
-{
+class Util {
+
     /**
      * Get normalized pathinfo.
      *
@@ -14,8 +14,7 @@ class Util
      *
      * @return array pathinfo
      */
-    public static function pathinfo($path)
-    {
+    public static function pathinfo($path) {
         $pathinfo = pathinfo($path) + compact('path');
         $pathinfo['dirname'] = static::normalizeDirname($pathinfo['dirname']);
 
@@ -29,8 +28,7 @@ class Util
      *
      * @return string normalized dirname
      */
-    public static function normalizeDirname($dirname)
-    {
+    public static function normalizeDirname($dirname) {
         if ($dirname === '.') {
             return '';
         }
@@ -45,8 +43,7 @@ class Util
      *
      * @return string dirname
      */
-    public static function dirname($path)
-    {
+    public static function dirname($path) {
         return static::normalizeDirname(dirname($path));
     }
 
@@ -58,12 +55,11 @@ class Util
      *
      * @return array mapped result
      */
-    public static function map(array $object, array $map)
-    {
+    public static function map(array $object, array $map) {
         $result = [];
 
         foreach ($map as $from => $to) {
-            if (! isset($object[$from])) {
+            if (!isset($object[$from])) {
                 continue;
             }
 
@@ -82,15 +78,14 @@ class Util
      *
      * @return string
      */
-    public static function normalizePath($path)
-    {
+    public static function normalizePath($path) {
         // Remove any kind of funky unicode whitespace
         $normalized = preg_replace('#\p{C}+|^\./#u', '', $path);
 
         $normalized = static::normalizeRelativePath($normalized);
 
         if (preg_match('#/\.{2}|^\.{2}/#', $normalized)) {
-            throw new LogicException('Path is outside of the defined root, path: ['.$path.'], resolved: ['.$normalized.']');
+            throw new LogicException('Path is outside of the defined root, path: [' . $path . '], resolved: [' . $normalized . ']');
         }
 
         // Replace any double directory separators
@@ -107,8 +102,7 @@ class Util
      *
      * @return string
      */
-    public static function normalizeRelativePath($path)
-    {
+    public static function normalizeRelativePath($path) {
         // Path remove self referring paths ("/./").
         $path = preg_replace('#/\.(?=/)|^\./|\./$#', '', $path);
 
@@ -130,9 +124,8 @@ class Util
      *
      * @return string normalized path
      */
-    public static function normalizePrefix($prefix, $separator)
-    {
-        return rtrim($prefix, $separator).$separator;
+    public static function normalizePrefix($prefix, $separator) {
+        return rtrim($prefix, $separator) . $separator;
     }
 
     /**
@@ -142,8 +135,7 @@ class Util
      *
      * @return int content size
      */
-    public static function contentSize($contents)
-    {
+    public static function contentSize($contents) {
         return mb_strlen($contents, '8bit');
     }
 
@@ -155,15 +147,14 @@ class Util
      *
      * @return string|null MIME Type or NULL if no extension detected
      */
-    public static function guessMimeType($path, $content)
-    {
+    public static function guessMimeType($path, $content) {
         $mimeType = MimeType::detectByContent($content);
 
         if (empty($mimeType) || $mimeType === 'text/plain') {
             $extension = pathinfo($path, PATHINFO_EXTENSION);
 
             if ($extension) {
-                $mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
+                $mimeType = MimeType::detectByFileExtension($extension) ? : 'text/plain';
             }
         }
 
@@ -177,8 +168,7 @@ class Util
      *
      * @return array listing with emulated directories
      */
-    public static function emulateDirectories(array $listing)
-    {
+    public static function emulateDirectories(array $listing) {
         $directories = [];
         $listedDirectories = [];
 
@@ -204,8 +194,7 @@ class Util
      *
      * @throw  LogicException
      */
-    public static function ensureConfig($config)
-    {
+    public static function ensureConfig($config) {
         if ($config === null) {
             return new Config();
         }
@@ -231,8 +220,7 @@ class Util
      *
      * @param resource $resource
      */
-    public static function rewindStream($resource)
-    {
+    public static function rewindStream($resource) {
         if (ftell($resource) !== 0) {
             rewind($resource);
         }
@@ -245,8 +233,7 @@ class Util
      *
      * @return int stream size
      */
-    public static function getStreamSize($resource)
-    {
+    public static function getStreamSize($resource) {
         $stat = fstat($resource);
 
         return $stat['size'];
@@ -261,15 +248,14 @@ class Util
      *
      * @return array
      */
-    protected static function emulateObjectDirectories(array $object, array $directories, array $listedDirectories)
-    {
+    protected static function emulateObjectDirectories(array $object, array $directories, array $listedDirectories) {
         if (empty($object['dirname'])) {
             return [$directories, $listedDirectories];
         }
 
         $parent = $object['dirname'];
 
-        while (! empty($parent) && ! in_array($parent, $directories)) {
+        while (!empty($parent) && !in_array($parent, $directories)) {
             $directories[] = $parent;
 
             $parent = static::dirname($parent);
@@ -283,4 +269,5 @@ class Util
 
         return [$directories, $listedDirectories];
     }
+
 }

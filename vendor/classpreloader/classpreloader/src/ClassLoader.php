@@ -12,8 +12,8 @@ require_once __DIR__ . '/ClassList.php';
  * in order that files must be included. This autoloader proxies to all other
  * underlying autoloaders.
  */
-class ClassLoader
-{
+class ClassLoader {
+
     /**
      * The list of loaded classes.
      *
@@ -26,8 +26,7 @@ class ClassLoader
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->classList = new ClassList();
     }
 
@@ -38,8 +37,7 @@ class ClassLoader
      *
      * @return void
      */
-    public function __destruct()
-    {
+    public function __destruct() {
         $this->unregister();
     }
 
@@ -50,8 +48,7 @@ class ClassLoader
      *
      * @return \ClassPreloader\Config
      */
-    public static function getIncludes($func)
-    {
+    public static function getIncludes($func) {
         $loader = new static();
         call_user_func($func, $loader);
         $loader->unregister();
@@ -69,8 +66,7 @@ class ClassLoader
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         spl_autoload_register(array($this, 'loadClass'), true, true);
     }
 
@@ -79,8 +75,7 @@ class ClassLoader
      *
      * @return void
      */
-    public function unregister()
-    {
+    public function unregister() {
         spl_autoload_unregister(array($this, 'loadClass'));
     }
 
@@ -93,8 +88,7 @@ class ClassLoader
      *
      * @return bool|null
      */
-    public function loadClass($class)
-    {
+    public function loadClass($class) {
         foreach (spl_autoload_functions() as $func) {
             if (is_array($func) && $func[0] === $this) {
                 continue;
@@ -115,8 +109,7 @@ class ClassLoader
      *
      * @return array
      */
-    public function getFilenames()
-    {
+    public function getFilenames() {
         $files = array();
         foreach ($this->classList->getClasses() as $class) {
             // Push interfaces before classes if not already loaded
@@ -148,4 +141,5 @@ class ClassLoader
 
         return $files;
     }
+
 }

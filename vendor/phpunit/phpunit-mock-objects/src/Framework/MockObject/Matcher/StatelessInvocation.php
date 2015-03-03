@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -58,8 +59,8 @@
  * @since      Class available since Release 1.0.0
  * @abstract
  */
-abstract class PHPUnit_Framework_MockObject_Matcher_StatelessInvocation implements PHPUnit_Framework_MockObject_Matcher_Invocation
-{
+abstract class PHPUnit_Framework_MockObject_Matcher_StatelessInvocation implements PHPUnit_Framework_MockObject_Matcher_Invocation {
+
     /**
      * Registers the invocation $invocation in the object as being invoked.
      * This will only occur after matches() returns true which means the
@@ -76,8 +77,8 @@ abstract class PHPUnit_Framework_MockObject_Matcher_StatelessInvocation implemen
      *                                                             was invoked.
      * @return mixed
      */
-    public function invoked(PHPUnit_Framework_MockObject_Invocation $invocation)
-    {
+    public function invoked(PHPUnit_Framework_MockObject_Invocation $invocation) {
+        
     }
 
     /**
@@ -90,7 +91,8 @@ abstract class PHPUnit_Framework_MockObject_Matcher_StatelessInvocation implemen
      *                                                             was invoked.
      * @return bool
      */
-    public function verify()
-    {
+    public function verify() {
+        
     }
+
 }

@@ -18,12 +18,13 @@ use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Wrapper\Collaborator;
 use ReflectionFunctionAbstract;
 
-class CollaboratorManager
-{
+class CollaboratorManager {
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
     private $presenter;
+
     /**
      * @var Collaborator[]
      */
@@ -32,8 +33,7 @@ class CollaboratorManager
     /**
      * @param PresenterInterface $presenter
      */
-    public function __construct(PresenterInterface $presenter)
-    {
+    public function __construct(PresenterInterface $presenter) {
         $this->presenter = $presenter;
     }
 
@@ -41,8 +41,7 @@ class CollaboratorManager
      * @param string       $name
      * @param Collaborator $collaborator
      */
-    public function set($name, $collaborator)
-    {
+    public function set($name, $collaborator) {
         $this->collaborators[$name] = $collaborator;
     }
 
@@ -51,8 +50,7 @@ class CollaboratorManager
      *
      * @return bool
      */
-    public function has($name)
-    {
+    public function has($name) {
         return isset($this->collaborators[$name]);
     }
 
@@ -63,11 +61,10 @@ class CollaboratorManager
      *
      * @throws \PhpSpec\Exception\Wrapper\CollaboratorException
      */
-    public function get($name)
-    {
+    public function get($name) {
         if (!$this->has($name)) {
             throw new CollaboratorException(
-                sprintf('Collaborator %s not found.', $this->presenter->presentString($name))
+            sprintf('Collaborator %s not found.', $this->presenter->presentString($name))
             );
         }
 
@@ -79,8 +76,7 @@ class CollaboratorManager
      *
      * @return array
      */
-    public function getArgumentsFor(ReflectionFunctionAbstract $function)
-    {
+    public function getArgumentsFor(ReflectionFunctionAbstract $function) {
         $parameters = array();
         foreach ($function->getParameters() as $parameter) {
             if ($this->has($parameter->getName())) {
@@ -92,4 +88,5 @@ class CollaboratorManager
 
         return $parameters;
     }
+
 }

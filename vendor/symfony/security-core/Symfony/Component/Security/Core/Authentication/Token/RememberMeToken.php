@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class RememberMeToken extends AbstractToken
-{
+class RememberMeToken extends AbstractToken {
+
     private $key;
     private $providerKey;
 
@@ -32,8 +32,7 @@ class RememberMeToken extends AbstractToken
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(UserInterface $user, $providerKey, $key)
-    {
+    public function __construct(UserInterface $user, $providerKey, $key) {
         parent::__construct($user->getRoles());
 
         if (empty($key)) {
@@ -54,8 +53,7 @@ class RememberMeToken extends AbstractToken
     /**
      * {@inheritdoc}
      */
-    public function setAuthenticated($authenticated)
-    {
+    public function setAuthenticated($authenticated) {
         if ($authenticated) {
             throw new \LogicException('You cannot set this token to authenticated after creation.');
         }
@@ -68,8 +66,7 @@ class RememberMeToken extends AbstractToken
      *
      * @return string The provider key
      */
-    public function getProviderKey()
-    {
+    public function getProviderKey() {
         return $this->providerKey;
     }
 
@@ -78,24 +75,21 @@ class RememberMeToken extends AbstractToken
      *
      * @return string The Key
      */
-    public function getKey()
-    {
+    public function getKey() {
         return $this->key;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCredentials()
-    {
+    public function getCredentials() {
         return '';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(array(
             $this->key,
             $this->providerKey,
@@ -106,9 +100,9 @@ class RememberMeToken extends AbstractToken
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         list($this->key, $this->providerKey, $parentStr) = unserialize($serialized);
         parent::unserialize($parentStr);
     }
+
 }

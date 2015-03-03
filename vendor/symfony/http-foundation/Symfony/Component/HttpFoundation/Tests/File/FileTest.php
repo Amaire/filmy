@@ -14,13 +14,12 @@ namespace Symfony\Component\HttpFoundation\Tests\File;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
-class FileTest extends \PHPUnit_Framework_TestCase
-{
+class FileTest extends \PHPUnit_Framework_TestCase {
+
     protected $file;
 
-    public function testGetMimeTypeUsesMimeTypeGuessers()
-    {
-        $file = new File(__DIR__.'/Fixtures/test.gif');
+    public function testGetMimeTypeUsesMimeTypeGuessers() {
+        $file = new File(__DIR__ . '/Fixtures/test.gif');
         $guesser = $this->createMockGuesser($file->getPathname(), 'image/gif');
 
         MimeTypeGuesser::getInstance()->register($guesser);
@@ -28,16 +27,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('image/gif', $file->getMimeType());
     }
 
-    public function testGuessExtensionWithoutGuesser()
-    {
-        $file = new File(__DIR__.'/Fixtures/directory/.empty');
+    public function testGuessExtensionWithoutGuesser() {
+        $file = new File(__DIR__ . '/Fixtures/directory/.empty');
 
         $this->assertNull($file->guessExtension());
     }
 
-    public function testGuessExtensionIsBasedOnMimeType()
-    {
-        $file = new File(__DIR__.'/Fixtures/test');
+    public function testGuessExtensionIsBasedOnMimeType() {
+        $file = new File(__DIR__ . '/Fixtures/test');
         $guesser = $this->createMockGuesser($file->getPathname(), 'image/gif');
 
         MimeTypeGuesser::getInstance()->register($guesser);
@@ -45,21 +42,19 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('gif', $file->guessExtension());
     }
 
-    public function testConstructWhenFileNotExists()
-    {
+    public function testConstructWhenFileNotExists() {
         $this->setExpectedException('Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException');
 
-        new File(__DIR__.'/Fixtures/not_here');
+        new File(__DIR__ . '/Fixtures/not_here');
     }
 
-    public function testMove()
-    {
-        $path = __DIR__.'/Fixtures/test.copy.gif';
-        $targetDir = __DIR__.'/Fixtures/directory';
-        $targetPath = $targetDir.'/test.copy.gif';
+    public function testMove() {
+        $path = __DIR__ . '/Fixtures/test.copy.gif';
+        $targetDir = __DIR__ . '/Fixtures/directory';
+        $targetPath = $targetDir . '/test.copy.gif';
         @unlink($path);
         @unlink($targetPath);
-        copy(__DIR__.'/Fixtures/test.gif', $path);
+        copy(__DIR__ . '/Fixtures/test.gif', $path);
 
         $file = new File($path);
         $movedFile = $file->move($targetDir);
@@ -72,14 +67,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
         @unlink($targetPath);
     }
 
-    public function testMoveWithNewName()
-    {
-        $path = __DIR__.'/Fixtures/test.copy.gif';
-        $targetDir = __DIR__.'/Fixtures/directory';
-        $targetPath = $targetDir.'/test.newname.gif';
+    public function testMoveWithNewName() {
+        $path = __DIR__ . '/Fixtures/test.copy.gif';
+        $targetDir = __DIR__ . '/Fixtures/directory';
+        $targetPath = $targetDir . '/test.newname.gif';
         @unlink($path);
         @unlink($targetPath);
-        copy(__DIR__.'/Fixtures/test.gif', $path);
+        copy(__DIR__ . '/Fixtures/test.gif', $path);
 
         $file = new File($path);
         $movedFile = $file->move($targetDir, 'test.newname.gif');
@@ -91,8 +85,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         @unlink($targetPath);
     }
 
-    public function getFilenameFixtures()
-    {
+    public function getFilenameFixtures() {
         return array(
             array('original.gif', 'original.gif'),
             array('..\\..\\original.gif', 'original.gif'),
@@ -106,14 +99,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getFilenameFixtures
      */
-    public function testMoveWithNonLatinName($filename, $sanitizedFilename)
-    {
-        $path = __DIR__.'/Fixtures/'.$sanitizedFilename;
-        $targetDir = __DIR__.'/Fixtures/directory/';
-        $targetPath = $targetDir.$sanitizedFilename;
+    public function testMoveWithNonLatinName($filename, $sanitizedFilename) {
+        $path = __DIR__ . '/Fixtures/' . $sanitizedFilename;
+        $targetDir = __DIR__ . '/Fixtures/directory/';
+        $targetPath = $targetDir . $sanitizedFilename;
         @unlink($path);
         @unlink($targetPath);
-        copy(__DIR__.'/Fixtures/test.gif', $path);
+        copy(__DIR__ . '/Fixtures/test.gif', $path);
 
         $file = new File($path);
         $movedFile = $file->move($targetDir, $filename);
@@ -126,15 +118,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
         @unlink($targetPath);
     }
 
-    public function testMoveToAnUnexistentDirectory()
-    {
-        $sourcePath = __DIR__.'/Fixtures/test.copy.gif';
-        $targetDir = __DIR__.'/Fixtures/directory/sub';
-        $targetPath = $targetDir.'/test.copy.gif';
+    public function testMoveToAnUnexistentDirectory() {
+        $sourcePath = __DIR__ . '/Fixtures/test.copy.gif';
+        $targetDir = __DIR__ . '/Fixtures/directory/sub';
+        $targetPath = $targetDir . '/test.copy.gif';
         @unlink($sourcePath);
         @unlink($targetPath);
         @rmdir($targetDir);
-        copy(__DIR__.'/Fixtures/test.gif', $sourcePath);
+        copy(__DIR__ . '/Fixtures/test.gif', $sourcePath);
 
         $file = new File($sourcePath);
         $movedFile = $file->move($targetDir);
@@ -148,22 +139,21 @@ class FileTest extends \PHPUnit_Framework_TestCase
         @rmdir($targetDir);
     }
 
-    public function testGetExtension()
-    {
-        $file = new File(__DIR__.'/Fixtures/test.gif');
+    public function testGetExtension() {
+        $file = new File(__DIR__ . '/Fixtures/test.gif');
         $this->assertEquals('gif', $file->getExtension());
     }
 
-    protected function createMockGuesser($path, $mimeType)
-    {
+    protected function createMockGuesser($path, $mimeType) {
         $guesser = $this->getMock('Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface');
         $guesser
-            ->expects($this->once())
-            ->method('guess')
-            ->with($this->equalTo($path))
-            ->will($this->returnValue($mimeType))
+                ->expects($this->once())
+                ->method('guess')
+                ->with($this->equalTo($path))
+                ->will($this->returnValue($mimeType))
         ;
 
         return $guesser;
     }
+
 }

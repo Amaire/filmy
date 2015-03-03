@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Example Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class ExampleTagTest extends \PHPUnit_Framework_TestCase
-{
+class ExampleTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\SourceTag can
      * understand the @source DocBlock.
@@ -39,13 +40,7 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exContent,
-        $exDescription,
-        $exStartingLine,
-        $exLineCount,
-        $exFilePath
+    $type, $content, $exContent, $exDescription, $exStartingLine, $exLineCount, $exFilePath
     ) {
         $tag = new ExampleTag($type, $content);
 
@@ -62,8 +57,7 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type,
         // $content,
         // $exContent,
@@ -200,4 +194,5 @@ class ExampleTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

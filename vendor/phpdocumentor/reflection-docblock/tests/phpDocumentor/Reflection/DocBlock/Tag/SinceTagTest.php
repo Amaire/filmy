@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Since Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class SinceTagTest extends \PHPUnit_Framework_TestCase
-{
+class SinceTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\LinkTag can create
      * a link for the @since doc block.
@@ -38,11 +39,7 @@ class SinceTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exContent,
-        $exDescription,
-        $exVersion
+    $type, $content, $exContent, $exDescription, $exVersion
     ) {
         $tag = new SinceTag($type, $content);
 
@@ -57,8 +54,7 @@ class SinceTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type, $content, $exContent, $exDescription, $exVersion
         return array(
             array(
@@ -112,4 +108,5 @@ class SinceTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

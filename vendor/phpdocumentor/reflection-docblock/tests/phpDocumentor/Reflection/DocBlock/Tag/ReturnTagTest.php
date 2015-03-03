@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Return tag test.
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class ReturnTagTest extends \PHPUnit_Framework_TestCase
-{
+class ReturnTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\ReturnTag can
      * understand the @return DocBlock.
@@ -38,11 +39,7 @@ class ReturnTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParsesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $extractedType,
-        $extractedTypes,
-        $extractedDescription
+    $type, $content, $extractedType, $extractedTypes, $extractedDescription
     ) {
         $tag = new ReturnTag($type, $content);
 
@@ -57,8 +54,7 @@ class ReturnTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstructor()
-    {
+    public function provideDataForConstructor() {
         return array(
             array('return', '', '', array(), ''),
             array('return', 'int', 'int', array('int'), ''),
@@ -99,4 +95,5 @@ class ReturnTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

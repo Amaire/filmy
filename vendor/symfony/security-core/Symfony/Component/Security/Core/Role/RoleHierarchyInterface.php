@@ -16,8 +16,8 @@ namespace Symfony\Component\Security\Core\Role;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface RoleHierarchyInterface
-{
+interface RoleHierarchyInterface {
+
     /**
      * Returns an array of all reachable roles by the given ones.
      *

@@ -1,4 +1,6 @@
-<?php namespace SuperClosure\Analyzer;
+<?php
+
+namespace SuperClosure\Analyzer;
 
 use SuperClosure\Exception\ClosureAnalysisException;
 
@@ -9,17 +11,15 @@ use SuperClosure\Exception\ClosureAnalysisException;
  * determine its code and context. This is much faster than the AST based
  * implementation.
  */
-class TokenAnalyzer extends ClosureAnalyzer
-{
-    public function determineCode(array &$data)
-    {
+class TokenAnalyzer extends ClosureAnalyzer {
+
+    public function determineCode(array &$data) {
         $this->determineTokens($data);
         $data['code'] = implode('', $data['tokens']);
         $data['hasThis'] = (strpos($data['code'], '$this') !== false);
     }
 
-    private function determineTokens(array &$data)
-    {
+    private function determineTokens(array &$data) {
         $potential = $this->determinePotentialTokens($data['reflection']);
         $braceLevel = $index = $step = $insideUse = 0;
         $data['tokens'] = $data['context'] = [];
@@ -68,8 +68,8 @@ class TokenAnalyzer extends ClosureAnalyzer
                 case 3:
                     if ($token->is(T_FUNCTION)) {
                         throw new ClosureAnalysisException('Multiple closures '
-                            . 'were declared on the same line of code. Could '
-                            . 'determine which closure was the intended target.'
+                        . 'were declared on the same line of code. Could '
+                        . 'determine which closure was the intended target.'
                         );
                     }
                     break;
@@ -77,13 +77,12 @@ class TokenAnalyzer extends ClosureAnalyzer
         }
     }
 
-    private function determinePotentialTokens(\ReflectionFunction $reflection)
-    {
+    private function determinePotentialTokens(\ReflectionFunction $reflection) {
         // Load the file containing the code for the function.
         $fileName = $reflection->getFileName();
         if (!is_readable($fileName)) {
             throw new ClosureAnalysisException(
-                "Cannot read the file containing the closure: \"{$fileName}\"."
+            "Cannot read the file containing the closure: \"{$fileName}\"."
             );
         }
 
@@ -103,8 +102,7 @@ class TokenAnalyzer extends ClosureAnalyzer
         return token_get_all($code);
     }
 
-    protected function determineContext(array &$data)
-    {
+    protected function determineContext(array &$data) {
         // Get the values of the variables that are closed upon in "use".
         $values = $data['reflection']->getStaticVariables();
 
@@ -115,4 +113,5 @@ class TokenAnalyzer extends ClosureAnalyzer
             }
         }
     }
+
 }

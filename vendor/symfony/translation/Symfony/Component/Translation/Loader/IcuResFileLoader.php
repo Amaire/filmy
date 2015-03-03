@@ -21,13 +21,12 @@ use Symfony\Component\Config\Resource\DirectoryResource;
  *
  * @author stealth35
  */
-class IcuResFileLoader implements LoaderInterface
-{
+class IcuResFileLoader implements LoaderInterface {
+
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -73,10 +72,9 @@ class IcuResFileLoader implements LoaderInterface
      *
      * @return array the flattened ResourceBundle
      */
-    protected function flatten(\ResourceBundle $rb, array &$messages = array(), $path = null)
-    {
+    protected function flatten(\ResourceBundle $rb, array &$messages = array(), $path = null) {
         foreach ($rb as $key => $value) {
-            $nodePath = $path ? $path.'.'.$key : $key;
+            $nodePath = $path ? $path . '.' . $key : $key;
             if ($value instanceof \ResourceBundle) {
                 $this->flatten($value, $messages, $nodePath);
             } else {
@@ -86,4 +84,5 @@ class IcuResFileLoader implements LoaderInterface
 
         return $messages;
     }
+
 }

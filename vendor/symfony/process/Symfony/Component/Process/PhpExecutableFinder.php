@@ -17,12 +17,11 @@ namespace Symfony\Component\Process;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class PhpExecutableFinder
-{
+class PhpExecutableFinder {
+
     private $executableFinder;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->executableFinder = new ExecutableFinder();
     }
 
@@ -33,11 +32,10 @@ class PhpExecutableFinder
      *
      * @return string|false The PHP executable path or false if it cannot be found
      */
-    public function find($includeArgs = true)
-    {
+    public function find($includeArgs = true) {
         // HHVM support
         if (defined('HHVM_VERSION')) {
-            return (false !== ($hhvm = getenv('PHP_BINARY')) ? $hhvm : PHP_BINARY).($includeArgs ? ' '.implode(' ', $this->findArguments()) : '');
+            return (false !== ($hhvm = getenv('PHP_BINARY')) ? $hhvm : PHP_BINARY) . ($includeArgs ? ' ' . implode(' ', $this->findArguments()) : '');
         }
 
         // PHP_BINARY return the current sapi executable
@@ -72,8 +70,7 @@ class PhpExecutableFinder
      *
      * @return array The PHP executable arguments
      */
-    public function findArguments()
-    {
+    public function findArguments() {
         $arguments = array();
 
         // HHVM support
@@ -83,4 +80,5 @@ class PhpExecutableFinder
 
         return $arguments;
     }
+
 }

@@ -15,35 +15,36 @@ use Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
 
 // Note until PHPUnit_Mock_Objects 1.2 is released you cannot mock abstracts due to
 // https://github.com/sebastianbergmann/phpunit-mock-objects/issues/73
-class ConcreteProxy extends AbstractProxy
-{
+class ConcreteProxy extends AbstractProxy {
+    
 }
 
-class ConcreteSessionHandlerInterfaceProxy extends AbstractProxy implements \SessionHandlerInterface
-{
-    public function open($savePath, $sessionName)
-    {
+class ConcreteSessionHandlerInterfaceProxy extends AbstractProxy implements \SessionHandlerInterface {
+
+    public function open($savePath, $sessionName) {
+        
     }
 
-    public function close()
-    {
+    public function close() {
+        
     }
 
-    public function read($id)
-    {
+    public function read($id) {
+        
     }
 
-    public function write($id, $data)
-    {
+    public function write($id, $data) {
+        
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
+        
     }
 
-    public function gc($maxlifetime)
-    {
+    public function gc($maxlifetime) {
+        
     }
+
 }
 
 /**
@@ -51,42 +52,36 @@ class ConcreteSessionHandlerInterfaceProxy extends AbstractProxy implements \Ses
  *
  * @author Drak <drak@zikula.org>
  */
-class AbstractProxyTest extends \PHPUnit_Framework_TestCase
-{
+class AbstractProxyTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @var AbstractProxy
      */
     protected $proxy;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->proxy = new ConcreteProxy();
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         $this->proxy = null;
     }
 
-    public function testGetSaveHandlerName()
-    {
+    public function testGetSaveHandlerName() {
         $this->assertNull($this->proxy->getSaveHandlerName());
     }
 
-    public function testIsSessionHandlerInterface()
-    {
+    public function testIsSessionHandlerInterface() {
         $this->assertFalse($this->proxy->isSessionHandlerInterface());
         $sh = new ConcreteSessionHandlerInterfaceProxy();
         $this->assertTrue($sh->isSessionHandlerInterface());
     }
 
-    public function testIsWrapper()
-    {
+    public function testIsWrapper() {
         $this->assertFalse($this->proxy->isWrapper());
     }
 
-    public function testIsActivePhp53()
-    {
+    public function testIsActivePhp53() {
         if (PHP_VERSION_ID >= 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.3 only.');
         }
@@ -98,8 +93,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testIsActivePhp54()
-    {
+    public function testIsActivePhp54() {
         if (PHP_VERSION_ID < 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.4 only.');
         }
@@ -109,8 +103,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->proxy->isActive());
     }
 
-    public function testSetActivePhp53()
-    {
+    public function testSetActivePhp53() {
         if (PHP_VERSION_ID >= 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.3 only.');
         }
@@ -126,8 +119,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
      * @preserveGlobalState disabled
      * @expectedException \LogicException
      */
-    public function testSetActivePhp54()
-    {
+    public function testSetActivePhp54() {
         if (PHP_VERSION_ID < 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.4 only.');
         }
@@ -139,8 +131,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testName()
-    {
+    public function testName() {
         $this->assertEquals(session_name(), $this->proxy->getName());
         $this->proxy->setName('foo');
         $this->assertEquals('foo', $this->proxy->getName());
@@ -150,8 +141,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      */
-    public function testNameExceptionPhp53()
-    {
+    public function testNameExceptionPhp53() {
         if (PHP_VERSION_ID >= 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.3 only.');
         }
@@ -165,8 +155,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
      * @preserveGlobalState disabled
      * @expectedException \LogicException
      */
-    public function testNameExceptionPhp54()
-    {
+    public function testNameExceptionPhp54() {
         if (PHP_VERSION_ID < 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.4 only.');
         }
@@ -179,8 +168,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testId()
-    {
+    public function testId() {
         $this->assertEquals(session_id(), $this->proxy->getId());
         $this->proxy->setId('foo');
         $this->assertEquals('foo', $this->proxy->getId());
@@ -190,8 +178,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      */
-    public function testIdExceptionPhp53()
-    {
+    public function testIdExceptionPhp53() {
         if (PHP_VERSION_ID >= 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.3 only.');
         }
@@ -205,8 +192,7 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
      * @preserveGlobalState disabled
      * @expectedException \LogicException
      */
-    public function testIdExceptionPhp54()
-    {
+    public function testIdExceptionPhp54() {
         if (PHP_VERSION_ID < 50400) {
             $this->markTestSkipped('Test skipped, for PHP 5.4 only.');
         }
@@ -214,4 +200,5 @@ class AbstractProxyTest extends \PHPUnit_Framework_TestCase
         session_start();
         $this->proxy->setId('foo');
     }
+
 }

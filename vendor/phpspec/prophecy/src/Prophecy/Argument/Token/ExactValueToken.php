@@ -18,8 +18,8 @@ use Prophecy\Util\StringUtil;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ExactValueToken implements TokenInterface
-{
+class ExactValueToken implements TokenInterface {
+
     private $value;
     private $string;
     private $util;
@@ -30,10 +30,9 @@ class ExactValueToken implements TokenInterface
      * @param mixed      $value
      * @param StringUtil $util
      */
-    public function __construct($value, StringUtil $util = null)
-    {
+    public function __construct($value, StringUtil $util = null) {
         $this->value = $value;
-        $this->util  = $util ?: new StringUtil();
+        $this->util = $util ? : new StringUtil();
     }
 
     /**
@@ -43,8 +42,7 @@ class ExactValueToken implements TokenInterface
      *
      * @return bool|int
      */
-    public function scoreArgument($argument)
-    {
+    public function scoreArgument($argument) {
         if (is_object($argument) && is_object($this->value) && $argument == $this->value) {
             return 10;
         }
@@ -72,8 +70,7 @@ class ExactValueToken implements TokenInterface
      *
      * @return mixed
      */
-    public function getValue()
-    {
+    public function getValue() {
         return $this->value;
     }
 
@@ -82,8 +79,7 @@ class ExactValueToken implements TokenInterface
      *
      * @return bool
      */
-    public function isLast()
-    {
+    public function isLast() {
         return false;
     }
 
@@ -92,12 +88,12 @@ class ExactValueToken implements TokenInterface
      *
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         if (null === $this->string) {
             $this->string = sprintf('exact(%s)', $this->util->stringify($this->value));
         }
 
         return $this->string;
     }
+
 }

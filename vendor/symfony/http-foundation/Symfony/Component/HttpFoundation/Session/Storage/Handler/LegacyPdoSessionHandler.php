@@ -27,8 +27,8 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  * @deprecated Deprecated since version 2.6, to be removed in 3.0. Use
  *             {@link PdoSessionHandler} instead.
  */
-class LegacyPdoSessionHandler implements \SessionHandlerInterface
-{
+class LegacyPdoSessionHandler implements \SessionHandlerInterface {
+
     /**
      * @var \PDO PDO instance
      */
@@ -68,8 +68,7 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
      *
      * @throws \InvalidArgumentException When "db_table" option is not provided
      */
-    public function __construct(\PDO $pdo, array $dbOptions = array())
-    {
+    public function __construct(\PDO $pdo, array $dbOptions = array()) {
         if (!array_key_exists('db_table', $dbOptions)) {
             throw new \InvalidArgumentException('You must provide the "db_table" option for a PdoSessionStorage.');
         }
@@ -81,7 +80,7 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
             'db_id_col' => 'sess_id',
             'db_data_col' => 'sess_data',
             'db_time_col' => 'sess_time',
-        ), $dbOptions);
+                ), $dbOptions);
 
         $this->table = $dbOptions['db_table'];
         $this->idCol = $dbOptions['db_id_col'];
@@ -92,24 +91,21 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function open($savePath, $sessionName)
-    {
+    public function open($savePath, $sessionName) {
         return true;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function close()
-    {
+    public function close() {
         return true;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function destroy($sessionId)
-    {
+    public function destroy($sessionId) {
         // delete the record associated with this id
         $sql = "DELETE FROM $this->table WHERE $this->idCol = :id";
 
@@ -127,8 +123,7 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function gc($maxlifetime)
-    {
+    public function gc($maxlifetime) {
         // delete the session records that have expired
         $sql = "DELETE FROM $this->table WHERE $this->timeCol < :time";
 
@@ -146,8 +141,7 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function read($sessionId)
-    {
+    public function read($sessionId) {
         $sql = "SELECT $this->dataCol FROM $this->table WHERE $this->idCol = :id";
 
         try {
@@ -171,8 +165,7 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function write($sessionId, $data)
-    {
+    public function write($sessionId, $data) {
         $encoded = base64_encode($data);
 
         try {
@@ -190,7 +183,7 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
             }
 
             $updateStmt = $this->pdo->prepare(
-                "UPDATE $this->table SET $this->dataCol = :data, $this->timeCol = :time WHERE $this->idCol = :id"
+                    "UPDATE $this->table SET $this->dataCol = :data, $this->timeCol = :time WHERE $this->idCol = :id"
             );
             $updateStmt->bindParam(':id', $sessionId, \PDO::PARAM_STR);
             $updateStmt->bindParam(':data', $encoded, \PDO::PARAM_STR);
@@ -205,7 +198,7 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
             if (!$updateStmt->rowCount()) {
                 try {
                     $insertStmt = $this->pdo->prepare(
-                        "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time)"
+                            "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time)"
                     );
                     $insertStmt->bindParam(':id', $sessionId, \PDO::PARAM_STR);
                     $insertStmt->bindParam(':data', $encoded, \PDO::PARAM_STR);
@@ -232,25 +225,24 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
      *
      * @return string|null The SQL string or null when not supported
      */
-    private function getMergeSql()
-    {
+    private function getMergeSql() {
         $driver = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
         switch ($driver) {
             case 'mysql':
-                return "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time) ".
-                "ON DUPLICATE KEY UPDATE $this->dataCol = VALUES($this->dataCol), $this->timeCol = VALUES($this->timeCol)";
+                return "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time) " .
+                        "ON DUPLICATE KEY UPDATE $this->dataCol = VALUES($this->dataCol), $this->timeCol = VALUES($this->timeCol)";
             case 'oci':
                 // DUAL is Oracle specific dummy table
-                return "MERGE INTO $this->table USING DUAL ON ($this->idCol = :id) ".
-                "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time) ".
-                "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->timeCol = :time";
+                return "MERGE INTO $this->table USING DUAL ON ($this->idCol = :id) " .
+                        "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time) " .
+                        "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->timeCol = :time";
             case 'sqlsrv' === $driver && version_compare($this->pdo->getAttribute(\PDO::ATTR_SERVER_VERSION), '10', '>='):
                 // MERGE is only available since SQL Server 2008 and must be terminated by semicolon
                 // It also requires HOLDLOCK according to http://weblogs.sqlteam.com/dang/archive/2009/01/31/UPSERT-Race-Condition-With-MERGE.aspx
-                return "MERGE INTO $this->table WITH (HOLDLOCK) USING (SELECT 1 AS dummy) AS src ON ($this->idCol = :id) ".
-                "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time) ".
-                "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->timeCol = :time;";
+                return "MERGE INTO $this->table WITH (HOLDLOCK) USING (SELECT 1 AS dummy) AS src ON ($this->idCol = :id) " .
+                        "WHEN NOT MATCHED THEN INSERT ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time) " .
+                        "WHEN MATCHED THEN UPDATE SET $this->dataCol = :data, $this->timeCol = :time;";
             case 'sqlite':
                 return "INSERT OR REPLACE INTO $this->table ($this->idCol, $this->dataCol, $this->timeCol) VALUES (:id, :data, :time)";
         }
@@ -261,8 +253,8 @@ class LegacyPdoSessionHandler implements \SessionHandlerInterface
      *
      * @return \PDO
      */
-    protected function getConnection()
-    {
+    protected function getConnection() {
         return $this->pdo;
     }
+
 }

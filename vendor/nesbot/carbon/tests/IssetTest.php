@@ -11,15 +11,13 @@
 
 use Carbon\Carbon;
 
-class IssetTest extends TestFixture
-{
-    public function testIssetReturnFalseForUnknownProperty()
-    {
+class IssetTest extends TestFixture {
+
+    public function testIssetReturnFalseForUnknownProperty() {
         $this->assertFalse(isset(Carbon::create(1234, 5, 6, 7, 8, 9)->sdfsdfss));
     }
 
-    public function testIssetReturnTrueForProperties()
-    {
+    public function testIssetReturnTrueForProperties() {
         $properties = array(
             'year',
             'month',
@@ -46,4 +44,5 @@ class IssetTest extends TestFixture
             $this->assertTrue(isset(Carbon::create(1234, 5, 6, 7, 8, 9)->$property));
         }
     }
+
 }

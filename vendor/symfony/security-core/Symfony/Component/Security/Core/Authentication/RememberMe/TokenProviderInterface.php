@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface TokenProviderInterface
-{
+interface TokenProviderInterface {
+
     /**
      * Loads the active token for the given series.
      *

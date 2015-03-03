@@ -20,8 +20,8 @@ use Monolog\Formatter\LineFormatter;
  * @author Greg Kedzierski <greg@gregkedzierski.com>
  * @see    https://api.slack.com/
  */
-class SlackHandler extends SocketHandler
-{
+class SlackHandler extends SocketHandler {
+
     /**
      * Slack API token
      * @var string
@@ -78,8 +78,7 @@ class SlackHandler extends SocketHandler
      * @param int         $level         The minimum logging level at which this handler will be triggered
      * @param bool        $bubble        Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct($token, $channel, $username = 'Monolog', $useAttachment = true, $iconEmoji = null, $level = Logger::CRITICAL, $bubble = true, $useShortAttachment = false, $includeExtra = false)
-    {
+    public function __construct($token, $channel, $username = 'Monolog', $useAttachment = true, $iconEmoji = null, $level = Logger::CRITICAL, $bubble = true, $useShortAttachment = false, $includeExtra = false) {
         if (!extension_loaded('openssl')) {
             throw new MissingExtensionException('The OpenSSL PHP extension is required to use the SlackHandler');
         }
@@ -104,8 +103,7 @@ class SlackHandler extends SocketHandler
      * @param  array  $record
      * @return string
      */
-    protected function generateDataStream($record)
-    {
+    protected function generateDataStream($record) {
         $content = $this->buildContent($record);
 
         return $this->buildHeader($content) . $content;
@@ -117,8 +115,7 @@ class SlackHandler extends SocketHandler
      * @param  array  $record
      * @return string
      */
-    private function buildContent($record)
-    {
+    private function buildContent($record) {
         $dataArray = array(
             'token' => $this->token,
             'channel' => $this->channel,
@@ -159,7 +156,7 @@ class SlackHandler extends SocketHandler
             if ($this->includeExtra) {
                 $extra = '';
                 foreach ($record['extra'] as $var => $val) {
-                    $extra .= $var.': '.$this->lineFormatter->stringify($val)." | ";
+                    $extra .= $var . ': ' . $this->lineFormatter->stringify($val) . " | ";
                 }
 
                 $extra = rtrim($extra, " |");
@@ -189,8 +186,7 @@ class SlackHandler extends SocketHandler
      * @param  string $content
      * @return string
      */
-    private function buildHeader($content)
-    {
+    private function buildHeader($content) {
         $header = "POST /api/chat.postMessage HTTP/1.1\r\n";
         $header .= "Host: slack.com\r\n";
         $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
@@ -205,8 +201,7 @@ class SlackHandler extends SocketHandler
      *
      * @param array $record
      */
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         parent::write($record);
         $this->closeSocket();
     }
@@ -218,8 +213,7 @@ class SlackHandler extends SocketHandler
      * @param  int    $level
      * @return string
      */
-    protected function getAttachmentColor($level)
-    {
+    protected function getAttachmentColor($level) {
         switch (true) {
             case $level >= Logger::ERROR:
                 return 'danger';
@@ -231,4 +225,5 @@ class SlackHandler extends SocketHandler
                 return '#e3e4e6';
         }
     }
+
 }

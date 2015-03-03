@@ -23,13 +23,13 @@ namespace Symfony\Component\Security\Core\Exception;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Alexander <iam.asm89@gmail.com>
  */
-class SessionUnavailableException extends AuthenticationException
-{
+class SessionUnavailableException extends AuthenticationException {
+
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
-    {
+    public function getMessageKey() {
         return 'No session available, it either timed out or cookies are not enabled.';
     }
+
 }

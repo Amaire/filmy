@@ -3,20 +3,17 @@
 namespace spec\PhpSpec\Locator;
 
 use PhpSpec\ObjectBehavior;
-
 use PhpSpec\Locator\ResourceLocatorInterface;
 use PhpSpec\Locator\ResourceInterface;
 
-class ResourceManagerSpec extends ObjectBehavior
-{
-    function let(ResourceLocatorInterface $locator1, ResourceLocatorInterface $locator2)
-    {
+class ResourceManagerSpec extends ObjectBehavior {
+
+    function let(ResourceLocatorInterface $locator1, ResourceLocatorInterface $locator2) {
         $locator1->getPriority()->willReturn(5);
         $locator2->getPriority()->willReturn(10);
     }
 
-    function it_locates_resources_using_all_registered_locators($locator1, $locator2,
-        ResourceInterface $resource1, ResourceInterface $resource2, ResourceInterface $resource3
+    function it_locates_resources_using_all_registered_locators($locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2, ResourceInterface $resource3
     ) {
         $this->registerLocator($locator1);
         $this->registerLocator($locator2);
@@ -33,8 +30,7 @@ class ResourceManagerSpec extends ObjectBehavior
         $this->locateResources('s:query')->shouldReturn(array($resource1, $resource3, $resource2));
     }
 
-    function it_locates_all_locators_resources_if_query_string_is_empty($locator1, $locator2,
-        ResourceInterface $resource1, ResourceInterface $resource2, ResourceInterface $resource3
+    function it_locates_all_locators_resources_if_query_string_is_empty($locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2, ResourceInterface $resource3
     ) {
         $this->registerLocator($locator1);
         $this->registerLocator($locator2);
@@ -49,8 +45,7 @@ class ResourceManagerSpec extends ObjectBehavior
         $this->locateResources('')->shouldReturn(array($resource1, $resource3, $resource2));
     }
 
-    function it_returns_empty_array_if_registered_locators_do_not_support_query($locator1)
-    {
+    function it_returns_empty_array_if_registered_locators_do_not_support_query($locator1) {
         $this->registerLocator($locator1);
 
         $locator1->supportsQuery('s:query')->willReturn(false);
@@ -60,7 +55,7 @@ class ResourceManagerSpec extends ObjectBehavior
     }
 
     function it_creates_resource_from_classname_using_locator_with_highest_priority(
-        $locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2
+    $locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2
     ) {
         $this->registerLocator($locator1);
         $this->registerLocator($locator2);
@@ -73,8 +68,7 @@ class ResourceManagerSpec extends ObjectBehavior
         $this->createResource('Some\Class')->shouldReturn($resource2);
     }
 
-    function it_throws_an_exception_if_locators_do_not_support_classname($locator1)
-    {
+    function it_throws_an_exception_if_locators_do_not_support_classname($locator1) {
         $this->registerLocator($locator1);
 
         $locator1->supportsClass('Some\Class')->willReturn(false);
@@ -83,7 +77,7 @@ class ResourceManagerSpec extends ObjectBehavior
     }
 
     function it_does_not_allow_two_resources_for_the_same_spec(
-        $locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2
+    $locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2
     ) {
         $this->registerLocator($locator1);
         $this->registerLocator($locator2);
@@ -98,7 +92,7 @@ class ResourceManagerSpec extends ObjectBehavior
     }
 
     function it_uses_the_resource_from_the_highest_priority_locator_when_duplicates_occur(
-        $locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2
+    $locator1, $locator2, ResourceInterface $resource1, ResourceInterface $resource2
     ) {
         $locator1->getPriority()->willReturn(2);
         $locator2->getPriority()->willReturn(1);
@@ -114,4 +108,5 @@ class ResourceManagerSpec extends ObjectBehavior
 
         $this->locateResources('')->shouldReturn(array($resource1));
     }
+
 }

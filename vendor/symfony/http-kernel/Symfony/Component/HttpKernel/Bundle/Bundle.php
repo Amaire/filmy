@@ -26,8 +26,8 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
  *
  * @api
  */
-abstract class Bundle extends ContainerAware implements BundleInterface
-{
+abstract class Bundle extends ContainerAware implements BundleInterface {
+
     protected $name;
     protected $extension;
     protected $path;
@@ -35,15 +35,15 @@ abstract class Bundle extends ContainerAware implements BundleInterface
     /**
      * Boots the Bundle.
      */
-    public function boot()
-    {
+    public function boot() {
+        
     }
 
     /**
      * Shutdowns the Bundle.
      */
-    public function shutdown()
-    {
+    public function shutdown() {
+        
     }
 
     /**
@@ -56,8 +56,8 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    public function build(ContainerBuilder $container)
-    {
+    public function build(ContainerBuilder $container) {
+        
     }
 
     /**
@@ -69,8 +69,7 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @api
      */
-    public function getContainerExtension()
-    {
+    public function getContainerExtension() {
         if (null === $this->extension) {
             $class = $this->getContainerExtensionClass();
             if (class_exists($class)) {
@@ -81,8 +80,7 @@ abstract class Bundle extends ContainerAware implements BundleInterface
                 $expectedAlias = Container::underscore($basename);
                 if ($expectedAlias != $extension->getAlias()) {
                     throw new \LogicException(sprintf(
-                        'Users will expect the alias of the default extension of a bundle to be the underscored version of the bundle name ("%s"). You can override "Bundle::getContainerExtension()" if you want to use "%s" or another alias.',
-                        $expectedAlias, $extension->getAlias()
+                            'Users will expect the alias of the default extension of a bundle to be the underscored version of the bundle name ("%s"). You can override "Bundle::getContainerExtension()" if you want to use "%s" or another alias.', $expectedAlias, $extension->getAlias()
                     ));
                 }
 
@@ -104,8 +102,7 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @api
      */
-    public function getNamespace()
-    {
+    public function getNamespace() {
         $class = get_class($this);
 
         return substr($class, 0, strrpos($class, '\\'));
@@ -118,8 +115,7 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @api
      */
-    public function getPath()
-    {
+    public function getPath() {
         if (null === $this->path) {
             $reflected = new \ReflectionObject($this);
             $this->path = dirname($reflected->getFileName());
@@ -135,8 +131,8 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @api
      */
-    public function getParent()
-    {
+    public function getParent() {
+        
     }
 
     /**
@@ -146,8 +142,7 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @api
      */
-    final public function getName()
-    {
+    final public function getName() {
         if (null !== $this->name) {
             return $this->name;
         }
@@ -168,24 +163,23 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @param Application $application An Application instance
      */
-    public function registerCommands(Application $application)
-    {
-        if (!is_dir($dir = $this->getPath().'/Command')) {
+    public function registerCommands(Application $application) {
+        if (!is_dir($dir = $this->getPath() . '/Command')) {
             return;
         }
 
         $finder = new Finder();
         $finder->files()->name('*Command.php')->in($dir);
 
-        $prefix = $this->getNamespace().'\\Command';
+        $prefix = $this->getNamespace() . '\\Command';
         foreach ($finder as $file) {
             $ns = $prefix;
             if ($relativePath = $file->getRelativePath()) {
-                $ns .= '\\'.strtr($relativePath, '/', '\\');
+                $ns .= '\\' . strtr($relativePath, '/', '\\');
             }
-            $class = $ns.'\\'.$file->getBasename('.php');
+            $class = $ns . '\\' . $file->getBasename('.php');
             if ($this->container) {
-                $alias = 'console.command.'.strtolower(str_replace('\\', '_', $class));
+                $alias = 'console.command.' . strtolower(str_replace('\\', '_', $class));
                 if ($this->container->has($alias)) {
                     continue;
                 }
@@ -202,10 +196,10 @@ abstract class Bundle extends ContainerAware implements BundleInterface
      *
      * @return string
      */
-    protected function getContainerExtensionClass()
-    {
+    protected function getContainerExtensionClass() {
         $basename = preg_replace('/Bundle$/', '', $this->getName());
 
-        return $this->getNamespace().'\\DependencyInjection\\'.$basename.'Extension';
+        return $this->getNamespace() . '\\DependencyInjection\\' . $basename . 'Extension';
     }
+
 }

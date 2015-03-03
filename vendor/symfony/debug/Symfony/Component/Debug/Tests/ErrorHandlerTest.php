@@ -21,10 +21,9 @@ use Symfony\Component\Debug\Exception\ContextErrorException;
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
-{
-    public function testRegister()
-    {
+class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
+
+    public function testRegister() {
         $handler = ErrorHandler::register();
 
         try {
@@ -44,6 +43,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
                 restore_error_handler();
                 $this->assertSame(array($newHandler, 'handleError'), $h);
             } catch (\Exception $e) {
+                
             }
 
             restore_error_handler();
@@ -53,6 +53,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
                 throw $e;
             }
         } catch (\Exception $e) {
+            
         }
 
         restore_error_handler();
@@ -63,8 +64,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testNotice()
-    {
+    public function testNotice() {
         ErrorHandler::register();
 
         try {
@@ -104,15 +104,13 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     // dummy function to test trace in error handler.
-    private static function triggerNotice($that)
-    {
+    private static function triggerNotice($that) {
         // dummy variable to check for in error handler.
         $foobar = 123;
-        $that->assertSame('', $foo.$foo.$bar);
+        $that->assertSame('', $foo . $foo . $bar);
     }
 
-    public function testConstruct()
-    {
+    public function testConstruct() {
         try {
             $handler = ErrorHandler::register();
             $handler->throwAt(3, true);
@@ -128,8 +126,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testDefaultLogger()
-    {
+    public function testDefaultLogger() {
         try {
             $handler = ErrorHandler::register();
 
@@ -167,8 +164,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testHandleError()
-    {
+    public function testHandleError() {
         $this->iniSet('error_reporting', -1);
 
         try {
@@ -227,9 +223,9 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             };
 
             $logger
-                ->expects($this->once())
-                ->method('log')
-                ->will($this->returnCallback($warnArgCheck))
+                    ->expects($this->once())
+                    ->method('log')
+                    ->will($this->returnCallback($warnArgCheck))
             ;
 
             $handler = ErrorHandler::register();
@@ -249,9 +245,9 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             };
 
             $logger
-                ->expects($this->once())
-                ->method('log')
-                ->will($this->returnCallback($logArgCheck))
+                    ->expects($this->once())
+                    ->method('log')
+                    ->will($this->returnCallback($logArgCheck))
             ;
 
             $handler = ErrorHandler::register();
@@ -270,8 +266,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testHandleException()
-    {
+    public function testHandleException() {
         try {
             $handler = ErrorHandler::register();
 
@@ -287,9 +282,9 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             };
 
             $logger
-                ->expects($this->exactly(2))
-                ->method('log')
-                ->will($this->returnCallback($logArgCheck))
+                    ->expects($this->exactly(2))
+                    ->method('log')
+                    ->will($this->returnCallback($logArgCheck))
             ;
 
             $handler->setDefaultLogger($logger, E_ERROR);
@@ -318,8 +313,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testHandleFatalError()
-    {
+    public function testHandleFatalError() {
         try {
             $handler = ErrorHandler::register();
 
@@ -340,9 +334,9 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             };
 
             $logger
-                ->expects($this->once())
-                ->method('log')
-                ->will($this->returnCallback($logArgCheck))
+                    ->expects($this->once())
+                    ->method('log')
+                    ->will($this->returnCallback($logArgCheck))
             ;
 
             $handler->setDefaultLogger($logger, E_ERROR);
@@ -359,8 +353,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testLegacyInterface()
-    {
+    public function testLegacyInterface() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
 
         try {
@@ -380,9 +373,9 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             };
 
             $logger
-                ->expects($this->once())
-                ->method('log')
-                ->will($this->returnCallback($logArgCheck))
+                    ->expects($this->once())
+                    ->method('log')
+                    ->will($this->returnCallback($logArgCheck))
             ;
 
             $handler = ErrorHandler::register(E_NOTICE);
@@ -399,4 +392,5 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             throw $e;
         }
     }
+
 }

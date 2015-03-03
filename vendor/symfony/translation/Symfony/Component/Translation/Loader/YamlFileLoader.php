@@ -24,8 +24,8 @@ use Symfony\Component\Yaml\Exception\ParseException;
  *
  * @api
  */
-class YamlFileLoader extends ArrayLoader implements LoaderInterface
-{
+class YamlFileLoader extends ArrayLoader implements LoaderInterface {
+
     private $yamlParser;
 
     /**
@@ -33,8 +33,7 @@ class YamlFileLoader extends ArrayLoader implements LoaderInterface
      *
      * @api
      */
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -68,4 +67,5 @@ class YamlFileLoader extends ArrayLoader implements LoaderInterface
 
         return $catalogue;
     }
+
 }

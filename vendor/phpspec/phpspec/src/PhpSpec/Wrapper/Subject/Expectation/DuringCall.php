@@ -18,20 +18,23 @@ use PhpSpec\Matcher\MatcherInterface;
 use PhpSpec\Util\Instantiator;
 use PhpSpec\Wrapper\Subject\WrappedObject;
 
-abstract class DuringCall
-{
+abstract class DuringCall {
+
     /**
      * @var \PhpSpec\Matcher\MatcherInterface
      */
     private $matcher;
+
     /**
      * @var mixed
      */
     private $subject;
+
     /**
      * @var array
      */
     private $arguments;
+
     /**
      * @var WrappedObject
      */
@@ -40,8 +43,7 @@ abstract class DuringCall
     /**
      * @param MatcherInterface $matcher
      */
-    public function __construct(MatcherInterface $matcher)
-    {
+    public function __construct(MatcherInterface $matcher) {
         $this->matcher = $matcher;
     }
 
@@ -54,8 +56,7 @@ abstract class DuringCall
      *
      * @return $this
      */
-    public function match($alias, $subject, array $arguments = array(), $wrappedObject = null)
-    {
+    public function match($alias, $subject, array $arguments = array(), $wrappedObject = null) {
         $this->subject = $subject;
         $this->arguments = $arguments;
         $this->wrappedObject = $wrappedObject;
@@ -69,8 +70,7 @@ abstract class DuringCall
      *
      * @return mixed
      */
-    public function during($method, array $arguments = array())
-    {
+    public function during($method, array $arguments = array()) {
         if ($method === '__construct') {
             $this->subject->beAnInstanceOf($this->wrappedObject->getClassname(), $arguments);
             $instantiator = new Instantiator();
@@ -90,33 +90,30 @@ abstract class DuringCall
      *
      * @throws MatcherException
      */
-    public function __call($method, array $arguments = array())
-    {
+    public function __call($method, array $arguments = array()) {
         if (preg_match('/^during(.+)$/', $method, $matches)) {
             return $this->during(lcfirst($matches[1]), $arguments);
         }
 
-        throw new MatcherException('Incorrect usage of matcher Throw, '.
-            'either prefix the method with "during" and capitalize the '.
-            'first character of the method or use ->during(\'callable\', '.
-            'array(arguments)).'.PHP_EOL.'E.g.'.PHP_EOL.'->during'.
-            ucfirst($method).'(arguments)'.PHP_EOL.'or'.PHP_EOL.
-            '->during(\''.$method.'\', array(arguments))');
+        throw new MatcherException('Incorrect usage of matcher Throw, ' .
+        'either prefix the method with "during" and capitalize the ' .
+        'first character of the method or use ->during(\'callable\', ' .
+        'array(arguments)).' . PHP_EOL . 'E.g.' . PHP_EOL . '->during' .
+        ucfirst($method) . '(arguments)' . PHP_EOL . 'or' . PHP_EOL .
+        '->during(\'' . $method . '\', array(arguments))');
     }
 
     /**
      * @return array
      */
-    protected function getArguments()
-    {
+    protected function getArguments() {
         return $this->arguments;
     }
 
     /**
      * @return MatcherInterface
      */
-    protected function getMatcher()
-    {
+    protected function getMatcher() {
         return $this->matcher;
     }
 

@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr $expr Expression
  */
-class UnaryMinus extends Expr
-{
+class UnaryMinus extends Expr {
+
     /**
      * Constructs a unary minus node.
      *
@@ -17,10 +17,10 @@ class UnaryMinus extends Expr
      */
     public function __construct(Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

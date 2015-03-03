@@ -23,8 +23,8 @@ use Psy\Exception\FatalErrorException;
  * This pass throws a FatalErrorException rather than letting PHP run
  * headfirst into a real fatal error and die.
  */
-class ValidFunctionNamePass extends NamespaceAwarePass
-{
+class ValidFunctionNamePass extends NamespaceAwarePass {
+
     /**
      * Validate that function calls will succeed.
      *
@@ -33,8 +33,7 @@ class ValidFunctionNamePass extends NamespaceAwarePass
      *
      * @param Node $node
      */
-    public function leaveNode(Node $node)
-    {
+    public function leaveNode(Node $node) {
         if ($node instanceof FunctionStmt) {
             $name = $this->getFullyQualifiedName($node->name);
 
@@ -48,7 +47,7 @@ class ValidFunctionNamePass extends NamespaceAwarePass
             $name = $node->name;
             if (!$name instanceof Expression && !$name instanceof Variable) {
                 $shortName = implode('\\', $name->parts);
-                $fullName  = $this->getFullyQualifiedName($name);
+                $fullName = $this->getFullyQualifiedName($name);
                 $inScope = isset($this->currentScope[strtolower($fullName)]);
                 if (!$inScope && !function_exists($shortName) && !function_exists($fullName)) {
                     $message = sprintf('Call to undefined function %s()', $name);
@@ -57,4 +56,5 @@ class ValidFunctionNamePass extends NamespaceAwarePass
             }
         }
     }
+
 }

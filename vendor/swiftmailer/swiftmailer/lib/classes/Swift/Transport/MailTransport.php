@@ -21,8 +21,8 @@
  *
  * @author     Chris Corbyn
  */
-class Swift_Transport_MailTransport implements Swift_Transport
-{
+class Swift_Transport_MailTransport implements Swift_Transport {
+
     /** Additional parameters to pass to mail() */
     private $_extraParams = '-f%s';
 
@@ -38,8 +38,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      * @param Swift_Transport_MailInvoker  $invoker
      * @param Swift_Events_EventDispatcher $eventDispatcher
      */
-    public function __construct(Swift_Transport_MailInvoker $invoker, Swift_Events_EventDispatcher $eventDispatcher)
-    {
+    public function __construct(Swift_Transport_MailInvoker $invoker, Swift_Events_EventDispatcher $eventDispatcher) {
         $this->_invoker = $invoker;
         $this->_eventDispatcher = $eventDispatcher;
     }
@@ -47,23 +46,22 @@ class Swift_Transport_MailTransport implements Swift_Transport
     /**
      * Not used.
      */
-    public function isStarted()
-    {
+    public function isStarted() {
         return false;
     }
 
     /**
      * Not used.
      */
-    public function start()
-    {
+    public function start() {
+        
     }
 
     /**
      * Not used.
      */
-    public function stop()
-    {
+    public function stop() {
+        
     }
 
     /**
@@ -75,8 +73,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      *
      * @return Swift_Transport_MailTransport
      */
-    public function setExtraParams($params)
-    {
+    public function setExtraParams($params) {
         $this->_extraParams = $params;
 
         return $this;
@@ -89,8 +86,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      *
      * @return string
      */
-    public function getExtraParams()
-    {
+    public function getExtraParams() {
         return $this->_extraParams;
     }
 
@@ -105,8 +101,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      *
      * @return int
      */
-    public function send(Swift_Mime_Message $message, &$failedRecipients = null)
-    {
+    public function send(Swift_Mime_Message $message, &$failedRecipients = null) {
         $failedRecipients = (array) $failedRecipients;
 
         if ($evt = $this->_eventDispatcher->createSendEvent($this, $message)) {
@@ -117,10 +112,8 @@ class Swift_Transport_MailTransport implements Swift_Transport
         }
 
         $count = (
-            count((array) $message->getTo())
-            + count((array) $message->getCc())
-            + count((array) $message->getBcc())
-            );
+                count((array) $message->getTo()) + count((array) $message->getCc()) + count((array) $message->getBcc())
+                );
 
         $toHeader = $message->getHeaders()->get('To');
         $subjectHeader = $message->getHeaders()->get('Subject');
@@ -144,10 +137,10 @@ class Swift_Transport_MailTransport implements Swift_Transport
 
         // Separate headers from body
         if (false !== $endHeaders = strpos($messageStr, "\r\n\r\n")) {
-            $headers = substr($messageStr, 0, $endHeaders)."\r\n"; //Keep last EOL
+            $headers = substr($messageStr, 0, $endHeaders) . "\r\n"; //Keep last EOL
             $body = substr($messageStr, $endHeaders + 4);
         } else {
-            $headers = $messageStr."\r\n";
+            $headers = $messageStr . "\r\n";
             $body = '';
         }
 
@@ -163,8 +156,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
             $body = str_replace("\r\n.", "\r\n..", $body);
         }
 
-        if ($this->_invoker->mail($to, $subject, $body, $headers,
-            sprintf($this->_extraParams, $reversePath))) {
+        if ($this->_invoker->mail($to, $subject, $body, $headers, sprintf($this->_extraParams, $reversePath))) {
             if ($evt) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_SUCCESS);
                 $evt->setFailedRecipients($failedRecipients);
@@ -172,11 +164,8 @@ class Swift_Transport_MailTransport implements Swift_Transport
             }
         } else {
             $failedRecipients = array_merge(
-                $failedRecipients,
-                array_keys((array) $message->getTo()),
-                array_keys((array) $message->getCc()),
-                array_keys((array) $message->getBcc())
-                );
+                    $failedRecipients, array_keys((array) $message->getTo()), array_keys((array) $message->getCc()), array_keys((array) $message->getBcc())
+            );
 
             if ($evt) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_FAILED);
@@ -197,14 +186,12 @@ class Swift_Transport_MailTransport implements Swift_Transport
      *
      * @param Swift_Events_EventListener $plugin
      */
-    public function registerPlugin(Swift_Events_EventListener $plugin)
-    {
+    public function registerPlugin(Swift_Events_EventListener $plugin) {
         $this->_eventDispatcher->bindEventListener($plugin);
     }
 
     /** Throw a TransportException, first sending it to any listeners */
-    protected function _throwException(Swift_TransportException $e)
-    {
+    protected function _throwException(Swift_TransportException $e) {
         if ($evt = $this->_eventDispatcher->createTransportExceptionEvent($this, $e)) {
             $this->_eventDispatcher->dispatchEvent($evt, 'exceptionThrown');
             if (!$evt->bubbleCancelled()) {
@@ -216,8 +203,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
     }
 
     /** Determine the best-use reverse path for this message */
-    private function _getReversePath(Swift_Mime_Message $message)
-    {
+    private function _getReversePath(Swift_Mime_Message $message) {
         $return = $message->getReturnPath();
         $sender = $message->getSender();
         $from = $message->getFrom();
@@ -234,4 +220,5 @@ class Swift_Transport_MailTransport implements Swift_Transport
 
         return $path;
     }
+
 }

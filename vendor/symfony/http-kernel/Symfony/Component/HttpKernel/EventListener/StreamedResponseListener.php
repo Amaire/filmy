@@ -22,15 +22,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class StreamedResponseListener implements EventSubscriberInterface
-{
+class StreamedResponseListener implements EventSubscriberInterface {
+
     /**
      * Filters the Response.
      *
      * @param FilterResponseEvent $event A FilterResponseEvent instance
      */
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
+    public function onKernelResponse(FilterResponseEvent $event) {
         if (!$event->isMasterRequest()) {
             return;
         }
@@ -42,10 +41,10 @@ class StreamedResponseListener implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             KernelEvents::RESPONSE => array('onKernelResponse', -1024),
         );
     }
+
 }

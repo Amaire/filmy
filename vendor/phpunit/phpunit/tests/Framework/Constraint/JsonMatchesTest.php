@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -16,8 +17,7 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.7.0
  */
-class Framework_Constraint_JsonMatchesTest extends PHPUnit_Framework_TestCase
-{
+class Framework_Constraint_JsonMatchesTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider evaluateDataprovider
@@ -25,8 +25,7 @@ class Framework_Constraint_JsonMatchesTest extends PHPUnit_Framework_TestCase
      * @covers PHPUnit_Framework_Constraint_JsonMatches::matches
      * @covers PHPUnit_Framework_Constraint_JsonMatches::__construct
      */
-    public function testEvaluate($expected, $jsonOther, $jsonValue)
-    {
+    public function testEvaluate($expected, $jsonOther, $jsonValue) {
         $constraint = new PHPUnit_Framework_Constraint_JsonMatches($jsonValue);
         $this->assertEquals($expected, $constraint->evaluate($jsonOther, '', true));
     }
@@ -34,17 +33,14 @@ class Framework_Constraint_JsonMatchesTest extends PHPUnit_Framework_TestCase
     /**
      * @covers PHPUnit_Framework_Constraint_JsonMatches::toString
      */
-    public function testToString()
-    {
+    public function testToString() {
         $jsonValue = json_encode(array('Mascott' => 'Tux'));
         $constraint = new PHPUnit_Framework_Constraint_JsonMatches($jsonValue);
 
         $this->assertEquals('matches JSON string "' . $jsonValue . '"', $constraint->toString());
     }
 
-
-    public static function evaluateDataprovider()
-    {
+    public static function evaluateDataprovider() {
         return array(
             'valid JSON' => array(true, json_encode(array('Mascott' => 'Tux')), json_encode(array('Mascott' => 'Tux'))),
             'error syntax' => array(false, '{"Mascott"::}', json_encode(array('Mascott' => 'Tux'))),
@@ -52,4 +48,5 @@ class Framework_Constraint_JsonMatchesTest extends PHPUnit_Framework_TestCase
             'invalid JSON in class instantiation' => array(false, json_encode(array('Mascott' => 'Tux')), '{"Mascott"::}'),
         );
     }
+
 }

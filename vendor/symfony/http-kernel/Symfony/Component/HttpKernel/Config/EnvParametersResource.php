@@ -18,8 +18,8 @@ use Symfony\Component\Config\Resource\ResourceInterface;
  *
  * @author Chris Wilkinson <chriswilkinson84@gmail.com>
  */
-class EnvParametersResource implements ResourceInterface, \Serializable
-{
+class EnvParametersResource implements ResourceInterface, \Serializable {
+
     /**
      * @var string
      */
@@ -35,8 +35,7 @@ class EnvParametersResource implements ResourceInterface, \Serializable
      *
      * @param string $prefix
      */
-    public function __construct($prefix)
-    {
+    public function __construct($prefix) {
         $this->prefix = $prefix;
         $this->variables = $this->findVariables();
     }
@@ -44,42 +43,36 @@ class EnvParametersResource implements ResourceInterface, \Serializable
     /**
      * {@inheritdoc}
      */
-    public function __toString()
-    {
+    public function __toString() {
         return serialize($this->getResource());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getResource()
-    {
+    public function getResource() {
         return array('prefix' => $this->prefix, 'variables' => $this->variables);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isFresh($timestamp)
-    {
+    public function isFresh($timestamp) {
         return $this->findVariables() === $this->variables;
     }
 
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(array('prefix' => $this->prefix, 'variables' => $this->variables));
     }
 
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         $unserialized = unserialize($serialized);
 
         $this->prefix = $unserialized['prefix'];
         $this->variables = $unserialized['variables'];
     }
 
-    private function findVariables()
-    {
+    private function findVariables() {
         $variables = array();
 
         foreach ($_SERVER as $key => $value) {
@@ -92,4 +85,5 @@ class EnvParametersResource implements ResourceInterface, \Serializable
 
         return $variables;
     }
+
 }

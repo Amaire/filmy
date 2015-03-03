@@ -15,21 +15,20 @@ namespace PhpSpec\Formatter\Html;
 
 use PhpSpec\IO\IOInterface;
 
-class IO implements IOInterface
-{
+class IO implements IOInterface {
+
     /**
      * @param $message
      */
-    public function write($message)
-    {
+    public function write($message) {
         echo $message;
     }
 
     /**
      * @return bool
      */
-    public function isVerbose()
-    {
+    public function isVerbose() {
         return true;
     }
+
 }

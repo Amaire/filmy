@@ -24,15 +24,14 @@ use Symfony\Component\Config\Resource\FileResource;
  *
  * @api
  */
-class QtFileLoader implements LoaderInterface
-{
+class QtFileLoader implements LoaderInterface {
+
     /**
      * {@inheritdoc}
      *
      * @api
      */
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -51,7 +50,7 @@ class QtFileLoader implements LoaderInterface
         libxml_clear_errors();
 
         $xpath = new \DOMXPath($dom);
-        $nodes = $xpath->evaluate('//TS/context/name[text()="'.$domain.'"]');
+        $nodes = $xpath->evaluate('//TS/context/name[text()="' . $domain . '"]');
 
         $catalogue = new MessageCatalogue($locale);
         if ($nodes->length == 1) {
@@ -61,9 +60,7 @@ class QtFileLoader implements LoaderInterface
 
                 if (!empty($translationValue)) {
                     $catalogue->set(
-                        (string) $translation->getElementsByTagName('source')->item(0)->nodeValue,
-                        $translationValue,
-                        $domain
+                            (string) $translation->getElementsByTagName('source')->item(0)->nodeValue, $translationValue, $domain
                     );
                 }
                 $translation = $translation->nextSibling;
@@ -75,4 +72,5 @@ class QtFileLoader implements LoaderInterface
 
         return $catalogue;
     }
+
 }

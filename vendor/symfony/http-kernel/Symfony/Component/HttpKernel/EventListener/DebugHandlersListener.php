@@ -27,8 +27,8 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class DebugHandlersListener implements EventSubscriberInterface
-{
+class DebugHandlersListener implements EventSubscriberInterface {
+
     private $exceptionHandler;
     private $logger;
     private $levels;
@@ -45,14 +45,13 @@ class DebugHandlersListener implements EventSubscriberInterface
      * @param bool                 $scream           Enables/disables screaming mode, where even silenced errors are logged
      * @param string               $fileLinkFormat   The format for links to source files
      */
-    public function __construct($exceptionHandler, LoggerInterface $logger = null, $levels = null, $throwAt = -1, $scream = true, $fileLinkFormat = null)
-    {
+    public function __construct($exceptionHandler, LoggerInterface $logger = null, $levels = null, $throwAt = -1, $scream = true, $fileLinkFormat = null) {
         $this->exceptionHandler = $exceptionHandler;
         $this->logger = $logger;
         $this->levels = $levels;
         $this->throwAt = is_numeric($throwAt) ? (int) $throwAt : (null === $throwAt ? null : ($throwAt ? -1 : null));
         $this->scream = (bool) $scream;
-        $this->fileLinkFormat = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $this->fileLinkFormat = $fileLinkFormat ? : ini_get('xdebug.file_link_format') ? : get_cfg_var('xdebug.file_link_format');
     }
 
     /**
@@ -60,8 +59,7 @@ class DebugHandlersListener implements EventSubscriberInterface
      *
      * @param Event|null $event The triggering event
      */
-    public function configure(Event $event = null)
-    {
+    public function configure(Event $event = null) {
         if (!$this->firstCall) {
             return;
         }
@@ -109,7 +107,7 @@ class DebugHandlersListener implements EventSubscriberInterface
             $handler = is_array($handler) ? $handler[0] : null;
             restore_exception_handler();
             if ($handler instanceof ErrorHandler) {
-                $h = $handler->setExceptionHandler('var_dump') ?: $this->exceptionHandler;
+                $h = $handler->setExceptionHandler('var_dump') ? : $this->exceptionHandler;
                 $handler->setExceptionHandler($h);
                 $handler = is_array($h) ? $h[0] : null;
             }
@@ -123,8 +121,7 @@ class DebugHandlersListener implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         $events = array(KernelEvents::REQUEST => array('configure', 2048));
 
         if (defined('Symfony\Component\Console\ConsoleEvents::COMMAND')) {
@@ -133,4 +130,5 @@ class DebugHandlersListener implements EventSubscriberInterface
 
         return $events;
     }
+
 }

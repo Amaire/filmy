@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr $expr Expression
  */
-class BitwiseNot extends Expr
-{
+class BitwiseNot extends Expr {
+
     /**
      * Constructs a bitwise not node.
      *
@@ -17,10 +17,10 @@ class BitwiseNot extends Expr
      */
     public function __construct(Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

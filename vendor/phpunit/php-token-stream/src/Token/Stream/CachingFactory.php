@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_TokenStream package.
  *
@@ -18,8 +19,8 @@
  * @link      http://github.com/sebastianbergmann/php-token-stream/tree
  * @since     Class available since Release 1.0.0
  */
-class PHP_Token_Stream_CachingFactory
-{
+class PHP_Token_Stream_CachingFactory {
+
     /**
      * @var array
      */
@@ -29,8 +30,7 @@ class PHP_Token_Stream_CachingFactory
      * @param  string $filename
      * @return PHP_Token_Stream
      */
-    public static function get($filename)
-    {
+    public static function get($filename) {
         if (!isset(self::$cache[$filename])) {
             self::$cache[$filename] = new PHP_Token_Stream($filename);
         }
@@ -41,12 +41,12 @@ class PHP_Token_Stream_CachingFactory
     /**
      * @param string $filename
      */
-    public static function clear($filename = NULL)
-    {
+    public static function clear($filename = NULL) {
         if (is_string($filename)) {
             unset(self::$cache[$filename]);
         } else {
             self::$cache = array();
         }
     }
+
 }

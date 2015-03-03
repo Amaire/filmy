@@ -5,8 +5,8 @@ namespace PhpParser;
 /**
  * @codeCoverageIgnore
  */
-class Autoloader
-{
+class Autoloader {
+
     /**
      * Registers PhpParser\Autoloader as an SPL autoloader.
      *
@@ -66,14 +66,12 @@ class Autoloader
         'PHPParser_Serializer_XML' => 'PhpParser\Serializer\XML',
         'PHPParser_Unserializer' => 'PhpParser\Unserializer',
         'PHPParser_Unserializer_XML' => 'PhpParser\Unserializer\XML',
-
         'PHPParser_Builder_Class' => 'PhpParser\Builder\Class_',
         'PHPParser_Builder_Function' => 'PhpParser\Builder\Function_',
         'PHPParser_Builder_Interface' => 'PhpParser\Builder\Interface_',
         'PHPParser_Builder_Method' => 'PhpParser\Builder\Method',
         'PHPParser_Builder_Param' => 'PhpParser\Builder\Param',
         'PHPParser_Builder_Property' => 'PhpParser\Builder\Property',
-
         'PHPParser_Node_Arg' => 'PhpParser\Node\Arg',
         'PHPParser_Node_Const' => 'PhpParser\Node\Const_',
         'PHPParser_Node_Expr' => 'PhpParser\Node\Expr',
@@ -83,7 +81,6 @@ class Autoloader
         'PHPParser_Node_Param' => 'PhpParser\Node\Param',
         'PHPParser_Node_Scalar' => 'PhpParser\Node\Scalar',
         'PHPParser_Node_Stmt' => 'PhpParser\Node\Stmt',
-
         'PHPParser_Node_Stmt_Break' => 'PhpParser\Node\Stmt\Break_',
         'PHPParser_Node_Stmt_Case' => 'PhpParser\Node\Stmt\Case_',
         'PHPParser_Node_Stmt_Catch' => 'PhpParser\Node\Stmt\Catch_',
@@ -126,7 +123,6 @@ class Autoloader
         'PHPParser_Node_Stmt_UseUse' => 'PhpParser\Node\Stmt\UseUse',
         'PHPParser_Node_Stmt_Use' => 'PhpParser\Node\Stmt\Use_',
         'PHPParser_Node_Stmt_While' => 'PhpParser\Node\Stmt\While_',
-
         'PHPParser_Node_Expr_AssignBitwiseAnd' => 'PhpParser\Node\Expr\AssignOp\BitwiseAnd',
         'PHPParser_Node_Expr_AssignBitwiseOr' => 'PhpParser\Node\Expr\AssignOp\BitwiseOr',
         'PHPParser_Node_Expr_AssignBitwiseXor' => 'PhpParser\Node\Expr\AssignOp\BitwiseXor',
@@ -138,7 +134,6 @@ class Autoloader
         'PHPParser_Node_Expr_AssignPlus' => 'PhpParser\Node\Expr\AssignOp\Plus',
         'PHPParser_Node_Expr_AssignShiftLeft' => 'PhpParser\Node\Expr\AssignOp\ShiftLeft',
         'PHPParser_Node_Expr_AssignShiftRight' => 'PhpParser\Node\Expr\AssignOp\ShiftRight',
-
         'PHPParser_Node_Expr_Cast' => 'PhpParser\Node\Expr\Cast',
         'PHPParser_Node_Expr_Cast_Array' => 'PhpParser\Node\Expr\Cast\Array_',
         'PHPParser_Node_Expr_Cast_Bool' => 'PhpParser\Node\Expr\Cast\Bool',
@@ -147,7 +142,6 @@ class Autoloader
         'PHPParser_Node_Expr_Cast_Object' => 'PhpParser\Node\Expr\Cast\Object',
         'PHPParser_Node_Expr_Cast_String' => 'PhpParser\Node\Expr\Cast\String',
         'PHPParser_Node_Expr_Cast_Unset' => 'PhpParser\Node\Expr\Cast\Unset_',
-
         'PHPParser_Node_Expr_BitwiseAnd' => 'PhpParser\Node\Expr\BinaryOp\BitwiseAnd',
         'PHPParser_Node_Expr_BitwiseOr' => 'PhpParser\Node\Expr\BinaryOp\BitwiseOr',
         'PHPParser_Node_Expr_BitwiseXor' => 'PhpParser\Node\Expr\BinaryOp\BitwiseXor',
@@ -172,7 +166,6 @@ class Autoloader
         'PHPParser_Node_Expr_ShiftRight' => 'PhpParser\Node\Expr\BinaryOp\ShiftRight',
         'PHPParser_Node_Expr_Smaller' => 'PhpParser\Node\Expr\BinaryOp\Smaller',
         'PHPParser_Node_Expr_SmallerOrEqual' => 'PhpParser\Node\Expr\BinaryOp\SmallerOrEqual',
-
         'PHPParser_Node_Expr_Array' => 'PhpParser\Node\Expr\Array_',
         'PHPParser_Node_Expr_ArrayDimFetch' => 'PhpParser\Node\Expr\ArrayDimFetch',
         'PHPParser_Node_Expr_ArrayItem' => 'PhpParser\Node\Expr\ArrayItem',
@@ -210,7 +203,6 @@ class Autoloader
         'PHPParser_Node_Expr_UnaryPlus' => 'PhpParser\Node\Expr\UnaryPlus',
         'PHPParser_Node_Expr_Variable' => 'PhpParser\Node\Expr\Variable',
         'PHPParser_Node_Expr_Yield' => 'PhpParser\Node\Expr\Yield_',
-
         'PHPParser_Node_Scalar_ClassConst' => 'PhpParser\Node\Scalar\MagicConst\Class_',
         'PHPParser_Node_Scalar_DirConst' => 'PhpParser\Node\Scalar\MagicConst\Dir',
         'PHPParser_Node_Scalar_FileConst' => 'PhpParser\Node\Scalar\MagicConst\File',
@@ -219,12 +211,12 @@ class Autoloader
         'PHPParser_Node_Scalar_MethodConst' => 'PhpParser\Node\Scalar\MagicConst\Method',
         'PHPParser_Node_Scalar_NSConst' => 'PhpParser\Node\Scalar\MagicConst\Namespace_',
         'PHPParser_Node_Scalar_TraitConst' => 'PhpParser\Node\Scalar\MagicConst\Trait_',
-
         'PHPParser_Node_Scalar_DNumber' => 'PhpParser\Node\Scalar\DNumber',
         'PHPParser_Node_Scalar_Encapsed' => 'PhpParser\Node\Scalar\Encapsed',
         'PHPParser_Node_Scalar_LNumber' => 'PhpParser\Node\Scalar\LNumber',
         'PHPParser_Node_Scalar_String' => 'PhpParser\Node\Scalar\String',
     );
+
 }
 
 class_alias('PhpParser\Autoloader', 'PHPParser_Autoloader');

@@ -23,8 +23,8 @@ use Symfony\Component\Routing\RouteCollection;
  *
  * @api
  */
-class ClosureLoader extends Loader
-{
+class ClosureLoader extends Loader {
+
     /**
      * Loads a Closure.
      *
@@ -35,8 +35,7 @@ class ClosureLoader extends Loader
      *
      * @api
      */
-    public function load($closure, $type = null)
-    {
+    public function load($closure, $type = null) {
         return $closure();
     }
 
@@ -45,8 +44,8 @@ class ClosureLoader extends Loader
      *
      * @api
      */
-    public function supports($resource, $type = null)
-    {
+    public function supports($resource, $type = null) {
         return $resource instanceof \Closure && (!$type || 'closure' === $type);
     }
+
 }

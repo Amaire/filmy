@@ -7,8 +7,8 @@ use PhpParser\Node\Stmt;
 /**
  * @property string $remaining Remaining text after halt compiler statement.
  */
-class HaltCompiler extends Stmt
-{
+class HaltCompiler extends Stmt {
+
     /**
      * Constructs a __halt_compiler node.
      *
@@ -17,10 +17,10 @@ class HaltCompiler extends Stmt
      */
     public function __construct($remaining, array $attributes = array()) {
         parent::__construct(
-            array(
-                'remaining' => $remaining,
-            ),
-            $attributes
+                array(
+            'remaining' => $remaining,
+                ), $attributes
         );
     }
+
 }

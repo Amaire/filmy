@@ -16,12 +16,11 @@ namespace Symfony\Component\Debug\Exception;
  *
  * @author Christian Sciberras <uuf6429@gmail.com>
  */
-class ContextErrorException extends \ErrorException
-{
+class ContextErrorException extends \ErrorException {
+
     private $context = array();
 
-    public function __construct($message, $code, $severity, $filename, $lineno, $context = array())
-    {
+    public function __construct($message, $code, $severity, $filename, $lineno, $context = array()) {
         parent::__construct($message, $code, $severity, $filename, $lineno);
         $this->context = $context;
     }
@@ -29,8 +28,8 @@ class ContextErrorException extends \ErrorException
     /**
      * @return array Array of variables that existed when the exception occurred
      */
-    public function getContext()
-    {
+    public function getContext() {
         return $this->context;
     }
+
 }

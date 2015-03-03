@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,10 +20,9 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase
-{
-    public function instanceProvider()
-    {
+class FactoryTest extends \PHPUnit_Framework_TestCase {
+
+    public function instanceProvider() {
         $tmpfile = tmpfile();
 
         return array(
@@ -73,8 +73,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @covers       ::getComparatorFor
      * @covers       ::__construct
      */
-    public function testGetComparatorFor($a, $b, $expected)
-    {
+    public function testGetComparatorFor($a, $b, $expected) {
         $factory = new Factory;
         $actual = $factory->getComparatorFor($a, $b);
         $this->assertInstanceOf($expected, $actual);
@@ -83,8 +82,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::register
      */
-    public function testRegister()
-    {
+    public function testRegister() {
         $comparator = new TestClassComparator;
 
         $factory = new Factory;
@@ -102,8 +100,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::unregister
      */
-    public function testUnregister()
-    {
+    public function testUnregister() {
         $comparator = new TestClassComparator;
 
         $factory = new Factory;
@@ -117,4 +114,5 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf($expected, $actual);
     }
+
 }

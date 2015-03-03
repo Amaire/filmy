@@ -19,17 +19,16 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class AuthenticationEvent extends Event
-{
+class AuthenticationEvent extends Event {
+
     private $authenticationToken;
 
-    public function __construct(TokenInterface $token)
-    {
+    public function __construct(TokenInterface $token) {
         $this->authenticationToken = $token;
     }
 
-    public function getAuthenticationToken()
-    {
+    public function getAuthenticationToken() {
         return $this->authenticationToken;
     }
+
 }

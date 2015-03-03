@@ -13,17 +13,17 @@ namespace Monolog\Processor;
 
 use Monolog\TestCase;
 
-class TagProcessorTest extends TestCase
-{
+class TagProcessorTest extends TestCase {
+
     /**
      * @covers Monolog\Processor\TagProcessor::__invoke
      */
-    public function testProcessor()
-    {
+    public function testProcessor() {
         $tags = array(1, 2, 3);
         $processor = new TagProcessor($tags);
         $record = $processor($this->getRecord());
 
         $this->assertEquals($tags, $record['extra']['tags']);
     }
+
 }

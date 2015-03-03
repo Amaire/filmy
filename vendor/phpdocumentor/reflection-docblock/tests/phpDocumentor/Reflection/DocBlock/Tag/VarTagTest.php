@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Var Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class VarTagTest extends \PHPUnit_Framework_TestCase
-{
+class VarTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\VarTag can
      * understand the @var doc block.
@@ -38,11 +39,7 @@ class VarTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exType,
-        $exVariable,
-        $exDescription
+    $type, $content, $exType, $exVariable, $exDescription
     ) {
         $tag = new VarTag($type, $content);
 
@@ -57,8 +54,7 @@ class VarTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type, $content, $exType, $exVariable, $exDescription
         return array(
             array(
@@ -91,4 +87,5 @@ class VarTagTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

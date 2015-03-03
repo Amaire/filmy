@@ -18,8 +18,8 @@ use Symfony\Component\Translation\MessageCatalogue;
  *
  * @author Michel Salib <michelsalib@hotmail.com>
  */
-class XliffFileDumper extends FileDumper
-{
+class XliffFileDumper extends FileDumper {
+
     /**
      * @var string
      */
@@ -28,8 +28,7 @@ class XliffFileDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
-    public function dump(MessageCatalogue $messages, $options = array())
-    {
+    public function dump(MessageCatalogue $messages, $options = array()) {
         if (array_key_exists('default_locale', $options)) {
             $this->defaultLocale = $options['default_locale'];
         } else {
@@ -42,8 +41,7 @@ class XliffFileDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
-    protected function format(MessageCatalogue $messages, $domain)
-    {
+    protected function format(MessageCatalogue $messages, $domain) {
         $dom = new \DOMDocument('1.0', 'utf-8');
         $dom->formatOutput = true;
 
@@ -102,8 +100,8 @@ class XliffFileDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
-    protected function getExtension()
-    {
+    protected function getExtension() {
         return 'xlf';
     }
+
 }

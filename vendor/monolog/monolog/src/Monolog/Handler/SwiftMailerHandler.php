@@ -18,8 +18,8 @@ use Monolog\Logger;
  *
  * @author Gyula Sallai
  */
-class SwiftMailerHandler extends MailHandler
-{
+class SwiftMailerHandler extends MailHandler {
+
     protected $mailer;
     protected $message;
 
@@ -29,10 +29,9 @@ class SwiftMailerHandler extends MailHandler
      * @param integer                 $level   The minimum logging level at which this handler will be triggered
      * @param Boolean                 $bubble  Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct(\Swift_Mailer $mailer, $message, $level = Logger::ERROR, $bubble = true)
-    {
+    public function __construct(\Swift_Mailer $mailer, $message, $level = Logger::ERROR, $bubble = true) {
         parent::__construct($level, $bubble);
-        $this->mailer  = $mailer;
+        $this->mailer = $mailer;
         if (!$message instanceof \Swift_Message && is_callable($message)) {
             $message = call_user_func($message);
         }
@@ -45,12 +44,12 @@ class SwiftMailerHandler extends MailHandler
     /**
      * {@inheritdoc}
      */
-    protected function send($content, array $records)
-    {
+    protected function send($content, array $records) {
         $message = clone $this->message;
         $message->setBody($content);
         $message->setDate(time());
 
         $this->mailer->send($message);
     }
+
 }

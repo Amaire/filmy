@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,8 +20,8 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class Factory
-{
+class Factory {
+
     /**
      * @var Comparator[]
      */
@@ -34,8 +35,7 @@ class Factory
     /**
      * Constructs a new factory.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->register(new TypeComparator);
         $this->register(new ScalarComparator);
         $this->register(new NumericComparator);
@@ -53,8 +53,7 @@ class Factory
     /**
      * @return Factory
      */
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if (self::$instance === null) {
             self::$instance = new Factory;
         }
@@ -69,8 +68,7 @@ class Factory
      * @param  mixed $actual The second value to compare
      * @return Comparator
      */
-    public function getComparatorFor($expected, $actual)
-    {
+    public function getComparatorFor($expected, $actual) {
         foreach ($this->comparators as $comparator) {
             if ($comparator->accepts($expected, $actual)) {
                 return $comparator;
@@ -88,8 +86,7 @@ class Factory
      *
      * @param Comparator $comparator The registered comparator
      */
-    public function register(Comparator $comparator)
-    {
+    public function register(Comparator $comparator) {
         array_unshift($this->comparators, $comparator);
 
         $comparator->setFactory($this);
@@ -102,12 +99,12 @@ class Factory
      *
      * @param Comparator $comparator The unregistered comparator
      */
-    public function unregister(Comparator $comparator)
-    {
+    public function unregister(Comparator $comparator) {
         foreach ($this->comparators as $key => $_comparator) {
             if ($comparator === $_comparator) {
                 unset($this->comparators[$key]);
             }
         }
     }
+
 }

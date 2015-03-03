@@ -19,13 +19,12 @@ namespace Psy\TabCompletion\Matcher;
  *
  * @author Marc Garcia <markcial@gmail.com>
  */
-class ClassAttributesMatcher extends AbstractMatcher
-{
+class ClassAttributesMatcher extends AbstractMatcher {
+
     /**
      * {@inheritDoc}
      */
-    public function getMatches(array $tokens, array $info = array())
-    {
+    public function getMatches(array $tokens, array $info = array()) {
         $input = $this->getInput($tokens);
 
         $firstToken = array_pop($tokens);
@@ -38,33 +37,28 @@ class ClassAttributesMatcher extends AbstractMatcher
 
         $reflection = new \ReflectionClass($class);
         $vars = array_merge(
-            array_map(
-                function ($var) {
+                array_map(
+                        function ($var) {
                     return '$' . $var;
-                },
-                array_keys($reflection->getStaticProperties())
-            ),
-            array_keys($reflection->getConstants())
+                }, array_keys($reflection->getStaticProperties())
+                ), array_keys($reflection->getConstants())
         );
 
         return array_map(
-            function ($name) use ($class) {
-                return $class . '::' . $name;
-            },
-            array_filter(
-                $vars,
-                function ($var) use ($input) {
+                function ($name) use ($class) {
+            return $class . '::' . $name;
+        }, array_filter(
+                        $vars, function ($var) use ($input) {
                     return AbstractMatcher::startsWith($input, $var);
                 }
-            )
+                )
         );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function hasMatched(array $tokens)
-    {
+    public function hasMatched(array $tokens) {
         $token = array_pop($tokens);
         $prevToken = array_pop($tokens);
 
@@ -76,4 +70,5 @@ class ClassAttributesMatcher extends AbstractMatcher
 
         return false;
     }
+
 }

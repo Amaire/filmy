@@ -9,8 +9,8 @@ use PhpParser\Node\Expr;
  * @property Name|Expr $class Class name
  * @property string    $name  Constant name
  */
-class ClassConstFetch extends Expr
-{
+class ClassConstFetch extends Expr {
+
     /**
      * Constructs a class const fetch node.
      *
@@ -20,11 +20,11 @@ class ClassConstFetch extends Expr
      */
     public function __construct($class, $name, array $attributes = array()) {
         parent::__construct(
-            array(
-                'class' => $class,
-                'name'  => $name
-            ),
-            $attributes
+                array(
+            'class' => $class,
+            'name' => $name
+                ), $attributes
         );
     }
+
 }

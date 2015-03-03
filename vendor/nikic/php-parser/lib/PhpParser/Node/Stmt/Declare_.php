@@ -8,8 +8,8 @@ use PhpParser\Node;
  * @property DeclareDeclare[] $declares List of declares
  * @property Node[]           $stmts    Statements
  */
-class Declare_ extends Node\Stmt
-{
+class Declare_ extends Node\Stmt {
+
     /**
      * Constructs a declare node.
      *
@@ -19,11 +19,11 @@ class Declare_ extends Node\Stmt
      */
     public function __construct(array $declares, array $stmts, array $attributes = array()) {
         parent::__construct(
-            array(
-                'declares' => $declares,
-                'stmts'    => $stmts,
-            ),
-            $attributes
+                array(
+            'declares' => $declares,
+            'stmts' => $stmts,
+                ), $attributes
         );
     }
+
 }

@@ -15,39 +15,36 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class SecurityContextTest extends \PHPUnit_Framework_TestCase
-{
+class SecurityContextTest extends \PHPUnit_Framework_TestCase {
+
     private $tokenStorage;
     private $authorizationChecker;
     private $securityContext;
 
-    public function setUp()
-    {
+    public function setUp() {
         $this->tokenStorage = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $this->authorizationChecker = $this->getMock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
         $this->securityContext = new SecurityContext($this->tokenStorage, $this->authorizationChecker);
     }
 
-    public function testGetTokenDelegation()
-    {
+    public function testGetTokenDelegation() {
         $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
 
         $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->will($this->returnValue($token));
+                ->expects($this->once())
+                ->method('getToken')
+                ->will($this->returnValue($token));
 
         $this->assertTrue($token === $this->securityContext->getToken());
     }
 
-    public function testSetTokenDelegation()
-    {
+    public function testSetTokenDelegation() {
         $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
 
         $this->tokenStorage
-            ->expects($this->once())
-            ->method('setToken')
-            ->with($token);
+                ->expects($this->once())
+                ->method('setToken')
+                ->with($token);
 
         $this->securityContext->setToken($token);
     }
@@ -55,19 +52,17 @@ class SecurityContextTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider isGrantedDelegationProvider
      */
-    public function testIsGrantedDelegation($attributes, $object, $return)
-    {
+    public function testIsGrantedDelegation($attributes, $object, $return) {
         $this->authorizationChecker
-            ->expects($this->once())
-            ->method('isGranted')
-            ->with($attributes, $object)
-            ->will($this->returnValue($return));
+                ->expects($this->once())
+                ->method('isGranted')
+                ->with($attributes, $object)
+                ->will($this->returnValue($return));
 
         $this->assertEquals($return, $this->securityContext->isGranted($attributes, $object));
     }
 
-    public function isGrantedDelegationProvider()
-    {
+    public function isGrantedDelegationProvider() {
         return array(
             array(array(), new \stdClass(), true),
             array(array('henk'), new \stdClass(), false),
@@ -80,8 +75,7 @@ class SecurityContextTest extends \PHPUnit_Framework_TestCase
     /**
      * Test dedicated to check if the backwards compatibility is still working
      */
-    public function testOldConstructorSignature()
-    {
+    public function testOldConstructorSignature() {
         $authenticationManager = $this->getMock('Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface');
         $accessDecisionManager = $this->getMock('Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface');
         new SecurityContext($authenticationManager, $accessDecisionManager);
@@ -91,13 +85,11 @@ class SecurityContextTest extends \PHPUnit_Framework_TestCase
      * @dataProvider oldConstructorSignatureFailuresProvider
      * @expectedException \BadMethodCallException
      */
-    public function testOldConstructorSignatureFailures($first, $second)
-    {
+    public function testOldConstructorSignatureFailures($first, $second) {
         new SecurityContext($first, $second);
     }
 
-    public function oldConstructorSignatureFailuresProvider()
-    {
+    public function oldConstructorSignatureFailuresProvider() {
         $tokenStorage = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $authorizationChecker = $this->getMock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
         $authenticationManager = $this->getMock('Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface');
@@ -116,4 +108,5 @@ class SecurityContextTest extends \PHPUnit_Framework_TestCase
             array(true, null),
         );
     }
+
 }

@@ -19,8 +19,8 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * Class SuiteEvent holds information about the suite event
  */
-class SuiteEvent extends Event implements EventInterface
-{
+class SuiteEvent extends Event implements EventInterface {
+
     /**
      * @var Suite
      */
@@ -46,47 +46,42 @@ class SuiteEvent extends Event implements EventInterface
      * @param float   $time
      * @param integer $result
      */
-    public function __construct(Suite $suite, $time = null, $result = null)
-    {
-        $this->suite  = $suite;
-        $this->time   = $time;
+    public function __construct(Suite $suite, $time = null, $result = null) {
+        $this->suite = $suite;
+        $this->time = $time;
         $this->result = $result;
     }
 
     /**
      * @return Suite
      */
-    public function getSuite()
-    {
+    public function getSuite() {
         return $this->suite;
     }
 
     /**
      * @return float
      */
-    public function getTime()
-    {
+    public function getTime() {
         return $this->time;
     }
 
     /**
      * @return integer
      */
-    public function getResult()
-    {
+    public function getResult() {
         return $this->result;
     }
 
     /**
      * @return bool
      */
-    public function isWorthRerunning()
-    {
+    public function isWorthRerunning() {
         return $this->worthRerunning;
     }
 
-    public function markAsWorthRerunning()
-    {
+    public function markAsWorthRerunning() {
         $this->worthRerunning = true;
     }
+
 }

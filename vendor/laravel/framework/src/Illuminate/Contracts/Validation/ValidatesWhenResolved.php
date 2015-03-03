@@ -1,12 +1,13 @@
-<?php namespace Illuminate\Contracts\Validation;
+<?php
+
+namespace Illuminate\Contracts\Validation;
 
 interface ValidatesWhenResolved {
 
-	/**
-	 * Validate the given class instance.
-	 *
-	 * @return void
-	 */
-	public function validate();
-
+    /**
+     * Validate the given class instance.
+     *
+     * @return void
+     */
+    public function validate();
 }

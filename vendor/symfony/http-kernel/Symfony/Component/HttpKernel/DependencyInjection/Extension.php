@@ -18,8 +18,8 @@ use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class Extension extends BaseExtension
-{
+abstract class Extension extends BaseExtension {
+
     private $classes = array();
 
     /**
@@ -27,8 +27,7 @@ abstract class Extension extends BaseExtension
      *
      * @return array An array of classes
      */
-    public function getClassesToCompile()
-    {
+    public function getClassesToCompile() {
         return $this->classes;
     }
 
@@ -37,8 +36,8 @@ abstract class Extension extends BaseExtension
      *
      * @param array $classes An array of classes
      */
-    public function addClassesToCompile(array $classes)
-    {
+    public function addClassesToCompile(array $classes) {
         $this->classes = array_merge($this->classes, $classes);
     }
+
 }

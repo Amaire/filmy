@@ -18,6 +18,6 @@ namespace Symfony\Component\Translation\Exception;
  *
  * @api
  */
-class InvalidResourceException extends \InvalidArgumentException implements ExceptionInterface
-{
+class InvalidResourceException extends \InvalidArgumentException implements ExceptionInterface {
+    
 }

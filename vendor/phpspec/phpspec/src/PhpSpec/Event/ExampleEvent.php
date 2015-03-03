@@ -19,12 +19,12 @@ use PhpSpec\Loader\Node\ExampleNode;
 /**
  * Class ExampleEvent holds the information about the example event
  */
-class ExampleEvent extends Event implements EventInterface
-{
+class ExampleEvent extends Event implements EventInterface {
+
     /**
      * Spec passed
      */
-    const PASSED  = 0;
+    const PASSED = 0;
 
     /**
      * Spec is pending
@@ -39,12 +39,12 @@ class ExampleEvent extends Event implements EventInterface
     /**
      * Spec failed
      */
-    const FAILED  = 3;
+    const FAILED = 3;
 
     /**
      * Spec is broken
      */
-    const BROKEN  = 4;
+    const BROKEN = 4;
 
     /**
      * @var \PhpSpec\Loader\Node\ExampleNode
@@ -72,84 +72,74 @@ class ExampleEvent extends Event implements EventInterface
      * @param integer|null $result
      * @param \Exception   $exception
      */
-    public function __construct(ExampleNode $example, $time = null, $result = null,
-                                \Exception $exception = null)
-    {
-        $this->example   = $example;
-        $this->time      = $time;
-        $this->result    = $result;
+    public function __construct(ExampleNode $example, $time = null, $result = null, \Exception $exception = null) {
+        $this->example = $example;
+        $this->time = $time;
+        $this->result = $result;
         $this->exception = $exception;
     }
 
     /**
      * @return ExampleNode
      */
-    public function getExample()
-    {
+    public function getExample() {
         return $this->example;
     }
 
     /**
      * @return \PhpSpec\Loader\Node\SpecificationNode
      */
-    public function getSpecification()
-    {
+    public function getSpecification() {
         return $this->example->getSpecification();
     }
 
     /**
      * @return \PhpSpec\Loader\Suite
      */
-    public function getSuite()
-    {
+    public function getSuite() {
         return $this->getSpecification()->getSuite();
     }
 
     /**
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->example->getTitle();
     }
 
     /**
      * @return string
      */
-    public function getMessage()
-    {
+    public function getMessage() {
         return $this->exception->getMessage();
     }
 
     /**
      * @return array
      */
-    public function getBacktrace()
-    {
+    public function getBacktrace() {
         return $this->exception->getTrace();
     }
 
     /**
      * @return float
      */
-    public function getTime()
-    {
+    public function getTime() {
         return $this->time;
     }
 
     /**
      * @return integer
      */
-    public function getResult()
-    {
+    public function getResult() {
         return $this->result;
     }
 
     /**
      * @return \Exception
      */
-    public function getException()
-    {
+    public function getException() {
         return $this->exception;
     }
+
 }

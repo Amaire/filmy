@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Recursion Context package.
  *
@@ -15,20 +16,18 @@ use PHPUnit_Framework_TestCase;
 /**
  * @covers SebastianBergmann\RecursionContext\Context
  */
-class ContextTest extends PHPUnit_Framework_TestCase
-{
+class ContextTest extends PHPUnit_Framework_TestCase {
+
     /**
      * @var \SebastianBergmann\RecursionContext\Context
      */
     private $context;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->context = new Context();
     }
 
-    public function failsProvider()
-    {
+    public function failsProvider() {
         return array(
             array(true),
             array(false),
@@ -40,12 +39,11 @@ class ContextTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function valuesProvider()
-    {
+    public function valuesProvider() {
         $obj2 = new \stdClass();
         $obj2->foo = 'bar';
 
-        $obj3 = (object) array(1,2,"Test\r\n",4,5,6,7,8);
+        $obj3 = (object) array(1, 2, "Test\r\n", 4, 5, 6, 7, 8);
 
         $obj = new \stdClass();
         //@codingStandardsIgnoreStart
@@ -59,7 +57,7 @@ class ContextTest extends PHPUnit_Framework_TestCase
         $obj->object = $obj2;
         $obj->objectagain = $obj2;
         $obj->array = array('foo' => 'bar');
-        $obj->array2 = array(1,2,3,4,5,6);
+        $obj->array2 = array(1, 2, 3, 4, 5, 6);
         $obj->array3 = array($obj, $obj2, $obj3);
         $obj->self = $obj;
 
@@ -83,11 +81,9 @@ class ContextTest extends PHPUnit_Framework_TestCase
      * @uses         SebastianBergmann\RecursionContext\InvalidArgumentException
      * @dataProvider failsProvider
      */
-    public function testAddFails($value)
-    {
+    public function testAddFails($value) {
         $this->setExpectedException(
-          'SebastianBergmann\\RecursionContext\\Exception',
-          'Only arrays and objects are supported'
+                'SebastianBergmann\\RecursionContext\\Exception', 'Only arrays and objects are supported'
         );
         $this->context->add($value);
     }
@@ -97,11 +93,9 @@ class ContextTest extends PHPUnit_Framework_TestCase
      * @uses         SebastianBergmann\RecursionContext\InvalidArgumentException
      * @dataProvider failsProvider
      */
-    public function testContainsFails($value)
-    {
+    public function testContainsFails($value) {
         $this->setExpectedException(
-          'SebastianBergmann\\RecursionContext\\Exception',
-          'Only arrays and objects are supported'
+                'SebastianBergmann\\RecursionContext\\Exception', 'Only arrays and objects are supported'
         );
         $this->context->contains($value);
     }
@@ -110,8 +104,7 @@ class ContextTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\RecursionContext\Context::add
      * @dataProvider valuesProvider
      */
-    public function testAdd($value, $key)
-    {
+    public function testAdd($value, $key) {
         $this->assertEquals($key, $this->context->add($value));
 
         // Test we get the same key on subsequent adds
@@ -124,8 +117,7 @@ class ContextTest extends PHPUnit_Framework_TestCase
      * @depends      testAdd
      * @dataProvider valuesProvider
      */
-    public function testContainsFound($value, $key)
-    {
+    public function testContainsFound($value, $key) {
         $this->context->add($value);
         $this->assertEquals($key, $this->context->contains($value));
 
@@ -137,8 +129,8 @@ class ContextTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\RecursionContext\Context::contains
      * @dataProvider valuesProvider
      */
-    public function testContainsNotFound($value)
-    {
+    public function testContainsNotFound($value) {
         $this->assertFalse($this->context->contains($value));
     }
+
 }

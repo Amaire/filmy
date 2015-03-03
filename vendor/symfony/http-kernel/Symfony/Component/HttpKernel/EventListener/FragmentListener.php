@@ -29,8 +29,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class FragmentListener implements EventSubscriberInterface
-{
+class FragmentListener implements EventSubscriberInterface {
+
     private $signer;
     private $fragmentPath;
 
@@ -40,8 +40,7 @@ class FragmentListener implements EventSubscriberInterface
      * @param UriSigner $signer       A UriSigner instance
      * @param string    $fragmentPath The path that triggers this listener
      */
-    public function __construct(UriSigner $signer, $fragmentPath = '/_fragment')
-    {
+    public function __construct(UriSigner $signer, $fragmentPath = '/_fragment') {
         $this->signer = $signer;
         $this->fragmentPath = $fragmentPath;
     }
@@ -53,8 +52,7 @@ class FragmentListener implements EventSubscriberInterface
      *
      * @throws AccessDeniedHttpException if the request does not come from a trusted IP.
      */
-    public function onKernelRequest(GetResponseEvent $event)
-    {
+    public function onKernelRequest(GetResponseEvent $event) {
         $request = $event->getRequest();
 
         if ($this->fragmentPath !== rawurldecode($request->getPathInfo())) {
@@ -71,8 +69,7 @@ class FragmentListener implements EventSubscriberInterface
         $request->query->remove('_path');
     }
 
-    protected function validateRequest(Request $request)
-    {
+    protected function validateRequest(Request $request) {
         // is the Request safe?
         if (!$request->isMethodSafe()) {
             throw new AccessDeniedHttpException();
@@ -80,7 +77,7 @@ class FragmentListener implements EventSubscriberInterface
 
         // is the Request signed?
         // we cannot use $request->getUri() here as we want to work with the original URI (no query string reordering)
-        if ($this->signer->check($request->getSchemeAndHttpHost().$request->getBaseUrl().$request->getPathInfo().(null !== ($qs = $request->server->get('QUERY_STRING')) ? '?'.$qs : ''))) {
+        if ($this->signer->check($request->getSchemeAndHttpHost() . $request->getBaseUrl() . $request->getPathInfo() . (null !== ($qs = $request->server->get('QUERY_STRING')) ? '?' . $qs : ''))) {
             return;
         }
 
@@ -92,15 +89,14 @@ class FragmentListener implements EventSubscriberInterface
      *
      * @return string[]
      */
-    protected function getLocalIpAddresses()
-    {
+    protected function getLocalIpAddresses() {
         return array('127.0.0.1', 'fe80::1', '::1');
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             KernelEvents::REQUEST => array(array('onKernelRequest', 48)),
         );
     }
+
 }

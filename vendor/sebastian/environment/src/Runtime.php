@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Environment
  *
@@ -52,8 +53,8 @@ namespace SebastianBergmann\Environment;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/environment
  */
-class Runtime
-{
+class Runtime {
+
     /**
      * @var string
      */
@@ -65,8 +66,7 @@ class Runtime
      *
      * @return boolean
      */
-    public function canCollectCodeCoverage()
-    {
+    public function canCollectCodeCoverage() {
         return $this->isHHVM() || $this->hasXdebug();
     }
 
@@ -76,8 +76,7 @@ class Runtime
      *
      * @return string
      */
-    public function getBinary()
-    {
+    public function getBinary() {
         // HHVM
         if (self::$binary === null && $this->isHHVM()) {
             if ((self::$binary = getenv('PHP_BINARY')) === false) {
@@ -135,16 +134,14 @@ class Runtime
     /**
      * @return string
      */
-    public function getNameWithVersion()
-    {
+    public function getNameWithVersion() {
         return $this->getName() . ' ' . $this->getVersion();
     }
 
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         if ($this->isHHVM()) {
             return 'HHVM';
         } else {
@@ -155,8 +152,7 @@ class Runtime
     /**
      * @return string
      */
-    public function getVendorUrl()
-    {
+    public function getVendorUrl() {
         if ($this->isHHVM()) {
             return 'http://hhvm.com/';
         } else {
@@ -167,8 +163,7 @@ class Runtime
     /**
      * @return string
      */
-    public function getVersion()
-    {
+    public function getVersion() {
         if ($this->isHHVM()) {
             return HHVM_VERSION;
         } else {
@@ -181,8 +176,7 @@ class Runtime
      *
      * @return boolean
      */
-    public function hasXdebug()
-    {
+    public function hasXdebug() {
         return $this->isPHP() && extension_loaded('xdebug');
     }
 
@@ -191,8 +185,7 @@ class Runtime
      *
      * @return boolean
      */
-    public function isHHVM()
-    {
+    public function isHHVM() {
         return defined('HHVM_VERSION');
     }
 
@@ -201,8 +194,8 @@ class Runtime
      *
      * @return boolean
      */
-    public function isPHP()
-    {
+    public function isPHP() {
         return !$this->isHHVM();
     }
+
 }

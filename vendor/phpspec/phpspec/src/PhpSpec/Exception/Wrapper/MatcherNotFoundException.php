@@ -19,8 +19,8 @@ use PhpSpec\Exception\Exception;
  * Class MatcherNotFoundException holds information about matcher not found
  * exception
  */
-class MatcherNotFoundException extends Exception
-{
+class MatcherNotFoundException extends Exception {
+
     /**
      * @var string
      */
@@ -42,36 +42,33 @@ class MatcherNotFoundException extends Exception
      * @param mixed  $subject
      * @param array  $arguments
      */
-    public function __construct($message, $keyword, $subject, array $arguments)
-    {
+    public function __construct($message, $keyword, $subject, array $arguments) {
         parent::__construct($message);
 
-        $this->keyword   = $keyword;
-        $this->subject   = $subject;
+        $this->keyword = $keyword;
+        $this->subject = $subject;
         $this->arguments = $arguments;
     }
 
     /**
      * @return string
      */
-    public function getKeyword()
-    {
+    public function getKeyword() {
         return $this->keyword;
     }
 
     /**
      * @return mixed
      */
-    public function getSubject()
-    {
+    public function getSubject() {
         return $this->subject;
     }
 
     /**
      * @return array
      */
-    public function getArguments()
-    {
+    public function getArguments() {
         return $this->arguments;
     }
+
 }

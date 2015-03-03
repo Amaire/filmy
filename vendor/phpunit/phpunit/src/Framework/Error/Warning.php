@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -24,7 +25,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.3.0
  */
-class PHPUnit_Framework_Error_Warning extends PHPUnit_Framework_Error
-{
+class PHPUnit_Framework_Error_Warning extends PHPUnit_Framework_Error {
+
     public static $enabled = true;
+
 }

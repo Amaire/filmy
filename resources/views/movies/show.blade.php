@@ -7,11 +7,11 @@
 <movie>
     <p> Opis </p>
     {{ $movie->description }}
-    
+
     <p> Cena: {{ $movie->price }} </p>    
 </movie>
 
 <p>
-  <a href="/filmy/public/movies">"back"</a>
+    <a href="/filmy/public/movies">"back"</a>
 </p>
 @stop

@@ -20,16 +20,18 @@ use PhpSpec\Exception\Wrapper\SubjectException;
 use PhpSpec\Exception\Fracture\InterfaceNotImplementedException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class SubjectWithArrayAccess
-{
+class SubjectWithArrayAccess {
+
     /**
      * @var Caller
      */
     private $caller;
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
     private $presenter;
+
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
@@ -40,11 +42,9 @@ class SubjectWithArrayAccess
      * @param PresenterInterface       $presenter
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(Caller $caller, PresenterInterface $presenter,
-        EventDispatcherInterface $dispatcher)
-    {
-        $this->caller     = $caller;
-        $this->presenter  = $presenter;
+    public function __construct(Caller $caller, PresenterInterface $presenter, EventDispatcherInterface $dispatcher) {
+        $this->caller = $caller;
+        $this->presenter = $presenter;
         $this->dispatcher = $dispatcher;
     }
 
@@ -53,11 +53,10 @@ class SubjectWithArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($key)
-    {
+    public function offsetExists($key) {
         $unwrapper = new Unwrapper();
         $subject = $this->caller->getWrappedObject();
-        $key     = $unwrapper->unwrapOne($key);
+        $key = $unwrapper->unwrapOne($key);
 
         $this->checkIfSubjectImplementsArrayAccess($subject);
 
@@ -69,11 +68,10 @@ class SubjectWithArrayAccess
      *
      * @return mixed
      */
-    public function offsetGet($key)
-    {
+    public function offsetGet($key) {
         $unwrapper = new Unwrapper();
         $subject = $this->caller->getWrappedObject();
-        $key     = $unwrapper->unwrapOne($key);
+        $key = $unwrapper->unwrapOne($key);
 
         $this->checkIfSubjectImplementsArrayAccess($subject);
 
@@ -84,12 +82,11 @@ class SubjectWithArrayAccess
      * @param string|integer $key
      * @param mixed          $value
      */
-    public function offsetSet($key, $value)
-    {
+    public function offsetSet($key, $value) {
         $unwrapper = new Unwrapper();
         $subject = $this->caller->getWrappedObject();
-        $key     = $unwrapper->unwrapOne($key);
-        $value   = $unwrapper->unwrapOne($value);
+        $key = $unwrapper->unwrapOne($key);
+        $value = $unwrapper->unwrapOne($value);
 
         $this->checkIfSubjectImplementsArrayAccess($subject);
 
@@ -99,11 +96,10 @@ class SubjectWithArrayAccess
     /**
      * @param string|integer $key
      */
-    public function offsetUnset($key)
-    {
+    public function offsetUnset($key) {
         $unwrapper = new Unwrapper();
         $subject = $this->caller->getWrappedObject();
-        $key     = $unwrapper->unwrapOne($key);
+        $key = $unwrapper->unwrapOne($key);
 
         $this->checkIfSubjectImplementsArrayAccess($subject);
 
@@ -116,8 +112,7 @@ class SubjectWithArrayAccess
      * @throws \PhpSpec\Exception\Wrapper\SubjectException
      * @throws \PhpSpec\Exception\Fracture\InterfaceNotImplementedException
      */
-    private function checkIfSubjectImplementsArrayAccess($subject)
-    {
+    private function checkIfSubjectImplementsArrayAccess($subject) {
         if (is_object($subject) && !($subject instanceof \ArrayAccess)) {
             throw $this->interfaceNotImplemented();
         } elseif (!($subject instanceof \ArrayAccess) && !is_array($subject)) {
@@ -128,15 +123,10 @@ class SubjectWithArrayAccess
     /**
      * @return InterfaceNotImplementedException
      */
-    private function interfaceNotImplemented()
-    {
+    private function interfaceNotImplemented() {
         return new InterfaceNotImplementedException(
-            sprintf('%s does not implement %s interface, but should.',
-                $this->presenter->presentValue($this->caller->getWrappedObject()),
-                $this->presenter->presentString('ArrayAccess')
-            ),
-            $this->caller->getWrappedObject(),
-            'ArrayAccess'
+                sprintf('%s does not implement %s interface, but should.', $this->presenter->presentValue($this->caller->getWrappedObject()), $this->presenter->presentString('ArrayAccess')
+                ), $this->caller->getWrappedObject(), 'ArrayAccess'
         );
     }
 
@@ -145,10 +135,10 @@ class SubjectWithArrayAccess
      *
      * @return SubjectException
      */
-    private function cantUseAsArray($subject)
-    {
+    private function cantUseAsArray($subject) {
         return new SubjectException(sprintf(
-            'Can not use %s as array.', $this->presenter->presentValue($subject)
+                        'Can not use %s as array.', $this->presenter->presentValue($subject)
         ));
     }
+
 }

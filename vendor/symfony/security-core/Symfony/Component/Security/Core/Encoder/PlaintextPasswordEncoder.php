@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class PlaintextPasswordEncoder extends BasePasswordEncoder
-{
+class PlaintextPasswordEncoder extends BasePasswordEncoder {
+
     private $ignorePasswordCase;
 
     /**
@@ -27,16 +27,14 @@ class PlaintextPasswordEncoder extends BasePasswordEncoder
      *
      * @param bool $ignorePasswordCase Compare password case-insensitive
      */
-    public function __construct($ignorePasswordCase = false)
-    {
+    public function __construct($ignorePasswordCase = false) {
         $this->ignorePasswordCase = $ignorePasswordCase;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function encodePassword($raw, $salt)
-    {
+    public function encodePassword($raw, $salt) {
         if ($this->isPasswordTooLong($raw)) {
             throw new BadCredentialsException('Invalid password.');
         }
@@ -47,8 +45,7 @@ class PlaintextPasswordEncoder extends BasePasswordEncoder
     /**
      * {@inheritdoc}
      */
-    public function isPasswordValid($encoded, $raw, $salt)
-    {
+    public function isPasswordValid($encoded, $raw, $salt) {
         if ($this->isPasswordTooLong($raw)) {
             return false;
         }
@@ -61,4 +58,5 @@ class PlaintextPasswordEncoder extends BasePasswordEncoder
 
         return $this->comparePasswords(strtolower($encoded), strtolower($pass2));
     }
+
 }

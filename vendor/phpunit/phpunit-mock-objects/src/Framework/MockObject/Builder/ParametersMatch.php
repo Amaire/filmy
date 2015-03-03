@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -53,8 +54,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
-interface PHPUnit_Framework_MockObject_Builder_ParametersMatch extends PHPUnit_Framework_MockObject_Builder_Match
-{
+interface PHPUnit_Framework_MockObject_Builder_ParametersMatch extends PHPUnit_Framework_MockObject_Builder_Match {
+
     /**
      * Sets the parameters to match for, each parameter to this funtion will
      * be part of match. To perform specific matches or constraints create a

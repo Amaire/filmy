@@ -15,10 +15,9 @@ use Symfony\Component\HttpKernel\DataCollector\MemoryDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MemoryDataCollectorTest extends \PHPUnit_Framework_TestCase
-{
-    public function testCollect()
-    {
+class MemoryDataCollectorTest extends \PHPUnit_Framework_TestCase {
+
+    public function testCollect() {
         $collector = new MemoryDataCollector();
         $collector->collect(new Request(), new Response());
 
@@ -28,16 +27,14 @@ class MemoryDataCollectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @dataProvider getBytesConversionTestData */
-    public function testBytesConversion($limit, $bytes)
-    {
+    public function testBytesConversion($limit, $bytes) {
         $collector = new MemoryDataCollector();
         $method = new \ReflectionMethod($collector, 'convertToBytes');
         $method->setAccessible(true);
         $this->assertEquals($bytes, $method->invoke($collector, $limit));
     }
 
-    public function getBytesConversionTestData()
-    {
+    public function getBytesConversionTestData() {
         return array(
             array('2k', 2048),
             array('2 k', 2048),
@@ -55,4 +52,5 @@ class MemoryDataCollectorTest extends \PHPUnit_Framework_TestCase
             array('2mk', 2048), // the unit must be the last char, so in this case 'k', not 'm'
         );
     }
+
 }

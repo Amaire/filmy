@@ -16,13 +16,13 @@ namespace Symfony\Component\Security\Core\Util;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class StringUtils
-{
+class StringUtils {
+
     /**
      * This class should not be instantiated.
      */
-    private function __construct()
-    {
+    private function __construct() {
+        
     }
 
     /**
@@ -36,8 +36,7 @@ class StringUtils
      *
      * @return bool true if the two strings are the same, false otherwise
      */
-    public static function equals($knownString, $userInput)
-    {
+    public static function equals($knownString, $userInput) {
         $knownString = (string) $knownString;
         $userInput = (string) $userInput;
 
@@ -63,4 +62,5 @@ class StringUtils
         // They are only identical strings if $result is exactly 0...
         return 0 === $result;
     }
+
 }

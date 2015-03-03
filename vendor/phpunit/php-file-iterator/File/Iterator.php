@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-file-iterator
  *
@@ -52,8 +53,8 @@
  * @link      http://github.com/sebastianbergmann/php-file-iterator/tree
  * @since     Class available since Release 1.0.0
  */
-class File_Iterator extends FilterIterator
-{
+class File_Iterator extends FilterIterator {
+
     const PREFIX = 0;
     const SUFFIX = 1;
 
@@ -84,8 +85,7 @@ class File_Iterator extends FilterIterator
      * @param  array    $exclude
      * @param  string   $basepath
      */
-    public function __construct(Iterator $iterator, array $suffixes = array(), array $prefixes = array(), array $exclude = array(), $basepath = NULL)
-    {
+    public function __construct(Iterator $iterator, array $suffixes = array(), array $prefixes = array(), array $exclude = array(), $basepath = NULL) {
         $exclude = array_filter(array_map('realpath', $exclude));
 
         if ($basepath !== NULL) {
@@ -102,7 +102,7 @@ class File_Iterator extends FilterIterator
 
         $this->prefixes = $prefixes;
         $this->suffixes = $suffixes;
-        $this->exclude  = $exclude;
+        $this->exclude = $exclude;
         $this->basepath = $basepath;
 
         parent::__construct($iterator);
@@ -111,9 +111,8 @@ class File_Iterator extends FilterIterator
     /**
      * @return boolean
      */
-    public function accept()
-    {
-        $current  = $this->getInnerIterator()->current();
+    public function accept() {
+        $current = $this->getInnerIterator()->current();
         $filename = $current->getFilename();
         $realpath = $current->getRealPath();
 
@@ -127,8 +126,8 @@ class File_Iterator extends FilterIterator
         }
 
         return $this->acceptPath($realpath) &&
-               $this->acceptPrefix($filename) &&
-               $this->acceptSuffix($filename);
+                $this->acceptPrefix($filename) &&
+                $this->acceptSuffix($filename);
     }
 
     /**
@@ -136,8 +135,7 @@ class File_Iterator extends FilterIterator
      * @return boolean
      * @since  Method available since Release 1.1.0
      */
-    protected function acceptPath($path)
-    {
+    protected function acceptPath($path) {
         foreach ($this->exclude as $exclude) {
             if (strpos($path, $exclude) === 0) {
                 return FALSE;
@@ -152,8 +150,7 @@ class File_Iterator extends FilterIterator
      * @return boolean
      * @since  Method available since Release 1.1.0
      */
-    protected function acceptPrefix($filename)
-    {
+    protected function acceptPrefix($filename) {
         return $this->acceptSubString($filename, $this->prefixes, self::PREFIX);
     }
 
@@ -162,8 +159,7 @@ class File_Iterator extends FilterIterator
      * @return boolean
      * @since  Method available since Release 1.1.0
      */
-    protected function acceptSuffix($filename)
-    {
+    protected function acceptSuffix($filename) {
         return $this->acceptSubString($filename, $this->suffixes, self::SUFFIX);
     }
 
@@ -174,8 +170,7 @@ class File_Iterator extends FilterIterator
      * @return boolean
      * @since  Method available since Release 1.1.0
      */
-    protected function acceptSubString($filename, array $subStrings, $type)
-    {
+    protected function acceptSubString($filename, array $subStrings, $type) {
         if (empty($subStrings)) {
             return TRUE;
         }
@@ -184,8 +179,8 @@ class File_Iterator extends FilterIterator
 
         foreach ($subStrings as $string) {
             if (($type == self::PREFIX && strpos($filename, $string) === 0) ||
-                ($type == self::SUFFIX &&
-                 substr($filename, -1 * strlen($string)) == $string)) {
+                    ($type == self::SUFFIX &&
+                    substr($filename, -1 * strlen($string)) == $string)) {
                 $matched = TRUE;
                 break;
             }
@@ -193,4 +188,5 @@ class File_Iterator extends FilterIterator
 
         return $matched;
     }
+
 }

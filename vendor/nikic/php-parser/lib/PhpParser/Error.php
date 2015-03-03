@@ -2,8 +2,8 @@
 
 namespace PhpParser;
 
-class Error extends \RuntimeException
-{
+class Error extends \RuntimeException {
+
     protected $rawMessage;
     protected $rawLine;
 
@@ -15,7 +15,7 @@ class Error extends \RuntimeException
      */
     public function __construct($message, $line = -1) {
         $this->rawMessage = (string) $message;
-        $this->rawLine    = (int) $line;
+        $this->rawLine = (int) $line;
         $this->updateMessage();
     }
 
@@ -69,4 +69,5 @@ class Error extends \RuntimeException
             $this->message .= ' on line ' . $this->rawLine;
         }
     }
+
 }

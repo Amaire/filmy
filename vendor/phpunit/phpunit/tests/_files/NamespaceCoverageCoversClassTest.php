@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @coversDefaultClass \Foo\CoveredClass
  */
-class NamespaceCoverageCoversClassTest extends PHPUnit_Framework_TestCase
-{
+class NamespaceCoverageCoversClassTest extends PHPUnit_Framework_TestCase {
+
     /**
      * @covers ::privateMethod
      * @covers ::protectedMethod
@@ -12,9 +13,9 @@ class NamespaceCoverageCoversClassTest extends PHPUnit_Framework_TestCase
      * @covers \Foo\CoveredParentClass::protectedMethod
      * @covers \Foo\CoveredParentClass::publicMethod
      */
-    public function testSomething()
-    {
+    public function testSomething() {
         $o = new Foo\CoveredClass;
         $o->publicMethod();
     }
+
 }

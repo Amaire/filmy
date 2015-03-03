@@ -20,17 +20,18 @@ use Symfony\Component\Process\Process;
  *
  * @internal
  */
-class UnixPipes extends AbstractPipes
-{
+class UnixPipes extends AbstractPipes {
+
     /** @var bool */
     private $ttyMode;
+
     /** @var bool */
     private $ptyMode;
+
     /** @var bool */
     private $disableOutput;
 
-    public function __construct($ttyMode, $ptyMode, $input, $disableOutput)
-    {
+    public function __construct($ttyMode, $ptyMode, $input, $disableOutput) {
         $this->ttyMode = (bool) $ttyMode;
         $this->ptyMode = (bool) $ptyMode;
         $this->disableOutput = (bool) $disableOutput;
@@ -42,16 +43,14 @@ class UnixPipes extends AbstractPipes
         }
     }
 
-    public function __destruct()
-    {
+    public function __destruct() {
         $this->close();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDescriptors()
-    {
+    public function getDescriptors() {
         if ($this->disableOutput) {
             $nullstream = fopen('/dev/null', 'c');
 
@@ -88,16 +87,14 @@ class UnixPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-    public function getFiles()
-    {
+    public function getFiles() {
         return array();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function readAndWrite($blocking, $close = false)
-    {
+    public function readAndWrite($blocking, $close = false) {
         // only stdin is left open, job has been done !
         // we can now close it
         if (1 === count($this->pipes) && array(0) === array_keys($this->pipes)) {
@@ -194,8 +191,7 @@ class UnixPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-    public function areOpen()
-    {
+    public function areOpen() {
         return (bool) $this->pipes;
     }
 
@@ -207,8 +203,8 @@ class UnixPipes extends AbstractPipes
      *
      * @return UnixPipes
      */
-    public static function create(Process $process, $input)
-    {
+    public static function create(Process $process, $input) {
         return new static($process->isTty(), $process->isPty(), $input, $process->isOutputDisabled());
     }
+
 }

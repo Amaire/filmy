@@ -7,8 +7,8 @@ use PhpParser\Node;
 /**
  * @property Node\Expr[] $vars Variables
  */
-class Global_ extends Node\Stmt
-{
+class Global_ extends Node\Stmt {
+
     /**
      * Constructs a global variables list node.
      *
@@ -17,10 +17,10 @@ class Global_ extends Node\Stmt
      */
     public function __construct(array $vars, array $attributes = array()) {
         parent::__construct(
-            array(
-                'vars' => $vars,
-            ),
-            $attributes
+                array(
+            'vars' => $vars,
+                ), $attributes
         );
     }
+
 }

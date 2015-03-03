@@ -16,8 +16,8 @@ namespace Prophecy\Prophecy;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class Revealer implements RevealerInterface
-{
+class Revealer implements RevealerInterface {
+
     /**
      * Unwraps value(s).
      *
@@ -25,8 +25,7 @@ class Revealer implements RevealerInterface
      *
      * @return mixed
      */
-    public function reveal($value)
-    {
+    public function reveal($value) {
         if (is_array($value)) {
             return array_map(array($this, __FUNCTION__), $value);
         }
@@ -41,4 +40,5 @@ class Revealer implements RevealerInterface
 
         return $value;
     }
+
 }

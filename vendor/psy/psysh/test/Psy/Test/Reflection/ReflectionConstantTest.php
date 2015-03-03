@@ -13,13 +13,12 @@ namespace Psy\Test\Reflection;
 
 use Psy\Reflection\ReflectionConstant;
 
-class ReflectionConstantTest extends \PHPUnit_Framework_TestCase
-{
+class ReflectionConstantTest extends \PHPUnit_Framework_TestCase {
+
     const CONSTANT_ONE = 'one';
 
-    public function testConstruction()
-    {
-        $refl  = new ReflectionConstant($this, 'CONSTANT_ONE');
+    public function testConstruction() {
+        $refl = new ReflectionConstant($this, 'CONSTANT_ONE');
         $class = $refl->getDeclaringClass();
 
         $this->assertTrue($class instanceof \ReflectionClass);
@@ -34,8 +33,7 @@ class ReflectionConstantTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testUnknownConstantThrowsException()
-    {
+    public function testUnknownConstantThrowsException() {
         new ReflectionConstant($this, 'UNKNOWN_CONSTANT');
     }
 
@@ -43,18 +41,17 @@ class ReflectionConstantTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @dataProvider notYetImplemented
      */
-    public function testNotYetImplemented($method)
-    {
+    public function testNotYetImplemented($method) {
         $refl = new ReflectionConstant($this, 'CONSTANT_ONE');
         $refl->$method();
     }
 
-    public function notYetImplemented()
-    {
+    public function notYetImplemented() {
         return array(
             array('getStartLine'),
             array('getEndLine'),
             array('export'),
         );
     }
+
 }

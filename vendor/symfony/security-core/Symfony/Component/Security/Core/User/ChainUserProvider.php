@@ -22,28 +22,25 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class ChainUserProvider implements UserProviderInterface
-{
+class ChainUserProvider implements UserProviderInterface {
+
     private $providers;
 
-    public function __construct(array $providers)
-    {
+    public function __construct(array $providers) {
         $this->providers = $providers;
     }
 
     /**
      * @return array
      */
-    public function getProviders()
-    {
+    public function getProviders() {
         return $this->providers;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username)
-    {
+    public function loadUserByUsername($username) {
         foreach ($this->providers as $provider) {
             try {
                 return $provider->loadUserByUsername($username);
@@ -60,8 +57,7 @@ class ChainUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshUser(UserInterface $user)
-    {
+    public function refreshUser(UserInterface $user) {
         $supportedUserFound = false;
 
         foreach ($this->providers as $provider) {
@@ -87,8 +83,7 @@ class ChainUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
-    {
+    public function supportsClass($class) {
         foreach ($this->providers as $provider) {
             if ($provider->supportsClass($class)) {
                 return true;
@@ -97,4 +92,5 @@ class ChainUserProvider implements UserProviderInterface
 
         return false;
     }
+
 }

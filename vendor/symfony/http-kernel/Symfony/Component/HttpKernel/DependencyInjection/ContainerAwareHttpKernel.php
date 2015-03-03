@@ -26,8 +26,8 @@ use Symfony\Component\DependencyInjection\Scope;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class ContainerAwareHttpKernel extends HttpKernel
-{
+class ContainerAwareHttpKernel extends HttpKernel {
+
     protected $container;
 
     /**
@@ -38,8 +38,7 @@ class ContainerAwareHttpKernel extends HttpKernel
      * @param ControllerResolverInterface $controllerResolver A ControllerResolverInterface instance
      * @param RequestStack                $requestStack       A stack for master/sub requests
      */
-    public function __construct(EventDispatcherInterface $dispatcher, ContainerInterface $container, ControllerResolverInterface $controllerResolver, RequestStack $requestStack = null)
-    {
+    public function __construct(EventDispatcherInterface $dispatcher, ContainerInterface $container, ControllerResolverInterface $controllerResolver, RequestStack $requestStack = null) {
         parent::__construct($dispatcher, $controllerResolver, $requestStack);
 
         $this->container = $container;
@@ -53,8 +52,7 @@ class ContainerAwareHttpKernel extends HttpKernel
     /**
      * {@inheritdoc}
      */
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
-    {
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true) {
         $request->headers->set('X-Php-Ob-Level', ob_get_level());
 
         $this->container->enterScope('request');
@@ -74,4 +72,5 @@ class ContainerAwareHttpKernel extends HttpKernel
 
         return $response;
     }
+
 }

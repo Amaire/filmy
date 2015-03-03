@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,8 +22,8 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class ParamTag extends ReturnTag
-{
+class ParamTag extends ReturnTag {
+
     /** @var string */
     protected $variableName = '';
 
@@ -32,40 +33,31 @@ class ParamTag extends ReturnTag
     /**
      * {@inheritdoc}
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
-            $this->content
-                = "{$this->type} {$this->variableName} {$this->description}";
+            $this->content = "{$this->type} {$this->variableName} {$this->description}";
         }
         return $this->content;
     }
+
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         Tag::setContent($content);
         $parts = preg_split(
-            '/(\s+)/Su',
-            $this->description,
-            3,
-            PREG_SPLIT_DELIM_CAPTURE
+                '/(\s+)/Su', $this->description, 3, PREG_SPLIT_DELIM_CAPTURE
         );
 
         // if the first item that is encountered is not a variable; it is a type
-        if (isset($parts[0])
-            && (strlen($parts[0]) > 0)
-            && ($parts[0][0] !== '$')
+        if (isset($parts[0]) && (strlen($parts[0]) > 0) && ($parts[0][0] !== '$')
         ) {
             $this->type = array_shift($parts);
             array_shift($parts);
         }
 
         // if the next item starts with a $ or ...$ it must be the variable name
-        if (isset($parts[0])
-            && (strlen($parts[0]) > 0)
-            && ($parts[0][0] == '$' || substr($parts[0], 0, 4) === '...$')
+        if (isset($parts[0]) && (strlen($parts[0]) > 0) && ($parts[0][0] == '$' || substr($parts[0], 0, 4) === '...$')
         ) {
             $this->variableName = array_shift($parts);
             array_shift($parts);
@@ -87,8 +79,7 @@ class ParamTag extends ReturnTag
      *
      * @return string
      */
-    public function getVariableName()
-    {
+    public function getVariableName() {
         return $this->variableName;
     }
 
@@ -99,8 +90,7 @@ class ParamTag extends ReturnTag
      *
      * @return $this
      */
-    public function setVariableName($name)
-    {
+    public function setVariableName($name) {
         $this->variableName = $name;
 
         $this->content = null;
@@ -112,8 +102,8 @@ class ParamTag extends ReturnTag
      *
      * @return boolean
      */
-    public function isVariadic()
-    {
+    public function isVariadic() {
         return $this->isVariadic;
     }
+
 }

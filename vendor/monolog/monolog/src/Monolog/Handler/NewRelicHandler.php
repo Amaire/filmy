@@ -18,8 +18,8 @@ use Monolog\Logger;
  *
  * @see https://docs.newrelic.com/docs/agents/php-agent
  */
-class NewRelicHandler extends AbstractProcessingHandler
-{
+class NewRelicHandler extends AbstractProcessingHandler {
+
     /**
      * Name of the New Relic application that will receive logs from this handler.
      *
@@ -50,15 +50,11 @@ class NewRelicHandler extends AbstractProcessingHandler
      * @param string  $transactionName
      */
     public function __construct(
-        $level = Logger::ERROR,
-        $bubble = true,
-        $appName = null,
-        $explodeArrays = false,
-        $transactionName = null
+    $level = Logger::ERROR, $bubble = true, $appName = null, $explodeArrays = false, $transactionName = null
     ) {
         parent::__construct($level, $bubble);
 
-        $this->appName       = $appName;
+        $this->appName = $appName;
         $this->explodeArrays = $explodeArrays;
         $this->transactionName = $transactionName;
     }
@@ -66,8 +62,7 @@ class NewRelicHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         if (!$this->isNewRelicEnabled()) {
             throw new MissingExtensionException('The newrelic PHP extension is required to use the NewRelicHandler');
         }
@@ -114,8 +109,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      *
      * @return bool
      */
-    protected function isNewRelicEnabled()
-    {
+    protected function isNewRelicEnabled() {
         return extension_loaded('newrelic');
     }
 
@@ -126,8 +120,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      * @param  array       $context
      * @return null|string
      */
-    protected function getAppName(array $context)
-    {
+    protected function getAppName(array $context) {
         if (isset($context['appname'])) {
             return $context['appname'];
         }
@@ -143,8 +136,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      *
      * @return null|string
      */
-    protected function getTransactionName(array $context)
-    {
+    protected function getTransactionName(array $context) {
         if (isset($context['transaction_name'])) {
             return $context['transaction_name'];
         }
@@ -157,8 +149,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      *
      * @param string $appName
      */
-    protected function setNewRelicAppName($appName)
-    {
+    protected function setNewRelicAppName($appName) {
         newrelic_set_appname($appName);
     }
 
@@ -167,8 +158,8 @@ class NewRelicHandler extends AbstractProcessingHandler
      *
      * @param $transactionName
      */
-    protected function setNewRelicTransactionName($transactionName)
-    {
+    protected function setNewRelicTransactionName($transactionName) {
         newrelic_name_transaction($transactionName);
     }
+
 }

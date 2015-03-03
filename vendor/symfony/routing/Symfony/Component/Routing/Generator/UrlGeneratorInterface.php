@@ -31,8 +31,8 @@ use Symfony\Component\Routing\RequestContextAwareInterface;
  *
  * @api
  */
-interface UrlGeneratorInterface extends RequestContextAwareInterface
-{
+interface UrlGeneratorInterface extends RequestContextAwareInterface {
+
     /**
      * Generates an absolute URL, e.g. "http://example.com/dir/file".
      */

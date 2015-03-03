@@ -18,6 +18,6 @@ namespace Symfony\Component\Filesystem\Exception;
  *
  * @api
  */
-interface ExceptionInterface
-{
+interface ExceptionInterface {
+    
 }

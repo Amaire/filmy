@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Locator;
 
-interface ResourceManagerInterface
-{
+interface ResourceManagerInterface {
+
     /**
      * @param string $query
      *

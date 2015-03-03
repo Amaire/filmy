@@ -17,8 +17,8 @@ namespace Symfony\Component\HttpFoundation\Session\Attribute;
  *
  * @author Drak <drak@zikula.org>
  */
-class NamespacedAttributeBag extends AttributeBag
-{
+class NamespacedAttributeBag extends AttributeBag {
+
     /**
      * Namespace character.
      *
@@ -32,8 +32,7 @@ class NamespacedAttributeBag extends AttributeBag
      * @param string $storageKey         Session storage key.
      * @param string $namespaceCharacter Namespace character to use in keys.
      */
-    public function __construct($storageKey = '_sf2_attributes', $namespaceCharacter = '/')
-    {
+    public function __construct($storageKey = '_sf2_attributes', $namespaceCharacter = '/') {
         $this->namespaceCharacter = $namespaceCharacter;
         parent::__construct($storageKey);
     }
@@ -41,8 +40,7 @@ class NamespacedAttributeBag extends AttributeBag
     /**
      * {@inheritdoc}
      */
-    public function has($name)
-    {
+    public function has($name) {
         $attributes = $this->resolveAttributePath($name);
         $name = $this->resolveKey($name);
 
@@ -56,8 +54,7 @@ class NamespacedAttributeBag extends AttributeBag
     /**
      * {@inheritdoc}
      */
-    public function get($name, $default = null)
-    {
+    public function get($name, $default = null) {
         $attributes = $this->resolveAttributePath($name);
         $name = $this->resolveKey($name);
 
@@ -71,8 +68,7 @@ class NamespacedAttributeBag extends AttributeBag
     /**
      * {@inheritdoc}
      */
-    public function set($name, $value)
-    {
+    public function set($name, $value) {
         $attributes = & $this->resolveAttributePath($name, true);
         $name = $this->resolveKey($name);
         $attributes[$name] = $value;
@@ -81,8 +77,7 @@ class NamespacedAttributeBag extends AttributeBag
     /**
      * {@inheritdoc}
      */
-    public function remove($name)
-    {
+    public function remove($name) {
         $retval = null;
         $attributes = & $this->resolveAttributePath($name);
         $name = $this->resolveKey($name);
@@ -104,8 +99,7 @@ class NamespacedAttributeBag extends AttributeBag
      *
      * @return array
      */
-    protected function &resolveAttributePath($name, $writeContext = false)
-    {
+    protected function &resolveAttributePath($name, $writeContext = false) {
         $array = & $this->attributes;
         $name = (strpos($name, $this->namespaceCharacter) === 0) ? substr($name, 1) : $name;
 
@@ -125,7 +119,7 @@ class NamespacedAttributeBag extends AttributeBag
             return $array;
         }
 
-        unset($parts[count($parts)-1]);
+        unset($parts[count($parts) - 1]);
 
         foreach ($parts as $part) {
             if (null !== $array && !array_key_exists($part, $array)) {
@@ -147,12 +141,12 @@ class NamespacedAttributeBag extends AttributeBag
      *
      * @return string
      */
-    protected function resolveKey($name)
-    {
+    protected function resolveKey($name) {
         if (false !== $pos = strrpos($name, $this->namespaceCharacter)) {
-            $name = substr($name, $pos+1);
+            $name = substr($name, $pos + 1);
         }
 
         return $name;
     }
+
 }

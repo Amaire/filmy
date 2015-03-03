@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Diff
  *
@@ -47,8 +48,8 @@ use PHPUnit_Framework_TestCase;
 use SebastianBergmann\Diff\LCS\MemoryEfficientImplementation;
 use SebastianBergmann\Diff\LCS\TimeEfficientImplementation;
 
-class DifferTest extends PHPUnit_Framework_TestCase
-{
+class DifferTest extends PHPUnit_Framework_TestCase {
+
     const REMOVED = 2;
     const ADDED = 1;
     const OLD = 0;
@@ -58,8 +59,7 @@ class DifferTest extends PHPUnit_Framework_TestCase
      */
     private $differ;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->differ = new Differ;
     }
 
@@ -71,8 +71,7 @@ class DifferTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\Diff\Differ::diffToArray
      * @covers       SebastianBergmann\Diff\LCS\TimeEfficientImplementation
      */
-    public function testArrayRepresentationOfDiffCanBeRenderedUsingTimeEfficientLcsImplementation(array $expected, $from, $to)
-    {
+    public function testArrayRepresentationOfDiffCanBeRenderedUsingTimeEfficientLcsImplementation(array $expected, $from, $to) {
         $this->assertEquals($expected, $this->differ->diffToArray($from, $to, new TimeEfficientImplementation));
     }
 
@@ -84,8 +83,7 @@ class DifferTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\Diff\Differ::diff
      * @covers       SebastianBergmann\Diff\LCS\TimeEfficientImplementation
      */
-    public function testTextRepresentationOfDiffCanBeRenderedUsingTimeEfficientLcsImplementation($expected, $from, $to)
-    {
+    public function testTextRepresentationOfDiffCanBeRenderedUsingTimeEfficientLcsImplementation($expected, $from, $to) {
         $this->assertEquals($expected, $this->differ->diff($from, $to, new TimeEfficientImplementation));
     }
 
@@ -97,8 +95,7 @@ class DifferTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\Diff\Differ::diffToArray
      * @covers       SebastianBergmann\Diff\LCS\MemoryEfficientImplementation
      */
-    public function testArrayRepresentationOfDiffCanBeRenderedUsingMemoryEfficientLcsImplementation(array $expected, $from, $to)
-    {
+    public function testArrayRepresentationOfDiffCanBeRenderedUsingMemoryEfficientLcsImplementation(array $expected, $from, $to) {
         $this->assertEquals($expected, $this->differ->diffToArray($from, $to, new MemoryEfficientImplementation));
     }
 
@@ -110,26 +107,22 @@ class DifferTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\Diff\Differ::diff
      * @covers       SebastianBergmann\Diff\LCS\MemoryEfficientImplementation
      */
-    public function testTextRepresentationOfDiffCanBeRenderedUsingMemoryEfficientLcsImplementation($expected, $from, $to)
-    {
+    public function testTextRepresentationOfDiffCanBeRenderedUsingMemoryEfficientLcsImplementation($expected, $from, $to) {
         $this->assertEquals($expected, $this->differ->diff($from, $to, new MemoryEfficientImplementation));
     }
 
     /**
      * @covers SebastianBergmann\Diff\Differ::diff
      */
-    public function testCustomHeaderCanBeUsed()
-    {
+    public function testCustomHeaderCanBeUsed() {
         $differ = new Differ('CUSTOM HEADER');
 
         $this->assertEquals(
-            "CUSTOM HEADER@@ @@\n-a\n+b\n",
-            $differ->diff('a', 'b')
+                "CUSTOM HEADER@@ @@\n-a\n+b\n", $differ->diff('a', 'b')
         );
     }
 
-    public function arrayProvider()
-    {
+    public function arrayProvider() {
         return array(
             array(
                 array(
@@ -198,8 +191,7 @@ class DifferTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function textProvider()
-    {
+    public function textProvider() {
         return array(
             array(
                 "--- Original\n+++ New\n@@ @@\n-a\n+b\n",
@@ -243,4 +235,5 @@ class DifferTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

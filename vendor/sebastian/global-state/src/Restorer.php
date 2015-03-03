@@ -1,4 +1,5 @@
 <?php
+
 /**
  * GlobalState
  *
@@ -52,8 +53,8 @@ use ReflectionProperty;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/global-state
  */
-class Restorer
-{
+class Restorer {
+
     /**
      * Deletes function definitions that are not defined in a snapshot.
      *
@@ -61,8 +62,7 @@ class Restorer
      * @throws RuntimeException when the uopz_delete() function is not available
      * @see    https://github.com/krakjoe/uopz
      */
-    public function restoreFunctions(Snapshot $snapshot)
-    {
+    public function restoreFunctions(Snapshot $snapshot) {
         if (!function_exists('uopz_delete')) {
             throw new RuntimeException('The uopz_delete() function is required for this operation');
         }
@@ -79,8 +79,7 @@ class Restorer
      *
      * @param Snapshot $snapshot
      */
-    public function restoreGlobalVariables(Snapshot $snapshot)
-    {
+    public function restoreGlobalVariables(Snapshot $snapshot) {
         $superGlobalArrays = $snapshot->superGlobalArrays();
 
         foreach ($superGlobalArrays as $superGlobalArray) {
@@ -91,8 +90,8 @@ class Restorer
 
         foreach (array_keys($GLOBALS) as $key) {
             if ($key != 'GLOBALS' &&
-                !in_array($key, $superGlobalArrays) &&
-                !$snapshot->blacklist()->isGlobalVariableBlacklisted($key)) {
+                    !in_array($key, $superGlobalArrays) &&
+                    !$snapshot->blacklist()->isGlobalVariableBlacklisted($key)) {
                 if (isset($globalVariables[$key])) {
                     $GLOBALS[$key] = $globalVariables[$key];
                 } else {
@@ -107,8 +106,7 @@ class Restorer
      *
      * @param Snapshot $snapshot
      */
-    public function restoreStaticAttributes(Snapshot $snapshot)
-    {
+    public function restoreStaticAttributes(Snapshot $snapshot) {
         foreach ($snapshot->staticAttributes() as $className => $staticAttributes) {
             foreach ($staticAttributes as $name => $value) {
                 $reflector = new ReflectionProperty($className, $name);
@@ -124,18 +122,16 @@ class Restorer
      * @param Snapshot $snapshot
      * @param $superGlobalArray
      */
-    private function restoreSuperGlobalArray(Snapshot $snapshot, $superGlobalArray)
-    {
+    private function restoreSuperGlobalArray(Snapshot $snapshot, $superGlobalArray) {
         $superGlobalVariables = $snapshot->superGlobalVariables();
 
         if (isset($GLOBALS[$superGlobalArray]) &&
-            is_array($GLOBALS[$superGlobalArray]) &&
-            isset($superGlobalVariables[$superGlobalArray])) {
+                is_array($GLOBALS[$superGlobalArray]) &&
+                isset($superGlobalVariables[$superGlobalArray])) {
             $keys = array_keys(
-                array_merge(
-                    $GLOBALS[$superGlobalArray],
-                    $superGlobalVariables[$superGlobalArray]
-                )
+                    array_merge(
+                            $GLOBALS[$superGlobalArray], $superGlobalVariables[$superGlobalArray]
+                    )
             );
 
             foreach ($keys as $key) {
@@ -147,4 +143,5 @@ class Restorer
             }
         }
     }
+
 }

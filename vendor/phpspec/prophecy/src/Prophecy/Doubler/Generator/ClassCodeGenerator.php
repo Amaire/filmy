@@ -17,8 +17,8 @@ namespace Prophecy\Doubler\Generator;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ClassCodeGenerator
-{
+class ClassCodeGenerator {
+
     /**
      * Generates PHP code for class node.
      *
@@ -27,16 +27,15 @@ class ClassCodeGenerator
      *
      * @return string
      */
-    public function generate($classname, Node\ClassNode $class)
-    {
-        $parts     = explode('\\', $classname);
+    public function generate($classname, Node\ClassNode $class) {
+        $parts = explode('\\', $classname);
         $classname = array_pop($parts);
         $namespace = implode('\\', $parts);
 
-        $code = sprintf("class %s extends \%s implements %s {\n",
-            $classname, $class->getParentClass(), implode(', ',
-                array_map(function ($interface) {return '\\'.$interface;}, $class->getInterfaces())
-            )
+        $code = sprintf("class %s extends \%s implements %s {\n", $classname, $class->getParentClass(), implode(', ', array_map(function ($interface) {
+                            return '\\' . $interface;
+                        }, $class->getInterfaces())
+                )
         );
 
         foreach ($class->getProperties() as $name => $visibility) {
@@ -45,28 +44,22 @@ class ClassCodeGenerator
         $code .= "\n";
 
         foreach ($class->getMethods() as $method) {
-            $code .= $this->generateMethod($method)."\n";
+            $code .= $this->generateMethod($method) . "\n";
         }
         $code .= "\n}";
 
         return sprintf("namespace %s {\n%s\n}", $namespace, $code);
     }
 
-    private function generateMethod(Node\MethodNode $method)
-    {
-        $php = sprintf("%s %s function %s(%s) {\n",
-            $method->getVisibility(),
-            $method->isStatic() ? 'static' : '',
-            $method->getName(),
-            implode(', ', $this->generateArguments($method->getArguments()))
+    private function generateMethod(Node\MethodNode $method) {
+        $php = sprintf("%s %s function %s(%s) {\n", $method->getVisibility(), $method->isStatic() ? 'static' : '', $method->getName(), implode(', ', $this->generateArguments($method->getArguments()))
         );
-        $php .= $method->getCode()."\n";
+        $php .= $method->getCode() . "\n";
 
-        return $php.'}';
+        return $php . '}';
     }
 
-    private function generateArguments(array $arguments)
-    {
+    private function generateArguments(array $arguments) {
         return array_map(function (Node\ArgumentNode $argument) {
             $php = '';
 
@@ -74,17 +67,18 @@ class ClassCodeGenerator
                 if ('array' === $hint || 'callable' === $hint) {
                     $php .= $hint;
                 } else {
-                    $php .= '\\'.$hint;
+                    $php .= '\\' . $hint;
                 }
             }
 
-            $php .= ' '.($argument->isPassedByReference() ? '&' : '').'$'.$argument->getName();
+            $php .= ' ' . ($argument->isPassedByReference() ? '&' : '') . '$' . $argument->getName();
 
             if ($argument->isOptional()) {
-                $php .= ' = '.var_export($argument->getDefault(), true);
+                $php .= ' = ' . var_export($argument->getDefault(), true);
             }
 
             return $php;
         }, $arguments);
     }
+
 }

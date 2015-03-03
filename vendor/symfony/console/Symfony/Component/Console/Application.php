@@ -57,8 +57,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @api
  */
-class Application
-{
+class Application {
+
     private $commands = array();
     private $wantHelps = false;
     private $runningCommand;
@@ -80,8 +80,7 @@ class Application
      *
      * @api
      */
-    public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
-    {
+    public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN') {
         $this->name = $name;
         $this->version = $version;
         $this->defaultCommand = 'list';
@@ -93,8 +92,7 @@ class Application
         }
     }
 
-    public function setDispatcher(EventDispatcherInterface $dispatcher)
-    {
+    public function setDispatcher(EventDispatcherInterface $dispatcher) {
         $this->dispatcher = $dispatcher;
     }
 
@@ -110,8 +108,7 @@ class Application
      *
      * @api
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null)
-    {
+    public function run(InputInterface $input = null, OutputInterface $output = null) {
         if (null === $input) {
             $input = new ArgvInput();
         }
@@ -165,8 +162,7 @@ class Application
      *
      * @return int 0 if everything went fine, or an error code
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
-    {
+    public function doRun(InputInterface $input, OutputInterface $output) {
         if (true === $input->hasParameterOption(array('--version', '-V'))) {
             $output->writeln($this->getLongVersion());
 
@@ -205,8 +201,7 @@ class Application
      *
      * @api
      */
-    public function setHelperSet(HelperSet $helperSet)
-    {
+    public function setHelperSet(HelperSet $helperSet) {
         $this->helperSet = $helperSet;
     }
 
@@ -217,8 +212,7 @@ class Application
      *
      * @api
      */
-    public function getHelperSet()
-    {
+    public function getHelperSet() {
         return $this->helperSet;
     }
 
@@ -229,8 +223,7 @@ class Application
      *
      * @api
      */
-    public function setDefinition(InputDefinition $definition)
-    {
+    public function setDefinition(InputDefinition $definition) {
         $this->definition = $definition;
     }
 
@@ -239,8 +232,7 @@ class Application
      *
      * @return InputDefinition The InputDefinition instance
      */
-    public function getDefinition()
-    {
+    public function getDefinition() {
         return $this->definition;
     }
 
@@ -249,8 +241,7 @@ class Application
      *
      * @return string A help message.
      */
-    public function getHelp()
-    {
+    public function getHelp() {
         return $this->getLongVersion();
     }
 
@@ -261,8 +252,7 @@ class Application
      *
      * @api
      */
-    public function setCatchExceptions($boolean)
-    {
+    public function setCatchExceptions($boolean) {
         $this->catchExceptions = (bool) $boolean;
     }
 
@@ -273,8 +263,7 @@ class Application
      *
      * @api
      */
-    public function setAutoExit($boolean)
-    {
+    public function setAutoExit($boolean) {
         $this->autoExit = (bool) $boolean;
     }
 
@@ -285,8 +274,7 @@ class Application
      *
      * @api
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -297,8 +285,7 @@ class Application
      *
      * @api
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
     }
 
@@ -309,8 +296,7 @@ class Application
      *
      * @api
      */
-    public function getVersion()
-    {
+    public function getVersion() {
         return $this->version;
     }
 
@@ -321,8 +307,7 @@ class Application
      *
      * @api
      */
-    public function setVersion($version)
-    {
+    public function setVersion($version) {
         $this->version = $version;
     }
 
@@ -333,8 +318,7 @@ class Application
      *
      * @api
      */
-    public function getLongVersion()
-    {
+    public function getLongVersion() {
         if ('UNKNOWN' !== $this->getName() && 'UNKNOWN' !== $this->getVersion()) {
             return sprintf('<info>%s</info> version <comment>%s</comment>', $this->getName(), $this->getVersion());
         }
@@ -351,8 +335,7 @@ class Application
      *
      * @api
      */
-    public function register($name)
-    {
+    public function register($name) {
         return $this->add(new Command($name));
     }
 
@@ -363,8 +346,7 @@ class Application
      *
      * @api
      */
-    public function addCommands(array $commands)
-    {
+    public function addCommands(array $commands) {
         foreach ($commands as $command) {
             $this->add($command);
         }
@@ -381,8 +363,7 @@ class Application
      *
      * @api
      */
-    public function add(Command $command)
-    {
+    public function add(Command $command) {
         $command->setApplication($this);
 
         if (!$command->isEnabled()) {
@@ -415,8 +396,7 @@ class Application
      *
      * @api
      */
-    public function get($name)
-    {
+    public function get($name) {
         if (!isset($this->commands[$name])) {
             throw new \InvalidArgumentException(sprintf('The command "%s" does not exist.', $name));
         }
@@ -444,8 +424,7 @@ class Application
      *
      * @api
      */
-    public function has($name)
-    {
+    public function has($name) {
         return isset($this->commands[$name]);
     }
 
@@ -456,8 +435,7 @@ class Application
      *
      * @return array An array of namespaces
      */
-    public function getNamespaces()
-    {
+    public function getNamespaces() {
         $namespaces = array();
         foreach ($this->commands as $command) {
             $namespaces = array_merge($namespaces, $this->extractAllNamespaces($command->getName()));
@@ -479,11 +457,12 @@ class Application
      *
      * @throws \InvalidArgumentException When namespace is incorrect or ambiguous
      */
-    public function findNamespace($namespace)
-    {
+    public function findNamespace($namespace) {
         $allNamespaces = $this->getNamespaces();
-        $expr = preg_replace_callback('{([^:]+|)}', function ($matches) { return preg_quote($matches[1]).'[^:]*'; }, $namespace);
-        $namespaces = preg_grep('{^'.$expr.'}', $allNamespaces);
+        $expr = preg_replace_callback('{([^:]+|)}', function ($matches) {
+            return preg_quote($matches[1]) . '[^:]*';
+        }, $namespace);
+        $namespaces = preg_grep('{^' . $expr . '}', $allNamespaces);
 
         if (empty($namespaces)) {
             $message = sprintf('There are no commands defined in the "%s" namespace.', $namespace);
@@ -523,13 +502,14 @@ class Application
      *
      * @api
      */
-    public function find($name)
-    {
+    public function find($name) {
         $allCommands = array_keys($this->commands);
-        $expr = preg_replace_callback('{([^:]+|)}', function ($matches) { return preg_quote($matches[1]).'[^:]*'; }, $name);
-        $commands = preg_grep('{^'.$expr.'}', $allCommands);
+        $expr = preg_replace_callback('{([^:]+|)}', function ($matches) {
+            return preg_quote($matches[1]) . '[^:]*';
+        }, $name);
+        $commands = preg_grep('{^' . $expr . '}', $allCommands);
 
-        if (empty($commands) || count(preg_grep('{^'.$expr.'$}', $commands)) < 1) {
+        if (empty($commands) || count(preg_grep('{^' . $expr . '$}', $commands)) < 1) {
             if (false !== $pos = strrpos($name, ':')) {
                 // check if a namespace exists and contains commands
                 $this->findNamespace(substr($name, 0, $pos));
@@ -580,8 +560,7 @@ class Application
      *
      * @api
      */
-    public function all($namespace = null)
-    {
+    public function all($namespace = null) {
         if (null === $namespace) {
             return $this->commands;
         }
@@ -603,8 +582,7 @@ class Application
      *
      * @return array An array of abbreviations
      */
-    public static function getAbbreviations($names)
-    {
+    public static function getAbbreviations($names) {
         $abbrevs = array();
         foreach ($names as $name) {
             for ($len = strlen($name); $len > 0; --$len) {
@@ -626,8 +604,7 @@ class Application
      *
      * @deprecated Deprecated since version 2.3, to be removed in 3.0.
      */
-    public function asText($namespace = null, $raw = false)
-    {
+    public function asText($namespace = null, $raw = false) {
         $descriptor = new TextDescriptor();
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, !$raw);
         $descriptor->describe($output, $this, array('namespace' => $namespace, 'raw_output' => true));
@@ -645,8 +622,7 @@ class Application
      *
      * @deprecated Deprecated since version 2.3, to be removed in 3.0.
      */
-    public function asXml($namespace = null, $asDom = false)
-    {
+    public function asXml($namespace = null, $asDom = false) {
         $descriptor = new XmlDescriptor();
 
         if ($asDom) {
@@ -665,8 +641,7 @@ class Application
      * @param \Exception      $e      An exception instance
      * @param OutputInterface $output An OutputInterface instance
      */
-    public function renderException($e, $output)
-    {
+    public function renderException($e, $output) {
         do {
             $title = sprintf('  [%s]  ', get_class($e));
 
@@ -740,8 +715,7 @@ class Application
      *
      * @return int|null
      */
-    protected function getTerminalWidth()
-    {
+    protected function getTerminalWidth() {
         $dimensions = $this->getTerminalDimensions();
 
         return $dimensions[0];
@@ -752,8 +726,7 @@ class Application
      *
      * @return int|null
      */
-    protected function getTerminalHeight()
-    {
+    protected function getTerminalHeight() {
         $dimensions = $this->getTerminalDimensions();
 
         return $dimensions[1];
@@ -764,8 +737,7 @@ class Application
      *
      * @return array Array containing width and height
      */
-    public function getTerminalDimensions()
-    {
+    public function getTerminalDimensions() {
         if ($this->terminalDimensions) {
             return $this->terminalDimensions;
         }
@@ -805,8 +777,7 @@ class Application
      *
      * @return Application The current application
      */
-    public function setTerminalDimensions($width, $height)
-    {
+    public function setTerminalDimensions($width, $height) {
         $this->terminalDimensions = array($width, $height);
 
         return $this;
@@ -818,8 +789,7 @@ class Application
      * @param InputInterface  $input  An InputInterface instance
      * @param OutputInterface $output An OutputInterface instance
      */
-    protected function configureIO(InputInterface $input, OutputInterface $output)
-    {
+    protected function configureIO(InputInterface $input, OutputInterface $output) {
         if (true === $input->hasParameterOption(array('--ansi'))) {
             $output->setDecorated(true);
         } elseif (true === $input->hasParameterOption(array('--no-ansi'))) {
@@ -862,8 +832,7 @@ class Application
      *
      * @throws \Exception when the command being run threw an exception
      */
-    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output)
-    {
+    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output) {
         foreach ($command->getHelperSet() as $helper) {
             if ($helper instanceof InputAwareInterface) {
                 $helper->setInput($input);
@@ -906,8 +875,7 @@ class Application
      *
      * @return string The command name
      */
-    protected function getCommandName(InputInterface $input)
-    {
+    protected function getCommandName(InputInterface $input) {
         return $input->getFirstArgument();
     }
 
@@ -916,17 +884,15 @@ class Application
      *
      * @return InputDefinition An InputDefinition instance
      */
-    protected function getDefaultInputDefinition()
-    {
+    protected function getDefaultInputDefinition() {
         return new InputDefinition(array(
             new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-
-            new InputOption('--help',           '-h', InputOption::VALUE_NONE, 'Display this help message'),
-            new InputOption('--quiet',          '-q', InputOption::VALUE_NONE, 'Do not output any message'),
-            new InputOption('--verbose',        '-v|vv|vvv', InputOption::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
-            new InputOption('--version',        '-V', InputOption::VALUE_NONE, 'Display this application version'),
-            new InputOption('--ansi',           '',   InputOption::VALUE_NONE, 'Force ANSI output'),
-            new InputOption('--no-ansi',        '',   InputOption::VALUE_NONE, 'Disable ANSI output'),
+            new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display this help message'),
+            new InputOption('--quiet', '-q', InputOption::VALUE_NONE, 'Do not output any message'),
+            new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
+            new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Display this application version'),
+            new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
+            new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
             new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, 'Do not ask any interactive question'),
         ));
     }
@@ -936,8 +902,7 @@ class Application
      *
      * @return Command[] An array of default Command instances
      */
-    protected function getDefaultCommands()
-    {
+    protected function getDefaultCommands() {
         return array(new HelpCommand(), new ListCommand());
     }
 
@@ -946,8 +911,7 @@ class Application
      *
      * @return HelperSet A HelperSet instance
      */
-    protected function getDefaultHelperSet()
-    {
+    protected function getDefaultHelperSet() {
         return new HelperSet(array(
             new FormatterHelper(),
             new DialogHelper(),
@@ -964,8 +928,7 @@ class Application
      *
      * @return string
      */
-    private function getSttyColumns()
-    {
+    private function getSttyColumns() {
         if (!function_exists('proc_open')) {
             return;
         }
@@ -987,8 +950,7 @@ class Application
      *
      * @return string <width>x<height> or null if it could not be parsed
      */
-    private function getConsoleMode()
-    {
+    private function getConsoleMode() {
         if (!function_exists('proc_open')) {
             return;
         }
@@ -1002,7 +964,7 @@ class Application
             proc_close($process);
 
             if (preg_match('/--------+\r?\n.+?(\d+)\r?\n.+?(\d+)\r?\n/', $info, $matches)) {
-                return $matches[2].'x'.$matches[1];
+                return $matches[2] . 'x' . $matches[1];
             }
         }
     }
@@ -1014,8 +976,7 @@ class Application
      *
      * @return string A formatted string of abbreviated suggestions
      */
-    private function getAbbreviationSuggestions($abbrevs)
-    {
+    private function getAbbreviationSuggestions($abbrevs) {
         return sprintf('%s, %s%s', $abbrevs[0], $abbrevs[1], count($abbrevs) > 2 ? sprintf(' and %d more', count($abbrevs) - 2) : '');
     }
 
@@ -1029,8 +990,7 @@ class Application
      *
      * @return string The namespace of the command
      */
-    public function extractNamespace($name, $limit = null)
-    {
+    public function extractNamespace($name, $limit = null) {
         $parts = explode(':', $name);
         array_pop($parts);
 
@@ -1046,8 +1006,7 @@ class Application
      *
      * @return array A sorted array of similar string
      */
-    private function findAlternatives($name, $collection)
-    {
+    private function findAlternatives($name, $collection) {
         $threshold = 1e3;
         $alternatives = array();
 
@@ -1082,7 +1041,9 @@ class Application
             }
         }
 
-        $alternatives = array_filter($alternatives, function ($lev) use ($threshold) { return $lev < 2*$threshold; });
+        $alternatives = array_filter($alternatives, function ($lev) use ($threshold) {
+            return $lev < 2 * $threshold;
+        });
         asort($alternatives);
 
         return array_keys($alternatives);
@@ -1093,13 +1054,11 @@ class Application
      *
      * @param string $commandName The Command name
      */
-    public function setDefaultCommand($commandName)
-    {
+    public function setDefaultCommand($commandName) {
         $this->defaultCommand = $commandName;
     }
 
-    private function stringWidth($string)
-    {
+    private function stringWidth($string) {
         if (!function_exists('mb_strwidth')) {
             return strlen($string);
         }
@@ -1111,8 +1070,7 @@ class Application
         return mb_strwidth($string, $encoding);
     }
 
-    private function splitStringByWidth($string, $width)
-    {
+    private function splitStringByWidth($string, $width) {
         // str_split is not suitable for multi-byte characters, we should use preg_split to get char array properly.
         // additionally, array_slice() is not enough as some character has doubled width.
         // we need a function to split string not by character count but by string width
@@ -1130,7 +1088,7 @@ class Application
         $line = '';
         foreach (preg_split('//u', $utf8String) as $char) {
             // test if $char could be appended to current line
-            if (mb_strwidth($line.$char, 'utf8') <= $width) {
+            if (mb_strwidth($line . $char, 'utf8') <= $width) {
                 $line .= $char;
                 continue;
             }
@@ -1154,15 +1112,14 @@ class Application
      *
      * @return array The namespaces of the command
      */
-    private function extractAllNamespaces($name)
-    {
+    private function extractAllNamespaces($name) {
         // -1 as third argument is needed to skip the command short name when exploding
         $parts = explode(':', $name, -1);
         $namespaces = array();
 
         foreach ($parts as $part) {
             if (count($namespaces)) {
-                $namespaces[] = end($namespaces).':'.$part;
+                $namespaces[] = end($namespaces) . ':' . $part;
             } else {
                 $namespaces[] = $part;
             }
@@ -1170,4 +1127,5 @@ class Application
 
         return $namespaces;
     }
+
 }

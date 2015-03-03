@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -17,48 +18,43 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 2.0.0
  */
-class PHP_CodeCoverage_Report_XML_File_Unit
-{
+class PHP_CodeCoverage_Report_XML_File_Unit {
+
     /**
      * @var DOMElement
      */
     private $contextNode;
 
-    public function __construct(DOMElement $context, $name)
-    {
+    public function __construct(DOMElement $context, $name) {
         $this->contextNode = $context;
 
         $this->setName($name);
     }
 
-    private function setName($name)
-    {
+    private function setName($name) {
         $this->contextNode->setAttribute('name', $name);
     }
 
-    public function setLines($start, $executable, $executed)
-    {
+    public function setLines($start, $executable, $executed) {
         $this->contextNode->setAttribute('start', $start);
         $this->contextNode->setAttribute('executable', $executable);
         $this->contextNode->setAttribute('executed', $executed);
     }
 
-    public function setCrap($crap)
-    {
+    public function setCrap($crap) {
         $this->contextNode->setAttribute('crap', $crap);
     }
 
-    public function setPackage($full, $package, $sub, $category)
-    {
+    public function setPackage($full, $package, $sub, $category) {
         $node = $this->contextNode->getElementsByTagNameNS(
-            'http://schema.phpunit.de/coverage/1.0', 'package'
-        )->item(0);
+                        'http://schema.phpunit.de/coverage/1.0', 'package'
+                )->item(0);
 
         if (!$node) {
             $node = $this->contextNode->appendChild(
-                $this->contextNode->ownerDocument->createElementNS(
-                    'http://schema.phpunit.de/coverage/1.0', 'package'
-                )
+                    $this->contextNode->ownerDocument->createElementNS(
+                            'http://schema.phpunit.de/coverage/1.0', 'package'
+                    )
             );
         }
 
@@ -68,31 +64,30 @@ class PHP_CodeCoverage_Report_XML_File_Unit
         $node->setAttribute('category', $category);
     }
 
-    public function setNamespace($namespace)
-    {
+    public function setNamespace($namespace) {
         $node = $this->contextNode->getElementsByTagNameNS(
-            'http://schema.phpunit.de/coverage/1.0', 'namespace'
-        )->item(0);
+                        'http://schema.phpunit.de/coverage/1.0', 'namespace'
+                )->item(0);
 
         if (!$node) {
             $node = $this->contextNode->appendChild(
-                $this->contextNode->ownerDocument->createElementNS(
-                    'http://schema.phpunit.de/coverage/1.0', 'namespace'
-                )
+                    $this->contextNode->ownerDocument->createElementNS(
+                            'http://schema.phpunit.de/coverage/1.0', 'namespace'
+                    )
             );
         }
 
         $node->setAttribute('name', $namespace);
     }
 
-    public function addMethod($name)
-    {
+    public function addMethod($name) {
         $node = $this->contextNode->appendChild(
-            $this->contextNode->ownerDocument->createElementNS(
-                'http://schema.phpunit.de/coverage/1.0', 'method'
-            )
+                $this->contextNode->ownerDocument->createElementNS(
+                        'http://schema.phpunit.de/coverage/1.0', 'method'
+                )
         );
 
         return new PHP_CodeCoverage_Report_XML_File_Method($node, $name);
     }
+
 }

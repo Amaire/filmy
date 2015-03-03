@@ -19,8 +19,8 @@ use InvalidArgumentException;
  * The Service Container is a lightweight container based on Pimple to handle
  * object creation of PhpSpec services.
  */
-class ServiceContainer
-{
+class ServiceContainer {
+
     /**
      * @var array
      */
@@ -47,8 +47,7 @@ class ServiceContainer
      * @param string $id
      * @param mixed  $value
      */
-    public function setParam($id, $value)
-    {
+    public function setParam($id, $value) {
         $this->parameters[$id] = $value;
     }
 
@@ -60,8 +59,7 @@ class ServiceContainer
      *
      * @return mixed
      */
-    public function getParam($id, $default = null)
-    {
+    public function getParam($id, $default = null) {
         return isset($this->parameters[$id]) ? $this->parameters[$id] : $default;
     }
 
@@ -74,11 +72,10 @@ class ServiceContainer
      *
      * @throws \InvalidArgumentException if service is not an object or callable
      */
-    public function set($id, $value)
-    {
+    public function set($id, $value) {
         if (!is_object($value) && !is_callable($value)) {
             throw new InvalidArgumentException(sprintf(
-                'Service should be callable or object, but %s given.',gettype($value)
+                    'Service should be callable or object, but %s given.', gettype($value)
             ));
         }
 
@@ -103,11 +100,10 @@ class ServiceContainer
      *
      * @throws \InvalidArgumentException if service is not a callable
      */
-    public function setShared($id, $callable)
-    {
+    public function setShared($id, $callable) {
         if (!is_callable($callable)) {
             throw new InvalidArgumentException(sprintf(
-                'Service should be callable, "%s" given.', gettype($callable)
+                    'Service should be callable, "%s" given.', gettype($callable)
             ));
         }
 
@@ -131,8 +127,7 @@ class ServiceContainer
      *
      * @throws \InvalidArgumentException if service is not defined
      */
-    public function get($id)
-    {
+    public function get($id) {
         if (!array_key_exists($id, $this->services)) {
             throw new InvalidArgumentException(sprintf('Service "%s" is not defined.', $id));
         }
@@ -149,8 +144,7 @@ class ServiceContainer
      * @param $id
      * @return bool
      */
-    public function isDefined($id)
-    {
+    public function isDefined($id) {
         return array_key_exists($id, $this->services);
     }
 
@@ -161,8 +155,7 @@ class ServiceContainer
      *
      * @return array
      */
-    public function getByPrefix($prefix)
-    {
+    public function getByPrefix($prefix) {
         if (!array_key_exists($prefix, $this->prefixed)) {
             return array();
         }
@@ -182,8 +175,7 @@ class ServiceContainer
      *
      * @throws \InvalidArgumentException if service is not defined
      */
-    public function remove($id)
-    {
+    public function remove($id) {
         if (!array_key_exists($id, $this->services)) {
             throw new InvalidArgumentException(sprintf('Service "%s" is not defined.', $id));
         }
@@ -203,11 +195,10 @@ class ServiceContainer
      *
      * @throws \InvalidArgumentException if configurator is not a callable
      */
-    public function addConfigurator($configurator)
-    {
+    public function addConfigurator($configurator) {
         if (!is_callable($configurator)) {
             throw new InvalidArgumentException(sprintf(
-                'Configurator should be callable, but %s given.', gettype($configurator)
+                    'Configurator should be callable, but %s given.', gettype($configurator)
             ));
         }
 
@@ -217,8 +208,7 @@ class ServiceContainer
     /**
      * Loop through all configurators and invoke them
      */
-    public function configure()
-    {
+    public function configure() {
         foreach ($this->configurators as $configurator) {
             call_user_func($configurator, $this);
         }
@@ -231,15 +221,15 @@ class ServiceContainer
      *
      * @return array
      */
-    private function getPrefixAndSid($id)
-    {
+    private function getPrefixAndSid($id) {
         if (count($parts = explode('.', $id)) < 2) {
             return array(null, $id);
         }
 
-        $sid    = array_pop($parts);
+        $sid = array_pop($parts);
         $prefix = implode('.', $parts);
 
         return array($prefix, $sid);
     }
+
 }

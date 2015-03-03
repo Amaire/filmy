@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property null|Expr $expr Expression
  */
-class Exit_ extends Expr
-{
+class Exit_ extends Expr {
+
     /**
      * Constructs an exit() node.
      *
@@ -17,10 +17,10 @@ class Exit_ extends Expr
      */
     public function __construct(Expr $expr = null, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

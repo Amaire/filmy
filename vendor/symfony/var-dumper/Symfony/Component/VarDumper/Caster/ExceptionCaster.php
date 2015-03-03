@@ -19,8 +19,8 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class ExceptionCaster
-{
+class ExceptionCaster {
+
     public static $traceArgs = true;
     public static $errorTypes = array(
         E_DEPRECATED => 'E_DEPRECATED',
@@ -40,8 +40,7 @@ class ExceptionCaster
         E_STRICT => 'E_STRICT',
     );
 
-    public static function castException(\Exception $e, array $a, Stub $stub, $isNested)
-    {
+    public static function castException(\Exception $e, array $a, Stub $stub, $isNested) {
         $trace = $a["\0Exception\0trace"];
         unset($a["\0Exception\0trace"]); // Ensures the trace is always last
 
@@ -58,8 +57,7 @@ class ExceptionCaster
         return $a;
     }
 
-    public static function castErrorException(\ErrorException $e, array $a, Stub $stub, $isNested)
-    {
+    public static function castErrorException(\ErrorException $e, array $a, Stub $stub, $isNested) {
         if (isset($a[$s = "\0*\0severity"], self::$errorTypes[$a[$s]])) {
             $a[$s] = new ConstStub(self::$errorTypes[$a[$s]], $a[$s]);
         }
@@ -67,8 +65,7 @@ class ExceptionCaster
         return $a;
     }
 
-    public static function castThrowingCasterException(ThrowingCasterException $e, array $a, Stub $stub, $isNested)
-    {
+    public static function castThrowingCasterException(ThrowingCasterException $e, array $a, Stub $stub, $isNested) {
         $b = (array) $a["\0Exception\0previous"];
 
         array_splice($b["\0Exception\0trace"], count($a["\0Exception\0trace"]));
@@ -79,7 +76,7 @@ class ExceptionCaster
         static::$traceArgs = $t;
 
         if (empty($a["\0*\0message"])) {
-            $a["\0*\0message"] = "Unexpected exception thrown from a caster: ".get_class($a["\0Exception\0previous"]);
+            $a["\0*\0message"] = "Unexpected exception thrown from a caster: " . get_class($a["\0Exception\0previous"]);
         }
 
         if (isset($b["\0*\0message"])) {
@@ -100,8 +97,7 @@ class ExceptionCaster
         return $a;
     }
 
-    public static function filterTrace(&$trace, $dumpArgs, $offset = 0)
-    {
+    public static function filterTrace(&$trace, $dumpArgs, $offset = 0) {
         if (0 > $offset || empty($trace[$offset])) {
             return $trace = null;
         }
@@ -120,7 +116,7 @@ class ExceptionCaster
 
         foreach ($trace as &$t) {
             $t = array(
-                'call' => (isset($t['class']) ? $t['class'].$t['type'] : '').$t['function'].'()',
+                'call' => (isset($t['class']) ? $t['class'] . $t['type'] : '') . $t['function'] . '()',
                 'file' => isset($t['line']) ? "{$t['file']}:{$t['line']}" : '',
                 'args' => &$t['args'],
             );
@@ -130,4 +126,5 @@ class ExceptionCaster
             }
         }
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -19,8 +20,8 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 1.0.0
  */
-class PHP_CodeCoverage_Report_HTML
-{
+class PHP_CodeCoverage_Report_HTML {
+
     /**
      * @var string
      */
@@ -48,20 +49,13 @@ class PHP_CodeCoverage_Report_HTML
      * @param integer $highLowerBound
      * @param string  $generator
      */
-    public function __construct($lowUpperBound = 50, $highLowerBound = 90, $generator = '')
-    {
-        $this->generator      = $generator;
+    public function __construct($lowUpperBound = 50, $highLowerBound = 90, $generator = '') {
+        $this->generator = $generator;
         $this->highLowerBound = $highLowerBound;
-        $this->lowUpperBound  = $lowUpperBound;
+        $this->lowUpperBound = $lowUpperBound;
 
         $this->templatePath = sprintf(
-            '%s%sHTML%sRenderer%sTemplate%s',
-
-            dirname(__FILE__),
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR
+                '%s%sHTML%sRenderer%sTemplate%s', dirname(__FILE__), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR
         );
     }
 
@@ -69,8 +63,7 @@ class PHP_CodeCoverage_Report_HTML
      * @param PHP_CodeCoverage $coverage
      * @param string           $target
      */
-    public function process(PHP_CodeCoverage $coverage, $target)
-    {
+    public function process(PHP_CodeCoverage $coverage, $target) {
         $target = $this->getDirectory($target);
         $report = $coverage->getReport();
         unset($coverage);
@@ -82,27 +75,15 @@ class PHP_CodeCoverage_Report_HTML
         $date = date('D M j G:i:s T Y', $_SERVER['REQUEST_TIME']);
 
         $dashboard = new PHP_CodeCoverage_Report_HTML_Renderer_Dashboard(
-            $this->templatePath,
-            $this->generator,
-            $date,
-            $this->lowUpperBound,
-            $this->highLowerBound
+                $this->templatePath, $this->generator, $date, $this->lowUpperBound, $this->highLowerBound
         );
 
         $directory = new PHP_CodeCoverage_Report_HTML_Renderer_Directory(
-            $this->templatePath,
-            $this->generator,
-            $date,
-            $this->lowUpperBound,
-            $this->highLowerBound
+                $this->templatePath, $this->generator, $date, $this->lowUpperBound, $this->highLowerBound
         );
 
         $file = new PHP_CodeCoverage_Report_HTML_Renderer_File(
-            $this->templatePath,
-            $this->generator,
-            $date,
-            $this->lowUpperBound,
-            $this->highLowerBound
+                $this->templatePath, $this->generator, $date, $this->lowUpperBound, $this->highLowerBound
         );
 
         $directory->render($report, $target . 'index.html');
@@ -135,8 +116,7 @@ class PHP_CodeCoverage_Report_HTML
     /**
      * @param string $target
      */
-    private function copyFiles($target)
-    {
+    private function copyFiles($target) {
         $dir = $this->getDirectory($target . 'css');
         copy($this->templatePath . 'css/bootstrap.min.css', $dir . 'bootstrap.min.css');
         copy($this->templatePath . 'css/nv.d3.css', $dir . 'nv.d3.css');
@@ -164,8 +144,7 @@ class PHP_CodeCoverage_Report_HTML
      * @throws PHP_CodeCoverage_Exception
      * @since  Method available since Release 1.2.0
      */
-    private function getDirectory($directory)
-    {
+    private function getDirectory($directory) {
         if (substr($directory, -1, 1) != DIRECTORY_SEPARATOR) {
             $directory .= DIRECTORY_SEPARATOR;
         }
@@ -179,10 +158,10 @@ class PHP_CodeCoverage_Report_HTML
         }
 
         throw new PHP_CodeCoverage_Exception(
-            sprintf(
-                'Directory "%s" does not exist.',
-                $directory
-            )
+        sprintf(
+                'Directory "%s" does not exist.', $directory
+        )
         );
     }
+
 }

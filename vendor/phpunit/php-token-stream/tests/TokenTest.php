@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_TokenStream package.
  *
@@ -20,14 +21,13 @@
  * @link       http://github.com/sebastianbergmann/php-token-stream/
  * @since      Class available since Release 1.0.0
  */
-class PHP_TokenTest extends PHPUnit_Framework_TestCase
-{
+class PHP_TokenTest extends PHPUnit_Framework_TestCase {
+
     /**
      * @covers PHP_Token::__construct
      * @covers PHP_Token::__toString
      */
-    public function testToString()
-    {
+    public function testToString() {
         $this->markTestIncomplete();
     }
 
@@ -35,8 +35,8 @@ class PHP_TokenTest extends PHPUnit_Framework_TestCase
      * @covers PHP_Token::__construct
      * @covers PHP_Token::getLine
      */
-    public function testGetLine()
-    {
+    public function testGetLine() {
         $this->markTestIncomplete();
     }
+
 }

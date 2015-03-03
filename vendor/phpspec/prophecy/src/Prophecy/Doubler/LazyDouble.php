@@ -22,12 +22,12 @@ use ReflectionClass;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class LazyDouble
-{
+class LazyDouble {
+
     private $doubler;
     private $class;
     private $interfaces = array();
-    private $arguments  = null;
+    private $arguments = null;
     private $double;
 
     /**
@@ -35,8 +35,7 @@ class LazyDouble
      *
      * @param Doubler $doubler
      */
-    public function __construct(Doubler $doubler)
-    {
+    public function __construct(Doubler $doubler) {
         $this->doubler = $doubler;
     }
 
@@ -48,8 +47,7 @@ class LazyDouble
      * @throws \Prophecy\Exception\Doubler\ClassNotFoundException
      * @throws \Prophecy\Exception\Doubler\DoubleException
      */
-    public function setParentClass($class)
-    {
+    public function setParentClass($class) {
         if (null !== $this->double) {
             throw new DoubleException('Can not extend class with already instantiated double.');
         }
@@ -73,19 +71,17 @@ class LazyDouble
      * @throws \Prophecy\Exception\Doubler\InterfaceNotFoundException
      * @throws \Prophecy\Exception\Doubler\DoubleException
      */
-    public function addInterface($interface)
-    {
+    public function addInterface($interface) {
         if (null !== $this->double) {
             throw new DoubleException(
-                'Can not implement interface with already instantiated double.'
+            'Can not implement interface with already instantiated double.'
             );
         }
 
         if (!$interface instanceof ReflectionClass) {
             if (!interface_exists($interface)) {
                 throw new InterfaceNotFoundException(
-                    sprintf('Interface %s not found.', $interface),
-                    $interface
+                sprintf('Interface %s not found.', $interface), $interface
                 );
             }
 
@@ -100,8 +96,7 @@ class LazyDouble
      *
      * @param array $arguments
      */
-    public function setArguments(array $arguments = null)
-    {
+    public function setArguments(array $arguments = null) {
         $this->arguments = $arguments;
     }
 
@@ -110,12 +105,11 @@ class LazyDouble
      *
      * @return DoubleInterface
      */
-    public function getInstance()
-    {
+    public function getInstance() {
         if (null === $this->double) {
             if (null !== $this->arguments) {
                 return $this->double = $this->doubler->double(
-                    $this->class, $this->interfaces, $this->arguments
+                        $this->class, $this->interfaces, $this->arguments
                 );
             }
 
@@ -124,4 +118,5 @@ class LazyDouble
 
         return $this->double;
     }
+
 }

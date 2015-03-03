@@ -21,13 +21,13 @@ use Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface;
  *
  * @see ExpressionLanguageProvider
  */
-class ExpressionLanguage extends BaseExpressionLanguage
-{
-    public function __construct(ParserCacheInterface $cache = null, array $providers = array())
-    {
+class ExpressionLanguage extends BaseExpressionLanguage {
+
+    public function __construct(ParserCacheInterface $cache = null, array $providers = array()) {
         // prepend the default provider to let users override it easily
         array_unshift($providers, new ExpressionLanguageProvider());
 
         parent::__construct($cache, $providers);
     }
+
 }

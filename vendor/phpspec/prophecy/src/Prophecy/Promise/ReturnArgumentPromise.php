@@ -19,8 +19,8 @@ use Prophecy\Prophecy\MethodProphecy;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ReturnArgumentPromise implements PromiseInterface
-{
+class ReturnArgumentPromise implements PromiseInterface {
+
     /**
      * Returns first argument if has one, null otherwise.
      *
@@ -30,8 +30,8 @@ class ReturnArgumentPromise implements PromiseInterface
      *
      * @return null|mixed
      */
-    public function execute(array $args, ObjectProphecy $object, MethodProphecy $method)
-    {
+    public function execute(array $args, ObjectProphecy $object, MethodProphecy $method) {
         return count($args) ? $args[0] : null;
     }
+
 }

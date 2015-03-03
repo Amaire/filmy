@@ -13,8 +13,8 @@
  *
  * @author     Chris Corbyn
  */
-class Swift_Plugins_Loggers_ArrayLogger implements Swift_Plugins_Logger
-{
+class Swift_Plugins_Loggers_ArrayLogger implements Swift_Plugins_Logger {
+
     /**
      * The log contents.
      *
@@ -34,8 +34,7 @@ class Swift_Plugins_Loggers_ArrayLogger implements Swift_Plugins_Logger
      *
      * @var int $size
      */
-    public function __construct($size = 50)
-    {
+    public function __construct($size = 50) {
         $this->_size = $size;
     }
 
@@ -44,8 +43,7 @@ class Swift_Plugins_Loggers_ArrayLogger implements Swift_Plugins_Logger
      *
      * @param string $entry
      */
-    public function add($entry)
-    {
+    public function add($entry) {
         $this->_log[] = $entry;
         while (count($this->_log) > $this->_size) {
             array_shift($this->_log);
@@ -55,8 +53,7 @@ class Swift_Plugins_Loggers_ArrayLogger implements Swift_Plugins_Logger
     /**
      * Clear the log contents.
      */
-    public function clear()
-    {
+    public function clear() {
         $this->_log = array();
     }
 
@@ -65,8 +62,8 @@ class Swift_Plugins_Loggers_ArrayLogger implements Swift_Plugins_Logger
      *
      * @return string
      */
-    public function dump()
-    {
+    public function dump() {
         return implode(PHP_EOL, $this->_log);
     }
+
 }

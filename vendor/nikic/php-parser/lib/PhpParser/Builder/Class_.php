@@ -6,14 +6,12 @@ use PhpParser;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class Class_ extends Declaration
-{
-    protected $name;
+class Class_ extends Declaration {
 
+    protected $name;
     protected $extends = null;
     protected $implements = array();
     protected $type = 0;
-
     protected $uses = array();
     protected $constants = array();
     protected $properties = array();
@@ -90,9 +88,9 @@ class Class_ extends Declaration
         $stmt = $this->normalizeNode($stmt);
 
         $targets = array(
-            'Stmt_TraitUse'    => &$this->uses,
-            'Stmt_ClassConst'  => &$this->constants,
-            'Stmt_Property'    => &$this->properties,
+            'Stmt_TraitUse' => &$this->uses,
+            'Stmt_ClassConst' => &$this->constants,
+            'Stmt_Property' => &$this->properties,
             'Stmt_ClassMethod' => &$this->methods,
         );
 
@@ -117,6 +115,7 @@ class Class_ extends Declaration
             'extends' => $this->extends,
             'implements' => $this->implements,
             'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
-        ), $this->attributes);
+                ), $this->attributes);
     }
+
 }

@@ -6,8 +6,8 @@ use XMLReader;
 use DomainException;
 use PhpParser\Unserializer;
 
-class XML implements Unserializer
-{
+class XML implements Unserializer {
+
     protected $reader;
 
     public function __construct() {
@@ -54,10 +54,9 @@ class XML implements Unserializer
 
         // create the node without calling it's constructor
         $node = unserialize(
-            sprintf(
-                "O:%d:\"%s\":2:{s:11:\"\0*\0subNodes\";a:0:{}s:13:\"\0*\0attributes\";a:0:{}}",
-                strlen($className), $className
-            )
+                sprintf(
+                        "O:%d:\"%s\":2:{s:11:\"\0*\0subNodes\";a:0:{}s:13:\"\0*\0attributes\";a:0:{}}", strlen($className), $className
+                )
         );
 
         $depthLimit = $this->reader->depth;
@@ -69,7 +68,7 @@ class XML implements Unserializer
             $type = $this->reader->prefix;
             if ('subNode' !== $type && 'attribute' !== $type) {
                 throw new DomainException(
-                    sprintf('Expected sub node or attribute, got node of type "%s"', $this->reader->name)
+                sprintf('Expected sub node or attribute, got node of type "%s"', $this->reader->name)
                 );
             }
 
@@ -126,13 +125,10 @@ class XML implements Unserializer
     }
 
     protected function readComment() {
-        $className = $this->reader->getAttribute('isDocComment') === 'true'
-            ? 'PhpParser\Comment\Doc'
-            : 'PhpParser\Comment'
+        $className = $this->reader->getAttribute('isDocComment') === 'true' ? 'PhpParser\Comment\Doc' : 'PhpParser\Comment'
         ;
         return new $className(
-            $this->reader->readString(),
-            $this->reader->getAttribute('line')
+                $this->reader->readString(), $this->reader->getAttribute('line')
         );
     }
 
@@ -146,4 +142,5 @@ class XML implements Unserializer
         }
         return $className;
     }
+
 }

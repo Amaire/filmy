@@ -25,8 +25,8 @@ use RuntimeException;
 /**
  * The command line application entry point
  */
-class Application extends BaseApplication
-{
+class Application extends BaseApplication {
+
     /**
      * @var \PhpSpec\ServiceContainer
      */
@@ -35,8 +35,7 @@ class Application extends BaseApplication
     /**
      * @param string $version
      */
-    public function __construct($version)
-    {
+    public function __construct($version) {
         $this->container = new ServiceContainer();
         parent::__construct('phpspec', $version);
     }
@@ -44,8 +43,7 @@ class Application extends BaseApplication
     /**
      * @return ServiceContainer
      */
-    public function getContainer()
-    {
+    public function getContainer() {
         return $this->container;
     }
 
@@ -55,8 +53,7 @@ class Application extends BaseApplication
      *
      * @return int
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
-    {
+    public function doRun(InputInterface $input, OutputInterface $output) {
         $this->container->set('console.input', $input);
         $this->container->set('console.output', $output);
         $this->container->set('console.helper.dialog', $this->getHelperSet()->get('dialog'));
@@ -81,8 +78,7 @@ class Application extends BaseApplication
      * Fixes an issue with definitions of the no-interaction option not being
      * completely shown in some cases
      */
-    protected function getDefaultInputDefinition()
-    {
+    protected function getDefaultInputDefinition() {
         $description = 'Do not ask any interactive question (disables code generation).';
 
         $definition = parent::getDefaultInputDefinition();
@@ -91,18 +87,12 @@ class Application extends BaseApplication
         if (array_key_exists('no-interaction', $options)) {
             $option = $options['no-interaction'];
             $options['no-interaction'] = new InputOption(
-                $option->getName(),
-                $option->getShortcut(),
-                InputOption::VALUE_NONE,
-                $description
+                    $option->getName(), $option->getShortcut(), InputOption::VALUE_NONE, $description
             );
         }
 
         $options['config'] = new InputOption(
-            'config',
-            'c',
-            InputOption::VALUE_REQUIRED,
-            'Specify a custom location for the configuration file'
+                'config', 'c', InputOption::VALUE_REQUIRED, 'Specify a custom location for the configuration file'
         );
 
         $definition->setOptions($options);
@@ -116,8 +106,7 @@ class Application extends BaseApplication
      *
      * @throws \RuntimeException
      */
-    protected function loadConfigurationFile(InputInterface $input, ServiceContainer $container)
-    {
+    protected function loadConfigurationFile(InputInterface $input, ServiceContainer $container) {
         $config = $this->parseConfigurationFile($input);
 
         foreach ($config as $key => $val) {
@@ -127,8 +116,7 @@ class Application extends BaseApplication
 
                     if (!$extension instanceof Extension\ExtensionInterface) {
                         throw new RuntimeException(sprintf(
-                            'Extension class must implement ExtensionInterface. But `%s` is not.',
-                            $class
+                                'Extension class must implement ExtensionInterface. But `%s` is not.', $class
                         ));
                     }
 
@@ -147,13 +135,12 @@ class Application extends BaseApplication
      *
      * @throws \RuntimeException
      */
-    protected function parseConfigurationFile(InputInterface $input)
-    {
-        $paths = array('phpspec.yml','phpspec.yml.dist');
+    protected function parseConfigurationFile(InputInterface $input) {
+        $paths = array('phpspec.yml', 'phpspec.yml.dist');
 
-        if ($customPath = $input->getParameterOption(array('-c','--config'))) {
+        if ($customPath = $input->getParameterOption(array('-c', '--config'))) {
             if (!file_exists($customPath)) {
-                throw new RuntimeException('Custom configuration file not found at '.$customPath);
+                throw new RuntimeException('Custom configuration file not found at ' . $customPath);
             }
             $paths = array($customPath);
         }
@@ -167,7 +154,7 @@ class Application extends BaseApplication
         }
 
         if ($homeFolder = getenv('HOME')) {
-            $localPath = $homeFolder.'/.phpspec.yml';
+            $localPath = $homeFolder . '/.phpspec.yml';
             if (file_exists($localPath) && $parsedConfig = Yaml::parse(file_get_contents($localPath))) {
                 $config = array_replace_recursive($parsedConfig, $config);
             }
@@ -175,4 +162,5 @@ class Application extends BaseApplication
 
         return $config;
     }
+
 }

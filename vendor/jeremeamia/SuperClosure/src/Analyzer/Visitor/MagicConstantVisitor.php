@@ -1,4 +1,6 @@
-<?php namespace SuperClosure\Analyzer\Visitor;
+<?php
+
+namespace SuperClosure\Analyzer\Visitor;
 
 use PhpParser\Node\Scalar\LNumber as NumberNode;
 use PhpParser\Node\Scalar\String as StringNode;
@@ -11,8 +13,8 @@ use PhpParser\NodeVisitorAbstract as NodeVisitor;
  *
  * @internal
  */
-final class MagicConstantVisitor extends NodeVisitor
-{
+final class MagicConstantVisitor extends NodeVisitor {
+
     /**
      * @var array
      */
@@ -21,13 +23,11 @@ final class MagicConstantVisitor extends NodeVisitor
     /**
      * @param array $location
      */
-    public function __construct(array $location)
-    {
+    public function __construct(array $location) {
         $this->location = $location;
     }
 
-    public function leaveNode(AstNode $node)
-    {
+    public function leaveNode(AstNode $node) {
         switch ($node->getType()) {
             case 'Scalar_MagicConst_Class' :
                 return new StringNode($this->location['class']);
@@ -47,4 +47,5 @@ final class MagicConstantVisitor extends NodeVisitor
                 return new StringNode($this->location['trait']);
         }
     }
+
 }

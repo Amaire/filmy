@@ -8,13 +8,12 @@ use DateTime;
 /**
  * @author Michael Dowling <mtdowling@gmail.com>
  */
-class MinutesFieldTest extends \PHPUnit_Framework_TestCase
-{
+class MinutesFieldTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @covers Cron\MinutesField::validate
      */
-    public function testValdatesField()
-    {
+    public function testValdatesField() {
         $f = new MinutesField();
         $this->assertTrue($f->validate('1'));
         $this->assertTrue($f->validate('*'));
@@ -24,8 +23,7 @@ class MinutesFieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Cron\MinutesField::increment
      */
-    public function testIncrementsDate()
-    {
+    public function testIncrementsDate() {
         $d = new DateTime('2011-03-15 11:15:00');
         $f = new MinutesField();
         $f->increment($d);
@@ -33,4 +31,5 @@ class MinutesFieldTest extends \PHPUnit_Framework_TestCase
         $f->increment($d, true);
         $this->assertEquals('2011-03-15 11:15:00', $d->format('Y-m-d H:i:s'));
     }
+
 }

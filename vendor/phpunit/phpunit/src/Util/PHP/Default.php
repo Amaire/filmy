@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -21,8 +22,8 @@ use SebastianBergmann\Environment\Runtime;
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.5.12
  */
-class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
-{
+class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP {
+
     /**
      * Runs a single job (PHP code) using a separate PHP process.
      *
@@ -31,23 +32,20 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
      * @return array
      * @throws PHPUnit_Framework_Exception
      */
-    public function runJob($job, array $settings = array())
-    {
+    public function runJob($job, array $settings = array()) {
         $runtime = new Runtime;
 
         $process = proc_open(
-            $runtime->getBinary() . $this->settingsToParameters($settings),
-            array(
+                $runtime->getBinary() . $this->settingsToParameters($settings), array(
             0 => array('pipe', 'r'),
             1 => array('pipe', 'w'),
             2 => array('pipe', 'w')
-            ),
-            $pipes
+                ), $pipes
         );
 
         if (!is_resource($process)) {
             throw new PHPUnit_Framework_Exception(
-                'Unable to spawn worker process'
+            'Unable to spawn worker process'
             );
         }
 
@@ -72,15 +70,15 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
      * @throws PHPUnit_Framework_Exception
      * @since Method available since Release 3.5.12
      */
-    protected function process($pipe, $job)
-    {
+    protected function process($pipe, $job) {
         fwrite($pipe, $job);
     }
 
     /**
      * @since Method available since Release 3.5.12
      */
-    protected function cleanup()
-    {
+    protected function cleanup() {
+        
     }
+
 }

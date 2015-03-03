@@ -26,8 +26,8 @@ use Symfony\Component\Security\Core\Role\SwitchUserRole;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class UserAuthenticationProvider implements AuthenticationProviderInterface
-{
+abstract class UserAuthenticationProvider implements AuthenticationProviderInterface {
+
     private $hideUserNotFoundExceptions;
     private $userChecker;
     private $providerKey;
@@ -41,8 +41,7 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(UserCheckerInterface $userChecker, $providerKey, $hideUserNotFoundExceptions = true)
-    {
+    public function __construct(UserCheckerInterface $userChecker, $providerKey, $hideUserNotFoundExceptions = true) {
         if (empty($providerKey)) {
             throw new \InvalidArgumentException('$providerKey must not be empty.');
         }
@@ -55,8 +54,7 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
     /**
      * {@inheritdoc}
      */
-    public function authenticate(TokenInterface $token)
-    {
+    public function authenticate(TokenInterface $token) {
         if (!$this->supports($token)) {
             return;
         }
@@ -102,8 +100,7 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
     /**
      * {@inheritdoc}
      */
-    public function supports(TokenInterface $token)
-    {
+    public function supports(TokenInterface $token) {
         return $token instanceof UsernamePasswordToken && $this->providerKey === $token->getProviderKey();
     }
 
@@ -115,8 +112,7 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
      *
      * @return array The user roles
      */
-    private function getRoles(UserInterface $user, TokenInterface $token)
-    {
+    private function getRoles(UserInterface $user, TokenInterface $token) {
         $roles = $user->getRoles();
 
         foreach ($token->getRoles() as $role) {

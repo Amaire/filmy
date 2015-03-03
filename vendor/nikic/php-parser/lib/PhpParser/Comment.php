@@ -2,8 +2,8 @@
 
 namespace PhpParser;
 
-class Comment
-{
+class Comment {
+
     protected $text;
     protected $line;
 
@@ -116,4 +116,5 @@ class Comment
         // No idea how to format this comment, so simply return as is
         return $text;
     }
+
 }

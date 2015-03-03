@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,20 +20,18 @@
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.phpunit.de/
  */
-class PHPUnit_Framework_Constraint_Callback extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_Callback extends PHPUnit_Framework_Constraint {
+
     private $callback;
 
     /**
      * @param  callable                    $callback
      * @throws PHPUnit_Framework_Exception
      */
-    public function __construct($callback)
-    {
+    public function __construct($callback) {
         if (!is_callable($callback)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
-                1,
-                'callable'
+                    1, 'callable'
             );
         }
 
@@ -48,8 +47,7 @@ class PHPUnit_Framework_Constraint_Callback extends PHPUnit_Framework_Constraint
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         return call_user_func($this->callback, $other);
     }
 
@@ -58,8 +56,8 @@ class PHPUnit_Framework_Constraint_Callback extends PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'is accepted by specified callback';
     }
+
 }

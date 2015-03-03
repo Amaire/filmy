@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Diff
  *
@@ -54,8 +55,8 @@ namespace SebastianBergmann\Diff\LCS;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/diff
  */
-interface LongestCommonSubsequence
-{
+interface LongestCommonSubsequence {
+
     /**
      * Calculates the longest common subsequence of two arrays.
      *

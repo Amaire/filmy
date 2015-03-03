@@ -20,35 +20,34 @@ use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Kernel;
 
-class ProfilerListenerTest extends \PHPUnit_Framework_TestCase
-{
+class ProfilerListenerTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test to ensure BC without RequestStack
      */
-    public function testLegacyEventsWithoutRequestStack()
-    {
+    public function testLegacyEventsWithoutRequestStack() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
 
         $profile = $this->getMockBuilder('Symfony\Component\HttpKernel\Profiler\Profile')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $profiler = $this->getMockBuilder('Symfony\Component\HttpKernel\Profiler\Profiler')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
         $profiler->expects($this->once())
-            ->method('collect')
-            ->will($this->returnValue($profile));
+                ->method('collect')
+                ->will($this->returnValue($profile));
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
 
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $response = $this->getMockBuilder('Symfony\Component\HttpFoundation\Response')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $listener = new ProfilerListener($profiler);
         $listener->onKernelRequest(new GetResponseEvent($kernel, $request, Kernel::MASTER_REQUEST));
@@ -59,33 +58,32 @@ class ProfilerListenerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test a master and sub request with an exception and `onlyException` profiler option enabled.
      */
-    public function testKernelTerminate()
-    {
+    public function testKernelTerminate() {
         $profile = $this->getMockBuilder('Symfony\Component\HttpKernel\Profiler\Profile')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $profiler = $this->getMockBuilder('Symfony\Component\HttpKernel\Profiler\Profiler')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $profiler->expects($this->once())
-            ->method('collect')
-            ->will($this->returnValue($profile));
+                ->method('collect')
+                ->will($this->returnValue($profile));
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
 
         $masterRequest = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
 
-        $subRequest =  $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $subRequest = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $response = $this->getMockBuilder('Symfony\Component\HttpFoundation\Response')
-            ->disableOriginalConstructor()
-            ->getMock();
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $requestStack = new RequestStack();
         $requestStack->push($masterRequest);
@@ -102,4 +100,5 @@ class ProfilerListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener->onKernelTerminate(new PostResponseEvent($kernel, $masterRequest, $response));
     }
+
 }

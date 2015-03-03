@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Diff
  *
@@ -54,26 +55,25 @@ namespace SebastianBergmann\Diff;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/diff
  */
-class Parser
-{
+class Parser {
+
     /**
      * @param  string $string
      * @return Diff[]
      */
-    public function parse($string)
-    {
-        $lines     = preg_split('(\r\n|\r|\n)', $string);
+    public function parse($string) {
+        $lines = preg_split('(\r\n|\r|\n)', $string);
         $lineCount = count($lines);
-        $diffs     = array();
-        $diff      = null;
+        $diffs = array();
+        $diff = null;
         $collected = array();
 
         for ($i = 0; $i < $lineCount; ++$i) {
             if (preg_match('(^---\\s+(?P<file>\\S+))', $lines[$i], $fromMatch) &&
-                preg_match('(^\\+\\+\\+\\s+(?P<file>\\S+))', $lines[$i + 1], $toMatch)) {
+                    preg_match('(^\\+\\+\\+\\s+(?P<file>\\S+))', $lines[$i + 1], $toMatch)) {
                 if ($diff !== null) {
                     $this->parseFileDiff($diff, $collected);
-                    $diffs[]   = $diff;
+                    $diffs[] = $diff;
                     $collected = array();
                 }
 
@@ -96,8 +96,7 @@ class Parser
      * @param Diff  $diff
      * @param array $lines
      */
-    private function parseFileDiff(Diff $diff, array $lines)
-    {
+    private function parseFileDiff(Diff $diff, array $lines) {
         $chunks = array();
 
         while (count($lines)) {
@@ -108,18 +107,15 @@ class Parser
             }
 
             $chunk = new Chunk(
-                $match['start'],
-                isset($match['startrange']) ? max(1, $match['startrange']) : 1,
-                $match['end'],
-                isset($match['endrange']) ? max(1, $match['endrange']) : 1
+                    $match['start'], isset($match['startrange']) ? max(1, $match['startrange']) : 1, $match['end'], isset($match['endrange']) ? max(1, $match['endrange']) : 1
             );
 
             $diffLines = array();
-            $last      = null;
+            $last = null;
 
             while (count($lines) &&
-                  (preg_match('(^(?P<type>[+ -])?(?P<line>.*))', $last = array_shift($lines), $match) ||
-                  (strpos($last, '\\ No newline at end of file') === 0))) {
+            (preg_match('(^(?P<type>[+ -])?(?P<line>.*))', $last = array_shift($lines), $match) ||
+            (strpos($last, '\\ No newline at end of file') === 0))) {
                 if (count($match)) {
                     $type = Line::UNCHANGED;
 
@@ -144,4 +140,5 @@ class Parser
 
         $diff->setChunks($chunks);
     }
+
 }

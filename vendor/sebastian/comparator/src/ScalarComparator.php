@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,8 +20,8 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class ScalarComparator extends Comparator
-{
+class ScalarComparator extends Comparator {
+
     /**
      * Returns whether the comparator can compare two values.
      *
@@ -29,13 +30,11 @@ class ScalarComparator extends Comparator
      * @return boolean
      * @since  Method available since Release 3.6.0
      */
-    public function accepts($expected, $actual)
-    {
+    public function accepts($expected, $actual) {
         return ((is_scalar($expected) xor null === $expected) &&
-               (is_scalar($actual) xor null === $actual))
-               // allow comparison between strings and objects featuring __toString()
-               || (is_string($expected) && is_object($actual) && method_exists($actual, '__toString'))
-               || (is_object($expected) && method_exists($expected, '__toString') && is_string($actual));
+                (is_scalar($actual) xor null === $actual))
+                // allow comparison between strings and objects featuring __toString()
+                || (is_string($expected) && is_object($actual) && method_exists($actual, '__toString')) || (is_object($expected) && method_exists($expected, '__toString') && is_string($actual));
     }
 
     /**
@@ -53,16 +52,15 @@ class ScalarComparator extends Comparator
      *                           fails. Contains information about the
      *                           specific errors that lead to the failure.
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-    {
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false) {
         $expectedToCompare = $expected;
         $actualToCompare = $actual;
 
         // always compare as strings to avoid strange behaviour
         // otherwise 0 == 'Foobar'
         if (is_string($expected) || is_string($actual)) {
-            $expectedToCompare = (string)$expectedToCompare;
-            $actualToCompare = (string)$actualToCompare;
+            $expectedToCompare = (string) $expectedToCompare;
+            $actualToCompare = (string) $actualToCompare;
 
             if ($ignoreCase) {
                 $expectedToCompare = strtolower($expectedToCompare);
@@ -73,28 +71,18 @@ class ScalarComparator extends Comparator
         if ($expectedToCompare != $actualToCompare) {
             if (is_string($expected) && is_string($actual)) {
                 throw new ComparisonFailure(
-                    $expected,
-                    $actual,
-                    $this->exporter->export($expected),
-                    $this->exporter->export($actual),
-                    false,
-                    'Failed asserting that two strings are equal.'
+                $expected, $actual, $this->exporter->export($expected), $this->exporter->export($actual), false, 'Failed asserting that two strings are equal.'
                 );
             }
 
             throw new ComparisonFailure(
-                $expected,
-                $actual,
-                // no diff is required
-                '',
-                '',
-                false,
-                sprintf(
-                    'Failed asserting that %s matches expected %s.',
-                    $this->exporter->export($actual),
-                    $this->exporter->export($expected)
-                )
+            $expected, $actual,
+            // no diff is required
+            '', '', false, sprintf(
+                    'Failed asserting that %s matches expected %s.', $this->exporter->export($actual), $this->exporter->export($expected)
+            )
             );
         }
     }
+
 }

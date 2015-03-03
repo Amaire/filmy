@@ -17,14 +17,14 @@ namespace PhpSpec\Factory;
  * Class ReflectionFactory is a simple factory wrapper to create reflection
  * classes
  */
-class ReflectionFactory
-{
+class ReflectionFactory {
+
     /**
      * @param $class
      * @return \ReflectionClass
      */
-    public function create($class)
-    {
+    public function create($class) {
         return new \ReflectionClass($class);
     }
+
 }

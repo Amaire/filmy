@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,16 +20,16 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class SampleClass
-{
+class SampleClass {
+
     public $a;
     protected $b;
     protected $c;
 
-    public function __construct($a, $b, $c)
-    {
+    public function __construct($a, $b, $c) {
         $this->a = $a;
         $this->b = $b;
         $this->c = $c;
     }
+
 }

@@ -16,8 +16,8 @@ namespace Symfony\Component\Translation;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class PluralizationRules
-{
+class PluralizationRules {
+
     private static $rules = array();
 
     /**
@@ -28,8 +28,7 @@ class PluralizationRules
      *
      * @return int The plural position
      */
-    public static function get($number, $locale)
-    {
+    public static function get($number, $locale) {
         if ('pt_BR' === $locale) {
             // temporary set a locale for brazilian
             $locale = 'xbr';
@@ -194,8 +193,7 @@ class PluralizationRules
      *
      * @throws \LogicException
      */
-    public static function set($rule, $locale)
-    {
+    public static function set($rule, $locale) {
         if ('pt_BR' === $locale) {
             // temporary set a locale for brazilian
             $locale = 'xbr';
@@ -211,4 +209,5 @@ class PluralizationRules
 
         self::$rules[$locale] = $rule;
     }
+
 }

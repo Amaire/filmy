@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr $var Variable
  */
-class PreDec extends Expr
-{
+class PreDec extends Expr {
+
     /**
      * Constructs a pre decrement node.
      *
@@ -17,10 +17,10 @@ class PreDec extends Expr
      */
     public function __construct(Expr $var, array $attributes = array()) {
         parent::__construct(
-            array(
-                'var' => $var
-            ),
-            $attributes
+                array(
+            'var' => $var
+                ), $attributes
         );
     }
+
 }

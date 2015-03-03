@@ -17,8 +17,8 @@ namespace PhpSpec\Exception\Fracture;
  * Class MethodInvocationException holds information about method invocation
  * exceptions
  */
-abstract class MethodInvocationException extends FractureException
-{
+abstract class MethodInvocationException extends FractureException {
+
     /**
      * @var mixed
      */
@@ -40,36 +40,33 @@ abstract class MethodInvocationException extends FractureException
      * @param string $method
      * @param array  $arguments
      */
-    public function __construct($message, $subject, $method, array $arguments = array())
-    {
+    public function __construct($message, $subject, $method, array $arguments = array()) {
         parent::__construct($message);
 
-        $this->subject   = $subject;
-        $this->method    = $method;
+        $this->subject = $subject;
+        $this->method = $method;
         $this->arguments = $arguments;
     }
 
     /**
      * @return mixed
      */
-    public function getSubject()
-    {
+    public function getSubject() {
         return $this->subject;
     }
 
     /**
      * @return string
      */
-    public function getMethodName()
-    {
+    public function getMethodName() {
         return $this->method;
     }
 
     /**
      * @return array
      */
-    public function getArguments()
-    {
+    public function getArguments() {
         return $this->arguments;
     }
+
 }

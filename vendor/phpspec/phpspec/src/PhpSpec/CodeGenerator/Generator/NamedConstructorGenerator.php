@@ -18,8 +18,8 @@ use PhpSpec\Console\IO;
 use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\Util\Filesystem;
 
-class NamedConstructorGenerator implements GeneratorInterface
-{
+class NamedConstructorGenerator implements GeneratorInterface {
+
     /**
      * @var \PhpSpec\Console\IO
      */
@@ -40,11 +40,10 @@ class NamedConstructorGenerator implements GeneratorInterface
      * @param TemplateRenderer $templates
      * @param Filesystem       $filesystem
      */
-    public function __construct(IO $io, TemplateRenderer $templates, Filesystem $filesystem = null)
-    {
-        $this->io         = $io;
-        $this->templates  = $templates;
-        $this->filesystem = $filesystem ?: new Filesystem();
+    public function __construct(IO $io, TemplateRenderer $templates, Filesystem $filesystem = null) {
+        $this->io = $io;
+        $this->templates = $templates;
+        $this->filesystem = $filesystem ? : new Filesystem();
     }
 
     /**
@@ -54,8 +53,7 @@ class NamedConstructorGenerator implements GeneratorInterface
      *
      * @return bool
      */
-    public function supports(ResourceInterface $resource, $generation, array $data)
-    {
+    public function supports(ResourceInterface $resource, $generation, array $data) {
         return 'named_constructor' === $generation;
     }
 
@@ -63,29 +61,26 @@ class NamedConstructorGenerator implements GeneratorInterface
      * @param ResourceInterface $resource
      * @param array             $data
      */
-    public function generate(ResourceInterface $resource, array $data = array())
-    {
-        $filepath   = $resource->getSrcFilename();
+    public function generate(ResourceInterface $resource, array $data = array()) {
+        $filepath = $resource->getSrcFilename();
         $methodName = $data['name'];
-        $arguments  = $data['arguments'];
+        $arguments = $data['arguments'];
 
         $content = $this->getContent($resource, $methodName, $arguments);
 
         $code = $this->filesystem->getFileContents($filepath);
-        $code = preg_replace('/}[ \n]*$/', rtrim($content)."\n}\n", trim($code));
+        $code = preg_replace('/}[ \n]*$/', rtrim($content) . "\n}\n", trim($code));
         $this->filesystem->putFileContents($filepath, $code);
 
         $this->io->writeln(sprintf(
-            "<info>Method <value>%s::%s()</value> has been created.</info>\n",
-            $resource->getSrcClassname(), $methodName
-        ), 2);
+                        "<info>Method <value>%s::%s()</value> has been created.</info>\n", $resource->getSrcClassname(), $methodName
+                ), 2);
     }
 
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 0;
     }
 
@@ -95,8 +90,7 @@ class NamedConstructorGenerator implements GeneratorInterface
      * @param  array             $arguments
      * @return string
      */
-    private function getContent(ResourceInterface $resource, $methodName, $arguments)
-    {
+    private function getContent(ResourceInterface $resource, $methodName, $arguments) {
         $className = $resource->getName();
         $class = $resource->getSrcClassname();
 
@@ -104,14 +98,11 @@ class NamedConstructorGenerator implements GeneratorInterface
 
         if (method_exists($class, '__construct')) {
             $template = new ExistingConstructorTemplate(
-                $this->templates,
-                $methodName,
-                $arguments,
-                $className,
-                $class
+                    $this->templates, $methodName, $arguments, $className, $class
             );
         }
 
         return $template->getContent();
     }
+
 }

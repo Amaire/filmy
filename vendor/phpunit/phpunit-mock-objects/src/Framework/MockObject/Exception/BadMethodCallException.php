@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -50,6 +51,6 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Class available since Release 2.0.6
  */
-class PHPUnit_Framework_MockObject_BadMethodCallException extends BadMethodCallException implements PHPUnit_Framework_MockObject_Exception
-{
+class PHPUnit_Framework_MockObject_BadMethodCallException extends BadMethodCallException implements PHPUnit_Framework_MockObject_Exception {
+    
 }

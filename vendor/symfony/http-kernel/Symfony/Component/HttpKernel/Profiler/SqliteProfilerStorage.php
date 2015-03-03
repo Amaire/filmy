@@ -16,13 +16,12 @@ namespace Symfony\Component\HttpKernel\Profiler;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class SqliteProfilerStorage extends PdoProfilerStorage
-{
+class SqliteProfilerStorage extends PdoProfilerStorage {
+
     /**
      * @throws \RuntimeException When neither of SQLite3 or PDO_SQLite extension is enabled
      */
-    protected function initDb()
-    {
+    protected function initDb() {
         if (null === $this->db || $this->db instanceof \SQLite3) {
             if (0 !== strpos($this->dsn, 'sqlite')) {
                 throw new \RuntimeException(sprintf('Please check your configuration. You are trying to use Sqlite with an invalid dsn "%s". The expected format is "sqlite:/path/to/the/db/file".', $this->dsn));
@@ -54,8 +53,7 @@ class SqliteProfilerStorage extends PdoProfilerStorage
         return $this->db;
     }
 
-    protected function exec($db, $query, array $args = array())
-    {
+    protected function exec($db, $query, array $args = array()) {
         if ($db instanceof \SQLite3) {
             $stmt = $this->prepareStatement($db, $query);
             foreach ($args as $arg => $val) {
@@ -72,8 +70,7 @@ class SqliteProfilerStorage extends PdoProfilerStorage
         }
     }
 
-    protected function fetch($db, $query, array $args = array())
-    {
+    protected function fetch($db, $query, array $args = array()) {
         $return = array();
 
         if ($db instanceof \SQLite3) {
@@ -97,19 +94,18 @@ class SqliteProfilerStorage extends PdoProfilerStorage
     /**
      * {@inheritdoc}
      */
-    protected function buildCriteria($ip, $url, $start, $end, $limit, $method)
-    {
+    protected function buildCriteria($ip, $url, $start, $end, $limit, $method) {
         $criteria = array();
         $args = array();
 
         if ($ip = preg_replace('/[^\d\.]/', '', $ip)) {
             $criteria[] = 'ip LIKE :ip';
-            $args[':ip'] = '%'.$ip.'%';
+            $args[':ip'] = '%' . $ip . '%';
         }
 
         if ($url) {
             $criteria[] = 'url LIKE :url ESCAPE "\"';
-            $args[':url'] = '%'.addcslashes($url, '%_\\').'%';
+            $args[':url'] = '%' . addcslashes($url, '%_\\') . '%';
         }
 
         if ($method) {
@@ -130,10 +126,10 @@ class SqliteProfilerStorage extends PdoProfilerStorage
         return array($criteria, $args);
     }
 
-    protected function close($db)
-    {
+    protected function close($db) {
         if ($db instanceof \SQLite3) {
             $db->close();
         }
     }
+
 }

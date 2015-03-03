@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Covers Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class CoversTagTest extends \PHPUnit_Framework_TestCase
-{
+class CoversTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\CoversTag can create
      * a link for the covers doc block.
@@ -37,11 +38,7 @@ class CoversTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $exContent,
-        $exDescription,
-        $exReference
+    $type, $content, $exContent, $exDescription, $exReference
     ) {
         $tag = new CoversTag($type, $content);
 
@@ -56,8 +53,7 @@ class CoversTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstuctor()
-    {
+    public function provideDataForConstuctor() {
         // $type, $content, $exContent, $exDescription, $exReference
         return array(
             array(
@@ -83,4 +79,5 @@ class CoversTagTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

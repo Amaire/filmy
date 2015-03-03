@@ -15,10 +15,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Role\Role;
 
-class RoleVoterTest extends \PHPUnit_Framework_TestCase
-{
-    public function testSupportsClass()
-    {
+class RoleVoterTest extends \PHPUnit_Framework_TestCase {
+
+    public function testSupportsClass() {
         $voter = new RoleVoter();
 
         $this->assertTrue($voter->supportsClass('Foo'));
@@ -27,15 +26,13 @@ class RoleVoterTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getVoteTests
      */
-    public function testVote($roles, $attributes, $expected)
-    {
+    public function testVote($roles, $attributes, $expected) {
         $voter = new RoleVoter();
 
         $this->assertSame($expected, $voter->vote($this->getToken($roles), null, $attributes));
     }
 
-    public function getVoteTests()
-    {
+    public function getVoteTests() {
         return array(
             array(array(), array(), VoterInterface::ACCESS_ABSTAIN),
             array(array(), array('FOO'), VoterInterface::ACCESS_ABSTAIN),
@@ -46,16 +43,16 @@ class RoleVoterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function getToken(array $roles)
-    {
+    protected function getToken(array $roles) {
         foreach ($roles as $i => $role) {
             $roles[$i] = new Role($role);
         }
         $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $token->expects($this->once())
-              ->method('getRoles')
-              ->will($this->returnValue($roles));
+                ->method('getRoles')
+                ->will($this->returnValue($roles));
 
         return $token;
     }
+
 }

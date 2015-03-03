@@ -21,8 +21,8 @@ use PhpSpec\Event\SpecificationEvent;
 use PhpSpec\Event\ExampleEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-abstract class BasicFormatter implements EventSubscriberInterface
-{
+abstract class BasicFormatter implements EventSubscriberInterface {
+
     /**
      * @var IO
      */
@@ -38,8 +38,7 @@ abstract class BasicFormatter implements EventSubscriberInterface
      */
     private $stats;
 
-    public function __construct(PresenterInterface $presenter, IO $io, StatisticsCollector $stats)
-    {
+    public function __construct(PresenterInterface $presenter, IO $io, StatisticsCollector $stats) {
         $this->presenter = $presenter;
         $this->io = $io;
         $this->stats = $stats;
@@ -48,8 +47,7 @@ abstract class BasicFormatter implements EventSubscriberInterface
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         $events = array(
             'beforeSuite', 'afterSuite',
             'beforeExample', 'afterExample',
@@ -62,66 +60,64 @@ abstract class BasicFormatter implements EventSubscriberInterface
     /**
      * @return IO
      */
-    protected function getIO()
-    {
+    protected function getIO() {
         return $this->io;
     }
 
     /**
      * @return PresenterInterface
      */
-    protected function getPresenter()
-    {
+    protected function getPresenter() {
         return $this->presenter;
     }
 
     /**
      * @return StatisticsCollector
      */
-    protected function getStatisticsCollector()
-    {
+    protected function getStatisticsCollector() {
         return $this->stats;
     }
 
     /**
      * @param SuiteEvent $event
      */
-    public function beforeSuite(SuiteEvent $event)
-    {
+    public function beforeSuite(SuiteEvent $event) {
+        
     }
 
     /**
      * @param SuiteEvent $event
      */
-    public function afterSuite(SuiteEvent $event)
-    {
+    public function afterSuite(SuiteEvent $event) {
+        
     }
 
     /**
      * @param ExampleEvent $event
      */
-    public function beforeExample(ExampleEvent $event)
-    {
+    public function beforeExample(ExampleEvent $event) {
+        
     }
 
     /**
      * @param ExampleEvent $event
      */
-    public function afterExample(ExampleEvent $event)
-    {
+    public function afterExample(ExampleEvent $event) {
+        
     }
 
     /**
      * @param SpecificationEvent $event
      */
-    public function beforeSpecification(SpecificationEvent $event)
-    {
+    public function beforeSpecification(SpecificationEvent $event) {
+        
     }
 
     /**
      * @param SpecificationEvent $event
      */
-    public function afterSpecification(SpecificationEvent $event)
-    {
+    public function afterSpecification(SpecificationEvent $event) {
+        
     }
+
 }

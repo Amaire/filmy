@@ -22,8 +22,8 @@ use ReflectionClass;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ThrowPromise implements PromiseInterface
-{
+class ThrowPromise implements PromiseInterface {
+
     private $exception;
 
     /**
@@ -38,21 +38,16 @@ class ThrowPromise implements PromiseInterface
      *
      * @throws \Prophecy\Exception\InvalidArgumentException
      */
-    public function __construct($exception)
-    {
+    public function __construct($exception) {
         if (is_string($exception)) {
-            if (!class_exists($exception)
-             && 'Exception' !== $exception
-             && !is_subclass_of($exception, 'Exception')) {
+            if (!class_exists($exception) && 'Exception' !== $exception && !is_subclass_of($exception, 'Exception')) {
                 throw new InvalidArgumentException(sprintf(
-                    'Exception class or instance expected as argument to ThrowPromise, but got %s.',
-                    gettype($exception)
+                        'Exception class or instance expected as argument to ThrowPromise, but got %s.', gettype($exception)
                 ));
             }
         } elseif (!$exception instanceof \Exception) {
             throw new InvalidArgumentException(sprintf(
-                'Exception class or instance expected as argument to ThrowPromise, but got %s.',
-                gettype($exception)
+                    'Exception class or instance expected as argument to ThrowPromise, but got %s.', gettype($exception)
             ));
         }
 
@@ -68,11 +63,10 @@ class ThrowPromise implements PromiseInterface
      *
      * @throws object
      */
-    public function execute(array $args, ObjectProphecy $object, MethodProphecy $method)
-    {
+    public function execute(array $args, ObjectProphecy $object, MethodProphecy $method) {
         if (is_string($this->exception)) {
-            $classname   = $this->exception;
-            $reflection  = new ReflectionClass($classname);
+            $classname = $this->exception;
+            $reflection = new ReflectionClass($classname);
             $constructor = $reflection->getConstructor();
 
             if ($constructor->isPublic() && 0 == $constructor->getNumberOfRequiredParameters()) {
@@ -88,4 +82,5 @@ class ThrowPromise implements PromiseInterface
 
         throw $this->exception;
     }
+
 }

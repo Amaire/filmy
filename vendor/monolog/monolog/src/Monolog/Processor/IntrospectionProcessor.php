@@ -24,14 +24,12 @@ use Monolog\Logger;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class IntrospectionProcessor
-{
-    private $level;
+class IntrospectionProcessor {
 
+    private $level;
     private $skipClassesPartials;
 
-    public function __construct($level = Logger::DEBUG, array $skipClassesPartials = array('Monolog\\'))
-    {
+    public function __construct($level = Logger::DEBUG, array $skipClassesPartials = array('Monolog\\')) {
         $this->level = Logger::toMonologLevel($level);
         $this->skipClassesPartials = $skipClassesPartials;
     }
@@ -40,8 +38,7 @@ class IntrospectionProcessor
      * @param  array $record
      * @return array
      */
-    public function __invoke(array $record)
-    {
+    public function __invoke(array $record) {
         // return if the level is not high enough
         if ($record['level'] < $this->level) {
             return $record;
@@ -68,15 +65,15 @@ class IntrospectionProcessor
 
         // we should have the call source now
         $record['extra'] = array_merge(
-            $record['extra'],
-            array(
-                'file'      => isset($trace[$i-1]['file']) ? $trace[$i-1]['file'] : null,
-                'line'      => isset($trace[$i-1]['line']) ? $trace[$i-1]['line'] : null,
-                'class'     => isset($trace[$i]['class']) ? $trace[$i]['class'] : null,
-                'function'  => isset($trace[$i]['function']) ? $trace[$i]['function'] : null,
-            )
+                $record['extra'], array(
+            'file' => isset($trace[$i - 1]['file']) ? $trace[$i - 1]['file'] : null,
+            'line' => isset($trace[$i - 1]['line']) ? $trace[$i - 1]['line'] : null,
+            'class' => isset($trace[$i]['class']) ? $trace[$i]['class'] : null,
+            'function' => isset($trace[$i]['function']) ? $trace[$i]['function'] : null,
+                )
         );
 
         return $record;
     }
+
 }

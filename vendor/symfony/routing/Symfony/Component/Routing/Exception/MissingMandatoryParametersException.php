@@ -19,6 +19,6 @@ namespace Symfony\Component\Routing\Exception;
  *
  * @api
  */
-class MissingMandatoryParametersException extends \InvalidArgumentException implements ExceptionInterface
-{
+class MissingMandatoryParametersException extends \InvalidArgumentException implements ExceptionInterface {
+    
 }

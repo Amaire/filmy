@@ -16,8 +16,8 @@ namespace Symfony\Component\HttpKernel\Tests\Profiler\Mock;
  *
  * @author Andrej Hudec <pulzarraider@gmail.com>
  */
-class MemcacheMock
-{
+class MemcacheMock {
+
     private $connected = false;
     private $storage = array();
 
@@ -30,8 +30,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function connect($host, $port = null, $timeout = null)
-    {
+    public function connect($host, $port = null, $timeout = null) {
         if ('127.0.0.1' == $host && 11211 == $port) {
             $this->connected = true;
 
@@ -50,8 +49,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function pconnect($host, $port = null, $timeout = null)
-    {
+    public function pconnect($host, $port = null, $timeout = null) {
         if ('127.0.0.1' == $host && 11211 == $port) {
             $this->connected = true;
 
@@ -76,8 +74,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function addServer($host, $port = 11211, $persistent = null, $weight = null, $timeout = null, $retry_interval = null, $status = null, $failure_callback = null, $timeoutms = null)
-    {
+    public function addServer($host, $port = 11211, $persistent = null, $weight = null, $timeout = null, $retry_interval = null, $status = null, $failure_callback = null, $timeoutms = null) {
         if ('127.0.0.1' == $host && 11211 == $port) {
             $this->connected = true;
 
@@ -97,8 +94,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function add($key, $var, $flag = null, $expire = null)
-    {
+    public function add($key, $var, $flag = null, $expire = null) {
         if (!$this->connected) {
             return false;
         }
@@ -122,8 +118,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function set($key, $var, $flag = null, $expire = null)
-    {
+    public function set($key, $var, $flag = null, $expire = null) {
         if (!$this->connected) {
             return false;
         }
@@ -143,8 +138,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function replace($key, $var, $flag = null, $expire = null)
-    {
+    public function replace($key, $var, $flag = null, $expire = null) {
         if (!$this->connected) {
             return false;
         }
@@ -166,8 +160,7 @@ class MemcacheMock
      *
      * @return mixed
      */
-    public function get($key, &$flags = null)
-    {
+    public function get($key, &$flags = null) {
         if (!$this->connected) {
             return false;
         }
@@ -193,8 +186,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function delete($key)
-    {
+    public function delete($key) {
         if (!$this->connected) {
             return false;
         }
@@ -213,8 +205,7 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function flush()
-    {
+    public function flush() {
         if (!$this->connected) {
             return false;
         }
@@ -229,15 +220,13 @@ class MemcacheMock
      *
      * @return bool
      */
-    public function close()
-    {
+    public function close() {
         $this->connected = false;
 
         return true;
     }
 
-    private function getData($key)
-    {
+    private function getData($key) {
         if (isset($this->storage[$key])) {
             return unserialize($this->storage[$key]);
         }
@@ -245,10 +234,10 @@ class MemcacheMock
         return false;
     }
 
-    private function storeData($key, $value)
-    {
+    private function storeData($key, $value) {
         $this->storage[$key] = serialize($value);
 
         return true;
     }
+
 }

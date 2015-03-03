@@ -13,10 +13,9 @@ namespace Symfony\Component\Routing\Tests\Matcher\Dumper;
 
 use Symfony\Component\Routing\Matcher\Dumper\DumperCollection;
 
-class DumperCollectionTest extends \PHPUnit_Framework_TestCase
-{
-    public function testGetRoot()
-    {
+class DumperCollectionTest extends \PHPUnit_Framework_TestCase {
+
+    public function testGetRoot() {
         $a = new DumperCollection();
 
         $b = new DumperCollection();
@@ -30,4 +29,5 @@ class DumperCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($a, $c->getRoot());
     }
+
 }

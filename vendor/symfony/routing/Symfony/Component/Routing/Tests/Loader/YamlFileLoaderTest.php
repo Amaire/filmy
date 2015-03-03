@@ -15,10 +15,9 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 
-class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
-{
-    public function testSupports()
-    {
+class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase {
+
+    public function testSupports() {
         $loader = new YamlFileLoader($this->getMock('Symfony\Component\Config\FileLocator'));
 
         $this->assertTrue($loader->supports('foo.yml'), '->supports() returns true if the resource is loadable');
@@ -28,33 +27,29 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($loader->supports('foo.yml', 'foo'), '->supports() checks the resource type if specified');
     }
 
-    public function testLoadDoesNothingIfEmpty()
-    {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadDoesNothingIfEmpty() {
+        $loader = new YamlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $collection = $loader->load('empty.yml');
 
         $this->assertEquals(array(), $collection->all());
-        $this->assertEquals(array(new FileResource(realpath(__DIR__.'/../Fixtures/empty.yml'))), $collection->getResources());
+        $this->assertEquals(array(new FileResource(realpath(__DIR__ . '/../Fixtures/empty.yml'))), $collection->getResources());
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @dataProvider getPathsToInvalidFiles
      */
-    public function testLoadThrowsExceptionWithInvalidFile($filePath)
-    {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadThrowsExceptionWithInvalidFile($filePath) {
+        $loader = new YamlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $loader->load($filePath);
     }
 
-    public function getPathsToInvalidFiles()
-    {
+    public function getPathsToInvalidFiles() {
         return array(array('nonvalid.yml'), array('nonvalid2.yml'), array('incomplete.yml'), array('nonvalidkeys.yml'), array('nonesense_resource_plus_path.yml'), array('nonesense_type_without_resource.yml'));
     }
 
-    public function testLoadSpecialRouteName()
-    {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadSpecialRouteName() {
+        $loader = new YamlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('special_route_name.yml');
         $route = $routeCollection->get('#$péß^a|');
 
@@ -62,9 +57,8 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('/true', $route->getPath());
     }
 
-    public function testLoadWithRoute()
-    {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadWithRoute() {
+        $loader = new YamlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('validpattern.yml');
         $routes = $routeCollection->all();
 
@@ -85,9 +79,8 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testLoadWithResource()
-    {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadWithResource() {
+        $loader = new YamlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('validresource.yml');
         $routes = $routeCollection->all();
 
@@ -103,4 +96,5 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
             $this->assertSame('context.getMethod() == "POST"', $route->getCondition());
         }
     }
+
 }

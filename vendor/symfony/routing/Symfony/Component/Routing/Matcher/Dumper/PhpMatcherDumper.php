@@ -23,8 +23,8 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
  * @author Tobias Schultze <http://tobion.de>
  * @author Arnaud Le Blanc <arnaud.lb@gmail.com>
  */
-class PhpMatcherDumper extends MatcherDumper
-{
+class PhpMatcherDumper extends MatcherDumper {
+
     private $expressionLanguage;
 
     /**
@@ -44,12 +44,11 @@ class PhpMatcherDumper extends MatcherDumper
      *
      * @return string A PHP class representing the matcher class
      */
-    public function dump(array $options = array())
-    {
+    public function dump(array $options = array()) {
         $options = array_replace(array(
             'class' => 'ProjectUrlMatcher',
             'base_class' => 'Symfony\\Component\\Routing\\Matcher\\UrlMatcher',
-        ), $options);
+                ), $options);
 
         // trailing slash support is only enabled if we know how to redirect the user
         $interfaces = class_implements($options['base_class']);
@@ -84,8 +83,7 @@ class {$options['class']} extends {$options['base_class']}
 EOF;
     }
 
-    public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider)
-    {
+    public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider) {
         $this->expressionLanguageProviders[] = $provider;
     }
 
@@ -96,8 +94,7 @@ EOF;
      *
      * @return string Match method as PHP code
      */
-    private function generateMatchMethod($supportsRedirections)
-    {
+    private function generateMatchMethod($supportsRedirections) {
         $code = rtrim($this->compileRoutes($this->getRoutes(), $supportsRedirections), "\n");
 
         return <<<EOF
@@ -123,8 +120,7 @@ EOF;
      *
      * @return string PHP code
      */
-    private function compileRoutes(RouteCollection $routes, $supportsRedirections)
-    {
+    private function compileRoutes(RouteCollection $routes, $supportsRedirections) {
         $fetchedHost = false;
 
         $groups = $this->groupRoutesByHostRegex($routes);
@@ -165,8 +161,7 @@ EOF;
      *
      * @return string PHP code
      */
-    private function compilePrefixRoutes(DumperPrefixCollection $collection, $supportsRedirections, $parentPrefix = '')
-    {
+    private function compilePrefixRoutes(DumperPrefixCollection $collection, $supportsRedirections, $parentPrefix = '') {
         $code = '';
         $prefix = $collection->getPrefix();
         $optimizable = 1 < strlen($prefix) && 1 < count($collection->all());
@@ -182,7 +177,7 @@ EOF;
             if ($route instanceof DumperCollection) {
                 $code .= $this->compilePrefixRoutes($route, $supportsRedirections, $optimizedPrefix);
             } else {
-                $code .= $this->compileRoute($route->getRoute(), $route->getName(), $supportsRedirections, $optimizedPrefix)."\n";
+                $code .= $this->compileRoute($route->getRoute(), $route->getName(), $supportsRedirections, $optimizedPrefix) . "\n";
             }
         }
 
@@ -207,8 +202,7 @@ EOF;
      *
      * @throws \LogicException
      */
-    private function compileRoute(Route $route, $name, $supportsRedirections, $parentPrefix = null)
-    {
+    private function compileRoute(Route $route, $name, $supportsRedirections, $parentPrefix = null) {
         $code = '';
         $compiledRoute = $route->compile();
         $conditions = array();
@@ -241,7 +235,7 @@ EOF;
 
             $regex = $compiledRoute->getRegex();
             if ($supportsTrailingSlash && $pos = strpos($regex, '/$')) {
-                $regex = substr($regex, 0, $pos).'/?$'.substr($regex, $pos + 2);
+                $regex = substr($regex, 0, $pos) . '/?$' . substr($regex, $pos + 2);
                 $hasTrailingSlash = true;
             }
             $conditions[] = sprintf("preg_match(%s, \$pathinfo, \$matches)", var_export($regex, true));
@@ -265,7 +259,7 @@ EOF;
 
 EOF;
 
-        $gotoname = 'not_'.preg_replace('/[^A-Za-z0-9_]/', '', $name);
+        $gotoname = 'not_' . preg_replace('/[^A-Za-z0-9_]/', '', $name);
         if ($methods) {
             if (1 === count($methods)) {
                 $code .= <<<EOF
@@ -326,9 +320,7 @@ EOF;
             $vars[] = "array('_route' => '$name')";
 
             $code .= sprintf(
-                "            return \$this->mergeDefaults(array_replace(%s), %s);\n",
-                implode(', ', $vars),
-                str_replace("\n", '', var_export($route->getDefaults(), true))
+                    "            return \$this->mergeDefaults(array_replace(%s), %s);\n", implode(', ', $vars), str_replace("\n", '', var_export($route->getDefaults(), true))
             );
         } elseif ($route->getDefaults()) {
             $code .= sprintf("            return %s;\n", str_replace("\n", '', var_export(array_replace($route->getDefaults(), array('_route' => $name)), true)));
@@ -353,8 +345,7 @@ EOF;
      *
      * @return DumperCollection A collection with routes grouped by host regex in sub-collections
      */
-    private function groupRoutesByHostRegex(RouteCollection $routes)
-    {
+    private function groupRoutesByHostRegex(RouteCollection $routes) {
         $groups = new DumperCollection();
 
         $currentGroup = new DumperCollection();
@@ -384,8 +375,7 @@ EOF;
      *
      * @return DumperPrefixCollection
      */
-    private function buildPrefixTree(DumperCollection $collection)
-    {
+    private function buildPrefixTree(DumperCollection $collection) {
         $tree = new DumperPrefixCollection();
         $current = $tree;
 
@@ -398,8 +388,7 @@ EOF;
         return $tree;
     }
 
-    private function getExpressionLanguage()
-    {
+    private function getExpressionLanguage() {
         if (null === $this->expressionLanguage) {
             if (!class_exists('Symfony\Component\ExpressionLanguage\ExpressionLanguage')) {
                 throw new \RuntimeException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed.');
@@ -409,4 +398,5 @@ EOF;
 
         return $this->expressionLanguage;
     }
+
 }

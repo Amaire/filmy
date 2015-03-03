@@ -15,8 +15,8 @@
  *
  * @author     Ward Peeters <ward@coding-tech.com>
  */
-class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Esmtp_Authenticator
-{
+class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Esmtp_Authenticator {
+
     const NTLMSIG = "NTLMSSP\x00";
     const DESCONST = "KGS!@#$%";
 
@@ -25,8 +25,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      *
      * @return string
      */
-    public function getAuthKeyword()
-    {
+    public function getAuthKeyword() {
         return 'NTLM';
     }
 
@@ -39,8 +38,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      *
      * @return bool
      */
-    public function authenticate(Swift_Transport_SmtpAgent $agent, $username, $password)
-    {
+    public function authenticate(Swift_Transport_SmtpAgent $agent, $username, $password) {
         if (!function_exists('mcrypt_module_open')) {
             throw new LogicException('The mcrypt functions need to be enabled to use the NTLM authenticator.');
         }
@@ -73,8 +71,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         }
     }
 
-    protected function si2bin($si, $bits = 32)
-    {
+    protected function si2bin($si, $bits = 32) {
         $bin = null;
         if ($si >= -pow(2, $bits - 1) && ($si <= pow(2, $bits - 1))) {
             // positive or zero
@@ -83,7 +80,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
                 // pad to $bits bit
                 $bin_length = strlen($bin);
                 if ($bin_length < $bits) {
-                    $bin = str_repeat("0", $bits - $bin_length).$bin;
+                    $bin = str_repeat("0", $bits - $bin_length) . $bin;
                 }
             } else {
                 // negative
@@ -91,7 +88,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
                 $bin = base_convert($si, 10, 2);
                 $bin_length = strlen($bin);
                 if ($bin_length > $bits) {
-                    $bin = str_repeat("1", $bits - $bin_length).$bin;
+                    $bin = str_repeat("1", $bits - $bin_length) . $bin;
                 }
             }
         }
@@ -105,8 +102,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param Swift_Transport_SmtpAgent $agent
      * @return string SMTP Response
      */
-    protected function sendMessage1(Swift_Transport_SmtpAgent $agent)
-    {
+    protected function sendMessage1(Swift_Transport_SmtpAgent $agent) {
         $message = $this->createMessage1();
 
         return $agent->executeCommand(sprintf("AUTH %s %s\r\n", $this->getAuthKeyword(), base64_encode($message)), array(334));
@@ -118,8 +114,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $response
      * @return array our response parsed
      */
-    protected function parseMessage2($response)
-    {
+    protected function parseMessage2($response) {
         $responseHex = bin2hex($response);
         $length = floor(hexdec(substr($responseHex, 28, 4)) / 256) * 2;
         $offset = floor(hexdec(substr($responseHex, 32, 4)) / 256) * 2;
@@ -151,8 +146,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param $block
      * @return array
      */
-    protected function readSubBlock($block)
-    {
+    protected function readSubBlock($block) {
         // remove terminatorByte cause it's always the same
         $block = substr($block, 0, -8);
 
@@ -188,11 +182,10 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param bool $v2 Use version2 of the protocol
      * @return string
      */
-    protected function sendMessage3($response, $username, $password, $timestamp, $client, Swift_Transport_SmtpAgent $agent, $v2 = true)
-    {
+    protected function sendMessage3($response, $username, $password, $timestamp, $client, Swift_Transport_SmtpAgent $agent, $v2 = true) {
         list($domain, $username) = $this->getDomainAndUsername($username);
         //$challenge, $context, $targetInfoH, $targetName, $domainName, $workstation, $DNSDomainName, $DNSServerName, $blob, $ter
-        list($challenge, , , , , $workstation, , , $blob) = $this->parseMessage2($response);
+        list($challenge,,,,, $workstation,,, $blob) = $this->parseMessage2($response);
 
         if (!$v2) {
             // LMv1
@@ -216,11 +209,10 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      *
      * @return string
      */
-    protected function createMessage1()
-    {
+    protected function createMessage1() {
         return self::NTLMSIG
-        .$this->createByte('01') // Message 1
-.$this->createByte('0702'); // Flags
+                . $this->createByte('01') // Message 1
+                . $this->createByte('0702'); // Flags
     }
 
     /**
@@ -233,8 +225,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $ntlmResponse
      * @return string
      */
-    protected function createMessage3($domain, $username, $workstation, $lmResponse, $ntlmResponse)
-    {
+    protected function createMessage3($domain, $username, $workstation, $lmResponse, $ntlmResponse) {
         // Create security buffers
         $domainSec = $this->createSecurityBuffer($domain, 64);
         $domainInfo = $this->readSecurityBuffer(bin2hex($domainSec));
@@ -247,19 +238,19 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         $ntlmSec = $this->createSecurityBuffer($ntlmResponse, ($lmInfo[0] + $lmInfo[1]) / 2, true);
 
         return self::NTLMSIG
-        .$this->createByte('03') // TYPE 3 message
-.$lmSec // LM response header
-.$ntlmSec // NTLM response header
-.$domainSec // Domain header
-.$userSec // User header
-.$workSec // Workstation header
-.$this->createByte("000000009a", 8) // session key header (empty)
-.$this->createByte('01020000') // FLAGS
-.$this->convertTo16bit($domain) // domain name
-.$this->convertTo16bit($username) // username
-.$this->convertTo16bit($workstation) // workstation
-.$lmResponse
-        .$ntlmResponse;
+                . $this->createByte('03') // TYPE 3 message
+                . $lmSec // LM response header
+                . $ntlmSec // NTLM response header
+                . $domainSec // Domain header
+                . $userSec // User header
+                . $workSec // Workstation header
+                . $this->createByte("000000009a", 8) // session key header (empty)
+                . $this->createByte('01020000') // FLAGS
+                . $this->convertTo16bit($domain) // domain name
+                . $this->convertTo16bit($username) // username
+                . $this->convertTo16bit($workstation) // workstation
+                . $lmResponse
+                . $ntlmResponse;
     }
 
     /**
@@ -268,15 +259,14 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $targetInfo
      * @return string
      */
-    protected function createBlob($timestamp, $client, $targetInfo)
-    {
+    protected function createBlob($timestamp, $client, $targetInfo) {
         return $this->createByte('0101')
-        .$this->createByte('00')
-        .$timestamp
-        .$client
-        .$this->createByte('00')
-        .$targetInfo
-        .$this->createByte('00');
+                . $this->createByte('00')
+                . $timestamp
+                . $client
+                . $this->createByte('00')
+                . $targetInfo
+                . $this->createByte('00');
     }
 
     /**
@@ -287,8 +277,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $name
      * @return array
      */
-    protected function getDomainAndUsername($name)
-    {
+    protected function getDomainAndUsername($name) {
         if (strpos($name, '\\') !== false) {
             return explode('\\', $name);
         }
@@ -305,8 +294,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $challenge
      * @return string
      */
-    protected function createLMPassword($password, $challenge)
-    {
+    protected function createLMPassword($password, $challenge) {
         // FIRST PART
         $password = $this->createByte(strtoupper($password), 14, false);
         list($key1, $key2) = str_split($password, 7);
@@ -314,7 +302,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         $desKey1 = $this->createDesKey($key1);
         $desKey2 = $this->createDesKey($key2);
 
-        $constantDecrypt = $this->createByte($this->desEncrypt(self::DESCONST, $desKey1).$this->desEncrypt(self::DESCONST, $desKey2), 21, false);
+        $constantDecrypt = $this->createByte($this->desEncrypt(self::DESCONST, $desKey1) . $this->desEncrypt(self::DESCONST, $desKey2), 21, false);
 
         // SECOND PART
         list($key1, $key2, $key3) = str_split($constantDecrypt, 7);
@@ -323,7 +311,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         $desKey2 = $this->createDesKey($key2);
         $desKey3 = $this->createDesKey($key3);
 
-        return $this->desEncrypt($challenge, $desKey1).$this->desEncrypt($challenge, $desKey2).$this->desEncrypt($challenge, $desKey3);
+        return $this->desEncrypt($challenge, $desKey1) . $this->desEncrypt($challenge, $desKey2) . $this->desEncrypt($challenge, $desKey3);
     }
 
     /**
@@ -333,8 +321,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $challenge
      * @return string
      */
-    protected function createNTLMPassword($password, $challenge)
-    {
+    protected function createNTLMPassword($password, $challenge) {
         // FIRST PART
         $ntlmHash = $this->createByte($this->md4Encrypt($password), 21, false);
         list($key1, $key2, $key3) = str_split($ntlmHash, 7);
@@ -343,7 +330,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         $desKey2 = $this->createDesKey($key2);
         $desKey3 = $this->createDesKey($key3);
 
-        return $this->desEncrypt($challenge, $desKey1).$this->desEncrypt($challenge, $desKey2).$this->desEncrypt($challenge, $desKey3);
+        return $this->desEncrypt($challenge, $desKey1) . $this->desEncrypt($challenge, $desKey2) . $this->desEncrypt($challenge, $desKey3);
     }
 
     /**
@@ -352,8 +339,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $time
      * @return string
      */
-    protected function getCorrectTimestamp($time)
-    {
+    protected function getCorrectTimestamp($time) {
         // Get our timestamp (tricky!)
         bcscale(0);
 
@@ -380,15 +366,14 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $client Random string
      * @return string
      */
-    protected function createLMv2Password($password, $username, $domain, $challenge, $client)
-    {
+    protected function createLMv2Password($password, $username, $domain, $challenge, $client) {
         $lmPass = '00'; // by default 00
         // if $password > 15 than we can't use this method
         if (strlen($password) <= 15) {
             $ntlmHash = $this->md4Encrypt($password);
-            $ntml2Hash = $this->md5Encrypt($ntlmHash, $this->convertTo16bit(strtoupper($username).$domain));
+            $ntml2Hash = $this->md5Encrypt($ntlmHash, $this->convertTo16bit(strtoupper($username) . $domain));
 
-            $lmPass = bin2hex($this->md5Encrypt($ntml2Hash, $challenge.$client).$client);
+            $lmPass = bin2hex($this->md5Encrypt($ntml2Hash, $challenge . $client) . $client);
         }
 
         return $this->createByte($lmPass, 24);
@@ -407,26 +392,24 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @return string
      * @see http://davenport.sourceforge.net/ntlm.html#theNtlmResponse
      */
-    protected function createNTLMv2Hash($password, $username, $domain, $challenge, $targetInfo, $timestamp, $client)
-    {
+    protected function createNTLMv2Hash($password, $username, $domain, $challenge, $targetInfo, $timestamp, $client) {
         $ntlmHash = $this->md4Encrypt($password);
-        $ntml2Hash = $this->md5Encrypt($ntlmHash, $this->convertTo16bit(strtoupper($username).$domain));
+        $ntml2Hash = $this->md5Encrypt($ntlmHash, $this->convertTo16bit(strtoupper($username) . $domain));
 
         // create blob
         $blob = $this->createBlob($timestamp, $client, $targetInfo);
 
-        $ntlmv2Response = $this->md5Encrypt($ntml2Hash, $challenge.$blob);
+        $ntlmv2Response = $this->md5Encrypt($ntml2Hash, $challenge . $blob);
 
-        return $ntlmv2Response.$blob;
+        return $ntlmv2Response . $blob;
     }
 
-    protected function createDesKey($key)
-    {
+    protected function createDesKey($key) {
         $material = array(bin2hex($key[0]));
         $len = strlen($key);
         for ($i = 1; $i < $len; $i++) {
             list($high, $low) = str_split(bin2hex($key[$i]));
-            $v = $this->castToByte(ord($key[$i - 1]) << (7 + 1 - $i) | $this->uRShift(hexdec(dechex(hexdec($high) & 0xf).dechex(hexdec($low) & 0xf)), $i));
+            $v = $this->castToByte(ord($key[$i - 1]) << (7 + 1 - $i) | $this->uRShift(hexdec(dechex(hexdec($high) & 0xf) . dechex(hexdec($low) & 0xf)), $i));
             $material[] = str_pad(substr(dechex($v), -2), 2, '0', STR_PAD_LEFT); // cast to byte
         }
         $material[] = str_pad(substr(dechex($this->castToByte(ord($key[6]) << 1)), -2), 2, '0');
@@ -434,15 +417,13 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         // odd parity
         foreach ($material as $k => $v) {
             $b = $this->castToByte(hexdec($v));
-            $needsParity = (($this->uRShift($b, 7) ^ $this->uRShift($b, 6) ^ $this->uRShift($b, 5)
-                        ^ $this->uRShift($b, 4) ^ $this->uRShift($b, 3) ^ $this->uRShift($b, 2)
-                        ^ $this->uRShift($b, 1)) & 0x01) == 0;
+            $needsParity = (($this->uRShift($b, 7) ^ $this->uRShift($b, 6) ^ $this->uRShift($b, 5) ^ $this->uRShift($b, 4) ^ $this->uRShift($b, 3) ^ $this->uRShift($b, 2) ^ $this->uRShift($b, 1)) & 0x01) == 0;
 
             list($high, $low) = str_split($v);
             if ($needsParity) {
-                $material[$k] = dechex(hexdec($high) | 0x0).dechex(hexdec($low) | 0x1);
+                $material[$k] = dechex(hexdec($high) | 0x0) . dechex(hexdec($low) | 0x1);
             } else {
-                $material[$k] = dechex(hexdec($high) & 0xf).dechex(hexdec($low) & 0xe);
+                $material[$k] = dechex(hexdec($high) & 0xf) . dechex(hexdec($low) & 0xe);
             }
         }
 
@@ -450,6 +431,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
     }
 
     /** HELPER FUNCTIONS */
+
     /**
      * Create our security buffer depending on length and offset
      *
@@ -458,13 +440,12 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param bool $is16 Do we 16bit string or not?
      * @return string
      */
-    protected function createSecurityBuffer($value, $offset, $is16 = false)
-    {
+    protected function createSecurityBuffer($value, $offset, $is16 = false) {
         $length = strlen(bin2hex($value));
         $length = $is16 ? $length / 2 : $length;
         $length = $this->createByte(str_pad(dechex($length), 2, '0', STR_PAD_LEFT), 2);
 
-        return $length.$length.$this->createByte(dechex($offset), 4);
+        return $length . $length . $this->createByte(dechex($offset), 4);
     }
 
     /**
@@ -473,8 +454,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $value Securitybuffer in hex
      * @return array array with length and offset
      */
-    protected function readSecurityBuffer($value)
-    {
+    protected function readSecurityBuffer($value) {
         $length = floor(hexdec(substr($value, 0, 4)) / 256) * 2;
         $offset = floor(hexdec(substr($value, 8, 4)) / 256) * 2;
 
@@ -487,8 +467,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param int $v
      * @return int
      */
-    protected function castToByte($v)
-    {
+    protected function castToByte($v) {
         return (($v + 128) % 256) - 128;
     }
 
@@ -500,8 +479,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param int $b
      * @return int
      */
-    protected function uRShift($a, $b)
-    {
+    protected function uRShift($a, $b) {
         if ($b == 0) {
             return $a;
         }
@@ -517,8 +495,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param bool $isHex Did we provided hex value
      * @return string
      */
-    protected function createByte($input, $bytes = 4, $isHex = true)
-    {
+    protected function createByte($input, $bytes = 4, $isHex = true) {
         if ($isHex) {
             $byte = $this->hex2bin(str_pad($input, $bytes * 2, '00'));
         } else {
@@ -534,8 +511,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param $length
      * @return string
      */
-    protected function getRandomBytes($length)
-    {
+    protected function getRandomBytes($length) {
         $bytes = openssl_random_pseudo_bytes($length, $strong);
 
         if (false !== $bytes && true === $strong) {
@@ -546,6 +522,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
     }
 
     /** ENCRYPTION ALGORITHMS */
+
     /**
      * DES Encryption
      *
@@ -553,8 +530,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $key
      * @return string
      */
-    protected function desEncrypt($value, $key)
-    {
+    protected function desEncrypt($value, $key) {
         $cipher = mcrypt_module_open(MCRYPT_DES, '', 'ecb', '');
         mcrypt_generic_init($cipher, $key, mcrypt_create_iv(mcrypt_enc_get_iv_size($cipher), MCRYPT_DEV_RANDOM));
 
@@ -568,8 +544,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $msg Message to encrypt
      * @return string
      */
-    protected function md5Encrypt($key, $msg)
-    {
+    protected function md5Encrypt($key, $msg) {
         $blocksize = 64;
         if (strlen($key) > $blocksize) {
             $key = pack('H*', md5($key));
@@ -579,7 +554,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         $ipadk = $key ^ str_repeat("\x36", $blocksize);
         $opadk = $key ^ str_repeat("\x5c", $blocksize);
 
-        return pack('H*', md5($opadk.pack('H*', md5($ipadk.$msg))));
+        return pack('H*', md5($opadk . pack('H*', md5($ipadk . $msg))));
     }
 
     /**
@@ -589,8 +564,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @return string
      * @see http://php.net/manual/en/ref.hash.php
      */
-    protected function md4Encrypt($input)
-    {
+    protected function md4Encrypt($input) {
         $input = $this->convertTo16bit($input);
 
         return function_exists('hash') ? $this->hex2bin(hash('md4', $input)) : mhash(MHASH_MD4, $input);
@@ -602,8 +576,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $input
      * @return string
      */
-    protected function convertTo16bit($input)
-    {
+    protected function convertTo16bit($input) {
         return iconv('UTF-8', 'UTF-16LE', $input);
     }
 
@@ -612,8 +585,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
      * @param string $hex
      * @return string Binary
      */
-    protected function hex2bin($hex)
-    {
+    protected function hex2bin($hex) {
         if (function_exists('hex2bin')) {
             return hex2bin($hex);
         } else {
@@ -624,12 +596,11 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
     /**
      * @param string $message
      */
-    protected function debug($message)
-    {
+    protected function debug($message) {
         $message = bin2hex($message);
         $messageId = substr($message, 16, 8);
-        echo substr($message, 0, 16)." NTLMSSP Signature<br />\n";
-        echo $messageId." Type Indicator<br />\n";
+        echo substr($message, 0, 16) . " NTLMSSP Signature<br />\n";
+        echo $messageId . " Type Indicator<br />\n";
 
         if ($messageId == "02000000") {
             $map = array(
@@ -648,7 +619,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
             $data = $this->parseMessage2($this->hex2bin($message));
 
             foreach ($map as $key => $value) {
-                echo bin2hex($data[$key]).' - '.$data[$key].' ||| '.$value."<br />\n";
+                echo bin2hex($data[$key]) . ' - ' . $data[$key] . ' ||| ' . $value . "<br />\n";
             }
         } elseif ($messageId == "03000000") {
             $i = 0;
@@ -691,10 +662,11 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
             );
 
             foreach ($map as $key => $value) {
-                echo $data[$key].' - '.$this->hex2bin($data[$key]).' ||| '.$value."<br />\n";
+                echo $data[$key] . ' - ' . $this->hex2bin($data[$key]) . ' ||| ' . $value . "<br />\n";
             }
         }
 
         echo "<br /><br />";
     }
+
 }

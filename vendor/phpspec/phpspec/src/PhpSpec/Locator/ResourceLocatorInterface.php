@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Locator;
 
-interface ResourceLocatorInterface
-{
+interface ResourceLocatorInterface {
+
     /**
      * @return ResourceInterface[]
      */

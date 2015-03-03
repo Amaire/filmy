@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -26,8 +27,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Constraint {
+
     /**
      * @var string
      */
@@ -42,11 +43,10 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
      * @param string  $string
      * @param boolean $ignoreCase
      */
-    public function __construct($string, $ignoreCase = false)
-    {
+    public function __construct($string, $ignoreCase = false) {
         parent::__construct();
 
-        $this->string     = $string;
+        $this->string = $string;
         $this->ignoreCase = $ignoreCase;
     }
 
@@ -57,8 +57,7 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         if ($this->ignoreCase) {
             return stripos($other, $this->string) !== false;
         } else {
@@ -71,8 +70,7 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         if ($this->ignoreCase) {
             $string = strtolower($this->string);
         } else {
@@ -80,8 +78,8 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
         }
 
         return sprintf(
-            'contains "%s"',
-            $string
+                'contains "%s"', $string
         );
     }
+
 }

@@ -2,15 +2,14 @@
 
 namespace League\Flysystem;
 
-class File extends Handler
-{
+class File extends Handler {
+
     /**
      * Read the file.
      *
      * @return string file contents
      */
-    public function read()
-    {
+    public function read() {
         return $this->filesystem->read($this->path);
     }
 
@@ -19,8 +18,7 @@ class File extends Handler
      *
      * @return resource file stream
      */
-    public function readStream()
-    {
+    public function readStream() {
         return $this->filesystem->readStream($this->path);
     }
 
@@ -31,8 +29,7 @@ class File extends Handler
      *
      * @return bool success boolean
      */
-    public function update($content)
-    {
+    public function update($content) {
         return $this->filesystem->update($this->path, $content);
     }
 
@@ -43,8 +40,7 @@ class File extends Handler
      *
      * @return bool success boolean
      */
-    public function updateStream($resource)
-    {
+    public function updateStream($resource) {
         return $this->filesystem->updateStream($this->path, $resource);
     }
 
@@ -53,8 +49,7 @@ class File extends Handler
      *
      * @return int unix timestamp
      */
-    public function getTimestamp()
-    {
+    public function getTimestamp() {
         return $this->filesystem->getTimestamp($this->path);
     }
 
@@ -63,8 +58,7 @@ class File extends Handler
      *
      * @return string mimetime
      */
-    public function getMimetype()
-    {
+    public function getMimetype() {
         return $this->filesystem->getMimetype($this->path);
     }
 
@@ -73,8 +67,7 @@ class File extends Handler
      *
      * @return string visibility
      */
-    public function getVisibility()
-    {
+    public function getVisibility() {
         return $this->filesystem->getVisibility($this->path);
     }
 
@@ -83,8 +76,7 @@ class File extends Handler
      *
      * @return array
      */
-    public function getMetadata()
-    {
+    public function getMetadata() {
         return $this->filesystem->getMetadata($this->path);
     }
 
@@ -93,8 +85,7 @@ class File extends Handler
      *
      * @return int file size
      */
-    public function getSize()
-    {
+    public function getSize() {
         return $this->filesystem->getSize($this->path);
     }
 
@@ -103,8 +94,8 @@ class File extends Handler
      *
      * @return bool success boolean
      */
-    public function delete()
-    {
+    public function delete() {
         return $this->filesystem->delete($this->path);
     }
+
 }

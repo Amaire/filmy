@@ -16,13 +16,12 @@ use Symfony\Component\Console\Input\InputInterface;
 /**
  * Trait Enumerator class.
  */
-class TraitEnumerator extends Enumerator
-{
+class TraitEnumerator extends Enumerator {
+
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null)
-    {
+    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null) {
         // bail early if current PHP doesn't know about traits.
         if (!function_exists('trait_exists')) {
             return;
@@ -63,8 +62,7 @@ class TraitEnumerator extends Enumerator
      *
      * @return array
      */
-    protected function prepareTraits(array $traits)
-    {
+    protected function prepareTraits(array $traits) {
         natcasesort($traits);
 
         // My kingdom for a generator.
@@ -73,7 +71,7 @@ class TraitEnumerator extends Enumerator
         foreach ($traits as $name) {
             if ($this->showItem($name)) {
                 $ret[$name] = array(
-                    'name'  => $name,
+                    'name' => $name,
                     'style' => self::IS_CLASS,
                     'value' => $this->presentSignature($name),
                 );
@@ -82,4 +80,5 @@ class TraitEnumerator extends Enumerator
 
         return $ret;
     }
+
 }

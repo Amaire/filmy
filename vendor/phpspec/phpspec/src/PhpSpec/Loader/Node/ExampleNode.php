@@ -15,20 +15,23 @@ namespace PhpSpec\Loader\Node;
 
 use ReflectionFunctionAbstract;
 
-class ExampleNode
-{
+class ExampleNode {
+
     /**
      * @var string
      */
     private $title;
+
     /**
      * @var \ReflectionFunctionAbstract
      */
     private $function;
+
     /**
      * @var SpecificationNode|null
      */
     private $specification;
+
     /**
      * @var bool
      */
@@ -38,57 +41,51 @@ class ExampleNode
      * @param string                     $title
      * @param ReflectionFunctionAbstract $function
      */
-    public function __construct($title, ReflectionFunctionAbstract $function)
-    {
-        $this->title    = $title;
+    public function __construct($title, ReflectionFunctionAbstract $function) {
+        $this->title = $title;
         $this->function = $function;
     }
 
     /**
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
     /**
      * @param bool $isPending
      */
-    public function markAsPending($isPending = true)
-    {
+    public function markAsPending($isPending = true) {
         $this->isPending = $isPending;
     }
 
     /**
      * @return bool
      */
-    public function isPending()
-    {
+    public function isPending() {
         return $this->isPending;
     }
 
     /**
      * @return ReflectionFunctionAbstract
      */
-    public function getFunctionReflection()
-    {
+    public function getFunctionReflection() {
         return $this->function;
     }
 
     /**
      * @param SpecificationNode $specification
      */
-    public function setSpecification(SpecificationNode $specification)
-    {
+    public function setSpecification(SpecificationNode $specification) {
         $this->specification = $specification;
     }
 
     /**
      * @return SpecificationNode|null
      */
-    public function getSpecification()
-    {
+    public function getSpecification() {
         return $this->specification;
     }
+
 }

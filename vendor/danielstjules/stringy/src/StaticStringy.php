@@ -2,8 +2,8 @@
 
 namespace Stringy;
 
-class StaticStringy
-{
+class StaticStringy {
+
     /**
      * Returns an array consisting of the characters in the string.
      *
@@ -11,8 +11,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return array  An array of string chars
      */
-    public static function chars($str, $encoding = null)
-    {
+    public static function chars($str, $encoding = null) {
         return Stringy::create($str, $encoding)->chars();
     }
 
@@ -23,8 +22,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string String with the first character being upper case
      */
-    public static function upperCaseFirst($str, $encoding = null)
-    {
+    public static function upperCaseFirst($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->upperCaseFirst();
     }
 
@@ -35,8 +33,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string String with the first character being lower case
      */
-    public static function lowerCaseFirst($str, $encoding = null)
-    {
+    public static function lowerCaseFirst($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->lowerCaseFirst();
     }
 
@@ -49,8 +46,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string String in camelCase
      */
-    public static function camelize($str, $encoding = null)
-    {
+    public static function camelize($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->camelize();
     }
 
@@ -63,8 +59,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string String in UpperCamelCase
      */
-    public static function upperCamelize($str, $encoding = null)
-    {
+    public static function upperCamelize($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->upperCamelize();
     }
 
@@ -77,8 +72,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string Dasherized string
      */
-    public static function dasherize($str, $encoding = null)
-    {
+    public static function dasherize($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->dasherize();
     }
 
@@ -92,8 +86,7 @@ class StaticStringy
      * @param  string  $encoding The character encoding
      * @return string  Underscored string
      */
-    public static function underscored($str, $encoding = null)
-    {
+    public static function underscored($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->underscored();
     }
 
@@ -104,8 +97,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string String with each character's case swapped
      */
-    public static function swapCase($str, $encoding = null)
-    {
+    public static function swapCase($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->swapCase();
     }
 
@@ -119,8 +111,7 @@ class StaticStringy
      * @param  array  $ignore   An array of words not to capitalize
      * @return string Titleized string
      */
-    public static function titleize($str, $ignore = null, $encoding = null)
-    {
+    public static function titleize($str, $ignore = null, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->titleize($ignore);
     }
 
@@ -132,8 +123,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string A humanized string
      */
-    public static function humanize($str, $encoding = null)
-    {
+    public static function humanize($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->humanize();
     }
 
@@ -145,8 +135,7 @@ class StaticStringy
      * @param  string $str String to remove special chars
      * @return string String with those characters removed
      */
-    public static function tidy($str)
-    {
+    public static function tidy($str) {
         return (string) Stringy::create($str)->tidy();
     }
 
@@ -159,8 +148,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The trimmed string with condensed whitespace
      */
-    public static function collapseWhitespace($str, $encoding = null)
-    {
+    public static function collapseWhitespace($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->collapseWhitespace();
     }
 
@@ -174,8 +162,7 @@ class StaticStringy
      *                                   unsupported characters
      * @return string A string containing only ASCII characters
      */
-    public static function toAscii($str, $removeUnsupported = true)
-    {
+    public static function toAscii($str, $removeUnsupported = true) {
         return (string) Stringy::create($str)->toAscii($removeUnsupported);
     }
 
@@ -195,11 +182,9 @@ class StaticStringy
      * @throws \InvalidArgumentException If $padType isn't one of 'right',
      *         'left' or 'both'
      */
-    public static function pad($str, $length, $padStr = ' ', $padType = 'right',
-                               $encoding = null)
-    {
+    public static function pad($str, $length, $padStr = ' ', $padType = 'right', $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->pad($length, $padStr, $padType);
+                        ->pad($length, $padStr, $padType);
     }
 
     /**
@@ -212,10 +197,9 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The padded string
      */
-    public static function padLeft($str, $length, $padStr = ' ', $encoding = null)
-    {
+    public static function padLeft($str, $length, $padStr = ' ', $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->padLeft($length, $padStr);
+                        ->padLeft($length, $padStr);
     }
 
     /**
@@ -228,10 +212,9 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The padded string
      */
-    public static function padRight($str, $length, $padStr = ' ', $encoding = null)
-    {
+    public static function padRight($str, $length, $padStr = ' ', $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->padRight($length, $padStr);
+                        ->padRight($length, $padStr);
     }
 
     /**
@@ -244,10 +227,9 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The padded string
      */
-    public static function padBoth($str, $length, $padStr = ' ', $encoding = null)
-    {
+    public static function padBoth($str, $length, $padStr = ' ', $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->padBoth($length, $padStr);
+                        ->padBoth($length, $padStr);
     }
 
     /**
@@ -261,11 +243,9 @@ class StaticStringy
      * @param  string $encoding      The character encoding
      * @return bool   Whether or not $str starts with $substring
      */
-    public static function startsWith($str, $substring, $caseSensitive = true,
-                                      $encoding = null)
-    {
+    public static function startsWith($str, $substring, $caseSensitive = true, $encoding = null) {
         return Stringy::create($str, $encoding)
-            ->startsWith($substring, $caseSensitive);
+                        ->startsWith($substring, $caseSensitive);
     }
 
     /**
@@ -279,11 +259,9 @@ class StaticStringy
      * @param  string $encoding      The character encoding
      * @return bool   Whether or not $str ends with $substring
      */
-    public static function endsWith($str, $substring, $caseSensitive = true,
-                                    $encoding = null)
-    {
+    public static function endsWith($str, $substring, $caseSensitive = true, $encoding = null) {
         return Stringy::create($str, $encoding)
-            ->endsWith($substring, $caseSensitive);
+                        ->endsWith($substring, $caseSensitive);
     }
 
     /**
@@ -294,8 +272,7 @@ class StaticStringy
      * @param  int    $tabLength Number of spaces to replace each tab with
      * @return string String with tabs switched to spaces
      */
-    public static function toSpaces($str, $tabLength = 4)
-    {
+    public static function toSpaces($str, $tabLength = 4) {
         return (string) Stringy::create($str)->toSpaces($tabLength);
     }
 
@@ -308,8 +285,7 @@ class StaticStringy
      * @param  int    $tabLength Number of spaces to replace with a tab
      * @return string String with spaces switched to tabs
      */
-    public static function toTabs($str, $tabLength = 4)
-    {
+    public static function toTabs($str, $tabLength = 4) {
         return (string) Stringy::create($str)->toTabs($tabLength);
     }
 
@@ -321,8 +297,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The lowercase string
      */
-    public static function toLowerCase($str, $encoding = null)
-    {
+    public static function toLowerCase($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->toLowerCase();
     }
 
@@ -333,8 +308,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The title-cased string
      */
-    public static function toTitleCase($str, $encoding = null)
-    {
+    public static function toTitleCase($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->toTitleCase();
     }
 
@@ -346,8 +320,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The uppercase string
      */
-    public static function toUpperCase($str, $encoding = null)
-    {
+    public static function toUpperCase($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->toUpperCase();
     }
 
@@ -362,8 +335,7 @@ class StaticStringy
      * @param  string $replacement The string used to replace whitespace
      * @return string The corresponding URL slug
      */
-    public static function slugify($str, $replacement = '-')
-    {
+    public static function slugify($str, $replacement = '-') {
         return (string) Stringy::create($str)->slugify($replacement);
     }
 
@@ -378,11 +350,9 @@ class StaticStringy
      * @param  string $encoding      The character encoding
      * @return bool   Whether or not $haystack contains $needle
      */
-    public static function contains($haystack, $needle, $caseSensitive = true,
-                                    $encoding = null)
-    {
+    public static function contains($haystack, $needle, $caseSensitive = true, $encoding = null) {
         return Stringy::create($haystack, $encoding)
-            ->contains($needle, $caseSensitive);
+                        ->contains($needle, $caseSensitive);
     }
 
     /**
@@ -396,11 +366,9 @@ class StaticStringy
      * @param  string $encoding      The character encoding
      * @return bool   Whether or not $haystack contains any $needles
      */
-    public static function containsAny($haystack, $needles,
-                                       $caseSensitive = true, $encoding = null)
-    {
+    public static function containsAny($haystack, $needles, $caseSensitive = true, $encoding = null) {
         return Stringy::create($haystack, $encoding)
-            ->containsAny($needles, $caseSensitive);
+                        ->containsAny($needles, $caseSensitive);
     }
 
     /**
@@ -414,11 +382,9 @@ class StaticStringy
      * @param  string $encoding      The character encoding
      * @return bool   Whether or not $haystack contains all $needles
      */
-    public static function containsAll($haystack, $needles,
-                                       $caseSensitive = true, $encoding = null)
-    {
+    public static function containsAll($haystack, $needles, $caseSensitive = true, $encoding = null) {
         return Stringy::create($haystack, $encoding)
-            ->containsAll($needles, $caseSensitive);
+                        ->containsAll($needles, $caseSensitive);
     }
 
     /**
@@ -428,8 +394,7 @@ class StaticStringy
      * @param  string $substring The substring to add to both sides
      * @return string The string with the substring prepended and appended
      */
-    public static function surround($str, $substring)
-    {
+    public static function surround($str, $substring) {
         return (string) Stringy::create($str)->surround($substring);
     }
 
@@ -442,10 +407,9 @@ class StaticStringy
      * @param  string $encoding  The character encoding
      * @return string The resulting string after the insertion
      */
-    public static function insert($str, $substring, $index, $encoding = null)
-    {
+    public static function insert($str, $substring, $index, $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->insert($substring, $index);
+                        ->insert($substring, $index);
     }
 
     /**
@@ -459,11 +423,9 @@ class StaticStringy
      * @param  string $encoding  The character encoding
      * @return string The resulting string after truncating
      */
-    public static function truncate($str, $length, $substring = '',
-                                    $encoding = null)
-    {
+    public static function truncate($str, $length, $substring = '', $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->truncate($length, $substring);
+                        ->truncate($length, $substring);
     }
 
     /**
@@ -478,11 +440,9 @@ class StaticStringy
      * @param  string $encoding  The character encoding
      * @return string The resulting string after truncating
      */
-    public static function safeTruncate($str, $length, $substring = '',
-                                        $encoding = null)
-    {
+    public static function safeTruncate($str, $length, $substring = '', $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->safeTruncate($length, $substring);
+                        ->safeTruncate($length, $substring);
     }
 
     /**
@@ -492,8 +452,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The reversed string
      */
-    public static function reverse($str, $encoding = null)
-    {
+    public static function reverse($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->reverse();
     }
 
@@ -505,8 +464,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The shuffled string
      */
-    public static function shuffle($str, $encoding = null)
-    {
+    public static function shuffle($str, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->shuffle();
     }
 
@@ -516,8 +474,7 @@ class StaticStringy
      * @param  string $str String to trim
      * @return string Trimmed $str
      */
-    public static function trim($str)
-    {
+    public static function trim($str) {
         return trim($str);
     }
 
@@ -529,10 +486,9 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The longest common prefix
      */
-    public static function longestCommonPrefix($str, $otherStr, $encoding = null)
-    {
+    public static function longestCommonPrefix($str, $otherStr, $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->longestCommonPrefix($otherStr);
+                        ->longestCommonPrefix($otherStr);
     }
 
     /**
@@ -543,10 +499,9 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The longest common suffix
      */
-    public static function longestCommonSuffix($str, $otherStr, $encoding = null)
-    {
+    public static function longestCommonSuffix($str, $otherStr, $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->longestCommonSuffix($otherStr);
+                        ->longestCommonSuffix($otherStr);
     }
 
     /**
@@ -558,11 +513,9 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The longest common substring
      */
-    public static function longestCommonSubstring($str, $otherStr,
-                                                  $encoding = null)
-    {
+    public static function longestCommonSubstring($str, $otherStr, $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->longestCommonSubstring($otherStr);
+                        ->longestCommonSubstring($otherStr);
     }
 
     /**
@@ -572,8 +525,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return int    The number of characters in $str given the encoding
      */
-    public static function length($str, $encoding = null)
-    {
+    public static function length($str, $encoding = null) {
         return Stringy::create($str, $encoding)->length();
     }
 
@@ -588,8 +540,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The substring of $str
      */
-    public static function substr($str, $start, $length = null, $encoding = null)
-    {
+    public static function substr($str, $start, $length = null, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->substr($start, $length);
     }
 
@@ -601,8 +552,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The character at $index
      */
-    public static function at($str, $index, $encoding = null)
-    {
+    public static function at($str, $index, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->at($index);
     }
 
@@ -614,8 +564,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The first $n characters
      */
-    public static function first($str, $n, $encoding = null)
-    {
+    public static function first($str, $n, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->first($n);
     }
 
@@ -627,8 +576,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return string The last $n characters
      */
-    public static function last($str, $n, $encoding = null)
-    {
+    public static function last($str, $n, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->last($n);
     }
 
@@ -641,8 +589,7 @@ class StaticStringy
      * @param  string $encoding  The character encoding
      * @return string The string prefixed by the $substring
      */
-    public static function ensureLeft($str, $substring, $encoding = null)
-    {
+    public static function ensureLeft($str, $substring, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->ensureLeft($substring);
     }
 
@@ -655,8 +602,7 @@ class StaticStringy
      * @param  string $encoding  The character encoding
      * @return string The string suffixed by the $substring
      */
-    public static function ensureRight($str, $substring, $encoding = null)
-    {
+    public static function ensureRight($str, $substring, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->ensureRight($substring);
     }
 
@@ -668,8 +614,7 @@ class StaticStringy
      * @param  string $encoding  The character encoding
      * @return string The string without the prefix $substring
      */
-    public static function removeLeft($str, $substring, $encoding = null)
-    {
+    public static function removeLeft($str, $substring, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->removeLeft($substring);
     }
 
@@ -681,8 +626,7 @@ class StaticStringy
      * @param  string $encoding  The character encoding
      * @return string The string without the suffix $substring
      */
-    public static function removeRight($str, $substring, $encoding = null)
-    {
+    public static function removeRight($str, $substring, $encoding = null) {
         return (string) Stringy::create($str, $encoding)->removeRight($substring);
     }
 
@@ -694,8 +638,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains a lower case character.
      */
-    public static function hasLowerCase($str, $encoding = null)
-    {
+    public static function hasLowerCase($str, $encoding = null) {
         return Stringy::create($str, $encoding)->hasLowerCase();
     }
 
@@ -707,8 +650,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains an upper case character.
      */
-    public static function hasUpperCase($str, $encoding = null)
-    {
+    public static function hasUpperCase($str, $encoding = null) {
         return Stringy::create($str, $encoding)->hasUpperCase();
     }
 
@@ -720,8 +662,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains only alphabetic chars
      */
-    public static function isAlpha($str, $encoding = null)
-    {
+    public static function isAlpha($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isAlpha();
     }
 
@@ -733,8 +674,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains only alphanumeric chars
      */
-    public static function isAlphanumeric($str, $encoding = null)
-    {
+    public static function isAlphanumeric($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isAlphanumeric();
     }
 
@@ -746,8 +686,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains only whitespace characters
      */
-    public static function isBlank($str, $encoding = null)
-    {
+    public static function isBlank($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isBlank();
     }
 
@@ -758,8 +697,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str is JSON
      */
-    public static function isJson($str, $encoding = null)
-    {
+    public static function isJson($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isJson();
     }
 
@@ -771,8 +709,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains only lower case characters
      */
-    public static function isLowerCase($str, $encoding = null)
-    {
+    public static function isLowerCase($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isLowerCase();
     }
 
@@ -783,8 +720,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str is serialized
      */
-    public static function isSerialized($str, $encoding = null)
-    {
+    public static function isSerialized($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isSerialized();
     }
 
@@ -796,8 +732,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains only upper case characters
      */
-    public static function isUpperCase($str, $encoding = null)
-    {
+    public static function isUpperCase($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isUpperCase();
     }
 
@@ -809,8 +744,7 @@ class StaticStringy
      * @param  string $encoding The character encoding
      * @return bool   Whether or not $str contains only hexadecimal characters
      */
-    public static function isHexadecimal($str, $encoding = null)
-    {
+    public static function isHexadecimal($str, $encoding = null) {
         return Stringy::create($str, $encoding)->isHexadecimal();
     }
 
@@ -825,11 +759,9 @@ class StaticStringy
      * @param  string $encoding      The character encoding
      * @return int    The number of $substring occurrences
      */
-    public static function countSubstr($str, $substring, $caseSensitive = true,
-                                       $encoding = null)
-    {
+    public static function countSubstr($str, $substring, $caseSensitive = true, $encoding = null) {
         return Stringy::create($str, $encoding)
-            ->countSubstr($substring, $caseSensitive);
+                        ->countSubstr($substring, $caseSensitive);
     }
 
     /**
@@ -841,10 +773,9 @@ class StaticStringy
      * @param  string $encoding    The character encoding
      * @return string The resulting string after the replacements
      */
-    public static function replace($str, $search, $replacement, $encoding = null)
-    {
+    public static function replace($str, $search, $replacement, $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->replace($search, $replacement);
+                        ->replace($search, $replacement);
     }
 
     /**
@@ -860,10 +791,9 @@ class StaticStringy
      * @param  string $encoding    The character encoding
      * @return string The resulting string after the replacements
      */
-    public static function regexReplace($str, $pattern, $replacement,
-                                        $options = 'msr', $encoding = null)
-    {
+    public static function regexReplace($str, $pattern, $replacement, $options = 'msr', $encoding = null) {
         return (string) Stringy::create($str, $encoding)
-            ->regexReplace($pattern, $replacement, $options, $encoding);
+                        ->regexReplace($pattern, $replacement, $options, $encoding);
     }
+
 }

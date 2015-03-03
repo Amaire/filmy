@@ -18,8 +18,8 @@ namespace Symfony\Component\Translation;
  *
  * @api
  */
-class IdentityTranslator implements TranslatorInterface
-{
+class IdentityTranslator implements TranslatorInterface {
+
     private $selector;
     private $locale;
 
@@ -30,9 +30,8 @@ class IdentityTranslator implements TranslatorInterface
      *
      * @api
      */
-    public function __construct(MessageSelector $selector = null)
-    {
-        $this->selector = $selector ?: new MessageSelector();
+    public function __construct(MessageSelector $selector = null) {
+        $this->selector = $selector ? : new MessageSelector();
     }
 
     /**
@@ -40,8 +39,7 @@ class IdentityTranslator implements TranslatorInterface
      *
      * @api
      */
-    public function setLocale($locale)
-    {
+    public function setLocale($locale) {
         $this->locale = $locale;
     }
 
@@ -50,9 +48,8 @@ class IdentityTranslator implements TranslatorInterface
      *
      * @api
      */
-    public function getLocale()
-    {
-        return $this->locale ?: \Locale::getDefault();
+    public function getLocale() {
+        return $this->locale ? : \Locale::getDefault();
     }
 
     /**
@@ -60,8 +57,7 @@ class IdentityTranslator implements TranslatorInterface
      *
      * @api
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
-    {
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null) {
         return strtr((string) $id, $parameters);
     }
 
@@ -70,8 +66,8 @@ class IdentityTranslator implements TranslatorInterface
      *
      * @api
      */
-    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
-    {
-        return strtr($this->selector->choose((string) $id, (int) $number, $locale ?: $this->getLocale()), $parameters);
+    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null) {
+        return strtr($this->selector->choose((string) $id, (int) $number, $locale ? : $this->getLocale()), $parameters);
     }
+
 }

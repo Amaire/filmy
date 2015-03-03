@@ -21,16 +21,18 @@ use PhpSpec\Wrapper\Collaborator;
 use PhpSpec\Wrapper\Unwrapper;
 use Prophecy\Prophet;
 
-class CollaboratorsMaintainer implements MaintainerInterface
-{
+class CollaboratorsMaintainer implements MaintainerInterface {
+
     /**
      * @var string
      */
     private static $docex = '#@param *([^ ]*) *\$([^ ]*)#';
+
     /**
      * @var \PhpSpec\Wrapper\Unwrapper
      */
     private $unwrapper;
+
     /**
      * @var Prophet
      */
@@ -39,8 +41,7 @@ class CollaboratorsMaintainer implements MaintainerInterface
     /**
      * @param Unwrapper $unwrapper
      */
-    public function __construct(Unwrapper $unwrapper)
-    {
+    public function __construct(Unwrapper $unwrapper) {
         $this->unwrapper = $unwrapper;
     }
 
@@ -49,8 +50,7 @@ class CollaboratorsMaintainer implements MaintainerInterface
      *
      * @return bool
      */
-    public function supports(ExampleNode $example)
-    {
+    public function supports(ExampleNode $example) {
         return true;
     }
 
@@ -60,9 +60,7 @@ class CollaboratorsMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function prepare(ExampleNode $example, SpecificationInterface $context,
-                            MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function prepare(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         $this->prophet = new Prophet(null, $this->unwrapper, null);
 
         $classRefl = $example->getSpecification()->getClassReflection();
@@ -80,17 +78,14 @@ class CollaboratorsMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function teardown(ExampleNode $example, SpecificationInterface $context,
-                             MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function teardown(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         $this->prophet->checkPredictions();
     }
 
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 50;
     }
 
@@ -98,8 +93,7 @@ class CollaboratorsMaintainer implements MaintainerInterface
      * @param CollaboratorManager         $collaborators
      * @param \ReflectionFunctionAbstract $function
      */
-    private function generateCollaborators(CollaboratorManager $collaborators, \ReflectionFunctionAbstract $function)
-    {
+    private function generateCollaborators(CollaboratorManager $collaborators, \ReflectionFunctionAbstract $function) {
         if ($comment = $function->getDocComment()) {
             $comment = str_replace("\r\n", "\n", $comment);
             foreach (explode("\n", trim($comment)) as $line) {
@@ -124,8 +118,7 @@ class CollaboratorsMaintainer implements MaintainerInterface
      *
      * @return Collaborator
      */
-    private function getOrCreateCollaborator(CollaboratorManager $collaborators, $name)
-    {
+    private function getOrCreateCollaborator(CollaboratorManager $collaborators, $name) {
         if (!$collaborators->has($name)) {
             $collaborator = new Collaborator($this->prophet->prophesize());
             $collaborators->set($name, $collaborator);
@@ -133,4 +126,5 @@ class CollaboratorsMaintainer implements MaintainerInterface
 
         return $collaborators->get($name);
     }
+
 }

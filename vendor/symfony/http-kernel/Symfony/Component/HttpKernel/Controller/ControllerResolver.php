@@ -25,8 +25,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @api
  */
-class ControllerResolver implements ControllerResolverInterface
-{
+class ControllerResolver implements ControllerResolverInterface {
+
     private $logger;
 
     /**
@@ -34,8 +34,7 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @param LoggerInterface $logger A LoggerInterface instance
      */
-    public function __construct(LoggerInterface $logger = null)
-    {
+    public function __construct(LoggerInterface $logger = null) {
         $this->logger = $logger;
     }
 
@@ -47,8 +46,7 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @api
      */
-    public function getController(Request $request)
-    {
+    public function getController(Request $request) {
         if (!$controller = $request->attributes->get('_controller')) {
             if (null !== $this->logger) {
                 $this->logger->warning('Unable to look for the controller as the "_controller" parameter is missing');
@@ -91,8 +89,7 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @api
      */
-    public function getArguments(Request $request, $controller)
-    {
+    public function getArguments(Request $request, $controller) {
         if (is_array($controller)) {
             $r = new \ReflectionMethod($controller[0], $controller[1]);
         } elseif (is_object($controller) && !$controller instanceof \Closure) {
@@ -105,8 +102,7 @@ class ControllerResolver implements ControllerResolverInterface
         return $this->doGetArguments($request, $controller, $r->getParameters());
     }
 
-    protected function doGetArguments(Request $request, $controller, array $parameters)
-    {
+    protected function doGetArguments(Request $request, $controller, array $parameters) {
         $attributes = $request->attributes->all();
         $arguments = array();
         foreach ($parameters as $param) {
@@ -141,8 +137,7 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @throws \InvalidArgumentException
      */
-    protected function createController($controller)
-    {
+    protected function createController($controller) {
         if (false === strpos($controller, '::')) {
             throw new \InvalidArgumentException(sprintf('Unable to find controller "%s".', $controller));
         }
@@ -163,8 +158,8 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @return object
      */
-    protected function instantiateController($class)
-    {
+    protected function instantiateController($class) {
         return new $class();
     }
+
 }

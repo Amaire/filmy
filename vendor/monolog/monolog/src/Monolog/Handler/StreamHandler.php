@@ -20,8 +20,8 @@ use Monolog\Logger;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class StreamHandler extends AbstractProcessingHandler
-{
+class StreamHandler extends AbstractProcessingHandler {
+
     protected $stream;
     protected $url;
     private $errorMessage;
@@ -37,8 +37,7 @@ class StreamHandler extends AbstractProcessingHandler
      *
      * @throws \InvalidArgumentException If stream is not a resource or string
      */
-    public function __construct($stream, $level = Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false)
-    {
+    public function __construct($stream, $level = Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false) {
         parent::__construct($level, $bubble);
         if (is_resource($stream)) {
             $this->stream = $stream;
@@ -55,8 +54,7 @@ class StreamHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function close()
-    {
+    public function close() {
         if (is_resource($this->stream)) {
             fclose($this->stream);
         }
@@ -66,8 +64,7 @@ class StreamHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         if (!is_resource($this->stream)) {
             if (!$this->url) {
                 throw new \LogicException('Missing stream url, the stream can not be opened. This may be caused by a premature call to close().');
@@ -81,7 +78,7 @@ class StreamHandler extends AbstractProcessingHandler
             restore_error_handler();
             if (!is_resource($this->stream)) {
                 $this->stream = null;
-                throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: '.$this->errorMessage, $this->url));
+                throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: ' . $this->errorMessage, $this->url));
             }
         }
 
@@ -97,8 +94,8 @@ class StreamHandler extends AbstractProcessingHandler
         }
     }
 
-    private function customErrorHandler($code, $msg)
-    {
+    private function customErrorHandler($code, $msg) {
         $this->errorMessage = preg_replace('{^fopen\(.*?\): }', '', $msg);
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -53,8 +54,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
-interface PHPUnit_Framework_MockObject_Builder_Stub extends PHPUnit_Framework_MockObject_Builder_Identity
-{
+interface PHPUnit_Framework_MockObject_Builder_Stub extends PHPUnit_Framework_MockObject_Builder_Identity {
+
     /**
      * Stubs the matching method with the stub object $stub. Any invocations of
      * the matched method will now be handled by the stub instead.

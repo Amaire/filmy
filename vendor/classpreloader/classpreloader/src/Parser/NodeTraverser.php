@@ -9,8 +9,8 @@ use PhpParser\NodeTraverser as BaseTraverser;
  *
  * This allows a filename to be set when visiting.
  */
-class NodeTraverser extends BaseTraverser
-{
+class NodeTraverser extends BaseTraverser {
+
     /**
      * Transverse the file.
      *
@@ -19,8 +19,7 @@ class NodeTraverser extends BaseTraverser
      *
      * @return void
      */
-    public function traverseFile(array $nodes, $filename)
-    {
+    public function traverseFile(array $nodes, $filename) {
         // Set the correct state on each visitor
         foreach ($this->visitors as $visitor) {
             if ($visitor instanceof AbstractNodeVisitor) {
@@ -30,4 +29,5 @@ class NodeTraverser extends BaseTraverser
 
         return $this->traverse($nodes);
     }
+
 }

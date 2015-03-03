@@ -9,8 +9,8 @@ use PhpParser\Node;
  * @property string    $var   Variable for exception
  * @property Node[]    $stmts Statements
  */
-class Catch_ extends Node\Stmt
-{
+class Catch_ extends Node\Stmt {
+
     /**
      * Constructs a catch node.
      *
@@ -21,12 +21,12 @@ class Catch_ extends Node\Stmt
      */
     public function __construct(Node\Name $type, $var, array $stmts = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'type'  => $type,
-                'var'   => $var,
-                'stmts' => $stmts,
-            ),
-            $attributes
+                array(
+            'type' => $type,
+            'var' => $var,
+            'stmts' => $stmts,
+                ), $attributes
         );
     }
+
 }

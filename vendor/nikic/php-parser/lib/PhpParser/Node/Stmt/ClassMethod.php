@@ -12,8 +12,7 @@ use PhpParser\Error;
  * @property Node\Param[] $params Parameters
  * @property Node[]       $stmts  Statements
  */
-class ClassMethod extends Node\Stmt
-{
+class ClassMethod extends Node\Stmt {
 
     /**
      * Constructs a class method node.
@@ -34,14 +33,13 @@ class ClassMethod extends Node\Stmt
         }
 
         parent::__construct(
-            array(
-                'type'   => $type,
-                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'name'   => $name,
-                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
-                'stmts'  => array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array(),
-            ),
-            $attributes
+                array(
+            'type' => $type,
+            'byRef' => isset($subNodes['byRef']) ? $subNodes['byRef'] : false,
+            'name' => $name,
+            'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
+            'stmts' => array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array(),
+                ), $attributes
         );
 
         if ($this->type & Class_::MODIFIER_STATIC) {
@@ -79,4 +77,5 @@ class ClassMethod extends Node\Stmt
     public function isStatic() {
         return (bool) ($this->type & Class_::MODIFIER_STATIC);
     }
+
 }

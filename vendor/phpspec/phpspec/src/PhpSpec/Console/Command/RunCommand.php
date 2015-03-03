@@ -22,23 +22,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Main command, responsible for running the specs
  */
-class RunCommand extends Command
-{
-    protected function configure()
-    {
+class RunCommand extends Command {
+
+    protected function configure() {
         $this
-            ->setName('run')
-            ->setDefinition(array(
+                ->setName('run')
+                ->setDefinition(array(
                     new InputArgument('spec', InputArgument::OPTIONAL, 'Specs to run'),
                     new InputOption('format', 'f', InputOption::VALUE_REQUIRED, 'Formatter'),
-                    new InputOption('stop-on-failure', null , InputOption::VALUE_NONE, 'Stop on failure'),
-                    new InputOption('no-code-generation', null , InputOption::VALUE_NONE, 'Do not prompt for missing method/class generation'),
-                    new InputOption('no-rerun', null , InputOption::VALUE_NONE, 'Do not rerun the suite after code generation'),
-                    new InputOption('fake', null , InputOption::VALUE_NONE, 'Automatically fake return values when possible'),
+                    new InputOption('stop-on-failure', null, InputOption::VALUE_NONE, 'Stop on failure'),
+                    new InputOption('no-code-generation', null, InputOption::VALUE_NONE, 'Do not prompt for missing method/class generation'),
+                    new InputOption('no-rerun', null, InputOption::VALUE_NONE, 'Do not rerun the suite after code generation'),
+                    new InputOption('fake', null, InputOption::VALUE_NONE, 'Automatically fake return values when possible'),
                     new InputOption('bootstrap', 'b', InputOption::VALUE_REQUIRED, 'Bootstrap php file that is run before the specs')
                 ))
-            ->setDescription('Runs specifications')
-            ->setHelp(<<<EOF
+                ->setDescription('Runs specifications')
+                ->setHelp(<<<EOF
 The <info>%command.name%</info> command runs specifications:
 
   <info>php %command.full_name%</info>
@@ -81,7 +80,7 @@ The available formatters are:
    dot
 
 EOF
-            )
+                )
         ;
     }
 
@@ -91,12 +90,10 @@ EOF
      *
      * @return mixed
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getApplication()->getContainer();
 
-        $container->setParam('formatter.name',
-            $input->getOption('format') ?: $container->getParam('formatter.name')
+        $container->setParam('formatter.name', $input->getOption('format') ? : $container->getParam('formatter.name')
         );
         $container->configure();
 
@@ -106,11 +103,12 @@ EOF
             list($_, $locator, $linenum) = $matches;
         }
 
-        $suite       = $container->get('loader.resource_loader')->load($locator, $linenum);
+        $suite = $container->get('loader.resource_loader')->load($locator, $linenum);
         $suiteRunner = $container->get('runner.suite');
 
         return $container->get('console.result_converter')->convert(
-            $suiteRunner->run($suite)
+                        $suiteRunner->run($suite)
         );
     }
+
 }

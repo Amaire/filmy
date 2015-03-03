@@ -16,6 +16,6 @@ namespace PhpSpec\Exception\Example;
 /**
  * Class FailureException holds information about example failure exception
  */
-class FailureException extends MatcherException
-{
+class FailureException extends MatcherException {
+    
 }

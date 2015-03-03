@@ -22,8 +22,8 @@ use Symfony\Component\VarDumper\VarDumper;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class DumpListener implements EventSubscriberInterface
-{
+class DumpListener implements EventSubscriberInterface {
+
     private $cloner;
     private $dumper;
 
@@ -31,14 +31,12 @@ class DumpListener implements EventSubscriberInterface
      * @param ClonerInterface     $cloner Cloner service.
      * @param DataDumperInterface $dumper Dumper service.
      */
-    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper)
-    {
+    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper) {
         $this->cloner = $cloner;
         $this->dumper = $dumper;
     }
 
-    public function configure()
-    {
+    public function configure() {
         $cloner = $this->cloner;
         $dumper = $this->dumper;
 
@@ -47,9 +45,9 @@ class DumpListener implements EventSubscriberInterface
         });
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         // Register early to have a working dump() as early as possible
         return array(KernelEvents::REQUEST => array('configure', 1024));
     }
+
 }

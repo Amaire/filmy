@@ -2,8 +2,8 @@
 
 namespace PhpParser;
 
-abstract class NodeAbstract implements Node, \IteratorAggregate
-{
+abstract class NodeAbstract implements Node, \IteratorAggregate {
+
     protected $subNodes;
     protected $attributes;
 
@@ -14,7 +14,7 @@ abstract class NodeAbstract implements Node, \IteratorAggregate
      * @param array $attributes Array of attributes
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
-        $this->subNodes   = $subNodes;
+        $this->subNodes = $subNodes;
         $this->attributes = $attributes;
     }
 
@@ -112,16 +112,21 @@ abstract class NodeAbstract implements Node, \IteratorAggregate
     public function &__get($name) {
         return $this->subNodes[$name];
     }
+
     public function __set($name, $value) {
         $this->subNodes[$name] = $value;
     }
+
     public function __isset($name) {
         return isset($this->subNodes[$name]);
     }
+
     public function __unset($name) {
         unset($this->subNodes[$name]);
     }
+
     public function getIterator() {
         return new \ArrayIterator($this->subNodes);
     }
+
 }

@@ -13,8 +13,8 @@
  *
  * @author     Chris Corbyn
  */
-class Swift_Transport_FailoverTransport extends Swift_Transport_LoadBalancedTransport
-{
+class Swift_Transport_FailoverTransport extends Swift_Transport_LoadBalancedTransport {
+
     /**
      * Registered transport currently used.
      *
@@ -25,8 +25,7 @@ class Swift_Transport_FailoverTransport extends Swift_Transport_LoadBalancedTran
     /**
      * Creates a new FailoverTransport.
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -41,13 +40,11 @@ class Swift_Transport_FailoverTransport extends Swift_Transport_LoadBalancedTran
      *
      * @return int
      */
-    public function send(Swift_Mime_Message $message, &$failedRecipients = null)
-    {
+    public function send(Swift_Mime_Message $message, &$failedRecipients = null) {
         $maxTransports = count($this->_transports);
         $sent = 0;
 
-        for ($i = 0; $i < $maxTransports
-            && $transport = $this->_getNextTransport(); ++$i) {
+        for ($i = 0; $i < $maxTransports && $transport = $this->_getNextTransport(); ++$i) {
             try {
                 if (!$transport->isStarted()) {
                     $transport->start();
@@ -61,15 +58,14 @@ class Swift_Transport_FailoverTransport extends Swift_Transport_LoadBalancedTran
 
         if (count($this->_transports) == 0) {
             throw new Swift_TransportException(
-                'All Transports in FailoverTransport failed, or no Transports available'
-                );
+            'All Transports in FailoverTransport failed, or no Transports available'
+            );
         }
 
         return $sent;
     }
 
-    protected function _getNextTransport()
-    {
+    protected function _getNextTransport() {
         if (!isset($this->_currentTransport)) {
             $this->_currentTransport = parent::_getNextTransport();
         }
@@ -77,9 +73,9 @@ class Swift_Transport_FailoverTransport extends Swift_Transport_LoadBalancedTran
         return $this->_currentTransport;
     }
 
-    protected function _killCurrentTransport()
-    {
+    protected function _killCurrentTransport() {
         $this->_currentTransport = null;
         parent::_killCurrentTransport();
     }
+
 }

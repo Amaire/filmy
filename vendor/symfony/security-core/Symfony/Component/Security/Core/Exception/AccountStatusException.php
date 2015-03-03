@@ -20,8 +20,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander <iam.asm89@gmail.com>
  */
-abstract class AccountStatusException extends AuthenticationException
-{
+abstract class AccountStatusException extends AuthenticationException {
+
     private $user;
 
     /**
@@ -29,8 +29,7 @@ abstract class AccountStatusException extends AuthenticationException
      *
      * @return UserInterface
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -39,16 +38,14 @@ abstract class AccountStatusException extends AuthenticationException
      *
      * @param UserInterface $user
      */
-    public function setUser(UserInterface $user)
-    {
+    public function setUser(UserInterface $user) {
         $this->user = $user;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(array(
             $this->user,
             parent::serialize(),
@@ -58,10 +55,10 @@ abstract class AccountStatusException extends AuthenticationException
     /**
      * {@inheritdoc}
      */
-    public function unserialize($str)
-    {
+    public function unserialize($str) {
         list($this->user, $parentData) = unserialize($str);
 
         parent::unserialize($parentData);
     }
+
 }

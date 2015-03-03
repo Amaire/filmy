@@ -15,8 +15,8 @@ namespace Psy\Presenter;
  * PresenterManager injects itself as a dependency to all Presenters which
  * implement PresenterManagerAware.
  */
-interface PresenterManagerAware
-{
+interface PresenterManagerAware {
+
     /**
      * Set a reference to the PresenterManager.
      *

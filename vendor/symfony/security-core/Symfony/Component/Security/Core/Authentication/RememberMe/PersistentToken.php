@@ -16,8 +16,8 @@ namespace Symfony\Component\Security\Core\Authentication\RememberMe;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class PersistentToken implements PersistentTokenInterface
-{
+final class PersistentToken implements PersistentTokenInterface {
+
     private $class;
     private $username;
     private $series;
@@ -35,8 +35,7 @@ final class PersistentToken implements PersistentTokenInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($class, $username, $series, $tokenValue, \DateTime $lastUsed)
-    {
+    public function __construct($class, $username, $series, $tokenValue, \DateTime $lastUsed) {
         if (empty($class)) {
             throw new \InvalidArgumentException('$class must not be empty.');
         }
@@ -60,40 +59,36 @@ final class PersistentToken implements PersistentTokenInterface
     /**
      * {@inheritdoc}
      */
-    public function getClass()
-    {
+    public function getClass() {
         return $this->class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSeries()
-    {
+    public function getSeries() {
         return $this->series;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTokenValue()
-    {
+    public function getTokenValue() {
         return $this->tokenValue;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getLastUsed()
-    {
+    public function getLastUsed() {
         return $this->lastUsed;
     }
+
 }

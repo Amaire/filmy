@@ -19,8 +19,8 @@ use PhpSpec\Util\Filesystem;
  * Template renderer class can render templates in registered locations. It comes
  * with a simple placeholder string replacement for specified fields
  */
-class TemplateRenderer
-{
+class TemplateRenderer {
+
     /**
      * @var array
      */
@@ -34,40 +34,35 @@ class TemplateRenderer
     /**
      * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem = null)
-    {
-        $this->filesystem = $filesystem ?: new Filesystem();
+    public function __construct(Filesystem $filesystem = null) {
+        $this->filesystem = $filesystem ? : new Filesystem();
     }
 
     /**
      * @param array $locations
      */
-    public function setLocations(array $locations)
-    {
+    public function setLocations(array $locations) {
         $this->locations = array_map(array($this, 'normalizeLocation'), $locations);
     }
 
     /**
      * @param string $location
      */
-    public function prependLocation($location)
-    {
+    public function prependLocation($location) {
         array_unshift($this->locations, $this->normalizeLocation($location));
     }
 
     /**
      * @param string $location
      */
-    public function appendLocation($location)
-    {
+    public function appendLocation($location) {
         array_push($this->locations, $this->normalizeLocation($location));
     }
 
     /**
      * @return array
      */
-    public function getLocations()
-    {
+    public function getLocations() {
         return $this->locations;
     }
 
@@ -77,10 +72,9 @@ class TemplateRenderer
      *
      * @return string
      */
-    public function render($name, array $values = array())
-    {
+    public function render($name, array $values = array()) {
         foreach ($this->locations as $location) {
-            $path = $location.DIRECTORY_SEPARATOR.$this->normalizeLocation($name, true).'.tpl';
+            $path = $location . DIRECTORY_SEPARATOR . $this->normalizeLocation($name, true) . '.tpl';
 
             if ($this->filesystem->pathExists($path)) {
                 return $this->renderString($this->filesystem->getFileContents($path), $values);
@@ -94,8 +88,7 @@ class TemplateRenderer
      *
      * @return string
      */
-    public function renderString($template, array $values = array())
-    {
+    public function renderString($template, array $values = array()) {
         return strtr($template, $values);
     }
 
@@ -105,8 +98,7 @@ class TemplateRenderer
      *
      * @return string
      */
-    private function normalizeLocation($location, $trimLeft = false)
-    {
+    private function normalizeLocation($location, $trimLeft = false) {
         $location = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $location);
         $location = rtrim($location, DIRECTORY_SEPARATOR);
 
@@ -116,4 +108,5 @@ class TemplateRenderer
 
         return $location;
     }
+
 }

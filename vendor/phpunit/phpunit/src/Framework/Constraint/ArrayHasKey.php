@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -25,8 +26,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constraint {
+
     /**
      * @var integer|string
      */
@@ -35,8 +36,7 @@ class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constra
     /**
      * @param integer|string $key
      */
-    public function __construct($key)
-    {
+    public function __construct($key) {
         parent::__construct();
         $this->key = $key;
     }
@@ -48,8 +48,7 @@ class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constra
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         if (is_array($other)) {
             return array_key_exists($this->key, $other);
         }
@@ -66,8 +65,7 @@ class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constra
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'has the key ' . $this->exporter->export($this->key);
     }
 
@@ -80,8 +78,8 @@ class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constra
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         return 'an array ' . $this->toString();
     }
+
 }

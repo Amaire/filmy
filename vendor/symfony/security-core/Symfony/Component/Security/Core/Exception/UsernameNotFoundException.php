@@ -17,15 +17,14 @@ namespace Symfony\Component\Security\Core\Exception;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander <iam.asm89@gmail.com>
  */
-class UsernameNotFoundException extends AuthenticationException
-{
+class UsernameNotFoundException extends AuthenticationException {
+
     private $username;
 
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
-    {
+    public function getMessageKey() {
         return 'Username could not be found.';
     }
 
@@ -34,8 +33,7 @@ class UsernameNotFoundException extends AuthenticationException
      *
      * @return string
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
@@ -44,16 +42,14 @@ class UsernameNotFoundException extends AuthenticationException
      *
      * @param string $username
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(array(
             $this->username,
             parent::serialize(),
@@ -63,8 +59,7 @@ class UsernameNotFoundException extends AuthenticationException
     /**
      * {@inheritdoc}
      */
-    public function unserialize($str)
-    {
+    public function unserialize($str) {
         list($this->username, $parentData) = unserialize($str);
 
         parent::unserialize($parentData);
@@ -73,8 +68,8 @@ class UsernameNotFoundException extends AuthenticationException
     /**
      * {@inheritdoc}
      */
-    public function getMessageData()
-    {
+    public function getMessageData() {
         return array('{{ username }}' => $this->username);
     }
+
 }

@@ -21,39 +21,35 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class DoctrineCaster
-{
-    public static function castCommonProxy(CommonProxy $proxy, array $a, Stub $stub, $isNested)
-    {
+class DoctrineCaster {
+
+    public static function castCommonProxy(CommonProxy $proxy, array $a, Stub $stub, $isNested) {
         unset(
-            $a['__cloner__'],
-            $a['__initializer__']
+                $a['__cloner__'], $a['__initializer__']
         );
         $stub->cut += 2;
 
         return $a;
     }
 
-    public static function castOrmProxy(OrmProxy $proxy, array $a, Stub $stub, $isNested)
-    {
+    public static function castOrmProxy(OrmProxy $proxy, array $a, Stub $stub, $isNested) {
         $prefix = "\0Doctrine\\ORM\\Proxy\\Proxy\0";
         unset(
-            $a[$prefix.'_entityPersister'],
-            $a[$prefix.'_identifier']
+                $a[$prefix . '_entityPersister'], $a[$prefix . '_identifier']
         );
         $stub->cut += 2;
 
         return $a;
     }
 
-    public static function castPersistentCollection(PersistentCollection $coll, array $a, Stub $stub, $isNested)
-    {
+    public static function castPersistentCollection(PersistentCollection $coll, array $a, Stub $stub, $isNested) {
         $prefix = "\0Doctrine\\ORM\\PersistentCollection\0";
 
-        $a[$prefix.'snapshot'] = new CutStub($a[$prefix.'snapshot']);
-        $a[$prefix.'association'] = new CutStub($a[$prefix.'association']);
-        $a[$prefix.'typeClass'] = new CutStub($a[$prefix.'typeClass']);
+        $a[$prefix . 'snapshot'] = new CutStub($a[$prefix . 'snapshot']);
+        $a[$prefix . 'association'] = new CutStub($a[$prefix . 'association']);
+        $a[$prefix . 'typeClass'] = new CutStub($a[$prefix . 'typeClass']);
 
         return $a;
     }
+
 }

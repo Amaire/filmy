@@ -22,17 +22,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Command line command responsible to signal to generators we will need to
  * generate a new spec
  */
-class DescribeCommand extends Command
-{
-    protected function configure()
-    {
+class DescribeCommand extends Command {
+
+    protected function configure() {
         $this
-            ->setName('describe')
-            ->setDefinition(array(
+                ->setName('describe')
+                ->setDefinition(array(
                     new InputArgument('class', InputArgument::REQUIRED, 'Class to describe'),
                 ))
-            ->setDescription('Creates a specification for a class')
-            ->setHelp(<<<EOF
+                ->setDescription('Creates a specification for a class')
+                ->setHelp(<<<EOF
 The <info>%command.name%</info> command creates a specification for a class:
 
   <info>php %command.full_name% ClassName</info>
@@ -47,7 +46,7 @@ Note that / is used as the separator. To use \ it must be quoted:
   <info>php %command.full_name% "Namespace\ClassName"</info>
 
 EOF
-            )
+                )
         ;
     }
 
@@ -57,14 +56,14 @@ EOF
      *
      * @return int|null|void
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getApplication()->getContainer();
         $container->configure();
 
         $classname = $input->getArgument('class');
-        $resource  = $container->get('locator.resource_manager')->createResource($classname);
+        $resource = $container->get('locator.resource_manager')->createResource($classname);
 
         $container->get('code_generator')->generate($resource, 'specification');
     }
+
 }

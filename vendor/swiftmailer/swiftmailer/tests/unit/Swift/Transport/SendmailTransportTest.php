@@ -1,10 +1,8 @@
 <?php
 
-class Swift_Transport_SendmailTransportTest
-    extends Swift_Transport_AbstractSmtpEventSupportTest
-{
-    protected function _getTransport($buf, $dispatcher = null, $command = '/usr/sbin/sendmail -bs')
-    {
+class Swift_Transport_SendmailTransportTest extends Swift_Transport_AbstractSmtpEventSupportTest {
+
+    protected function _getTransport($buf, $dispatcher = null, $command = '/usr/sbin/sendmail -bs') {
         if (!$dispatcher) {
             $dispatcher = $this->_createEventDispatcher();
         }
@@ -14,8 +12,7 @@ class Swift_Transport_SendmailTransportTest
         return $transport;
     }
 
-    protected function _getSendmail($buf, $dispatcher = null)
-    {
+    protected function _getSendmail($buf, $dispatcher = null) {
         if (!$dispatcher) {
             $dispatcher = $this->_createEventDispatcher();
         }
@@ -24,8 +21,7 @@ class Swift_Transport_SendmailTransportTest
         return $sendmail;
     }
 
-    public function testCommandCanBeSetAndFetched()
-    {
+    public function testCommandCanBeSetAndFetched() {
         $buf = $this->_getBuffer();
         $sendmail = $this->_getSendmail($buf);
 
@@ -35,8 +31,7 @@ class Swift_Transport_SendmailTransportTest
         $this->assertEquals('/usr/sbin/sendmail -oi -t', $sendmail->getCommand());
     }
 
-    public function testSendingMessageIn_t_ModeUsesSimplePipe()
-    {
+    public function testSendingMessageIn_t_ModeUsesSimplePipe() {
         $buf = $this->_getBuffer();
         $sendmail = $this->_getSendmail($buf);
         $message = $this->_createMessage();
@@ -48,22 +43,21 @@ class Swift_Transport_SendmailTransportTest
                 ->once()
                 ->with($buf);
         $buf->shouldReceive('initialize')
-            ->once();
+                ->once();
         $buf->shouldReceive('terminate')
-            ->once();
+                ->once();
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array("\r\n" => "\n", "\n." => "\n.."));
+                ->once()
+                ->with(array("\r\n" => "\n", "\n." => "\n.."));
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array());
+                ->once()
+                ->with(array());
 
         $sendmail->setCommand('/usr/sbin/sendmail -t');
         $this->assertEquals(2, $sendmail->send($message));
     }
 
-    public function testSendingIn_t_ModeWith_i_FlagDoesntEscapeDot()
-    {
+    public function testSendingIn_t_ModeWith_i_FlagDoesntEscapeDot() {
         $buf = $this->_getBuffer();
         $sendmail = $this->_getSendmail($buf);
         $message = $this->_createMessage();
@@ -75,22 +69,21 @@ class Swift_Transport_SendmailTransportTest
                 ->once()
                 ->with($buf);
         $buf->shouldReceive('initialize')
-            ->once();
+                ->once();
         $buf->shouldReceive('terminate')
-            ->once();
+                ->once();
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array("\r\n" => "\n"));
+                ->once()
+                ->with(array("\r\n" => "\n"));
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array());
+                ->once()
+                ->with(array());
 
         $sendmail->setCommand('/usr/sbin/sendmail -i -t');
         $this->assertEquals(2, $sendmail->send($message));
     }
 
-    public function testSendingInTModeWith_oi_FlagDoesntEscapeDot()
-    {
+    public function testSendingInTModeWith_oi_FlagDoesntEscapeDot() {
         $buf = $this->_getBuffer();
         $sendmail = $this->_getSendmail($buf);
         $message = $this->_createMessage();
@@ -102,22 +95,21 @@ class Swift_Transport_SendmailTransportTest
                 ->once()
                 ->with($buf);
         $buf->shouldReceive('initialize')
-            ->once();
+                ->once();
         $buf->shouldReceive('terminate')
-            ->once();
+                ->once();
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array("\r\n" => "\n"));
+                ->once()
+                ->with(array("\r\n" => "\n"));
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array());
+                ->once()
+                ->with(array());
 
         $sendmail->setCommand('/usr/sbin/sendmail -oi -t');
         $this->assertEquals(2, $sendmail->send($message));
     }
 
-    public function testSendingMessageRegeneratesId()
-    {
+    public function testSendingMessageRegeneratesId() {
         $buf = $this->_getBuffer();
         $sendmail = $this->_getSendmail($buf);
         $message = $this->_createMessage();
@@ -127,26 +119,26 @@ class Swift_Transport_SendmailTransportTest
                 ->andReturn(array('foo@bar' => 'Foobar', 'zip@button' => 'Zippy'));
         $message->shouldReceive('generateId');
         $buf->shouldReceive('initialize')
-            ->once();
+                ->once();
         $buf->shouldReceive('terminate')
-            ->once();
+                ->once();
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array("\r\n" => "\n", "\n." => "\n.."));
+                ->once()
+                ->with(array("\r\n" => "\n", "\n." => "\n.."));
         $buf->shouldReceive('setWriteTranslations')
-            ->once()
-            ->with(array());
+                ->once()
+                ->with(array());
 
         $sendmail->setCommand('/usr/sbin/sendmail -t');
         $this->assertEquals(2, $sendmail->send($message));
     }
 
-    public function testFluidInterface()
-    {
+    public function testFluidInterface() {
         $buf = $this->_getBuffer();
         $sendmail = $this->_getTransport($buf);
 
         $ref = $sendmail->setCommand('/foo');
         $this->assertEquals($ref, $sendmail);
     }
+
 }

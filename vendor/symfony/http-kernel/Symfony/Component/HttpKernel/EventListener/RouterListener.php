@@ -37,8 +37,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class RouterListener implements EventSubscriberInterface
-{
+class RouterListener implements EventSubscriberInterface {
+
     private $matcher;
     private $context;
     private $logger;
@@ -57,8 +57,7 @@ class RouterListener implements EventSubscriberInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($matcher, RequestContext $context = null, LoggerInterface $logger = null, RequestStack $requestStack = null)
-    {
+    public function __construct($matcher, RequestContext $context = null, LoggerInterface $logger = null, RequestStack $requestStack = null) {
         if (!$matcher instanceof UrlMatcherInterface && !$matcher instanceof RequestMatcherInterface) {
             throw new \InvalidArgumentException('Matcher must either implement UrlMatcherInterface or RequestMatcherInterface.');
         }
@@ -68,7 +67,7 @@ class RouterListener implements EventSubscriberInterface
         }
 
         $this->matcher = $matcher;
-        $this->context = $context ?: $matcher->getContext();
+        $this->context = $context ? : $matcher->getContext();
         $this->requestStack = $requestStack;
         $this->logger = $logger;
     }
@@ -84,16 +83,14 @@ class RouterListener implements EventSubscriberInterface
      *
      * @deprecated Deprecated since version 2.4, to be moved to a private function in 3.0.
      */
-    public function setRequest(Request $request = null)
-    {
+    public function setRequest(Request $request = null) {
         if (null !== $request && $this->request !== $request) {
             $this->context->fromRequest($request);
         }
         $this->request = $request;
     }
 
-    public function onKernelFinishRequest(FinishRequestEvent $event)
-    {
+    public function onKernelFinishRequest(FinishRequestEvent $event) {
         if (null === $this->requestStack) {
             return; // removed when requestStack is required
         }
@@ -101,8 +98,7 @@ class RouterListener implements EventSubscriberInterface
         $this->setRequest($this->requestStack->getParentRequest());
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
-    {
+    public function onKernelRequest(GetResponseEvent $event) {
         $request = $event->getRequest();
 
         // initialize the context that is also used by the generator (assuming matcher and generator share the same context instance)
@@ -150,8 +146,7 @@ class RouterListener implements EventSubscriberInterface
         }
     }
 
-    private function parametersToString(array $parameters)
-    {
+    private function parametersToString(array $parameters) {
         $pieces = array();
         foreach ($parameters as $key => $val) {
             $pieces[] = sprintf('"%s": "%s"', $key, (is_string($val) ? $val : json_encode($val)));
@@ -160,11 +155,11 @@ class RouterListener implements EventSubscriberInterface
         return implode(', ', $pieces);
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             KernelEvents::REQUEST => array(array('onKernelRequest', 32)),
             KernelEvents::FINISH_REQUEST => array(array('onKernelFinishRequest', 0)),
         );
     }
+
 }

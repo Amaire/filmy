@@ -21,8 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @api
  */
-interface HttpKernelInterface
-{
+interface HttpKernelInterface {
+
     const MASTER_REQUEST = 1;
     const SUB_REQUEST = 2;
 

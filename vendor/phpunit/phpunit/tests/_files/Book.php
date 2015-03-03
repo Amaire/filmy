@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -18,8 +19,9 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.6.0
  */
-class Book
-{
+class Book {
+
     // the order of properties is important for testing the cycle!
     public $author = null;
+
 }

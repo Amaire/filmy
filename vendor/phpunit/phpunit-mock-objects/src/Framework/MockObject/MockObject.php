@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -54,8 +55,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
-interface PHPUnit_Framework_MockObject_MockObject /*extends PHPUnit_Framework_MockObject_Verifiable*/
-{
+interface PHPUnit_Framework_MockObject_MockObject /* extends PHPUnit_Framework_MockObject_Verifiable */ {
+
     /**
      * Registers a new expectation in the mock object and returns the match
      * object which can be infused with further details.

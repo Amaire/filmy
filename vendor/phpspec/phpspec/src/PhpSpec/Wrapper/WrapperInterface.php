@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Wrapper;
 
-interface WrapperInterface
-{
+interface WrapperInterface {
+
     /**
      * @return mixed
      */

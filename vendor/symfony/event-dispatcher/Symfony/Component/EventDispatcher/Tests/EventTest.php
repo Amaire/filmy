@@ -17,8 +17,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 /**
  * Test class for Event.
  */
-class EventTest extends \PHPUnit_Framework_TestCase
-{
+class EventTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @var \Symfony\Component\EventDispatcher\Event
      */
@@ -33,8 +33,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->event = new Event();
         $this->dispatcher = new EventDispatcher();
     }
@@ -43,46 +42,40 @@ class EventTest extends \PHPUnit_Framework_TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
-    {
+    protected function tearDown() {
         $this->event = null;
         $this->dispatcher = null;
     }
 
-    public function testIsPropagationStopped()
-    {
+    public function testIsPropagationStopped() {
         $this->assertFalse($this->event->isPropagationStopped());
     }
 
-    public function testStopPropagationAndIsPropagationStopped()
-    {
+    public function testStopPropagationAndIsPropagationStopped() {
         $this->event->stopPropagation();
         $this->assertTrue($this->event->isPropagationStopped());
     }
 
-    public function testLegacySetDispatcher()
-    {
+    public function testLegacySetDispatcher() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
         $this->event->setDispatcher($this->dispatcher);
         $this->assertSame($this->dispatcher, $this->event->getDispatcher());
     }
 
-    public function testLegacyGetDispatcher()
-    {
+    public function testLegacyGetDispatcher() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
         $this->assertNull($this->event->getDispatcher());
     }
 
-    public function testLegacyGetName()
-    {
+    public function testLegacyGetName() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
         $this->assertNull($this->event->getName());
     }
 
-    public function testLegacySetName()
-    {
+    public function testLegacySetName() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
         $this->event->setName('foo');
         $this->assertEquals('foo', $this->event->getName());
     }
+
 }

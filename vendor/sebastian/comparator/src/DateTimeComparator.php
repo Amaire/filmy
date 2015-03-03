@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,8 +20,8 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class DateTimeComparator extends ObjectComparator
-{
+class DateTimeComparator extends ObjectComparator {
+
     /**
      * Returns whether the comparator can compare two values.
      *
@@ -28,8 +29,7 @@ class DateTimeComparator extends ObjectComparator
      * @param  mixed $actual The second value to compare
      * @return boolean
      */
-    public function accepts($expected, $actual)
-    {
+    public function accepts($expected, $actual) {
         return $expected instanceof \DateTime && $actual instanceof \DateTime;
     }
 
@@ -48,22 +48,16 @@ class DateTimeComparator extends ObjectComparator
      *                           fails. Contains information about the
      *                           specific errors that lead to the failure.
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-    {
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false) {
         $delta = new \DateInterval(sprintf('PT%sS', abs($delta)));
 
         $expectedLower = clone $expected;
         $expectedUpper = clone $expected;
 
         if ($actual < $expectedLower->sub($delta) ||
-            $actual > $expectedUpper->add($delta)) {
+                $actual > $expectedUpper->add($delta)) {
             throw new ComparisonFailure(
-                $expected,
-                $actual,
-                $this->dateTimeToString($expected),
-                $this->dateTimeToString($actual),
-                false,
-                'Failed asserting that two DateTime objects are equal.'
+            $expected, $actual, $this->dateTimeToString($expected), $this->dateTimeToString($actual), false, 'Failed asserting that two DateTime objects are equal.'
             );
         }
     }
@@ -76,10 +70,10 @@ class DateTimeComparator extends ObjectComparator
      * @param \DateTime $datetime
      * @return string
      */
-    protected function dateTimeToString(\DateTime $datetime)
-    {
+    protected function dateTimeToString(\DateTime $datetime) {
         $string = $datetime->format(\DateTime::ISO8601);
 
         return $string ? $string : 'Invalid DateTime object';
     }
+
 }

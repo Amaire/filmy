@@ -18,8 +18,8 @@ use Psy\Exception\RuntimeException;
 /**
  * A pretty-printer for code.
  */
-class CodeFormatter implements Formatter
-{
+class CodeFormatter implements Formatter {
+
     /**
      * Format the code represented by $reflector.
      *
@@ -27,16 +27,15 @@ class CodeFormatter implements Formatter
      *
      * @return string formatted code
      */
-    public static function format(\Reflector $reflector)
-    {
+    public static function format(\Reflector $reflector) {
         if ($fileName = $reflector->getFileName()) {
             if (!is_file($fileName)) {
                 throw new RuntimeException('Source code unavailable.');
             }
 
-            $file  = file_get_contents($fileName);
+            $file = file_get_contents($fileName);
             $start = $reflector->getStartLine();
-            $end   = $reflector->getEndLine() - $start;
+            $end = $reflector->getEndLine() - $start;
 
             $colors = new ConsoleColor();
             $colors->addTheme('line_number', array('blue'));
@@ -51,4 +50,5 @@ class CodeFormatter implements Formatter
             throw new RuntimeException('Source code unavailable.');
         }
     }
+
 }

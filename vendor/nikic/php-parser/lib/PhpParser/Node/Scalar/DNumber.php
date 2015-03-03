@@ -7,8 +7,8 @@ use PhpParser\Node\Scalar;
 /**
  * @property float $value Number value
  */
-class DNumber extends Scalar
-{
+class DNumber extends Scalar {
+
     /**
      * Constructs a float number scalar node.
      *
@@ -17,10 +17,9 @@ class DNumber extends Scalar
      */
     public function __construct($value = 0.0, array $attributes = array()) {
         parent::__construct(
-            array(
-                'value' => $value
-            ),
-            $attributes
+                array(
+            'value' => $value
+                ), $attributes
         );
     }
 
@@ -61,4 +60,5 @@ class DNumber extends Scalar
         // dec
         return (float) $str;
     }
+
 }

@@ -20,28 +20,33 @@ use PhpSpec\Wrapper\Subject\ExpectationFactory;
 use PhpSpec\Util\Instantiator;
 use ArrayAccess;
 
-class Subject implements ArrayAccess, WrapperInterface
-{
+class Subject implements ArrayAccess, WrapperInterface {
+
     /**
      * @var mixed
      */
     private $subject;
+
     /**
      * @var Subject\WrappedObject
      */
     private $wrappedObject;
+
     /**
      * @var Subject\Caller
      */
     private $caller;
+
     /**
      * @var Subject\SubjectWithArrayAccess
      */
     private $arrayAccess;
+
     /**
      * @var Wrapper
      */
     private $wrapper;
+
     /**
      * @var Subject\ExpectationFactory
      */
@@ -55,14 +60,12 @@ class Subject implements ArrayAccess, WrapperInterface
      * @param SubjectWithArrayAccess $arrayAccess
      * @param ExpectationFactory     $expectationFactory
      */
-    public function __construct($subject, Wrapper $wrapper, WrappedObject $wrappedObject, Caller $caller,
-                                SubjectWithArrayAccess $arrayAccess, ExpectationFactory $expectationFactory)
-    {
-        $this->subject            = $subject;
-        $this->wrapper            = $wrapper;
-        $this->wrappedObject      = $wrappedObject;
-        $this->caller             = $caller;
-        $this->arrayAccess        = $arrayAccess;
+    public function __construct($subject, Wrapper $wrapper, WrappedObject $wrappedObject, Caller $caller, SubjectWithArrayAccess $arrayAccess, ExpectationFactory $expectationFactory) {
+        $this->subject = $subject;
+        $this->wrapper = $wrapper;
+        $this->wrappedObject = $wrappedObject;
+        $this->caller = $caller;
+        $this->arrayAccess = $arrayAccess;
         $this->expectationFactory = $expectationFactory;
     }
 
@@ -70,16 +73,14 @@ class Subject implements ArrayAccess, WrapperInterface
      * @param string $className
      * @param array  $arguments
      */
-    public function beAnInstanceOf($className, array $arguments = array())
-    {
+    public function beAnInstanceOf($className, array $arguments = array()) {
         $this->wrappedObject->beAnInstanceOf($className, $arguments);
     }
 
     /**
      *
      */
-    public function beConstructedWith()
-    {
+    public function beConstructedWith() {
         $this->wrappedObject->beConstructedWith(func_get_args());
     }
 
@@ -87,16 +88,14 @@ class Subject implements ArrayAccess, WrapperInterface
      * @param array|string $factoryMethod
      * @param array        $arguments
      */
-    public function beConstructedThrough($factoryMethod, array $arguments = array())
-    {
+    public function beConstructedThrough($factoryMethod, array $arguments = array()) {
         $this->wrappedObject->beConstructedThrough($factoryMethod, $arguments);
     }
 
     /**
      * @return mixed
      */
-    public function getWrappedObject()
-    {
+    public function getWrappedObject() {
         if ($this->subject) {
             return $this->subject;
         }
@@ -110,8 +109,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return Subject
      */
-    public function callOnWrappedObject($method, array $arguments = array())
-    {
+    public function callOnWrappedObject($method, array $arguments = array()) {
         return $this->caller->call($method, $arguments);
     }
 
@@ -121,8 +119,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return mixed
      */
-    public function setToWrappedObject($property, $value = null)
-    {
+    public function setToWrappedObject($property, $value = null) {
         return $this->caller->set($property, $value);
     }
 
@@ -131,8 +128,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return string|Subject
      */
-    public function getFromWrappedObject($property)
-    {
+    public function getFromWrappedObject($property) {
         return $this->caller->get($property);
     }
 
@@ -141,8 +137,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return Subject
      */
-    public function offsetExists($key)
-    {
+    public function offsetExists($key) {
         return $this->wrap($this->arrayAccess->offSetExists($key));
     }
 
@@ -151,8 +146,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return Subject
      */
-    public function offsetGet($key)
-    {
+    public function offsetGet($key) {
         return $this->wrap($this->arrayAccess->offsetGet($key));
     }
 
@@ -160,16 +154,14 @@ class Subject implements ArrayAccess, WrapperInterface
      * @param string|integer $key
      * @param mixed          $value
      */
-    public function offsetSet($key, $value)
-    {
+    public function offsetSet($key, $value) {
         $this->arrayAccess->offsetSet($key, $value);
     }
 
     /**
      * @param string|integer $key
      */
-    public function offsetUnset($key)
-    {
+    public function offsetUnset($key) {
         $this->arrayAccess->offsetUnset($key);
     }
 
@@ -179,8 +171,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return mixed|Subject
      */
-    public function __call($method, array $arguments = array())
-    {
+    public function __call($method, array $arguments = array()) {
         if (0 === strpos($method, 'should')) {
             return $this->callExpectation($method, $arguments);
         }
@@ -191,8 +182,7 @@ class Subject implements ArrayAccess, WrapperInterface
     /**
      * @return Subject
      */
-    public function __invoke()
-    {
+    public function __invoke() {
         return $this->caller->call('__invoke', func_get_args());
     }
 
@@ -202,8 +192,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return mixed
      */
-    public function __set($property, $value = null)
-    {
+    public function __set($property, $value = null) {
         return $this->caller->set($property, $value);
     }
 
@@ -212,8 +201,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return string|Subject
      */
-    public function __get($property)
-    {
+    public function __get($property) {
         return $this->caller->get($property);
     }
 
@@ -222,8 +210,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return Subject
      */
-    private function wrap($value)
-    {
+    private function wrap($value) {
         return $this->wrapper->wrap($value);
     }
 
@@ -233,8 +220,7 @@ class Subject implements ArrayAccess, WrapperInterface
      *
      * @return mixed
      */
-    private function callExpectation($method, array $arguments)
-    {
+    private function callExpectation($method, array $arguments) {
         $subject = $this->makeSureWeHaveASubject();
 
         $expectation = $this->expectationFactory->create($method, $subject, $arguments);
@@ -249,8 +235,7 @@ class Subject implements ArrayAccess, WrapperInterface
     /**
      * @return object
      */
-    private function makeSureWeHaveASubject()
-    {
+    private function makeSureWeHaveASubject() {
         if (null === $this->subject && $this->wrappedObject->getClassname()) {
             $instantiator = new Instantiator();
 
@@ -259,4 +244,5 @@ class Subject implements ArrayAccess, WrapperInterface
 
         return $this->subject;
     }
+
 }

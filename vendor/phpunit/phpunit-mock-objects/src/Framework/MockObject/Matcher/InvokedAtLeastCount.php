@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -54,8 +55,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Class available since Release 2.2.0
  */
-class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastCount extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder
-{
+class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastCount extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder {
+
     /**
      * @var integer
      */
@@ -64,16 +65,14 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastCount extends PHPUnit_F
     /**
      * @param integer $requiredInvocations
      */
-    public function __construct($requiredInvocations)
-    {
+    public function __construct($requiredInvocations) {
         $this->requiredInvocations = $requiredInvocations;
     }
 
     /**
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'invoked at least ' . $this->requiredInvocations . ' times';
     }
 
@@ -83,15 +82,15 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastCount extends PHPUnit_F
      *
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    public function verify()
-    {
+    public function verify() {
         $count = $this->getInvocationCount();
 
         if ($count < $this->requiredInvocations) {
             throw new PHPUnit_Framework_ExpectationFailedException(
-                'Expected invocation at least ' . $this->requiredInvocations .
-                ' times but it occured ' . $count . ' time(s).'
+            'Expected invocation at least ' . $this->requiredInvocations .
+            ' times but it occured ' . $count . ' time(s).'
             );
         }
     }
+
 }

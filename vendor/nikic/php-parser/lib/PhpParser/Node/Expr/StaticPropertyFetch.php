@@ -9,8 +9,8 @@ use PhpParser\Node\Expr;
  * @property Name|Expr   $class Class name
  * @property string|Expr $name  Property name
  */
-class StaticPropertyFetch extends Expr
-{
+class StaticPropertyFetch extends Expr {
+
     /**
      * Constructs a static property fetch node.
      *
@@ -20,11 +20,11 @@ class StaticPropertyFetch extends Expr
      */
     public function __construct($class, $name, array $attributes = array()) {
         parent::__construct(
-            array(
-                'class' => $class,
-                'name'  => $name
-            ),
-            $attributes
+                array(
+            'class' => $class,
+            'name' => $name
+                ), $attributes
         );
     }
+
 }

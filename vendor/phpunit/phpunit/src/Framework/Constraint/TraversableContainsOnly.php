@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -21,8 +22,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.4
  */
-class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Framework_Constraint {
+
     /**
      * @var PHPUnit_Framework_Constraint
      */
@@ -37,15 +38,14 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
      * @param string  $type
      * @param boolean $isNativeType
      */
-    public function __construct($type, $isNativeType = true)
-    {
+    public function __construct($type, $isNativeType = true) {
         parent::__construct();
 
         if ($isNativeType) {
             $this->constraint = new PHPUnit_Framework_Constraint_IsType($type);
         } else {
             $this->constraint = new PHPUnit_Framework_Constraint_IsInstanceOf(
-                $type
+                    $type
             );
         }
 
@@ -68,8 +68,7 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
      * @return mixed
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    public function evaluate($other, $description = '', $returnResult = false)
-    {
+    public function evaluate($other, $description = '', $returnResult = false) {
         $success = true;
 
         foreach ($other as $item) {
@@ -93,8 +92,8 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'contains only values of type "' . $this->type . '"';
     }
+
 }

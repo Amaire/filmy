@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -19,8 +20,8 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 1.1.0
  */
-abstract class PHP_CodeCoverage_Report_Node implements Countable
-{
+abstract class PHP_CodeCoverage_Report_Node implements Countable {
+
     /**
      * @var string
      */
@@ -52,29 +53,26 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @param string                       $name
      * @param PHP_CodeCoverage_Report_Node $parent
      */
-    public function __construct($name, PHP_CodeCoverage_Report_Node $parent = null)
-    {
+    public function __construct($name, PHP_CodeCoverage_Report_Node $parent = null) {
         if (substr($name, -1) == '/') {
             $name = substr($name, 0, -1);
         }
 
-        $this->name   = $name;
+        $this->name = $name;
         $this->parent = $parent;
     }
 
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @return string
      */
-    public function getId()
-    {
+    public function getId() {
         if ($this->id === null) {
             $parent = $this->getParent();
 
@@ -97,8 +95,7 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
     /**
      * @return string
      */
-    public function getPath()
-    {
+    public function getPath() {
         if ($this->path === null) {
             if ($this->parent === null || $this->parent->getPath() === null) {
                 $this->path = $this->name;
@@ -113,8 +110,7 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
     /**
      * @return array
      */
-    public function getPathAsArray()
-    {
+    public function getPathAsArray() {
         if ($this->pathArray === null) {
             if ($this->parent === null) {
                 $this->pathArray = array();
@@ -131,8 +127,7 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
     /**
      * @return PHP_CodeCoverage_Report_Node
      */
-    public function getParent()
-    {
+    public function getParent() {
         return $this->parent;
     }
 
@@ -142,12 +137,9 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @param  boolean $asString
      * @return integer
      */
-    public function getTestedClassesPercent($asString = true)
-    {
+    public function getTestedClassesPercent($asString = true) {
         return PHP_CodeCoverage_Util::percent(
-            $this->getNumTestedClasses(),
-            $this->getNumClasses(),
-            $asString
+                        $this->getNumTestedClasses(), $this->getNumClasses(), $asString
         );
     }
 
@@ -157,12 +149,9 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @param  boolean $asString
      * @return integer
      */
-    public function getTestedTraitsPercent($asString = true)
-    {
+    public function getTestedTraitsPercent($asString = true) {
         return PHP_CodeCoverage_Util::percent(
-            $this->getNumTestedTraits(),
-            $this->getNumTraits(),
-            $asString
+                        $this->getNumTestedTraits(), $this->getNumTraits(), $asString
         );
     }
 
@@ -173,12 +162,9 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @return integer
      * @since  Method available since Release 1.2.0
      */
-    public function getTestedClassesAndTraitsPercent($asString = true)
-    {
+    public function getTestedClassesAndTraitsPercent($asString = true) {
         return PHP_CodeCoverage_Util::percent(
-            $this->getNumTestedClassesAndTraits(),
-            $this->getNumClassesAndTraits(),
-            $asString
+                        $this->getNumTestedClassesAndTraits(), $this->getNumClassesAndTraits(), $asString
         );
     }
 
@@ -188,12 +174,9 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @param  boolean $asString
      * @return integer
      */
-    public function getTestedMethodsPercent($asString = true)
-    {
+    public function getTestedMethodsPercent($asString = true) {
         return PHP_CodeCoverage_Util::percent(
-            $this->getNumTestedMethods(),
-            $this->getNumMethods(),
-            $asString
+                        $this->getNumTestedMethods(), $this->getNumMethods(), $asString
         );
     }
 
@@ -203,12 +186,9 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @param  boolean $asString
      * @return integer
      */
-    public function getLineExecutedPercent($asString = true)
-    {
+    public function getLineExecutedPercent($asString = true) {
         return PHP_CodeCoverage_Util::percent(
-            $this->getNumExecutedLines(),
-            $this->getNumExecutableLines(),
-            $asString
+                        $this->getNumExecutedLines(), $this->getNumExecutableLines(), $asString
         );
     }
 
@@ -218,8 +198,7 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @return integer
      * @since  Method available since Release 1.2.0
      */
-    public function getNumClassesAndTraits()
-    {
+    public function getNumClassesAndTraits() {
         return $this->getNumClasses() + $this->getNumTraits();
     }
 
@@ -229,8 +208,7 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @return integer
      * @since  Method available since Release 1.2.0
      */
-    public function getNumTestedClassesAndTraits()
-    {
+    public function getNumTestedClassesAndTraits() {
         return $this->getNumTestedClasses() + $this->getNumTestedTraits();
     }
 
@@ -240,8 +218,7 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      * @return array
      * @since  Method available since Release 1.2.0
      */
-    public function getClassesAndTraits()
-    {
+    public function getClassesAndTraits() {
         return array_merge($this->getClasses(), $this->getTraits());
     }
 

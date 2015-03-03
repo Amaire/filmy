@@ -18,6 +18,6 @@ namespace Symfony\Component\HttpKernel\EventListener;
  *
  * @deprecated Deprecated since version 2.6, to be removed in 3.0. Use SurrogateListener instead
  */
-class EsiListener extends SurrogateListener
-{
+class EsiListener extends SurrogateListener {
+    
 }

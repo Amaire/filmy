@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,8 +28,8 @@ use Doctrine\Instantiator\Instantiator;
  *
  * @author Marco Pivetta <ocramius@gmail.com>
  */
-class InstantiatorPerformanceEvent extends AthleticEvent
-{
+class InstantiatorPerformanceEvent extends AthleticEvent {
+
     /**
      * @var \Doctrine\Instantiator\Instantiator
      */
@@ -37,8 +38,7 @@ class InstantiatorPerformanceEvent extends AthleticEvent
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->instantiator = new Instantiator();
 
         $this->instantiator->instantiate(__CLASS__);
@@ -53,8 +53,7 @@ class InstantiatorPerformanceEvent extends AthleticEvent
      * @baseline
      * @group instantiation
      */
-    public function testInstantiateSelf()
-    {
+    public function testInstantiateSelf() {
         $this->instantiator->instantiate(__CLASS__);
     }
 
@@ -62,8 +61,7 @@ class InstantiatorPerformanceEvent extends AthleticEvent
      * @iterations 20000
      * @group instantiation
      */
-    public function testInstantiateInternalClass()
-    {
+    public function testInstantiateInternalClass() {
         $this->instantiator->instantiate('ArrayObject');
     }
 
@@ -71,8 +69,7 @@ class InstantiatorPerformanceEvent extends AthleticEvent
      * @iterations 20000
      * @group instantiation
      */
-    public function testInstantiateSimpleSerializableAssetClass()
-    {
+    public function testInstantiateSimpleSerializableAssetClass() {
         $this->instantiator->instantiate('DoctrineTest\\InstantiatorTestAsset\\SimpleSerializableAsset');
     }
 
@@ -80,8 +77,7 @@ class InstantiatorPerformanceEvent extends AthleticEvent
      * @iterations 20000
      * @group instantiation
      */
-    public function testInstantiateSerializableArrayObjectAsset()
-    {
+    public function testInstantiateSerializableArrayObjectAsset() {
         $this->instantiator->instantiate('DoctrineTest\\InstantiatorTestAsset\\SerializableArrayObjectAsset');
     }
 
@@ -89,8 +85,8 @@ class InstantiatorPerformanceEvent extends AthleticEvent
      * @iterations 20000
      * @group instantiation
      */
-    public function testInstantiateUnCloneableAsset()
-    {
+    public function testInstantiateUnCloneableAsset() {
         $this->instantiator->instantiate('DoctrineTest\\InstantiatorTestAsset\\UnCloneableAsset');
     }
+
 }

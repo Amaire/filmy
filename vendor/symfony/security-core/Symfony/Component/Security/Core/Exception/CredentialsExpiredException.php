@@ -17,13 +17,13 @@ namespace Symfony\Component\Security\Core\Exception;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander <iam.asm89@gmail.com>
  */
-class CredentialsExpiredException extends AccountStatusException
-{
+class CredentialsExpiredException extends AccountStatusException {
+
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
-    {
+    public function getMessageKey() {
         return 'Credentials have expired.';
     }
+
 }

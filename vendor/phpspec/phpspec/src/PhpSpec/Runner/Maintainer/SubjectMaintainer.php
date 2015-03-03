@@ -22,16 +22,18 @@ use PhpSpec\Wrapper\Unwrapper;
 use PhpSpec\Wrapper\Wrapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class SubjectMaintainer implements MaintainerInterface
-{
+class SubjectMaintainer implements MaintainerInterface {
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
     private $presenter;
+
     /**
      * @var \PhpSpec\Wrapper\Unwrapper
      */
     private $unwrapper;
+
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
@@ -42,8 +44,7 @@ class SubjectMaintainer implements MaintainerInterface
      * @param Unwrapper                $unwrapper
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(PresenterInterface $presenter, Unwrapper $unwrapper, EventDispatcherInterface $dispatcher)
-    {
+    public function __construct(PresenterInterface $presenter, Unwrapper $unwrapper, EventDispatcherInterface $dispatcher) {
         $this->presenter = $presenter;
         $this->unwrapper = $unwrapper;
         $this->dispatcher = $dispatcher;
@@ -54,10 +55,9 @@ class SubjectMaintainer implements MaintainerInterface
      *
      * @return boolean
      */
-    public function supports(ExampleNode $example)
-    {
+    public function supports(ExampleNode $example) {
         return $example->getSpecification()->getClassReflection()->implementsInterface(
-            'PhpSpec\Wrapper\SubjectContainerInterface'
+                        'PhpSpec\Wrapper\SubjectContainerInterface'
         );
     }
 
@@ -67,13 +67,11 @@ class SubjectMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function prepare(ExampleNode $example, SpecificationInterface $context,
-                            MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function prepare(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         $subjectFactory = new Wrapper($matchers, $this->presenter, $this->dispatcher, $example);
         $subject = $subjectFactory->wrap(null);
         $subject->beAnInstanceOf(
-            $example->getSpecification()->getResource()->getSrcClassname()
+                $example->getSpecification()->getResource()->getSrcClassname()
         );
 
         $context->setSpecificationSubject($subject);
@@ -85,16 +83,15 @@ class SubjectMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function teardown(ExampleNode $example, SpecificationInterface $context,
-                             MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function teardown(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
+        
     }
 
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 100;
     }
+
 }

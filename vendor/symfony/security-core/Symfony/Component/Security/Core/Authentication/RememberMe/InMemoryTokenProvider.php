@@ -18,15 +18,14 @@ use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class InMemoryTokenProvider implements TokenProviderInterface
-{
+class InMemoryTokenProvider implements TokenProviderInterface {
+
     private $tokens = array();
 
     /**
      * {@inheritdoc}
      */
-    public function loadTokenBySeries($series)
-    {
+    public function loadTokenBySeries($series) {
         if (!isset($this->tokens[$series])) {
             throw new TokenNotFoundException('No token found.');
         }
@@ -37,18 +36,13 @@ class InMemoryTokenProvider implements TokenProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function updateToken($series, $tokenValue, \DateTime $lastUsed)
-    {
+    public function updateToken($series, $tokenValue, \DateTime $lastUsed) {
         if (!isset($this->tokens[$series])) {
             throw new TokenNotFoundException('No token found.');
         }
 
         $token = new PersistentToken(
-            $this->tokens[$series]->getClass(),
-            $this->tokens[$series]->getUsername(),
-            $series,
-            $tokenValue,
-            $lastUsed
+                $this->tokens[$series]->getClass(), $this->tokens[$series]->getUsername(), $series, $tokenValue, $lastUsed
         );
         $this->tokens[$series] = $token;
     }
@@ -56,16 +50,15 @@ class InMemoryTokenProvider implements TokenProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteTokenBySeries($series)
-    {
+    public function deleteTokenBySeries($series) {
         unset($this->tokens[$series]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createNewToken(PersistentTokenInterface $token)
-    {
+    public function createNewToken(PersistentTokenInterface $token) {
         $this->tokens[$token->getSeries()] = $token;
     }
+
 }

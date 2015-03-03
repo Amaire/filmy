@@ -7,8 +7,8 @@ use PhpParser\Node;
 /**
  * @property Node\Const_[] $consts Constant declarations
  */
-class Const_ extends Node\Stmt
-{
+class Const_ extends Node\Stmt {
+
     /**
      * Constructs a const list node.
      *
@@ -17,10 +17,10 @@ class Const_ extends Node\Stmt
      */
     public function __construct(array $consts, array $attributes = array()) {
         parent::__construct(
-            array(
-                'consts' => $consts,
-            ),
-            $attributes
+                array(
+            'consts' => $consts,
+                ), $attributes
         );
     }
+
 }

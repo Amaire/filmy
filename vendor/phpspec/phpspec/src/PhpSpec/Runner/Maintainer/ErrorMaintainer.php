@@ -19,12 +19,13 @@ use PhpSpec\Runner\MatcherManager;
 use PhpSpec\Runner\CollaboratorManager;
 use PhpSpec\Exception\Example as ExampleException;
 
-class ErrorMaintainer implements MaintainerInterface
-{
+class ErrorMaintainer implements MaintainerInterface {
+
     /**
      * @var integer
      */
     private $errorLevel;
+
     /**
      * @var callable|null
      */
@@ -33,8 +34,7 @@ class ErrorMaintainer implements MaintainerInterface
     /**
      * @param integer $errorLevel
      */
-    public function __construct($errorLevel)
-    {
+    public function __construct($errorLevel) {
         $this->errorLevel = $errorLevel;
     }
 
@@ -43,8 +43,7 @@ class ErrorMaintainer implements MaintainerInterface
      *
      * @return bool
      */
-    public function supports(ExampleNode $example)
-    {
+    public function supports(ExampleNode $example) {
         return true;
     }
 
@@ -54,9 +53,7 @@ class ErrorMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function prepare(ExampleNode $example, SpecificationInterface $context,
-                            MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function prepare(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         $this->errorHandler = set_error_handler(array($this, 'errorHandler'), $this->errorLevel);
     }
 
@@ -66,9 +63,7 @@ class ErrorMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function teardown(ExampleNode $example, SpecificationInterface $context,
-                             MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function teardown(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         if (null !== $this->errorHandler) {
             set_error_handler($this->errorHandler);
         }
@@ -77,8 +72,7 @@ class ErrorMaintainer implements MaintainerInterface
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 999;
     }
 
@@ -98,8 +92,7 @@ class ErrorMaintainer implements MaintainerInterface
      *
      * @throws ExampleException\ErrorException
      */
-    final public function errorHandler($level, $message, $file, $line)
-    {
+    final public function errorHandler($level, $message, $file, $line) {
         $regex = '/^Argument (\d)+ passed to (?:(?P<class>[\w\\\]+)::)?(\w+)\(\) must (?:be an instance of|implement interface) ([\w\\\]+),(?: instance of)? ([\w\\\]+) given/';
 
         if (E_RECOVERABLE_ERROR === $level && preg_match($regex, $message, $matches)) {
@@ -117,4 +110,5 @@ class ErrorMaintainer implements MaintainerInterface
         // error reporting turned off or more likely suppressed with @
         return false;
     }
+
 }

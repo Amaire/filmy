@@ -14,12 +14,11 @@ namespace Symfony\Component\Translation\Tests\Loader;
 use Symfony\Component\Translation\Loader\QtFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 
-class QtFileLoaderTest extends \PHPUnit_Framework_TestCase
-{
-    public function testLoad()
-    {
+class QtFileLoaderTest extends \PHPUnit_Framework_TestCase {
+
+    public function testLoad() {
         $loader = new QtFileLoader();
-        $resource = __DIR__.'/../fixtures/resources.ts';
+        $resource = __DIR__ . '/../fixtures/resources.ts';
         $catalogue = $loader->load($resource, 'en', 'resources');
 
         $this->assertEquals(array('foo' => 'bar'), $catalogue->all('resources'));
@@ -30,18 +29,16 @@ class QtFileLoaderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Translation\Exception\NotFoundResourceException
      */
-    public function testLoadNonExistingResource()
-    {
+    public function testLoadNonExistingResource() {
         $loader = new QtFileLoader();
-        $resource = __DIR__.'/../fixtures/non-existing.ts';
+        $resource = __DIR__ . '/../fixtures/non-existing.ts';
         $loader->load($resource, 'en', 'domain1');
     }
 
     /**
      * @expectedException \Symfony\Component\Translation\Exception\InvalidResourceException
      */
-    public function testLoadNonLocalResource()
-    {
+    public function testLoadNonLocalResource() {
         $loader = new QtFileLoader();
         $resource = 'http://domain1.com/resources.ts';
         $loader->load($resource, 'en', 'domain1');
@@ -50,18 +47,17 @@ class QtFileLoaderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Translation\Exception\InvalidResourceException
      */
-    public function testLoadInvalidResource()
-    {
+    public function testLoadInvalidResource() {
         $loader = new QtFileLoader();
-        $resource = __DIR__.'/../fixtures/invalid-xml-resources.xlf';
+        $resource = __DIR__ . '/../fixtures/invalid-xml-resources.xlf';
         $loader->load($resource, 'en', 'domain1');
     }
 
-    public function testLoadEmptyResource()
-    {
+    public function testLoadEmptyResource() {
         $loader = new QtFileLoader();
-        $resource = __DIR__.'/../fixtures/empty.xlf';
+        $resource = __DIR__ . '/../fixtures/empty.xlf';
         $this->setExpectedException('Symfony\Component\Translation\Exception\InvalidResourceException', sprintf('Unable to load "%s".', $resource));
         $loader->load($resource, 'en', 'domain1');
     }
+
 }

@@ -2,10 +2,9 @@
 GH-433: expectOutputString not completely working as expected
 --FILE--
 <?php
-
 $_SERVER['argv'][1] = '--no-configuration';
 $_SERVER['argv'][2] = 'Issue433Test';
-$_SERVER['argv'][3] = dirname(__FILE__).'/433/Issue433Test.php';
+$_SERVER['argv'][3] = dirname(__FILE__) . '/433/Issue433Test.php';
 
 require __DIR__ . '/../../bootstrap.php';
 PHPUnit_TextUI_Command::main();

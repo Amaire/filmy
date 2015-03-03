@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 2.0.0
  */
-interface PHPUnit_Runner_TestSuiteLoader
-{
+interface PHPUnit_Runner_TestSuiteLoader {
+
     /**
      * @param  string          $suiteClassName
      * @param  string          $suiteClassFile

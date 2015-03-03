@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -53,8 +54,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
-interface PHPUnit_Framework_MockObject_Stub_MatcherCollection
-{
+interface PHPUnit_Framework_MockObject_Stub_MatcherCollection {
+
     /**
      * Adds a new matcher to the collection which can be used as an expectation
      * or a stub.

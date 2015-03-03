@@ -17,8 +17,8 @@ use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Formatter\Template as TemplateInterface;
 
-class ReportItemFactory
-{
+class ReportItemFactory {
+
     /**
      * @var TemplateInterface
      */
@@ -27,8 +27,7 @@ class ReportItemFactory
     /**
      * @param TemplateInterface $template
      */
-    public function __construct(TemplateInterface $template)
-    {
+    public function __construct(TemplateInterface $template) {
         $this->template = $template;
     }
 
@@ -38,8 +37,7 @@ class ReportItemFactory
      *
      * @return ReportFailedItem|ReportPassedItem|ReportPendingItem
      */
-    public function create(ExampleEvent $event, PresenterInterface $presenter)
-    {
+    public function create(ExampleEvent $event, PresenterInterface $presenter) {
         switch ($event->getResult()) {
             case ExampleEvent::PASSED:
                 return new ReportPassedItem($this->template, $event);
@@ -60,10 +58,10 @@ class ReportItemFactory
      *
      * @throws InvalidExampleResultException
      */
-    private function invalidResultException($result)
-    {
+    private function invalidResultException($result) {
         throw new InvalidExampleResultException(
-            "Unrecognised example result $result"
+        "Unrecognised example result $result"
         );
     }
+
 }

@@ -17,12 +17,13 @@ use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Exception\Fracture\MethodNotFoundException;
 
-class ObjectStateMatcher implements MatcherInterface
-{
+class ObjectStateMatcher implements MatcherInterface {
+
     /**
      * @var string
      */
     private static $regex = '/(be|have)(.+)/';
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
@@ -31,8 +32,7 @@ class ObjectStateMatcher implements MatcherInterface
     /**
      * @param PresenterInterface $presenter
      */
-    public function __construct(PresenterInterface $presenter)
-    {
+    public function __construct(PresenterInterface $presenter) {
         $this->presenter = $presenter;
     }
 
@@ -43,10 +43,8 @@ class ObjectStateMatcher implements MatcherInterface
      *
      * @return bool
      */
-    public function supports($name, $subject, array $arguments)
-    {
-        return is_object($subject) && !is_callable($subject)
-            && (0 === strpos($name, 'be') || 0 === strpos($name, 'have'))
+    public function supports($name, $subject, array $arguments) {
+        return is_object($subject) && !is_callable($subject) && (0 === strpos($name, 'be') || 0 === strpos($name, 'have'))
         ;
     }
 
@@ -58,16 +56,14 @@ class ObjectStateMatcher implements MatcherInterface
      * @throws \PhpSpec\Exception\Example\FailureException
      * @throws \PhpSpec\Exception\Fracture\MethodNotFoundException
      */
-    public function positiveMatch($name, $subject, array $arguments)
-    {
+    public function positiveMatch($name, $subject, array $arguments) {
         preg_match(self::$regex, $name, $matches);
-        $method   = ('be' === $matches[1] ? 'is' : 'has').ucfirst($matches[2]);
+        $method = ('be' === $matches[1] ? 'is' : 'has') . ucfirst($matches[2]);
         $callable = array($subject, $method);
 
         if (!method_exists($subject, $method)) {
             throw new MethodNotFoundException(sprintf(
-                'Method %s not found.',
-                $this->presenter->presentValue($callable)
+                    'Method %s not found.', $this->presenter->presentValue($callable)
             ), $subject, $method, $arguments);
         }
 
@@ -84,16 +80,14 @@ class ObjectStateMatcher implements MatcherInterface
      * @throws \PhpSpec\Exception\Example\FailureException
      * @throws \PhpSpec\Exception\Fracture\MethodNotFoundException
      */
-    public function negativeMatch($name, $subject, array $arguments)
-    {
+    public function negativeMatch($name, $subject, array $arguments) {
         preg_match(self::$regex, $name, $matches);
-        $method   = ('be' === $matches[1] ? 'is' : 'has').ucfirst($matches[2]);
+        $method = ('be' === $matches[1] ? 'is' : 'has') . ucfirst($matches[2]);
         $callable = array($subject, $method);
 
         if (!method_exists($subject, $method)) {
             throw new MethodNotFoundException(sprintf(
-                'Method %s not found.',
-                $this->presenter->presentValue($callable)
+                    'Method %s not found.', $this->presenter->presentValue($callable)
             ), $subject, $method, $arguments);
         }
 
@@ -105,8 +99,7 @@ class ObjectStateMatcher implements MatcherInterface
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 50;
     }
 
@@ -117,13 +110,10 @@ class ObjectStateMatcher implements MatcherInterface
      *
      * @return FailureException
      */
-    private function getFailureExceptionFor($callable, $expectedBool, $result)
-    {
+    private function getFailureExceptionFor($callable, $expectedBool, $result) {
         return new FailureException(sprintf(
-            "Expected %s to return %s, but got %s.",
-            $this->presenter->presentValue($callable),
-            $this->presenter->presentValue($expectedBool),
-            $this->presenter->presentValue($result)
+                        "Expected %s to return %s, but got %s.", $this->presenter->presentValue($callable), $this->presenter->presentValue($expectedBool), $this->presenter->presentValue($result)
         ));
     }
+
 }

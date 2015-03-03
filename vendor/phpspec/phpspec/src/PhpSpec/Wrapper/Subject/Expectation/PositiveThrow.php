@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Wrapper\Subject\Expectation;
 
-class PositiveThrow extends DuringCall implements ThrowExpectation
-{
+class PositiveThrow extends DuringCall implements ThrowExpectation {
+
     /**
      * @param object $object
      * @param string $method
@@ -22,9 +22,9 @@ class PositiveThrow extends DuringCall implements ThrowExpectation
      *
      * @return mixed
      */
-    protected function runDuring($object, $method, array $arguments = array())
-    {
+    protected function runDuring($object, $method, array $arguments = array()) {
         return $this->getMatcher()->positiveMatch('throw', $object, $this->getArguments())
-            ->during($method, $arguments);
+                        ->during($method, $arguments);
     }
+
 }

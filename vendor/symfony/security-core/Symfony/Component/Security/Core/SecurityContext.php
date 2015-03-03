@@ -28,8 +28,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @deprecated Deprecated since version 2.6, to be removed in 3.0.
  */
-class SecurityContext implements SecurityContextInterface
-{
+class SecurityContext implements SecurityContextInterface {
+
     /**
      * @var TokenStorageInterface
      */
@@ -47,8 +47,7 @@ class SecurityContext implements SecurityContextInterface
      * @param AuthorizationCheckerInterface|AccessDecisionManagerInterface $authorizationChecker
      * @param bool                                                         $alwaysAuthenticate   only applicable with old signature
      */
-    public function __construct($tokenStorage, $authorizationChecker, $alwaysAuthenticate = false)
-    {
+    public function __construct($tokenStorage, $authorizationChecker, $alwaysAuthenticate = false) {
         $oldSignature = $tokenStorage instanceof AuthenticationManagerInterface && $authorizationChecker instanceof AccessDecisionManagerInterface;
         $newSignature = $tokenStorage instanceof TokenStorageInterface && $authorizationChecker instanceof AuthorizationCheckerInterface;
 
@@ -72,24 +71,22 @@ class SecurityContext implements SecurityContextInterface
     /**
      * {@inheritdoc}
      */
-    public function getToken()
-    {
+    public function getToken() {
         return $this->tokenStorage->getToken();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setToken(TokenInterface $token = null)
-    {
+    public function setToken(TokenInterface $token = null) {
         return $this->tokenStorage->setToken($token);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isGranted($attributes, $object = null)
-    {
+    public function isGranted($attributes, $object = null) {
         return $this->authorizationChecker->isGranted($attributes, $object);
     }
+
 }

@@ -1,4 +1,6 @@
-<?php namespace SuperClosure;
+<?php
+
+namespace SuperClosure;
 
 use SuperClosure\Analyzer\AstAnalyzer as DefaultAnalyzer;
 use SuperClosure\Analyzer\ClosureAnalyzer;
@@ -9,8 +11,8 @@ use SuperClosure\Analyzer\ClosureAnalyzer;
  * We're abstracting away all the details, impossibilities, and scary things
  * that happen within.
  */
-class Serializer implements SerializerInterface
-{
+class Serializer implements SerializerInterface {
+
     /**
      * The special value marking a recursive reference to a closure.
      *
@@ -24,10 +26,10 @@ class Serializer implements SerializerInterface
      * @var array
      */
     private static $dataToKeep = [
-        'code'     => true,
-        'context'  => true,
-        'binding'  => true,
-        'scope'    => true,
+        'code' => true,
+        'context' => true,
+        'binding' => true,
+        'scope' => true,
         'isStatic' => true,
     ];
 
@@ -43,24 +45,21 @@ class Serializer implements SerializerInterface
      *
      * @param ClosureAnalyzer|null $analyzer
      */
-    public function __construct(ClosureAnalyzer $analyzer = null)
-    {
-        $this->analyzer = $analyzer ?: new DefaultAnalyzer;
+    public function __construct(ClosureAnalyzer $analyzer = null) {
+        $this->analyzer = $analyzer ? : new DefaultAnalyzer;
     }
 
     /**
      * @inheritDoc
      */
-    public function serialize(\Closure $closure)
-    {
+    public function serialize(\Closure $closure) {
         return serialize(new SerializableClosure($closure, $this));
     }
 
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         /** @var SerializableClosure $unserialized */
         $unserialized = unserialize($serialized);
 
@@ -70,8 +69,7 @@ class Serializer implements SerializerInterface
     /**
      * @inheritDoc
      */
-    public function getData(\Closure $closure, $forSerialization = false)
-    {
+    public function getData(\Closure $closure, $forSerialization = false) {
         // Use the closure analyzer to get data about the closure.
         $data = $this->analyzer->analyze($closure);
 
@@ -89,9 +87,7 @@ class Serializer implements SerializerInterface
             // Wrap any other closures within the context.
             foreach ($data['context'] as &$value) {
                 if ($value instanceof \Closure) {
-                    $value = ($value === $closure)
-                        ? self::RECURSION
-                        : new SerializableClosure($value, $this);
+                    $value = ($value === $closure) ? self::RECURSION : new SerializableClosure($value, $this);
                 }
             }
         }
@@ -107,8 +103,7 @@ class Serializer implements SerializerInterface
      * @param mixed $data Any variable that contains closures.
      * @param SerializerInterface $serializer The serializer to use.
      */
-    public static function wrapClosures(&$data, SerializerInterface $serializer)
-    {
+    public static function wrapClosures(&$data, SerializerInterface $serializer) {
         if ($data instanceof \Closure) {
             $reflection = new \ReflectionFunction($data);
             if ($binding = $reflection->getClosureThis()) {
@@ -136,4 +131,5 @@ class Serializer implements SerializerInterface
             }
         }
     }
+
 }

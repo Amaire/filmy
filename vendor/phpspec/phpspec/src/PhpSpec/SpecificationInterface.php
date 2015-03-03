@@ -18,6 +18,6 @@ namespace PhpSpec;
  * implement this interface. If a spec class does not implement this interface
  * PhpSpec runner will refuse to run the spec class.
  */
-interface SpecificationInterface
-{
+interface SpecificationInterface {
+    
 }

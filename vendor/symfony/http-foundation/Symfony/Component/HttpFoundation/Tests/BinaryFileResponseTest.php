@@ -16,11 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Tests\File\FakeFile;
 
-class BinaryFileResponseTest extends ResponseTestCase
-{
-    public function testConstruction()
-    {
-        $file = __DIR__.'/../README.md';
+class BinaryFileResponseTest extends ResponseTestCase {
+
+    public function testConstruction() {
+        $file = __DIR__ . '/../README.md';
         $response = new BinaryFileResponse($file, 404, array('X-Header' => 'Foo'), true, null, true, true);
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('Foo', $response->headers->get('X-Header'));
@@ -37,14 +36,12 @@ class BinaryFileResponseTest extends ResponseTestCase
     /**
      * @expectedException \LogicException
      */
-    public function testSetContent()
-    {
+    public function testSetContent() {
         $response = new BinaryFileResponse(__FILE__);
         $response->setContent('foo');
     }
 
-    public function testGetContent()
-    {
+    public function testGetContent() {
         $response = new BinaryFileResponse(__FILE__);
         $this->assertFalse($response->getContent());
     }
@@ -52,9 +49,8 @@ class BinaryFileResponseTest extends ResponseTestCase
     /**
      * @dataProvider provideRanges
      */
-    public function testRequests($requestRange, $offset, $length, $responseRange)
-    {
-        $response = BinaryFileResponse::create(__DIR__.'/File/Fixtures/test.gif')->setAutoEtag();
+    public function testRequests($requestRange, $offset, $length, $responseRange) {
+        $response = BinaryFileResponse::create(__DIR__ . '/File/Fixtures/test.gif')->setAutoEtag();
 
         // do a request to get the ETag
         $request = Request::create('/');
@@ -66,7 +62,7 @@ class BinaryFileResponseTest extends ResponseTestCase
         $request->headers->set('If-Range', $etag);
         $request->headers->set('Range', $requestRange);
 
-        $file = fopen(__DIR__.'/File/Fixtures/test.gif', 'r');
+        $file = fopen(__DIR__ . '/File/Fixtures/test.gif', 'r');
         fseek($file, $offset);
         $data = fread($file, $length);
         fclose($file);
@@ -80,8 +76,7 @@ class BinaryFileResponseTest extends ResponseTestCase
         $this->assertEquals($responseRange, $response->headers->get('Content-Range'));
     }
 
-    public function provideRanges()
-    {
+    public function provideRanges() {
         return array(
             array('bytes=1-4', 1, 4, 'bytes 1-4/35'),
             array('bytes=-5', 30, 5, 'bytes 30-34/35'),
@@ -94,15 +89,14 @@ class BinaryFileResponseTest extends ResponseTestCase
     /**
      * @dataProvider provideFullFileRanges
      */
-    public function testFullFileRequests($requestRange)
-    {
-        $response = BinaryFileResponse::create(__DIR__.'/File/Fixtures/test.gif')->setAutoEtag();
+    public function testFullFileRequests($requestRange) {
+        $response = BinaryFileResponse::create(__DIR__ . '/File/Fixtures/test.gif')->setAutoEtag();
 
         // prepare a request for a range of the testing file
         $request = Request::create('/');
         $request->headers->set('Range', $requestRange);
 
-        $file = fopen(__DIR__.'/File/Fixtures/test.gif', 'r');
+        $file = fopen(__DIR__ . '/File/Fixtures/test.gif', 'r');
         $data = fread($file, 35);
         fclose($file);
 
@@ -114,8 +108,7 @@ class BinaryFileResponseTest extends ResponseTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function provideFullFileRanges()
-    {
+    public function provideFullFileRanges() {
         return array(
             array('bytes=0-'),
             array('bytes=0-34'),
@@ -129,9 +122,8 @@ class BinaryFileResponseTest extends ResponseTestCase
     /**
      * @dataProvider provideInvalidRanges
      */
-    public function testInvalidRequests($requestRange)
-    {
-        $response = BinaryFileResponse::create(__DIR__.'/File/Fixtures/test.gif')->setAutoEtag();
+    public function testInvalidRequests($requestRange) {
+        $response = BinaryFileResponse::create(__DIR__ . '/File/Fixtures/test.gif')->setAutoEtag();
 
         // prepare a request for a range of the testing file
         $request = Request::create('/');
@@ -145,21 +137,19 @@ class BinaryFileResponseTest extends ResponseTestCase
         #$this->assertEquals('', $response->headers->get('Content-Range'));
     }
 
-    public function provideInvalidRanges()
-    {
+    public function provideInvalidRanges() {
         return array(
             array('bytes=-40'),
             array('bytes=30-40'),
         );
     }
 
-    public function testXSendfile()
-    {
+    public function testXSendfile() {
         $request = Request::create('/');
         $request->headers->set('X-Sendfile-Type', 'X-Sendfile');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = BinaryFileResponse::create(__DIR__.'/../README.md');
+        $response = BinaryFileResponse::create(__DIR__ . '/../README.md');
         $response->prepare($request);
 
         $this->expectOutputString('');
@@ -171,13 +161,12 @@ class BinaryFileResponseTest extends ResponseTestCase
     /**
      * @dataProvider getSampleXAccelMappings
      */
-    public function testXAccelMapping($realpath, $mapping, $virtual)
-    {
+    public function testXAccelMapping($realpath, $mapping, $virtual) {
         $request = Request::create('/');
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
         $request->headers->set('X-Accel-Mapping', $mapping);
 
-        $file = new FakeFile($realpath, __DIR__.'/File/Fixtures/test');
+        $file = new FakeFile($realpath, __DIR__ . '/File/Fixtures/test');
 
         BinaryFileResponse::trustXSendFileTypeHeader();
         $response = new BinaryFileResponse($file);
@@ -190,11 +179,10 @@ class BinaryFileResponseTest extends ResponseTestCase
         $this->assertEquals($virtual, $response->headers->get('X-Accel-Redirect'));
     }
 
-    public function testDeleteFileAfterSend()
-    {
+    public function testDeleteFileAfterSend() {
         $request = Request::create('/');
 
-        $path = __DIR__.'/File/Fixtures/to_delete';
+        $path = __DIR__ . '/File/Fixtures/to_delete';
         touch($path);
         $realPath = realpath($path);
         $this->assertFileExists($realPath);
@@ -208,43 +196,39 @@ class BinaryFileResponseTest extends ResponseTestCase
         $this->assertFileNotExists($path);
     }
 
-    public function testAcceptRangeOnUnsafeMethods()
-    {
+    public function testAcceptRangeOnUnsafeMethods() {
         $request = Request::create('/', 'POST');
-        $response = BinaryFileResponse::create(__DIR__.'/File/Fixtures/test.gif');
+        $response = BinaryFileResponse::create(__DIR__ . '/File/Fixtures/test.gif');
         $response->prepare($request);
 
         $this->assertEquals('none', $response->headers->get('Accept-Ranges'));
     }
 
-    public function testAcceptRangeNotOverriden()
-    {
+    public function testAcceptRangeNotOverriden() {
         $request = Request::create('/', 'POST');
-        $response = BinaryFileResponse::create(__DIR__.'/File/Fixtures/test.gif');
+        $response = BinaryFileResponse::create(__DIR__ . '/File/Fixtures/test.gif');
         $response->headers->set('Accept-Ranges', 'foo');
         $response->prepare($request);
 
         $this->assertEquals('foo', $response->headers->get('Accept-Ranges'));
     }
 
-    public function getSampleXAccelMappings()
-    {
+    public function getSampleXAccelMappings() {
         return array(
             array('/var/www/var/www/files/foo.txt', '/files/=/var/www/', '/files/var/www/files/foo.txt'),
             array('/home/foo/bar.txt', '/files/=/var/www/,/baz/=/home/foo/', '/baz/bar.txt'),
         );
     }
 
-    protected function provideResponse()
-    {
-        return new BinaryFileResponse(__DIR__.'/../README.md');
+    protected function provideResponse() {
+        return new BinaryFileResponse(__DIR__ . '/../README.md');
     }
 
-    public static function tearDownAfterClass()
-    {
-        $path = __DIR__.'/../Fixtures/to_delete';
+    public static function tearDownAfterClass() {
+        $path = __DIR__ . '/../Fixtures/to_delete';
         if (file_exists($path)) {
             @unlink($path);
         }
     }
+
 }

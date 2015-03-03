@@ -13,10 +13,9 @@ namespace Symfony\Component\HttpFoundation\Tests;
 
 use Symfony\Component\HttpFoundation\Request;
 
-abstract class ResponseTestCase extends \PHPUnit_Framework_TestCase
-{
-    public function testNoCacheControlHeaderOnAttachmentUsingHTTPSAndMSIE()
-    {
+abstract class ResponseTestCase extends \PHPUnit_Framework_TestCase {
+
+    public function testNoCacheControlHeaderOnAttachmentUsingHTTPSAndMSIE() {
         // Check for HTTPS and IE 8
         $request = new Request();
         $request->server->set('HTTPS', true);

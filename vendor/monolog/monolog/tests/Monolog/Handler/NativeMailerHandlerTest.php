@@ -13,21 +13,19 @@ namespace Monolog\Handler;
 
 use Monolog\TestCase;
 
-class NativeMailerHandlerTest extends TestCase
-{
+class NativeMailerHandlerTest extends TestCase {
+
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testConstructorHeaderInjection()
-    {
+    public function testConstructorHeaderInjection() {
         $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim', "receiver@example.org\r\nFrom: faked@attacker.org");
     }
 
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetterHeaderInjection()
-    {
+    public function testSetterHeaderInjection() {
         $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim', 'receiver@example.org');
         $mailer->addHeader("Content-Type: text/html\r\nFrom: faked@attacker.org");
     }
@@ -35,8 +33,7 @@ class NativeMailerHandlerTest extends TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetterArrayHeaderInjection()
-    {
+    public function testSetterArrayHeaderInjection() {
         $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim', 'receiver@example.org');
         $mailer->addHeader(array("Content-Type: text/html\r\nFrom: faked@attacker.org"));
     }
@@ -44,8 +41,7 @@ class NativeMailerHandlerTest extends TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetterContentTypeInjection()
-    {
+    public function testSetterContentTypeInjection() {
         $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim', 'receiver@example.org');
         $mailer->setContentType("text/html\r\nFrom: faked@attacker.org");
     }
@@ -53,9 +49,9 @@ class NativeMailerHandlerTest extends TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetterEncodingInjection()
-    {
+    public function testSetterEncodingInjection() {
         $mailer = new NativeMailerHandler('spammer@example.org', 'dear victim', 'receiver@example.org');
         $mailer->setEncoding("utf-8\r\nFrom: faked@attacker.org");
     }
+
 }

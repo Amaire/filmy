@@ -23,8 +23,8 @@ use SplObjectStorage;
  * @author  Sebastian Bergmann <sebastian@phpunit.de>
  * @license http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License>
  */
-class ExportUtil
-{
+class ExportUtil {
+
     /**
      * Exports a value into a string.
      *
@@ -43,8 +43,7 @@ class ExportUtil
      *
      * @return string
      */
-    public static function export($value, $indentation = 0)
-    {
+    public static function export($value, $indentation = 0) {
         return static::recursiveExport($value, $indentation);
     }
 
@@ -56,13 +55,11 @@ class ExportUtil
      *
      * @return array
      */
-    public static function toArray($object)
-    {
+    public static function toArray($object) {
         $array = array();
 
         foreach ((array) $object as $key => $value) {
             // properties are transformed to keys in the following way:
-
             // private   $property => "\0Classname\0property"
             // protected $property => "\0*\0property"
             // public    $property => "property"
@@ -99,8 +96,7 @@ class ExportUtil
      *
      * @return string
      */
-    protected static function recursiveExport($value, $indentation, &$processedObjects = array())
-    {
+    protected static function recursiveExport($value, $indentation, &$processedObjects = array()) {
         if ($value === null) {
             return 'null';
         }
@@ -171,15 +167,15 @@ class ExportUtil
             }
 
             return sprintf(
-                "%s (%s)",
-                is_object($origValue) ? sprintf('%s:%s', get_class($origValue), spl_object_hash($origValue)) . ' Object' : 'Array', $content
+                    "%s (%s)", is_object($origValue) ? sprintf('%s:%s', get_class($origValue), spl_object_hash($origValue)) . ' Object' : 'Array', $content
             );
         }
 
-        if (is_double($value) && (double)(integer) $value === $value) {
+        if (is_double($value) && (double) (integer) $value === $value) {
             return $value . '.0';
         }
 
         return (string) $value;
     }
+
 }

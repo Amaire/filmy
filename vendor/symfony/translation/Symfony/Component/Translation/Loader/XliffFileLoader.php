@@ -24,15 +24,14 @@ use Symfony\Component\Config\Resource\FileResource;
  *
  * @api
  */
-class XliffFileLoader implements LoaderInterface
-{
+class XliffFileLoader implements LoaderInterface {
+
     /**
      * {@inheritdoc}
      *
      * @api
      */
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -91,8 +90,7 @@ class XliffFileLoader implements LoaderInterface
      *
      * @return string
      */
-    private function utf8ToCharset($content, $encoding = null)
-    {
+    private function utf8ToCharset($content, $encoding = null) {
         if ('UTF-8' !== $encoding && !empty($encoding)) {
             if (function_exists('mb_convert_encoding')) {
                 return mb_convert_encoding($content, $encoding, 'UTF-8');
@@ -119,8 +117,7 @@ class XliffFileLoader implements LoaderInterface
      *
      * @throws InvalidResourceException
      */
-    private function parseFile($file)
-    {
+    private function parseFile($file) {
         try {
             $dom = XmlUtils::loadFile($file);
         } catch (\InvalidArgumentException $e) {
@@ -129,7 +126,7 @@ class XliffFileLoader implements LoaderInterface
 
         $internalErrors = libxml_use_internal_errors(true);
 
-        $location = str_replace('\\', '/', __DIR__).'/schema/dic/xliff-core/xml.xsd';
+        $location = str_replace('\\', '/', __DIR__) . '/schema/dic/xliff-core/xml.xsd';
         $parts = explode('/', $location);
         if (0 === stripos($location, 'phar://')) {
             $tmpfile = tempnam(sys_get_temp_dir(), 'sf2');
@@ -138,10 +135,10 @@ class XliffFileLoader implements LoaderInterface
                 $parts = explode('/', str_replace('\\', '/', $tmpfile));
             }
         }
-        $drive = '\\' === DIRECTORY_SEPARATOR ? array_shift($parts).'/' : '';
-        $location = 'file:///'.$drive.implode('/', array_map('rawurlencode', $parts));
+        $drive = '\\' === DIRECTORY_SEPARATOR ? array_shift($parts) . '/' : '';
+        $location = 'file:///' . $drive . implode('/', array_map('rawurlencode', $parts));
 
-        $source = file_get_contents(__DIR__.'/schema/dic/xliff-core/xliff-core-1.2-strict.xsd');
+        $source = file_get_contents(__DIR__ . '/schema/dic/xliff-core/xliff-core-1.2-strict.xsd');
         $source = str_replace('http://www.w3.org/2001/xml.xsd', $location, $source);
 
         if (!@$dom->schemaValidateSource($source)) {
@@ -163,17 +160,10 @@ class XliffFileLoader implements LoaderInterface
      *
      * @return array An array of errors
      */
-    private function getXmlErrors($internalErrors)
-    {
+    private function getXmlErrors($internalErrors) {
         $errors = array();
         foreach (libxml_get_errors() as $error) {
-            $errors[] = sprintf('[%s %s] %s (in %s - line %d, column %d)',
-                LIBXML_ERR_WARNING == $error->level ? 'WARNING' : 'ERROR',
-                $error->code,
-                trim($error->message),
-                $error->file ? $error->file : 'n/a',
-                $error->line,
-                $error->column
+            $errors[] = sprintf('[%s %s] %s (in %s - line %d, column %d)', LIBXML_ERR_WARNING == $error->level ? 'WARNING' : 'ERROR', $error->code, trim($error->message), $error->file ? $error->file : 'n/a', $error->line, $error->column
             );
         }
 
@@ -182,4 +172,5 @@ class XliffFileLoader implements LoaderInterface
 
         return $errors;
     }
+
 }

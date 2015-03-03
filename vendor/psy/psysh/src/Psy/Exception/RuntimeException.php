@@ -14,8 +14,8 @@ namespace Psy\Exception;
 /**
  * A RuntimeException for Psy.
  */
-class RuntimeException extends \RuntimeException implements Exception
-{
+class RuntimeException extends \RuntimeException implements Exception {
+
     private $rawMessage;
 
     /**
@@ -25,8 +25,7 @@ class RuntimeException extends \RuntimeException implements Exception
      * @param int        $code     (default: 0)
      * @param \Exception $previous (default: null)
      */
-    public function __construct($message = "", $code = 0, \Exception $previous = null)
-    {
+    public function __construct($message = "", $code = 0, \Exception $previous = null) {
         $this->rawMessage = $message;
         parent::__construct($message, $code, $previous);
     }
@@ -36,8 +35,8 @@ class RuntimeException extends \RuntimeException implements Exception
      *
      * @return string
      */
-    public function getRawMessage()
-    {
+    public function getRawMessage() {
         return $this->rawMessage;
     }
+
 }

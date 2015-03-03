@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -17,8 +18,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 4.0.0
  */
-abstract class PHPUnit_Runner_Filter_GroupFilterIterator extends RecursiveFilterIterator
-{
+abstract class PHPUnit_Runner_Filter_GroupFilterIterator extends RecursiveFilterIterator {
+
     /**
      * @var array
      */
@@ -29,16 +30,15 @@ abstract class PHPUnit_Runner_Filter_GroupFilterIterator extends RecursiveFilter
      * @param array                       $groups
      * @param PHPUnit_Framework_TestSuite $suite
      */
-    public function __construct(RecursiveIterator $iterator, array $groups, PHPUnit_Framework_TestSuite $suite)
-    {
+    public function __construct(RecursiveIterator $iterator, array $groups, PHPUnit_Framework_TestSuite $suite) {
         parent::__construct($iterator);
 
         foreach ($suite->getGroupDetails() as $group => $tests) {
             if (in_array($group, $groups)) {
                 $testHashes = array_map(
-                    function ($test) { return spl_object_hash($test);
-                    },
-                    $tests
+                        function ($test) {
+                    return spl_object_hash($test);
+                }, $tests
                 );
 
                 $this->groupTests = array_merge($this->groupTests, $testHashes);
@@ -49,8 +49,7 @@ abstract class PHPUnit_Runner_Filter_GroupFilterIterator extends RecursiveFilter
     /**
      * @return boolean
      */
-    public function accept()
-    {
+    public function accept() {
         $test = $this->getInnerIterator()->current();
 
         if ($test instanceof PHPUnit_Framework_TestSuite) {

@@ -22,8 +22,8 @@ use Symfony\Component\HttpFoundation\Session\Storage\Proxy\SessionHandlerProxy;
  *
  * @author Drak <drak@zikula.org>
  */
-class NativeSessionStorage implements SessionStorageInterface
-{
+class NativeSessionStorage implements SessionStorageInterface {
+
     /**
      * Array of SessionBagInterface.
      *
@@ -96,8 +96,7 @@ class NativeSessionStorage implements SessionStorageInterface
      * @param AbstractProxy|NativeSessionHandler|\SessionHandlerInterface|null $handler
      * @param MetadataBag                                                      $metaBag MetadataBag.
      */
-    public function __construct(array $options = array(), $handler = null, MetadataBag $metaBag = null)
-    {
+    public function __construct(array $options = array(), $handler = null, MetadataBag $metaBag = null) {
         session_cache_limiter(''); // disable by default because it's managed by HeaderBag (if used)
         ini_set('session.use_cookies', 1);
 
@@ -117,16 +116,14 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @return AbstractProxy
      */
-    public function getSaveHandler()
-    {
+    public function getSaveHandler() {
         return $this->saveHandler;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function start()
-    {
+    public function start() {
         if ($this->started) {
             return true;
         }
@@ -161,40 +158,35 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->saveHandler->getId();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->saveHandler->setId($id);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->saveHandler->getName();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->saveHandler->setName($name);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function regenerate($destroy = false, $lifetime = null)
-    {
+    public function regenerate($destroy = false, $lifetime = null) {
         if (null !== $lifetime) {
             ini_set('session.cookie_lifetime', $lifetime);
         }
@@ -209,8 +201,7 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function save()
-    {
+    public function save() {
         session_write_close();
 
         if (!$this->saveHandler->isWrapper() && !$this->saveHandler->isSessionHandlerInterface()) {
@@ -225,8 +216,7 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function clear()
-    {
+    public function clear() {
         // clear out the bags
         foreach ($this->bags as $bag) {
             $bag->clear();
@@ -242,16 +232,14 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function registerBag(SessionBagInterface $bag)
-    {
+    public function registerBag(SessionBagInterface $bag) {
         $this->bags[$bag->getName()] = $bag;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getBag($name)
-    {
+    public function getBag($name) {
         if (!isset($this->bags[$name])) {
             throw new \InvalidArgumentException(sprintf('The SessionBagInterface %s is not registered.', $name));
         }
@@ -270,8 +258,7 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @param MetadataBag $metaBag
      */
-    public function setMetadataBag(MetadataBag $metaBag = null)
-    {
+    public function setMetadataBag(MetadataBag $metaBag = null) {
         if (null === $metaBag) {
             $metaBag = new MetadataBag();
         }
@@ -284,16 +271,14 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @return MetadataBag
      */
-    public function getMetadataBag()
-    {
+    public function getMetadataBag() {
         return $this->metadataBag;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isStarted()
-    {
+    public function isStarted() {
         return $this->started;
     }
 
@@ -307,8 +292,7 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @see http://php.net/session.configuration
      */
-    public function setOptions(array $options)
-    {
+    public function setOptions(array $options) {
         $validOptions = array_flip(array(
             'cache_limiter', 'cookie_domain', 'cookie_httponly',
             'cookie_lifetime', 'cookie_path', 'cookie_secure',
@@ -323,7 +307,7 @@ class NativeSessionStorage implements SessionStorageInterface
 
         foreach ($options as $key => $value) {
             if (isset($validOptions[$key])) {
-                ini_set('session.'.$key, $value);
+                ini_set('session.' . $key, $value);
             }
         }
     }
@@ -350,12 +334,11 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function setSaveHandler($saveHandler = null)
-    {
+    public function setSaveHandler($saveHandler = null) {
         if (!$saveHandler instanceof AbstractProxy &&
-            !$saveHandler instanceof NativeSessionHandler &&
-            !$saveHandler instanceof \SessionHandlerInterface &&
-            null !== $saveHandler) {
+                !$saveHandler instanceof NativeSessionHandler &&
+                !$saveHandler instanceof \SessionHandlerInterface &&
+                null !== $saveHandler) {
             throw new \InvalidArgumentException('Must be instance of AbstractProxy or NativeSessionHandler; implement \SessionHandlerInterface; or be null.');
         }
 
@@ -364,7 +347,7 @@ class NativeSessionStorage implements SessionStorageInterface
             $saveHandler = new SessionHandlerProxy($saveHandler);
         } elseif (!$saveHandler instanceof AbstractProxy) {
             $saveHandler = PHP_VERSION_ID >= 50400 ?
-                new SessionHandlerProxy(new \SessionHandler()) : new NativeProxy();
+                    new SessionHandlerProxy(new \SessionHandler()) : new NativeProxy();
         }
         $this->saveHandler = $saveHandler;
 
@@ -373,12 +356,7 @@ class NativeSessionStorage implements SessionStorageInterface
                 session_set_save_handler($this->saveHandler, false);
             } else {
                 session_set_save_handler(
-                    array($this->saveHandler, 'open'),
-                    array($this->saveHandler, 'close'),
-                    array($this->saveHandler, 'read'),
-                    array($this->saveHandler, 'write'),
-                    array($this->saveHandler, 'destroy'),
-                    array($this->saveHandler, 'gc')
+                        array($this->saveHandler, 'open'), array($this->saveHandler, 'close'), array($this->saveHandler, 'read'), array($this->saveHandler, 'write'), array($this->saveHandler, 'destroy'), array($this->saveHandler, 'gc')
                 );
             }
         }
@@ -394,8 +372,7 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @param array|null $session
      */
-    protected function loadSession(array &$session = null)
-    {
+    protected function loadSession(array &$session = null) {
         if (null === $session) {
             $session = &$_SESSION;
         }
@@ -411,4 +388,5 @@ class NativeSessionStorage implements SessionStorageInterface
         $this->started = true;
         $this->closed = false;
     }
+
 }

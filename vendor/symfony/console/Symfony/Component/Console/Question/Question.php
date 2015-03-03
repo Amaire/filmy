@@ -16,8 +16,8 @@ namespace Symfony\Component\Console\Question;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Question
-{
+class Question {
+
     private $question;
     private $attempts;
     private $hidden = false;
@@ -33,8 +33,7 @@ class Question
      * @param string $question The question to ask to the user
      * @param mixed  $default  The default answer to return if the user enters nothing
      */
-    public function __construct($question, $default = null)
-    {
+    public function __construct($question, $default = null) {
         $this->question = $question;
         $this->default = $default;
     }
@@ -44,8 +43,7 @@ class Question
      *
      * @return string
      */
-    public function getQuestion()
-    {
+    public function getQuestion() {
         return $this->question;
     }
 
@@ -54,8 +52,7 @@ class Question
      *
      * @return mixed
      */
-    public function getDefault()
-    {
+    public function getDefault() {
         return $this->default;
     }
 
@@ -64,8 +61,7 @@ class Question
      *
      * @return bool
      */
-    public function isHidden()
-    {
+    public function isHidden() {
         return $this->hidden;
     }
 
@@ -78,8 +74,7 @@ class Question
      *
      * @throws \LogicException In case the autocompleter is also used
      */
-    public function setHidden($hidden)
-    {
+    public function setHidden($hidden) {
         if ($this->autocompleterValues) {
             throw new \LogicException('A hidden question cannot use the autocompleter.');
         }
@@ -94,8 +89,7 @@ class Question
      *
      * @return bool
      */
-    public function isHiddenFallback()
-    {
+    public function isHiddenFallback() {
         return $this->hiddenFallback;
     }
 
@@ -106,8 +100,7 @@ class Question
      *
      * @return Question The current instance
      */
-    public function setHiddenFallback($fallback)
-    {
+    public function setHiddenFallback($fallback) {
         $this->hiddenFallback = (bool) $fallback;
 
         return $this;
@@ -118,8 +111,7 @@ class Question
      *
      * @return null|array|\Traversable
      */
-    public function getAutocompleterValues()
-    {
+    public function getAutocompleterValues() {
         return $this->autocompleterValues;
     }
 
@@ -133,8 +125,7 @@ class Question
      * @throws \InvalidArgumentException
      * @throws \LogicException
      */
-    public function setAutocompleterValues($values)
-    {
+    public function setAutocompleterValues($values) {
         if (null !== $values && !is_array($values)) {
             if (!$values instanceof \Traversable || $values instanceof \Countable) {
                 throw new \InvalidArgumentException('Autocompleter values can be either an array, `null` or an object implementing both `Countable` and `Traversable` interfaces.');
@@ -157,8 +148,7 @@ class Question
      *
      * @return Question The current instance
      */
-    public function setValidator($validator)
-    {
+    public function setValidator($validator) {
         $this->validator = $validator;
 
         return $this;
@@ -169,8 +159,7 @@ class Question
      *
      * @return null|callable
      */
-    public function getValidator()
-    {
+    public function getValidator() {
         return $this->validator;
     }
 
@@ -185,8 +174,7 @@ class Question
      *
      * @throws \InvalidArgumentException In case the number of attempts is invalid.
      */
-    public function setMaxAttempts($attempts)
-    {
+    public function setMaxAttempts($attempts) {
         if (null !== $attempts && $attempts < 1) {
             throw new \InvalidArgumentException('Maximum number of attempts must be a positive value.');
         }
@@ -203,8 +191,7 @@ class Question
      *
      * @return null|int
      */
-    public function getMaxAttempts()
-    {
+    public function getMaxAttempts() {
         return $this->attempts;
     }
 
@@ -217,8 +204,7 @@ class Question
      *
      * @return Question The current instance
      */
-    public function setNormalizer($normalizer)
-    {
+    public function setNormalizer($normalizer) {
         $this->normalizer = $normalizer;
 
         return $this;
@@ -231,8 +217,8 @@ class Question
      *
      * @return string|\Closure
      */
-    public function getNormalizer()
-    {
+    public function getNormalizer() {
         return $this->normalizer;
     }
+
 }

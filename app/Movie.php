@@ -1,27 +1,32 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model {
+
     protected $fillable = [
-      'title',
-      'description',
-      'price'
-        
+        'title',
+        'description',
+        'price'
     ];
-    
-        public function genres() {
+
+    public function genres() {
         return $this->belongsTo('App\Genre');
     }
-        public function reviews() {
+
+    public function reviews() {
         return $this->hasMany('App\Review');
     }
-            public function orders() {
+
+    public function orders() {
         return $this->belongsToMany('App\Order');
     }
-            public function actors() {
+
+    public function actors() {
         return $this->belongsToMany('App\Actor');
     }
-	//
 
+    //
 }

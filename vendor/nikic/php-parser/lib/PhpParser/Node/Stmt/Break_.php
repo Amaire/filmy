@@ -7,8 +7,8 @@ use PhpParser\Node;
 /**
  * @property null|Node\Expr $num Number of loops to break
  */
-class Break_ extends Node\Stmt
-{
+class Break_ extends Node\Stmt {
+
     /**
      * Constructs a break node.
      *
@@ -17,10 +17,10 @@ class Break_ extends Node\Stmt
      */
     public function __construct(Node\Expr $num = null, array $attributes = array()) {
         parent::__construct(
-            array(
-                'num' => $num,
-            ),
-            $attributes
+                array(
+            'num' => $num,
+                ), $attributes
         );
     }
+
 }

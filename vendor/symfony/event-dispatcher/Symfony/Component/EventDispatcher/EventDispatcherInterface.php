@@ -20,8 +20,8 @@ namespace Symfony\Component\EventDispatcher;
  *
  * @api
  */
-interface EventDispatcherInterface
-{
+interface EventDispatcherInterface {
+
     /**
      * Dispatches an event to all registered listeners.
      *

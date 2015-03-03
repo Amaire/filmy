@@ -15,8 +15,8 @@ namespace PhpSpec\Matcher;
 
 use PhpSpec\Exception\Example\FailureException;
 
-abstract class BasicMatcher implements MatcherInterface
-{
+abstract class BasicMatcher implements MatcherInterface {
+
     /**
      * @param string $name
      * @param mixed  $subject
@@ -26,8 +26,7 @@ abstract class BasicMatcher implements MatcherInterface
      *
      *   @throws FailureException
      */
-    final public function positiveMatch($name, $subject, array $arguments)
-    {
+    final public function positiveMatch($name, $subject, array $arguments) {
         if (false === $this->matches($subject, $arguments)) {
             throw $this->getFailureException($name, $subject, $arguments);
         }
@@ -44,8 +43,7 @@ abstract class BasicMatcher implements MatcherInterface
      *
      * @throws FailureException
      */
-    final public function negativeMatch($name, $subject, array $arguments)
-    {
+    final public function negativeMatch($name, $subject, array $arguments) {
         if (true === $this->matches($subject, $arguments)) {
             throw $this->getNegativeFailureException($name, $subject, $arguments);
         }
@@ -56,8 +54,7 @@ abstract class BasicMatcher implements MatcherInterface
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 100;
     }
 

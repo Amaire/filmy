@@ -14,19 +14,17 @@ namespace Symfony\Component\Translation\Tests\Loader;
 use Symfony\Component\Translation\Loader\JsonFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 
-class JsonFileLoaderTest extends \PHPUnit_Framework_TestCase
-{
-    protected function setUp()
-    {
+class JsonFileLoaderTest extends \PHPUnit_Framework_TestCase {
+
+    protected function setUp() {
         if (!class_exists('Symfony\Component\Config\Loader\Loader')) {
             $this->markTestSkipped('The "Config" component is not available');
         }
     }
 
-    public function testLoad()
-    {
+    public function testLoad() {
         $loader = new JsonFileLoader();
-        $resource = __DIR__.'/../fixtures/resources.json';
+        $resource = __DIR__ . '/../fixtures/resources.json';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals(array('foo' => 'bar'), $catalogue->all('domain1'));
@@ -34,10 +32,9 @@ class JsonFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(new FileResource($resource)), $catalogue->getResources());
     }
 
-    public function testLoadDoesNothingIfEmpty()
-    {
+    public function testLoadDoesNothingIfEmpty() {
         $loader = new JsonFileLoader();
-        $resource = __DIR__.'/../fixtures/empty.json';
+        $resource = __DIR__ . '/../fixtures/empty.json';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals(array(), $catalogue->all('domain1'));
@@ -48,10 +45,9 @@ class JsonFileLoaderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Translation\Exception\NotFoundResourceException
      */
-    public function testLoadNonExistingResource()
-    {
+    public function testLoadNonExistingResource() {
         $loader = new JsonFileLoader();
-        $resource = __DIR__.'/../fixtures/non-existing.json';
+        $resource = __DIR__ . '/../fixtures/non-existing.json';
         $loader->load($resource, 'en', 'domain1');
     }
 
@@ -59,10 +55,10 @@ class JsonFileLoaderTest extends \PHPUnit_Framework_TestCase
      * @expectedException           \Symfony\Component\Translation\Exception\InvalidResourceException
      * @expectedExceptionMessage    Error parsing JSON - Syntax error, malformed JSON
      */
-    public function testParseException()
-    {
+    public function testParseException() {
         $loader = new JsonFileLoader();
-        $resource = __DIR__.'/../fixtures/malformed.json';
+        $resource = __DIR__ . '/../fixtures/malformed.json';
         $loader->load($resource, 'en', 'domain1');
     }
+
 }

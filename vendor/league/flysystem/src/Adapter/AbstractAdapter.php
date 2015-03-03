@@ -4,8 +4,8 @@ namespace League\Flysystem\Adapter;
 
 use League\Flysystem\AdapterInterface;
 
-abstract class AbstractAdapter implements AdapterInterface
-{
+abstract class AbstractAdapter implements AdapterInterface {
+
     /**
      * @var string path prefix
      */
@@ -23,12 +23,11 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @return self
      */
-    public function setPathPrefix($prefix)
-    {
+    public function setPathPrefix($prefix) {
         $is_empty = empty($prefix);
 
-        if (! $is_empty) {
-            $prefix = rtrim($prefix, $this->pathSeparator).$this->pathSeparator;
+        if (!$is_empty) {
+            $prefix = rtrim($prefix, $this->pathSeparator) . $this->pathSeparator;
         }
 
         $this->pathPrefix = $is_empty ? null : $prefix;
@@ -39,8 +38,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @return string path prefix
      */
-    public function getPathPrefix()
-    {
+    public function getPathPrefix() {
         return $this->pathPrefix;
     }
 
@@ -51,16 +49,15 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @return string prefixed path
      */
-    public function applyPathPrefix($path)
-    {
+    public function applyPathPrefix($path) {
         $path = ltrim($path, '\\/');
 
         if (strlen($path) === 0) {
-            return $this->getPathPrefix() ?: '';
+            return $this->getPathPrefix() ? : '';
         }
 
         if ($prefix = $this->getPathPrefix()) {
-            $path = $prefix.$path;
+            $path = $prefix . $path;
         }
 
         return $path;
@@ -73,8 +70,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @return string path without the prefix
      */
-    public function removePathPrefix($path)
-    {
+    public function removePathPrefix($path) {
         if ($this->pathPrefix === null) {
             return $path;
         }
@@ -83,4 +79,5 @@ abstract class AbstractAdapter implements AdapterInterface
 
         return substr($path, $length);
     }
+
 }

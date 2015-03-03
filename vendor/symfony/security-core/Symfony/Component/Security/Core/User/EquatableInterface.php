@@ -17,8 +17,8 @@ namespace Symfony\Component\Security\Core\User;
  *
  * @author Dariusz Górecki <darek.krk@gmail.com>
  */
-interface EquatableInterface
-{
+interface EquatableInterface {
+
     /**
      * The equality comparison should neither be done by referential equality
      * nor by comparing identities (i.e. getId() === getId()).

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.7.0
  */
-class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
-{
+class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider {
+
     /**
      * Translates JSON error to a human readable string.
      *
@@ -28,8 +29,7 @@ class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
      * @param  string $prefix
      * @return string
      */
-    public static function determineJsonError($error, $prefix = '')
-    {
+    public static function determineJsonError($error, $prefix = '') {
         switch ($error) {
             case JSON_ERROR_NONE:
                 return;
@@ -54,8 +54,7 @@ class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
      * @param  string $type
      * @return string
      */
-    public static function translateTypeToPrefix($type)
-    {
+    public static function translateTypeToPrefix($type) {
         switch (strtolower($type)) {
             case 'expected':
                 $prefix = 'Expected value JSON decode error - ';
@@ -70,4 +69,5 @@ class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
 
         return $prefix;
     }
+
 }

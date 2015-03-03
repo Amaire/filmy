@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -22,8 +23,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constraint {
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -31,8 +32,7 @@ class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constrai
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         return file_exists($other);
     }
 
@@ -45,11 +45,9 @@ class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constrai
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         return sprintf(
-            'file "%s" exists',
-            $other
+                'file "%s" exists', $other
         );
     }
 
@@ -58,8 +56,8 @@ class PHPUnit_Framework_Constraint_FileExists extends PHPUnit_Framework_Constrai
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'file exists';
     }
+
 }

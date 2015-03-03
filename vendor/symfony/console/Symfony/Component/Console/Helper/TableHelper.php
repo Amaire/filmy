@@ -22,8 +22,8 @@ use Symfony\Component\Console\Output\NullOutput;
  *
  * @deprecated Deprecated since 2.5, to be removed in 3.0; use Table instead.
  */
-class TableHelper extends Helper
-{
+class TableHelper extends Helper {
+
     const LAYOUT_DEFAULT = 0;
     const LAYOUT_BORDERLESS = 1;
     const LAYOUT_COMPACT = 2;
@@ -33,8 +33,7 @@ class TableHelper extends Helper
      */
     private $table;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->table = new Table(new NullOutput());
     }
 
@@ -47,8 +46,7 @@ class TableHelper extends Helper
      *
      * @throws \InvalidArgumentException when the table layout is not known
      */
-    public function setLayout($layout)
-    {
+    public function setLayout($layout) {
         switch ($layout) {
             case self::LAYOUT_BORDERLESS:
                 $this->table->setStyle('borderless');
@@ -69,36 +67,31 @@ class TableHelper extends Helper
         return $this;
     }
 
-    public function setHeaders(array $headers)
-    {
+    public function setHeaders(array $headers) {
         $this->table->setHeaders($headers);
 
         return $this;
     }
 
-    public function setRows(array $rows)
-    {
+    public function setRows(array $rows) {
         $this->table->setRows($rows);
 
         return $this;
     }
 
-    public function addRows(array $rows)
-    {
+    public function addRows(array $rows) {
         $this->table->addRows($rows);
 
         return $this;
     }
 
-    public function addRow(array $row)
-    {
+    public function addRow(array $row) {
         $this->table->addRow($row);
 
         return $this;
     }
 
-    public function setRow($column, array $row)
-    {
+    public function setRow($column, array $row) {
         $this->table->setRow($column, $row);
 
         return $this;
@@ -111,8 +104,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setPaddingChar($paddingChar)
-    {
+    public function setPaddingChar($paddingChar) {
         $this->table->getStyle()->setPaddingChar($paddingChar);
 
         return $this;
@@ -125,8 +117,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setHorizontalBorderChar($horizontalBorderChar)
-    {
+    public function setHorizontalBorderChar($horizontalBorderChar) {
         $this->table->getStyle()->setHorizontalBorderChar($horizontalBorderChar);
 
         return $this;
@@ -139,8 +130,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setVerticalBorderChar($verticalBorderChar)
-    {
+    public function setVerticalBorderChar($verticalBorderChar) {
         $this->table->getStyle()->setVerticalBorderChar($verticalBorderChar);
 
         return $this;
@@ -153,8 +143,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setCrossingChar($crossingChar)
-    {
+    public function setCrossingChar($crossingChar) {
         $this->table->getStyle()->setCrossingChar($crossingChar);
 
         return $this;
@@ -167,8 +156,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setCellHeaderFormat($cellHeaderFormat)
-    {
+    public function setCellHeaderFormat($cellHeaderFormat) {
         $this->table->getStyle()->setCellHeaderFormat($cellHeaderFormat);
 
         return $this;
@@ -181,8 +169,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setCellRowFormat($cellRowFormat)
-    {
+    public function setCellRowFormat($cellRowFormat) {
         $this->table->getStyle()->setCellHeaderFormat($cellRowFormat);
 
         return $this;
@@ -195,8 +182,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setCellRowContentFormat($cellRowContentFormat)
-    {
+    public function setCellRowContentFormat($cellRowContentFormat) {
         $this->table->getStyle()->setCellRowContentFormat($cellRowContentFormat);
 
         return $this;
@@ -209,8 +195,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setBorderFormat($borderFormat)
-    {
+    public function setBorderFormat($borderFormat) {
         $this->table->getStyle()->setBorderFormat($borderFormat);
 
         return $this;
@@ -223,8 +208,7 @@ class TableHelper extends Helper
      *
      * @return TableHelper
      */
-    public function setPadType($padType)
-    {
+    public function setPadType($padType) {
         $this->table->getStyle()->setPadType($padType);
 
         return $this;
@@ -244,8 +228,7 @@ class TableHelper extends Helper
      *
      * @param OutputInterface $output
      */
-    public function render(OutputInterface $output)
-    {
+    public function render(OutputInterface $output) {
         $p = new \ReflectionProperty($this->table, 'output');
         $p->setAccessible(true);
         $p->setValue($this->table, $output);
@@ -256,8 +239,8 @@ class TableHelper extends Helper
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'table';
     }
+
 }

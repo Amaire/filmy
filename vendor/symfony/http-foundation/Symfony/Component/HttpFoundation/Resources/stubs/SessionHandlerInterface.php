@@ -29,8 +29,8 @@
  * @author Drak <drak@zikula.org>
  * @author Tobias Schultze <http://tobion.de>
  */
-interface SessionHandlerInterface
-{
+interface SessionHandlerInterface {
+
     /**
      * Re-initializes existing session, or creates a new one.
      *

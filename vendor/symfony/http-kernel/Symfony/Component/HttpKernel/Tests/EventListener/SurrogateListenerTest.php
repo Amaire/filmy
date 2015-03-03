@@ -20,10 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class SurrogateListenerTest extends \PHPUnit_Framework_TestCase
-{
-    public function testFilterDoesNothingForSubRequests()
-    {
+class SurrogateListenerTest extends \PHPUnit_Framework_TestCase {
+
+    public function testFilterDoesNothingForSubRequests() {
         $dispatcher = new EventDispatcher();
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $response = new Response('foo <esi:include src="" />');
@@ -36,8 +35,7 @@ class SurrogateListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $event->getResponse()->headers->get('Surrogate-Control'));
     }
 
-    public function testFilterWhenThereIsSomeEsiIncludes()
-    {
+    public function testFilterWhenThereIsSomeEsiIncludes() {
         $dispatcher = new EventDispatcher();
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $response = new Response('foo <esi:include src="" />');
@@ -50,8 +48,7 @@ class SurrogateListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('content="ESI/1.0"', $event->getResponse()->headers->get('Surrogate-Control'));
     }
 
-    public function testFilterWhenThereIsNoEsiIncludes()
-    {
+    public function testFilterWhenThereIsNoEsiIncludes() {
         $dispatcher = new EventDispatcher();
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $response = new Response('foo');
@@ -63,4 +60,5 @@ class SurrogateListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('', $event->getResponse()->headers->get('Surrogate-Control'));
     }
+
 }

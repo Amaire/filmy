@@ -11,7 +11,6 @@
 
 namespace Psy\Test\Presenter;
 
-class FakeArrayObject extends \ArrayObject
-{
+class FakeArrayObject extends \ArrayObject {
     // this space intentionally left blank.
 }

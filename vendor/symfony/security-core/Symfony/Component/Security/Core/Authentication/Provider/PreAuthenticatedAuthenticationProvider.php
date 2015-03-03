@@ -27,8 +27,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class PreAuthenticatedAuthenticationProvider implements AuthenticationProviderInterface
-{
+class PreAuthenticatedAuthenticationProvider implements AuthenticationProviderInterface {
+
     private $userProvider;
     private $userChecker;
     private $providerKey;
@@ -40,8 +40,7 @@ class PreAuthenticatedAuthenticationProvider implements AuthenticationProviderIn
      * @param UserCheckerInterface  $userChecker  An UserCheckerInterface instance
      * @param string                $providerKey  The provider key
      */
-    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey)
-    {
+    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey) {
         $this->userProvider = $userProvider;
         $this->userChecker = $userChecker;
         $this->providerKey = $providerKey;
@@ -50,8 +49,7 @@ class PreAuthenticatedAuthenticationProvider implements AuthenticationProviderIn
     /**
      * {@inheritdoc}
      */
-    public function authenticate(TokenInterface $token)
-    {
+    public function authenticate(TokenInterface $token) {
         if (!$this->supports($token)) {
             return;
         }
@@ -73,8 +71,8 @@ class PreAuthenticatedAuthenticationProvider implements AuthenticationProviderIn
     /**
      * {@inheritdoc}
      */
-    public function supports(TokenInterface $token)
-    {
+    public function supports(TokenInterface $token) {
         return $token instanceof PreAuthenticatedToken && $this->providerKey === $token->getProviderKey();
     }
+
 }

@@ -18,8 +18,8 @@ use Exception;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class Call
-{
+class Call {
+
     private $methodName;
     private $arguments;
     private $returnValue;
@@ -37,13 +37,11 @@ class Call
      * @param null|string $file
      * @param null|int    $line
      */
-    public function __construct($methodName, array $arguments, $returnValue,
-                                Exception $exception = null, $file, $line)
-    {
-        $this->methodName  = $methodName;
-        $this->arguments   = $arguments;
+    public function __construct($methodName, array $arguments, $returnValue, Exception $exception = null, $file, $line) {
+        $this->methodName = $methodName;
+        $this->arguments = $arguments;
         $this->returnValue = $returnValue;
-        $this->exception   = $exception;
+        $this->exception = $exception;
 
         if ($file) {
             $this->file = $file;
@@ -56,8 +54,7 @@ class Call
      *
      * @return string
      */
-    public function getMethodName()
-    {
+    public function getMethodName() {
         return $this->methodName;
     }
 
@@ -66,8 +63,7 @@ class Call
      *
      * @return array
      */
-    public function getArguments()
-    {
+    public function getArguments() {
         return $this->arguments;
     }
 
@@ -76,8 +72,7 @@ class Call
      *
      * @return null|mixed
      */
-    public function getReturnValue()
-    {
+    public function getReturnValue() {
         return $this->returnValue;
     }
 
@@ -86,8 +81,7 @@ class Call
      *
      * @return null|Exception
      */
-    public function getException()
-    {
+    public function getException() {
         return $this->exception;
     }
 
@@ -96,8 +90,7 @@ class Call
      *
      * @return string
      */
-    public function getFile()
-    {
+    public function getFile() {
         return $this->file;
     }
 
@@ -106,8 +99,7 @@ class Call
      *
      * @return int
      */
-    public function getLine()
-    {
+    public function getLine() {
         return $this->line;
     }
 
@@ -116,12 +108,12 @@ class Call
      *
      * @return string
      */
-    public function getCallPlace()
-    {
+    public function getCallPlace() {
         if (null === $this->file) {
             return 'unknown';
         }
 
         return sprintf('%s:%d', $this->file, $this->line);
     }
+
 }

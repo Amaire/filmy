@@ -6,8 +6,8 @@ use PhpParser;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class Trait_ extends Declaration
-{
+class Trait_ extends Declaration {
+
     protected $name;
     protected $methods = array();
 
@@ -46,4 +46,5 @@ class Trait_ extends Declaration
     public function getNode() {
         return new Stmt\Trait_($this->name, $this->methods, $this->attributes);
     }
+
 }

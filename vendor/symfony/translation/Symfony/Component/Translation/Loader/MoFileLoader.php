@@ -18,8 +18,8 @@ use Symfony\Component\Config\Resource\FileResource;
 /**
  * @copyright Copyright (c) 2010, Union of RAD http://union-of-rad.org (http://lithify.me/)
  */
-class MoFileLoader extends ArrayLoader implements LoaderInterface
-{
+class MoFileLoader extends ArrayLoader implements LoaderInterface {
+
     /**
      * Magic used for validating the format of a MO file as well as
      * detecting if the machine used to create that file was little endian.
@@ -43,8 +43,7 @@ class MoFileLoader extends ArrayLoader implements LoaderInterface
      */
     const MO_HEADER_SIZE = 28;
 
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -81,8 +80,7 @@ class MoFileLoader extends ArrayLoader implements LoaderInterface
      *
      * @throws InvalidResourceException If stream content has an invalid format.
      */
-    private function parse($resource)
-    {
+    private function parse($resource) {
         $stream = fopen($resource, 'r');
 
         $stat = fstat($stream);
@@ -174,11 +172,11 @@ class MoFileLoader extends ArrayLoader implements LoaderInterface
      *
      * @return int
      */
-    private function readLong($stream, $isBigEndian)
-    {
+    private function readLong($stream, $isBigEndian) {
         $result = unpack($isBigEndian ? 'N1' : 'V1', fread($stream, 4));
         $result = current($result);
 
         return (int) substr($result, -8);
     }
+
 }

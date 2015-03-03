@@ -17,8 +17,8 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 /**
  * A scalar (and null) Presenter.
  */
-class ScalarPresenter implements Presenter
-{
+class ScalarPresenter implements Presenter {
+
     /**
      * Scalar presenter can present scalars and null.
      *
@@ -29,8 +29,7 @@ class ScalarPresenter implements Presenter
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return is_scalar($value) || is_null($value);
     }
 
@@ -41,8 +40,7 @@ class ScalarPresenter implements Presenter
      *
      * @return string
      */
-    public function presentRef($value)
-    {
+    public function presentRef($value) {
         return $this->present($value);
     }
 
@@ -55,8 +53,7 @@ class ScalarPresenter implements Presenter
      *
      * @return string
      */
-    public function present($value, $depth = null, $options = 0)
-    {
+    public function present($value, $depth = null, $options = 0) {
         $formatted = $this->format($value);
 
         if ($typeStyle = $this->getTypeStyle($value)) {
@@ -66,8 +63,7 @@ class ScalarPresenter implements Presenter
         }
     }
 
-    private function format($value)
-    {
+    private function format($value) {
         // Handle floats.
         if (is_float($value)) {
             // Some are unencodable...
@@ -96,8 +92,7 @@ class ScalarPresenter implements Presenter
      *
      * @return string
      */
-    private function getTypeStyle($value)
-    {
+    private function getTypeStyle($value) {
         if (is_int($value) || is_float($value)) {
             return 'number';
         } elseif (is_string($value)) {
@@ -106,4 +101,5 @@ class ScalarPresenter implements Presenter
             return 'bool';
         }
     }
+
 }

@@ -21,8 +21,8 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * This allows the user to communicate with class preloader.
  */
-class PreCompileCommand extends Command
-{
+class PreCompileCommand extends Command {
+
     /**
      * The printer.
      *
@@ -63,8 +63,7 @@ class PreCompileCommand extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->printer = new PrettyPrinter();
         $this->parser = new Parser(new Lexer());
@@ -75,19 +74,18 @@ class PreCompileCommand extends Command
      *
      * @return void
      */
-    protected function configure()
-    {
+    protected function configure() {
         parent::configure();
 
         $this->setName('compile')
-            ->setDescription('Compiles classes into a single file')
-            ->addOption('config', null, InputOption::VALUE_REQUIRED, 'CSV of filenames to load, or the path to a PHP script that returns an array of file names')
-            ->addOption('output', null, InputOption::VALUE_REQUIRED)
-            ->addOption('skip_dir_file', null, InputOption::VALUE_NONE, 'Skip files with __DIR__ or __FILE__ to make the cache portable')
-            ->addOption('fix_dir', null, InputOption::VALUE_REQUIRED, 'Convert __DIR__ constants to the original directory of a file', 1)
-            ->addOption('fix_file', null, InputOption::VALUE_REQUIRED, 'Convert __FILE__ constants to the original path of a file', 1)
-            ->addOption('strip_comments', null, InputOption::VALUE_REQUIRED, 'Set to 1 to strip comments from each source file', 0)
-            ->setHelp(<<<EOF
+                ->setDescription('Compiles classes into a single file')
+                ->addOption('config', null, InputOption::VALUE_REQUIRED, 'CSV of filenames to load, or the path to a PHP script that returns an array of file names')
+                ->addOption('output', null, InputOption::VALUE_REQUIRED)
+                ->addOption('skip_dir_file', null, InputOption::VALUE_NONE, 'Skip files with __DIR__ or __FILE__ to make the cache portable')
+                ->addOption('fix_dir', null, InputOption::VALUE_REQUIRED, 'Convert __DIR__ constants to the original directory of a file', 1)
+                ->addOption('fix_file', null, InputOption::VALUE_REQUIRED, 'Convert __FILE__ constants to the original path of a file', 1)
+                ->addOption('strip_comments', null, InputOption::VALUE_REQUIRED, 'Set to 1 to strip comments from each source file', 0)
+                ->setHelp(<<<EOF
 The <info>%command.name%</info> command iterates over each script, normalizes
 the file to be wrapped in namespaces, and combines each file into a single PHP
 file.
@@ -100,8 +98,7 @@ EOF
      *
      * @return \ClassPreloader\Parser\NodeTraverser
      */
-    protected function getTraverser()
-    {
+    protected function getTraverser() {
         if (!$this->traverser) {
             $this->traverser = new NodeTraverser();
             if ($this->input->getOption('fix_dir')) {
@@ -124,8 +121,7 @@ EOF
      *
      * @return string
      */
-    protected function getCode($file)
-    {
+    protected function getCode($file) {
         if (!is_readable($file)) {
             throw new \RuntimeException("Cannot open {$file} for reading");
         }
@@ -160,8 +156,7 @@ EOF
      *
      * @return void
      */
-    protected function validateCommand()
-    {
+    protected function validateCommand() {
         if (!$this->input->getOption('output')) {
             throw new \InvalidArgumentException('An output option is required');
         }
@@ -180,8 +175,7 @@ EOF
      *
      * @return array
      */
-    protected function getFileList($config)
-    {
+    protected function getFileList($config) {
         $this->output->writeln('> Loading configuration file');
         $filesystem = new Filesystem();
 
@@ -223,8 +217,7 @@ EOF
      *
      * @return void
      */
-    protected function prepareOutput($outputFile)
-    {
+    protected function prepareOutput($outputFile) {
         $dir = dirname($outputFile);
         if (!is_dir($dir) && !mkdir($dir, 0777, true)) {
             throw new \RuntimeException('Unable to create directory ' . $dir);
@@ -241,8 +234,7 @@ EOF
      *
      * @return null|int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $this->input = $input;
         $this->output = $output;
         $this->validateCommand();
@@ -278,7 +270,8 @@ EOF
         fclose($handle);
 
         $output->writeln("> Compiled loader written to {$outputFile}");
-        $output->writeln('- Files: ' . ($count - $countSkipped) . '/' . $count.' (skipped: '.$countSkipped.')');
+        $output->writeln('- Files: ' . ($count - $countSkipped) . '/' . $count . ' (skipped: ' . $countSkipped . ')');
         $output->writeln('- Filesize: ' . (round(filesize($outputFile) / 1024)) . ' kb');
     }
+
 }

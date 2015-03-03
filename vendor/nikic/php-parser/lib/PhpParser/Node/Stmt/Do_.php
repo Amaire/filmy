@@ -8,8 +8,8 @@ use PhpParser\Node;
  * @property Node\Expr $cond  Condition
  * @property Node[]    $stmts Statements
  */
-class Do_ extends Node\Stmt
-{
+class Do_ extends Node\Stmt {
+
     /**
      * Constructs a do while node.
      *
@@ -19,11 +19,11 @@ class Do_ extends Node\Stmt
      */
     public function __construct(Node\Expr $cond, array $stmts = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'cond'  => $cond,
-                'stmts' => $stmts,
-            ),
-            $attributes
+                array(
+            'cond' => $cond,
+            'stmts' => $stmts,
+                ), $attributes
         );
     }
+
 }

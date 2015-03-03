@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Environment
  *
@@ -50,8 +51,8 @@ namespace SebastianBergmann\Environment;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/environment
  */
-class Console
-{
+class Console {
+
     /**
      * Returns true if STDOUT supports colorization.
      *
@@ -60,8 +61,7 @@ class Console
      *
      * @return boolean
      */
-    public function hasColorSupport()
-    {
+    public function hasColorSupport() {
         if (DIRECTORY_SEPARATOR == '\\') {
             return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI');
         }
@@ -78,8 +78,7 @@ class Console
      *
      * @return integer
      */
-    public function getNumberOfColumns()
-    {
+    public function getNumberOfColumns() {
         // Windows terminals have a fixed size of 80
         // but one column is used for the cursor.
         if (DIRECTORY_SEPARATOR == '\\') {
@@ -105,8 +104,8 @@ class Console
      * @param  resource $fd
      * @return boolean
      */
-    private function isTty($fd)
-    {
+    private function isTty($fd) {
         return function_exists('posix_isatty') && @posix_isatty($fd);
     }
+
 }

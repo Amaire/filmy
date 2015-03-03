@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Config;
 
-class OptionsConfig
-{
+class OptionsConfig {
+
     /**
      * @var bool
      */
@@ -34,6 +34,7 @@ class OptionsConfig
      * @var bool
      */
     private $fakingEnabled;
+
     /**
      * @var string|bool
      */
@@ -46,9 +47,8 @@ class OptionsConfig
      * @param bool $fakingEnabled
      * @param string|bool $bootstrapPath
      */
-    public function __construct($stopOnFailureEnabled, $codeGenerationEnabled, $reRunEnabled, $fakingEnabled, $bootstrapPath)
-    {
-        $this->stopOnFailureEnabled  = $stopOnFailureEnabled;
+    public function __construct($stopOnFailureEnabled, $codeGenerationEnabled, $reRunEnabled, $fakingEnabled, $bootstrapPath) {
+        $this->stopOnFailureEnabled = $stopOnFailureEnabled;
         $this->codeGenerationEnabled = $codeGenerationEnabled;
         $this->reRunEnabled = $reRunEnabled;
         $this->fakingEnabled = $fakingEnabled;
@@ -58,31 +58,27 @@ class OptionsConfig
     /**
      * @return bool
      */
-    public function isStopOnFailureEnabled()
-    {
+    public function isStopOnFailureEnabled() {
         return $this->stopOnFailureEnabled;
     }
 
     /**
      * @return bool
      */
-    public function isCodeGenerationEnabled()
-    {
+    public function isCodeGenerationEnabled() {
         return $this->codeGenerationEnabled;
     }
 
-    public function isReRunEnabled()
-    {
+    public function isReRunEnabled() {
         return $this->reRunEnabled;
     }
 
-    public function isFakingEnabled()
-    {
+    public function isFakingEnabled() {
         return $this->fakingEnabled;
     }
 
-    public function getBootstrapPath()
-    {
+    public function getBootstrapPath() {
         return $this->bootstrapPath;
     }
+
 }

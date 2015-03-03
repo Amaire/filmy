@@ -18,21 +18,20 @@ use Exception;
 /**
  * Class StopOnFailureException holds information about stop on failure exception
  */
-class StopOnFailureException extends ExampleException
-{
+class StopOnFailureException extends ExampleException {
+
     /**
      * @var integer
      */
     private $result;
 
-    public function __construct($message = "", $code = 0, Exception $previous = null, $result = 0)
-    {
+    public function __construct($message = "", $code = 0, Exception $previous = null, $result = 0) {
         parent::__construct($message, $code, $previous);
         $this->result = $result;
     }
 
-    public function getResult()
-    {
+    public function getResult() {
         return $this->result;
     }
+
 }

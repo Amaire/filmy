@@ -15,8 +15,8 @@ namespace PhpSpec\Wrapper\Subject\Expectation;
 
 use PhpSpec\Matcher\MatcherInterface;
 
-class Positive implements ExpectationInterface
-{
+class Positive implements ExpectationInterface {
+
     /**
      * @var \PhpSpec\Matcher\MatcherInterface
      */
@@ -25,8 +25,7 @@ class Positive implements ExpectationInterface
     /**
      * @param MatcherInterface $matcher
      */
-    public function __construct(MatcherInterface $matcher)
-    {
+    public function __construct(MatcherInterface $matcher) {
         $this->matcher = $matcher;
     }
 
@@ -37,8 +36,8 @@ class Positive implements ExpectationInterface
      *
      * @return mixed
      */
-    public function match($alias, $subject, array $arguments = array())
-    {
+    public function match($alias, $subject, array $arguments = array()) {
         return $this->matcher->positiveMatch($alias, $subject, $arguments);
     }
+
 }

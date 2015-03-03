@@ -2,8 +2,8 @@
 
 namespace League\Flysystem\Adapter\Polyfill;
 
-trait StreamedReadingTrait
-{
+trait StreamedReadingTrait {
+
     /**
      * Get the contents of a file in a stream.
      *
@@ -11,9 +11,8 @@ trait StreamedReadingTrait
      *
      * @return resource|false false when not found, or a resource
      */
-    public function readStream($path)
-    {
-        if (! $data = $this->read($path)) {
+    public function readStream($path) {
+        if (!$data = $this->read($path)) {
             return false;
         }
 

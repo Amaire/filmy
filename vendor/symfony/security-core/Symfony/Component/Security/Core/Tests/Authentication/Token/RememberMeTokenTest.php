@@ -14,10 +14,9 @@ namespace Symfony\Component\Security\Core\Tests\Authentication\Token;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\Role\Role;
 
-class RememberMeTokenTest extends \PHPUnit_Framework_TestCase
-{
-    public function testConstructor()
-    {
+class RememberMeTokenTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConstructor() {
         $user = $this->getUser();
         $token = new RememberMeToken($user, 'fookey', 'foo');
 
@@ -31,24 +30,18 @@ class RememberMeTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testConstructorKeyCannotBeNull()
-    {
+    public function testConstructorKeyCannotBeNull() {
         new RememberMeToken(
-            $this->getUser(),
-            null,
-            null
+                $this->getUser(), null, null
         );
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testConstructorKeyCannotBeEmptyString()
-    {
+    public function testConstructorKeyCannotBeEmptyString() {
         new RememberMeToken(
-            $this->getUser(),
-            '',
-            ''
+                $this->getUser(), '', ''
         );
     }
 
@@ -56,28 +49,26 @@ class RememberMeTokenTest extends \PHPUnit_Framework_TestCase
      * @expectedException \PHPUnit_Framework_Error
      * @dataProvider getUserArguments
      */
-    public function testConstructorUserCannotBeNull($user)
-    {
+    public function testConstructorUserCannotBeNull($user) {
         new RememberMeToken($user, 'foo', 'foo');
     }
 
-    public function getUserArguments()
-    {
+    public function getUserArguments() {
         return array(
             array(null),
             array('foo'),
         );
     }
 
-    protected function getUser($roles = array('ROLE_FOO'))
-    {
+    protected function getUser($roles = array('ROLE_FOO')) {
         $user = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
         $user
-            ->expects($this->once())
-            ->method('getRoles')
-            ->will($this->returnValue($roles))
+                ->expects($this->once())
+                ->method('getRoles')
+                ->will($this->returnValue($roles))
         ;
 
         return $user;
     }
+
 }

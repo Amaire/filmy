@@ -33,8 +33,8 @@ namespace Symfony\Component\Finder;
  * @copyright  2004-2005 Fabien Potencier <fabien@symfony.com>
  * @copyright  2002 Richard Clamp <richardc@unixbeard.net>
  */
-class Glob
-{
+class Glob {
+
     /**
      * Returns a regexp which is the equivalent of the glob pattern.
      *
@@ -44,8 +44,7 @@ class Glob
      *
      * @return string regex The regexp
      */
-    public static function toRegex($glob, $strictLeadingDot = true, $strictWildcardSlash = true)
-    {
+    public static function toRegex($glob, $strictLeadingDot = true, $strictWildcardSlash = true) {
         $firstByte = true;
         $escaping = false;
         $inCurlies = 0;
@@ -98,6 +97,7 @@ class Glob
             $escaping = false;
         }
 
-        return '#^'.$regex.'$#';
+        return '#^' . $regex . '$#';
     }
+
 }

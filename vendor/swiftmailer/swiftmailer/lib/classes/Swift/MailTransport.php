@@ -13,20 +13,18 @@
  *
  * @author     Chris Corbyn
  */
-class Swift_MailTransport extends Swift_Transport_MailTransport
-{
+class Swift_MailTransport extends Swift_Transport_MailTransport {
+
     /**
      * Create a new MailTransport, optionally specifying $extraParams.
      *
      * @param string $extraParams
      */
-    public function __construct($extraParams = '-f%s')
-    {
+    public function __construct($extraParams = '-f%s') {
         call_user_func_array(
-            array($this, 'Swift_Transport_MailTransport::__construct'),
-            Swift_DependencyContainer::getInstance()
-                ->createDependenciesFor('transport.mail')
-            );
+                array($this, 'Swift_Transport_MailTransport::__construct'), Swift_DependencyContainer::getInstance()
+                        ->createDependenciesFor('transport.mail')
+        );
 
         $this->setExtraParams($extraParams);
     }
@@ -38,8 +36,8 @@ class Swift_MailTransport extends Swift_Transport_MailTransport
      *
      * @return Swift_MailTransport
      */
-    public static function newInstance($extraParams = '-f%s')
-    {
+    public static function newInstance($extraParams = '-f%s') {
         return new self($extraParams);
     }
+
 }

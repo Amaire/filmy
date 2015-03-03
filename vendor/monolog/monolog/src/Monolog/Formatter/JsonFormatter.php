@@ -18,8 +18,8 @@ namespace Monolog\Formatter;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class JsonFormatter implements FormatterInterface
-{
+class JsonFormatter implements FormatterInterface {
+
     const BATCH_MODE_JSON = 1;
     const BATCH_MODE_NEWLINES = 2;
 
@@ -29,8 +29,7 @@ class JsonFormatter implements FormatterInterface
     /**
      * @param int $batchMode
      */
-    public function __construct($batchMode = self::BATCH_MODE_JSON, $appendNewline = true)
-    {
+    public function __construct($batchMode = self::BATCH_MODE_JSON, $appendNewline = true) {
         $this->batchMode = $batchMode;
         $this->appendNewline = $appendNewline;
     }
@@ -44,8 +43,7 @@ class JsonFormatter implements FormatterInterface
      *
      * @return int
      */
-    public function getBatchMode()
-    {
+    public function getBatchMode() {
         return $this->batchMode;
     }
 
@@ -54,24 +52,21 @@ class JsonFormatter implements FormatterInterface
      *
      * @return bool
      */
-    public function isAppendingNewlines()
-    {
+    public function isAppendingNewlines() {
         return $this->appendNewline;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function format(array $record)
-    {
+    public function format(array $record) {
         return json_encode($record) . ($this->appendNewline ? "\n" : '');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function formatBatch(array $records)
-    {
+    public function formatBatch(array $records) {
         switch ($this->batchMode) {
             case static::BATCH_MODE_NEWLINES:
                 return $this->formatBatchNewlines($records);
@@ -88,8 +83,7 @@ class JsonFormatter implements FormatterInterface
      * @param  array  $records
      * @return string
      */
-    protected function formatBatchJson(array $records)
-    {
+    protected function formatBatchJson(array $records) {
         return json_encode($records);
     }
 
@@ -100,8 +94,7 @@ class JsonFormatter implements FormatterInterface
      * @param  array  $records
      * @return string
      */
-    protected function formatBatchNewlines(array $records)
-    {
+    protected function formatBatchNewlines(array $records) {
         $instance = $this;
 
         $oldNewline = $this->appendNewline;
@@ -113,4 +106,5 @@ class JsonFormatter implements FormatterInterface
 
         return implode("\n", $records);
     }
+
 }

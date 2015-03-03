@@ -8,8 +8,8 @@ use PhpParser\Node\Expr;
  * @property Expr      $var Variable
  * @property null|Expr $dim Array index / dim
  */
-class ArrayDimFetch extends Expr
-{
+class ArrayDimFetch extends Expr {
+
     /**
      * Constructs an array index fetch node.
      *
@@ -19,11 +19,11 @@ class ArrayDimFetch extends Expr
      */
     public function __construct(Expr $var, Expr $dim = null, array $attributes = array()) {
         parent::__construct(
-            array(
-                'var' => $var,
-                'dim' => $dim
-            ),
-            $attributes
+                array(
+            'var' => $var,
+            'dim' => $dim
+                ), $attributes
         );
     }
+
 }

@@ -9,8 +9,8 @@ use ClassPreloader\Parser\AbstractNodeVisitor;
  *
  * This contains all the class preloader configuration.
  */
-class Config implements \IteratorAggregate
-{
+class Config implements \IteratorAggregate {
+
     /**
      * The array of AbstractNodeVisitor objects that visit nodes.
      *
@@ -46,8 +46,7 @@ class Config implements \IteratorAggregate
      *
      * @return \ClassPreloader\Config
      */
-    public function addFile($filename)
-    {
+    public function addFile($filename) {
         $this->filenames[] = $filename;
 
         return $this;
@@ -58,8 +57,7 @@ class Config implements \IteratorAggregate
      *
      * @return array
      */
-    public function getFilenames()
-    {
+    public function getFilenames() {
         $filenames = array();
         foreach ($this->filenames as $f) {
             foreach ($this->inclusiveFilters as $filter) {
@@ -83,8 +81,7 @@ class Config implements \IteratorAggregate
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
-    {
+    public function getIterator() {
         return new \ArrayIterator($this->getFilenames());
     }
 
@@ -97,8 +94,7 @@ class Config implements \IteratorAggregate
      *
      * @return \ClassPreloader\Config
      */
-    public function addExclusiveFilter($pattern)
-    {
+    public function addExclusiveFilter($pattern) {
         $this->exclusiveFilters[] = $pattern;
 
         return $this;
@@ -113,8 +109,7 @@ class Config implements \IteratorAggregate
      *
      * @return \ClassPreloader\Config
      */
-    public function addInclusiveFilter($pattern)
-    {
+    public function addInclusiveFilter($pattern) {
         $this->inclusiveFilters[] = $pattern;
 
         return $this;
@@ -129,8 +124,7 @@ class Config implements \IteratorAggregate
      *
      * @return \ClassPreloader\Config
      */
-    public function addVisitor(AbstractNodeVisitor $visitor)
-    {
+    public function addVisitor(AbstractNodeVisitor $visitor) {
         $this->visitors[] = $visitor;
 
         return $this;
@@ -141,8 +135,8 @@ class Config implements \IteratorAggregate
      *
      * @return array
      */
-    public function getVisitors()
-    {
+    public function getVisitors() {
         return $this->visitors;
     }
+
 }

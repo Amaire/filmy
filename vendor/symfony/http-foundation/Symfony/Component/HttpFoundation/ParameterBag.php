@@ -18,8 +18,8 @@ namespace Symfony\Component\HttpFoundation;
  *
  * @api
  */
-class ParameterBag implements \IteratorAggregate, \Countable
-{
+class ParameterBag implements \IteratorAggregate, \Countable {
+
     /**
      * Parameter storage.
      *
@@ -34,8 +34,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function __construct(array $parameters = array())
-    {
+    public function __construct(array $parameters = array()) {
         $this->parameters = $parameters;
     }
 
@@ -46,8 +45,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function all()
-    {
+    public function all() {
         return $this->parameters;
     }
 
@@ -58,8 +56,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function keys()
-    {
+    public function keys() {
         return array_keys($this->parameters);
     }
 
@@ -70,8 +67,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function replace(array $parameters = array())
-    {
+    public function replace(array $parameters = array()) {
         $this->parameters = $parameters;
     }
 
@@ -82,8 +78,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function add(array $parameters = array())
-    {
+    public function add(array $parameters = array()) {
         $this->parameters = array_replace($this->parameters, $parameters);
     }
 
@@ -100,8 +95,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function get($path, $default = null, $deep = false)
-    {
+    public function get($path, $default = null, $deep = false) {
         if (!$deep || false === $pos = strpos($path, '[')) {
             return array_key_exists($path, $this->parameters) ? $this->parameters[$path] : $default;
         }
@@ -157,8 +151,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function set($key, $value)
-    {
+    public function set($key, $value) {
         $this->parameters[$key] = $value;
     }
 
@@ -171,8 +164,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function has($key)
-    {
+    public function has($key) {
         return array_key_exists($key, $this->parameters);
     }
 
@@ -183,8 +175,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function remove($key)
-    {
+    public function remove($key) {
         unset($this->parameters[$key]);
     }
 
@@ -199,8 +190,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function getAlpha($key, $default = '', $deep = false)
-    {
+    public function getAlpha($key, $default = '', $deep = false) {
         return preg_replace('/[^[:alpha:]]/', '', $this->get($key, $default, $deep));
     }
 
@@ -215,8 +205,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function getAlnum($key, $default = '', $deep = false)
-    {
+    public function getAlnum($key, $default = '', $deep = false) {
         return preg_replace('/[^[:alnum:]]/', '', $this->get($key, $default, $deep));
     }
 
@@ -231,8 +220,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function getDigits($key, $default = '', $deep = false)
-    {
+    public function getDigits($key, $default = '', $deep = false) {
         // we need to remove - and + because they're allowed in the filter
         return str_replace(array('-', '+'), '', $this->filter($key, $default, $deep, FILTER_SANITIZE_NUMBER_INT));
     }
@@ -248,8 +236,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @api
      */
-    public function getInt($key, $default = 0, $deep = false)
-    {
+    public function getInt($key, $default = 0, $deep = false) {
         return (int) $this->get($key, $default, $deep);
     }
 
@@ -262,8 +249,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @return bool The filtered value
      */
-    public function getBoolean($key, $default = false, $deep = false)
-    {
+    public function getBoolean($key, $default = false, $deep = false) {
         return $this->filter($key, $default, $deep, FILTER_VALIDATE_BOOLEAN);
     }
 
@@ -280,8 +266,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @return mixed
      */
-    public function filter($key, $default = null, $deep = false, $filter = FILTER_DEFAULT, $options = array())
-    {
+    public function filter($key, $default = null, $deep = false, $filter = FILTER_DEFAULT, $options = array()) {
         $value = $this->get($key, $default, $deep);
 
         // Always turn $options into an array - this allows filter_var option shortcuts.
@@ -302,8 +287,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator An \ArrayIterator instance
      */
-    public function getIterator()
-    {
+    public function getIterator() {
         return new \ArrayIterator($this->parameters);
     }
 
@@ -312,8 +296,8 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @return int The number of parameters
      */
-    public function count()
-    {
+    public function count() {
         return count($this->parameters);
     }
+
 }

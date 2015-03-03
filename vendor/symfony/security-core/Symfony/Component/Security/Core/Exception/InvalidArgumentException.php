@@ -16,6 +16,6 @@ namespace Symfony\Component\Security\Core\Exception;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
-{
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface {
+    
 }

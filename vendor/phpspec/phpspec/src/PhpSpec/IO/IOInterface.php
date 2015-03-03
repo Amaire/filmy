@@ -13,8 +13,8 @@
 
 namespace PhpSpec\IO;
 
-interface IOInterface
-{
+interface IOInterface {
+
     /**
      * @param string $message
      */

@@ -13,18 +13,16 @@ namespace Symfony\Component\Process\Tests;
 
 use Symfony\Component\Process\ProcessUtils;
 
-class ProcessUtilsTest extends \PHPUnit_Framework_TestCase
-{
+class ProcessUtilsTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider dataArguments
      */
-    public function testEscapeArgument($result, $argument)
-    {
+    public function testEscapeArgument($result, $argument) {
         $this->assertSame($result, ProcessUtils::escapeArgument($argument));
     }
 
-    public function dataArguments()
-    {
+    public function dataArguments() {
         if ('\\' === DIRECTORY_SEPARATOR) {
             return array(
                 array('"\"php\" \"-v\""', '"php" "-v"'),
@@ -45,4 +43,5 @@ class ProcessUtilsTest extends \PHPUnit_Framework_TestCase
             array("'with\\trailingbs\\'", 'with\trailingbs\\'),
         );
     }
+
 }

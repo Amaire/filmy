@@ -1,8 +1,8 @@
 <?php
 
-const GRAMMAR_FILE = './zend_language_parser.phpy';
+        const GRAMMAR_FILE = './zend_language_parser.phpy';
 
-const LIB = '(?(DEFINE)
+        const LIB = '(?(DEFINE)
     (?<singleQuotedString>\'[^\\\\\']*+(?:\\\\.[^\\\\\']*+)*+\')
     (?<doubleQuotedString>"[^\\\\"]*+(?:\\\\.[^\\\\"]*+)*+")
     (?<string>(?&singleQuotedString)|(?&doubleQuotedString))
@@ -10,15 +10,15 @@ const LIB = '(?(DEFINE)
     (?<code>\{[^\'"/{}]*+(?:(?:(?&string)|(?&comment)|(?&code)|/)[^\'"/{}]*+)*+})
 )';
 
-const RULE_BLOCK = '(?<name>[a-z_]++):(?<rules>[^\'"/{};]*+(?:(?:(?&string)|(?&comment)|(?&code)|/|})[^\'"/{};]*+)*+);';
+        const RULE_BLOCK = '(?<name>[a-z_]++):(?<rules>[^\'"/{};]*+(?:(?:(?&string)|(?&comment)|(?&code)|/|})[^\'"/{};]*+)*+);';
 
 $usedTerminals = array_flip(array(
     'T_VARIABLE', 'T_STRING', 'T_INLINE_HTML', 'T_ENCAPSED_AND_WHITESPACE',
     'T_LNUMBER', 'T_DNUMBER', 'T_CONSTANT_ENCAPSED_STRING', 'T_STRING_VARNAME', 'T_NUM_STRING'
-));
+        ));
 $unusedNonterminals = array_flip(array(
     'case_separator', 'optional_comma'
-));
+        ));
 
 function regex($regex) {
     return '~' . LIB . '(?:' . str_replace('~', '\~', $regex) . ')~';
@@ -71,17 +71,13 @@ foreach ($ruleBlocksMatches as $match) {
             }
 
             if (isset($usedParts[$i])) {
-                if ('\'' === $part[0] || '{' === $part[0]
-                    || (ctype_upper($part[0]) && !isset($usedTerminals[$part]))
-                    || (ctype_lower($part[0]) && isset($unusedNonterminals[$part]))
+                if ('\'' === $part[0] || '{' === $part[0] || (ctype_upper($part[0]) && !isset($usedTerminals[$part])) || (ctype_lower($part[0]) && isset($unusedNonterminals[$part]))
                 ) {
                     $part = '<span style="background-color: red; color: white;">' . $part . '</span>';
                 } else {
                     $part = '<strong><em>' . $part . '</em></strong>';
                 }
-            } elseif ((ctype_upper($part[0]) && isset($usedTerminals[$part]))
-                      || (ctype_lower($part[0]) && !isset($unusedNonterminals[$part]))
-
+            } elseif ((ctype_upper($part[0]) && isset($usedTerminals[$part])) || (ctype_lower($part[0]) && !isset($unusedNonterminals[$part]))
             ) {
                 $part = '<span style="background-color: blue; color: white;">' . $part . '</span>';
             }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,16 +22,15 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class LinkTag extends Tag
-{
+class LinkTag extends Tag {
+
     /** @var string */
     protected $link = '';
 
     /**
      * {@inheritdoc}
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
             $this->content = "{$this->link} {$this->description}";
         }
@@ -41,8 +41,7 @@ class LinkTag extends Tag
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         parent::setContent($content);
         $parts = preg_split('/\s+/Su', $this->description, 2);
 
@@ -55,27 +54,26 @@ class LinkTag extends Tag
     }
 
     /**
-    * Gets the link
-    *
-    * @return string
-    */
-    public function getLink()
-    {
+     * Gets the link
+     *
+     * @return string
+     */
+    public function getLink() {
         return $this->link;
     }
 
     /**
-    * Sets the link
-    *
-    * @param string $link The link
-    *
-    * @return $this
-    */
-    public function setLink($link)
-    {
+     * Sets the link
+     *
+     * @param string $link The link
+     *
+     * @return $this
+     */
+    public function setLink($link) {
         $this->link = $link;
 
         $this->content = null;
         return $this;
     }
+
 }

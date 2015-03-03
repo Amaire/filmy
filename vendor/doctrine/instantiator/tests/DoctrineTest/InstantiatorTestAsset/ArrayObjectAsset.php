@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,15 +28,15 @@ use BadMethodCallException;
  *
  * @author Marco Pivetta <ocramius@gmail.com>
  */
-class ArrayObjectAsset extends ArrayObject
-{
+class ArrayObjectAsset extends ArrayObject {
+
     /**
      * Constructor - should not be called
      *
      * @throws BadMethodCallException
      */
-    public function __construct()
-    {
+    public function __construct() {
         throw new BadMethodCallException('Not supposed to be called!');
     }
+
 }

@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class AuthenticationTrustResolver implements AuthenticationTrustResolverInterface
-{
+class AuthenticationTrustResolver implements AuthenticationTrustResolverInterface {
+
     private $anonymousClass;
     private $rememberMeClass;
 
@@ -29,8 +29,7 @@ class AuthenticationTrustResolver implements AuthenticationTrustResolverInterfac
      * @param string $anonymousClass
      * @param string $rememberMeClass
      */
-    public function __construct($anonymousClass, $rememberMeClass)
-    {
+    public function __construct($anonymousClass, $rememberMeClass) {
         $this->anonymousClass = $anonymousClass;
         $this->rememberMeClass = $rememberMeClass;
     }
@@ -38,8 +37,7 @@ class AuthenticationTrustResolver implements AuthenticationTrustResolverInterfac
     /**
      * {@inheritdoc}
      */
-    public function isAnonymous(TokenInterface $token = null)
-    {
+    public function isAnonymous(TokenInterface $token = null) {
         if (null === $token) {
             return false;
         }
@@ -50,8 +48,7 @@ class AuthenticationTrustResolver implements AuthenticationTrustResolverInterfac
     /**
      * {@inheritdoc}
      */
-    public function isRememberMe(TokenInterface $token = null)
-    {
+    public function isRememberMe(TokenInterface $token = null) {
         if (null === $token) {
             return false;
         }
@@ -62,12 +59,12 @@ class AuthenticationTrustResolver implements AuthenticationTrustResolverInterfac
     /**
      * {@inheritdoc}
      */
-    public function isFullFledged(TokenInterface $token = null)
-    {
+    public function isFullFledged(TokenInterface $token = null) {
         if (null === $token) {
             return false;
         }
 
         return !$this->isAnonymous($token) && !$this->isRememberMe($token);
     }
+
 }

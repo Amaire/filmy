@@ -21,23 +21,22 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class TokenStorage implements TokenStorageInterface
-{
+class TokenStorage implements TokenStorageInterface {
+
     private $token;
 
     /**
      * {@inheritdoc}
      */
-    public function getToken()
-    {
+    public function getToken() {
         return $this->token;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setToken(TokenInterface $token = null)
-    {
+    public function setToken(TokenInterface $token = null) {
         $this->token = $token;
     }
+
 }

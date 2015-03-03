@@ -20,8 +20,8 @@ use Symfony\Component\Config\Resource\ResourceInterface;
  *
  * @api
  */
-interface MessageCatalogueInterface
-{
+interface MessageCatalogueInterface {
+
     /**
      * Gets the catalogue locale.
      *

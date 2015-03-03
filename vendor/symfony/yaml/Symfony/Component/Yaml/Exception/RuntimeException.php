@@ -18,6 +18,6 @@ namespace Symfony\Component\Yaml\Exception;
  *
  * @api
  */
-class RuntimeException extends \RuntimeException implements ExceptionInterface
-{
+class RuntimeException extends \RuntimeException implements ExceptionInterface {
+    
 }

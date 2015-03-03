@@ -9,8 +9,8 @@ use PhpParser\Node;
  * @property string      $method    Method name
  * @property Node\Name[] $insteadof Overwritten traits
  */
-class Precedence extends Node\Stmt\TraitUseAdaptation
-{
+class Precedence extends Node\Stmt\TraitUseAdaptation {
+
     /**
      * Constructs a trait use precedence adaptation node.
      *
@@ -21,12 +21,12 @@ class Precedence extends Node\Stmt\TraitUseAdaptation
      */
     public function __construct(Node\Name $trait, $method, array $insteadof, array $attributes = array()) {
         parent::__construct(
-            array(
-                'trait'     => $trait,
-                'method'    => $method,
-                'insteadof' => $insteadof,
-            ),
-            $attributes
+                array(
+            'trait' => $trait,
+            'method' => $method,
+            'insteadof' => $insteadof,
+                ), $attributes
         );
     }
+
 }

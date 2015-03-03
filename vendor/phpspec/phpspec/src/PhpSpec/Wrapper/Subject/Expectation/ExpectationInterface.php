@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Wrapper\Subject\Expectation;
 
-interface ExpectationInterface
-{
+interface ExpectationInterface {
+
     /**
      * @param string $alias
      * @param mixed  $subject

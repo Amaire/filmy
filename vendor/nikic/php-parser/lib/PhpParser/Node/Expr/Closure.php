@@ -12,8 +12,8 @@ use PhpParser\Node\Expr;
  * @property bool         $byRef  Whether to return by reference
  * @property bool         $static Whether the closure is static
  */
-class Closure extends Expr
-{
+class Closure extends Expr {
+
     /**
      * Constructs a lambda function node.
      *
@@ -27,14 +27,14 @@ class Closure extends Expr
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'static' => isset($subNodes['static']) ? $subNodes['static'] : false,
-                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
-                'uses'   => isset($subNodes['uses'])   ? $subNodes['uses']   : array(),
-                'stmts'  => isset($subNodes['stmts'])  ? $subNodes['stmts']  : array(),
-            ),
-            $attributes
+                array(
+            'static' => isset($subNodes['static']) ? $subNodes['static'] : false,
+            'byRef' => isset($subNodes['byRef']) ? $subNodes['byRef'] : false,
+            'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
+            'uses' => isset($subNodes['uses']) ? $subNodes['uses'] : array(),
+            'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
+                ), $attributes
         );
     }
+
 }

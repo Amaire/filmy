@@ -26,8 +26,8 @@ use Symfony\Component\Translation\PluralizationRules;
  *
  * @author Clemens Tolboom clemens@build2be.nl
  */
-class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
-{
+class PluralizationRulesTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * We test failed langcode here.
      *
@@ -35,8 +35,7 @@ class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider failingLangcodes
      */
-    public function testFailedLangcodes($nplural, $langCodes)
-    {
+    public function testFailedLangcodes($nplural, $langCodes) {
         $matrix = $this->generateTestData($nplural, $langCodes);
         $this->validateMatrix($nplural, $matrix, false);
     }
@@ -44,8 +43,7 @@ class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider successLangcodes
      */
-    public function testLangcodes($nplural, $langCodes)
-    {
+    public function testLangcodes($nplural, $langCodes) {
         $matrix = $this->generateTestData($nplural, $langCodes);
         $this->validateMatrix($nplural, $matrix);
     }
@@ -57,13 +55,12 @@ class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function successLangcodes()
-    {
+    public function successLangcodes() {
         return array(
-            array('1', array('ay','bo', 'cgg','dz','id', 'ja', 'jbo', 'ka','kk','km','ko','ky')),
+            array('1', array('ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'kk', 'km', 'ko', 'ky')),
             array('2', array('nl', 'fr', 'en', 'de', 'de_GE')),
-            array('3', array('be','bs','cs','hr')),
-            array('4', array('cy','mt', 'sl')),
+            array('3', array('be', 'bs', 'cs', 'hr')),
+            array('4', array('cy', 'mt', 'sl')),
             array('5', array()),
             array('6', array('ar')),
         );
@@ -77,13 +74,12 @@ class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
      *
      * @return array with nplural together with langcodes
      */
-    public function failingLangcodes()
-    {
+    public function failingLangcodes() {
         return array(
             array('1', array('fa')),
             array('2', array('jbo')),
             array('3', array('cbs')),
-            array('4', array('gd','kw')),
+            array('4', array('gd', 'kw')),
             array('5', array('ga')),
             array('6', array()),
         );
@@ -96,8 +92,7 @@ class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
      * @param array  $matrix        containing langcodes and their plural index values.
      * @param bool   $expectSuccess
      */
-    protected function validateMatrix($nplural, $matrix, $expectSuccess = true)
-    {
+    protected function validateMatrix($nplural, $matrix, $expectSuccess = true) {
         foreach ($matrix as $langCode => $data) {
             $indexes = array_flip($data);
             if ($expectSuccess) {
@@ -108,8 +103,7 @@ class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
         }
     }
 
-    protected function generateTestData($plural, $langCodes)
-    {
+    protected function generateTestData($plural, $langCodes) {
         $matrix = array();
         foreach ($langCodes as $langCode) {
             for ($count = 0; $count < 200; $count++) {
@@ -120,4 +114,5 @@ class PluralizationRulesTest  extends \PHPUnit_Framework_TestCase
 
         return $matrix;
     }
+
 }

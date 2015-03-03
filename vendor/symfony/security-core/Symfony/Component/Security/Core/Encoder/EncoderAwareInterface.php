@@ -14,8 +14,8 @@ namespace Symfony\Component\Security\Core\Encoder;
 /**
  * @author Christophe Coevoet <stof@notk.org>
  */
-interface EncoderAwareInterface
-{
+interface EncoderAwareInterface {
+
     /**
      * Gets the name of the encoder used to encode the password.
      *

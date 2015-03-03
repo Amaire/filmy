@@ -14,8 +14,8 @@ namespace Symfony\Component\Finder\Expression;
 /**
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-class Regex implements ValueInterface
-{
+class Regex implements ValueInterface {
+
     const START_FLAG = '^';
     const END_FLAG = '$';
     const BOUNDARY = '~';
@@ -59,16 +59,13 @@ class Regex implements ValueInterface
      *
      * @throws \InvalidArgumentException
      */
-    public static function create($expr)
-    {
+    public static function create($expr) {
         if (preg_match('/^(.{3,}?)([imsxuADU]*)$/', $expr, $m)) {
             $start = substr($m[1], 0, 1);
             $end = substr($m[1], -1);
 
             if (
-                ($start === $end && !preg_match('/[*?[:alnum:] \\\\]/', $start))
-                || ($start === '{' && $end === '}')
-                || ($start === '(' && $end === ')')
+                    ($start === $end && !preg_match('/[*?[:alnum:] \\\\]/', $start)) || ($start === '{' && $end === '}') || ($start === '(' && $end === ')')
             ) {
                 return new self(substr($m[1], 1, -1), $m[2], $end);
             }
@@ -82,11 +79,10 @@ class Regex implements ValueInterface
      * @param string $options
      * @param string $delimiter
      */
-    public function __construct($pattern, $options = '', $delimiter = null)
-    {
+    public function __construct($pattern, $options = '', $delimiter = null) {
         if (null !== $delimiter) {
             // removes delimiter escaping
-            $pattern = str_replace('\\'.$delimiter, $delimiter, $pattern);
+            $pattern = str_replace('\\' . $delimiter, $delimiter, $pattern);
         }
 
         $this->parsePattern($pattern);
@@ -96,56 +92,50 @@ class Regex implements ValueInterface
     /**
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         return $this->render();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function render()
-    {
+    public function render() {
         return self::BOUNDARY
-            .$this->renderPattern()
-            .self::BOUNDARY
-            .$this->options;
+                . $this->renderPattern()
+                . self::BOUNDARY
+                . $this->options;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function renderPattern()
-    {
+    public function renderPattern() {
         return ($this->startFlag ? self::START_FLAG : '')
-            .($this->startJoker ? self::JOKER : '')
-            .str_replace(self::BOUNDARY, '\\'.self::BOUNDARY, $this->pattern)
-            .($this->endJoker ? self::JOKER : '')
-            .($this->endFlag ? self::END_FLAG : '');
+                . ($this->startJoker ? self::JOKER : '')
+                . str_replace(self::BOUNDARY, '\\' . self::BOUNDARY, $this->pattern)
+                . ($this->endJoker ? self::JOKER : '')
+                . ($this->endFlag ? self::END_FLAG : '');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isCaseSensitive()
-    {
+    public function isCaseSensitive() {
         return !$this->hasOption('i');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getType()
-    {
+    public function getType() {
         return Expression::TYPE_REGEX;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function prepend($expr)
-    {
-        $this->pattern = $expr.$this->pattern;
+    public function prepend($expr) {
+        $this->pattern = $expr . $this->pattern;
 
         return $this;
     }
@@ -153,8 +143,7 @@ class Regex implements ValueInterface
     /**
      * {@inheritdoc}
      */
-    public function append($expr)
-    {
+    public function append($expr) {
         $this->pattern .= $expr;
 
         return $this;
@@ -165,8 +154,7 @@ class Regex implements ValueInterface
      *
      * @return bool
      */
-    public function hasOption($option)
-    {
+    public function hasOption($option) {
         return false !== strpos($this->options, $option);
     }
 
@@ -175,8 +163,7 @@ class Regex implements ValueInterface
      *
      * @return Regex
      */
-    public function addOption($option)
-    {
+    public function addOption($option) {
         if (!$this->hasOption($option)) {
             $this->options .= $option;
         }
@@ -189,8 +176,7 @@ class Regex implements ValueInterface
      *
      * @return Regex
      */
-    public function removeOption($option)
-    {
+    public function removeOption($option) {
         $this->options = str_replace($option, '', $this->options);
 
         return $this;
@@ -201,8 +187,7 @@ class Regex implements ValueInterface
      *
      * @return Regex
      */
-    public function setStartFlag($startFlag)
-    {
+    public function setStartFlag($startFlag) {
         $this->startFlag = $startFlag;
 
         return $this;
@@ -211,8 +196,7 @@ class Regex implements ValueInterface
     /**
      * @return bool
      */
-    public function hasStartFlag()
-    {
+    public function hasStartFlag() {
         return $this->startFlag;
     }
 
@@ -221,8 +205,7 @@ class Regex implements ValueInterface
      *
      * @return Regex
      */
-    public function setEndFlag($endFlag)
-    {
+    public function setEndFlag($endFlag) {
         $this->endFlag = (bool) $endFlag;
 
         return $this;
@@ -231,8 +214,7 @@ class Regex implements ValueInterface
     /**
      * @return bool
      */
-    public function hasEndFlag()
-    {
+    public function hasEndFlag() {
         return $this->endFlag;
     }
 
@@ -241,8 +223,7 @@ class Regex implements ValueInterface
      *
      * @return Regex
      */
-    public function setStartJoker($startJoker)
-    {
+    public function setStartJoker($startJoker) {
         $this->startJoker = $startJoker;
 
         return $this;
@@ -251,8 +232,7 @@ class Regex implements ValueInterface
     /**
      * @return bool
      */
-    public function hasStartJoker()
-    {
+    public function hasStartJoker() {
         return $this->startJoker;
     }
 
@@ -261,8 +241,7 @@ class Regex implements ValueInterface
      *
      * @return Regex
      */
-    public function setEndJoker($endJoker)
-    {
+    public function setEndJoker($endJoker) {
         $this->endJoker = (bool) $endJoker;
 
         return $this;
@@ -271,8 +250,7 @@ class Regex implements ValueInterface
     /**
      * @return bool
      */
-    public function hasEndJoker()
-    {
+    public function hasEndJoker() {
         return $this->endJoker;
     }
 
@@ -281,8 +259,7 @@ class Regex implements ValueInterface
      *
      * @return Regex
      */
-    public function replaceJokers($replacement)
-    {
+    public function replaceJokers($replacement) {
         $replace = function ($subject) use ($replacement) {
             $subject = $subject[0];
             $replace = 0 === substr_count($subject, '\\') % 2;
@@ -298,8 +275,7 @@ class Regex implements ValueInterface
     /**
      * @param string $pattern
      */
-    private function parsePattern($pattern)
-    {
+    private function parsePattern($pattern) {
         if ($this->startFlag = self::START_FLAG === substr($pattern, 0, 1)) {
             $pattern = substr($pattern, 1);
         }
@@ -318,4 +294,5 @@ class Regex implements ValueInterface
 
         $this->pattern = $pattern;
     }
+
 }

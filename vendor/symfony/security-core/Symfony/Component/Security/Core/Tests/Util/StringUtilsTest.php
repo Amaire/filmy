@@ -16,10 +16,9 @@ use Symfony\Component\Security\Core\Util\StringUtils;
 /**
  * Data from PHP.net's hash_equals tests.
  */
-class StringUtilsTest extends \PHPUnit_Framework_TestCase
-{
-    public function dataProviderTrue()
-    {
+class StringUtilsTest extends \PHPUnit_Framework_TestCase {
+
+    public function dataProviderTrue() {
         return array(
             array('same', 'same'),
             array('', ''),
@@ -29,8 +28,7 @@ class StringUtilsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function dataProviderFalse()
-    {
+    public function dataProviderFalse() {
         return array(
             array('not1same', 'not2same'),
             array('short', 'longer'),
@@ -46,16 +44,15 @@ class StringUtilsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderTrue
      */
-    public function testEqualsTrue($known, $user)
-    {
+    public function testEqualsTrue($known, $user) {
         $this->assertTrue(StringUtils::equals($known, $user));
     }
 
     /**
      * @dataProvider dataProviderFalse
      */
-    public function testEqualsFalse($known, $user)
-    {
+    public function testEqualsFalse($known, $user) {
         $this->assertFalse(StringUtils::equals($known, $user));
     }
+
 }

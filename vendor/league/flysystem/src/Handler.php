@@ -2,8 +2,8 @@
 
 namespace League\Flysystem;
 
-abstract class Handler
-{
+abstract class Handler {
+
     /**
      * @var string
      */
@@ -20,8 +20,7 @@ abstract class Handler
      * @param FilesystemInterface $filesystem
      * @param string              $path
      */
-    public function __construct(FilesystemInterface $filesystem = null, $path = null)
-    {
+    public function __construct(FilesystemInterface $filesystem = null, $path = null) {
         $this->path = $path;
         $this->filesystem = $filesystem;
     }
@@ -31,8 +30,7 @@ abstract class Handler
      *
      * @return bool
      */
-    public function isDir()
-    {
+    public function isDir() {
         return $this->getType() === 'dir';
     }
 
@@ -41,8 +39,7 @@ abstract class Handler
      *
      * @return bool
      */
-    public function isFile()
-    {
+    public function isFile() {
         return $this->getType() === 'file';
     }
 
@@ -51,8 +48,7 @@ abstract class Handler
      *
      * @return string file or dir
      */
-    public function getType()
-    {
+    public function getType() {
         $metadata = $this->filesystem->getMetadata($this->path);
 
         return $metadata['type'];
@@ -65,8 +61,7 @@ abstract class Handler
      *
      * @return $this
      */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
+    public function setFilesystem(FilesystemInterface $filesystem) {
         $this->filesystem = $filesystem;
 
         return $this;
@@ -79,8 +74,7 @@ abstract class Handler
      *
      * @return $this
      */
-    public function setPath($path)
-    {
+    public function setPath($path) {
         $this->path = $path;
 
         return $this;
@@ -91,8 +85,8 @@ abstract class Handler
      *
      * @return string path
      */
-    public function getPath()
-    {
+    public function getPath() {
         return $this->path;
     }
+
 }

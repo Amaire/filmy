@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -20,26 +21,21 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 1.2.0
  */
-class PHP_CodeCoverage_Util_InvalidArgumentHelper
-{
+class PHP_CodeCoverage_Util_InvalidArgumentHelper {
+
     /**
      * @param integer $argument
      * @param string  $type
      * @param mixed   $value
      */
-    public static function factory($argument, $type, $value = null)
-    {
+    public static function factory($argument, $type, $value = null) {
         $stack = debug_backtrace(false);
 
         return new PHP_CodeCoverage_Exception(
-            sprintf(
-                'Argument #%d%sof %s::%s() must be a %s',
-                $argument,
-                $value !== null ? ' (' . gettype($value) . '#' . $value . ')' : ' (No Value) ',
-                $stack[1]['class'],
-                $stack[1]['function'],
-                $type
-            )
+                sprintf(
+                        'Argument #%d%sof %s::%s() must be a %s', $argument, $value !== null ? ' (' . gettype($value) . '#' . $value . ')' : ' (No Value) ', $stack[1]['class'], $stack[1]['function'], $type
+                )
         );
     }
+
 }

@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @author Ariel Ferrandini <arielferrandini@gmail.com>
  */
-interface UserPasswordEncoderInterface
-{
+interface UserPasswordEncoderInterface {
+
     /**
      *
      * Encodes the plain password.

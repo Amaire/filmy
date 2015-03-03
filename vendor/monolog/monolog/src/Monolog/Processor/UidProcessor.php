@@ -16,12 +16,11 @@ namespace Monolog\Processor;
  *
  * @author Simon Mönch <sm@webfactory.de>
  */
-class UidProcessor
-{
+class UidProcessor {
+
     private $uid;
 
-    public function __construct($length = 7)
-    {
+    public function __construct($length = 7) {
         if (!is_int($length) || $length > 32 || $length < 1) {
             throw new \InvalidArgumentException('The uid length must be an integer between 1 and 32');
         }
@@ -29,10 +28,10 @@ class UidProcessor
         $this->uid = substr(hash('md5', uniqid('', true)), 0, $length);
     }
 
-    public function __invoke(array $record)
-    {
+    public function __invoke(array $record) {
         $record['extra']['uid'] = $this->uid;
 
         return $record;
     }
+
 }

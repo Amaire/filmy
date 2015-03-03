@@ -16,13 +16,12 @@ namespace Symfony\Component\HttpKernel\Profiler;
  *
  * @author Jan Schumann <js@schumann-it.com>
  */
-class MysqlProfilerStorage extends PdoProfilerStorage
-{
+class MysqlProfilerStorage extends PdoProfilerStorage {
+
     /**
      * {@inheritdoc}
      */
-    protected function initDb()
-    {
+    protected function initDb() {
         if (null === $this->db) {
             if (0 !== strpos($this->dsn, 'mysql')) {
                 throw new \RuntimeException(sprintf('Please check your configuration. You are trying to use Mysql with an invalid dsn "%s". The expected format is "mysql:dbname=database_name;host=host_name".', $this->dsn));
@@ -44,19 +43,18 @@ class MysqlProfilerStorage extends PdoProfilerStorage
     /**
      * {@inheritdoc}
      */
-    protected function buildCriteria($ip, $url, $start, $end, $limit, $method)
-    {
+    protected function buildCriteria($ip, $url, $start, $end, $limit, $method) {
         $criteria = array();
         $args = array();
 
         if ($ip = preg_replace('/[^\d\.]/', '', $ip)) {
             $criteria[] = 'ip LIKE :ip';
-            $args[':ip'] = '%'.$ip.'%';
+            $args[':ip'] = '%' . $ip . '%';
         }
 
         if ($url) {
             $criteria[] = 'url LIKE :url';
-            $args[':url'] = '%'.addcslashes($url, '%_\\').'%';
+            $args[':url'] = '%' . addcslashes($url, '%_\\') . '%';
         }
 
         if ($method) {
@@ -76,4 +74,5 @@ class MysqlProfilerStorage extends PdoProfilerStorage
 
         return array($criteria, $args);
     }
+
 }

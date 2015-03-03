@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,15 +20,14 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class Author
-{
+class Author {
+
     // the order of properties is important for testing the cycle!
     public $books = array();
-
     private $name = '';
 
-    public function __construct($name)
-    {
+    public function __construct($name) {
         $this->name = $name;
     }
+
 }

@@ -19,16 +19,15 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandle
  *
  * @author Drak <drak@zikula.org>
  */
-class PhpBridgeSessionStorage extends NativeSessionStorage
-{
+class PhpBridgeSessionStorage extends NativeSessionStorage {
+
     /**
      * Constructor.
      *
      * @param AbstractProxy|NativeSessionHandler|\SessionHandlerInterface|null $handler
      * @param MetadataBag                                                      $metaBag MetadataBag
      */
-    public function __construct($handler = null, MetadataBag $metaBag = null)
-    {
+    public function __construct($handler = null, MetadataBag $metaBag = null) {
         $this->setMetadataBag($metaBag);
         $this->setSaveHandler($handler);
     }
@@ -36,8 +35,7 @@ class PhpBridgeSessionStorage extends NativeSessionStorage
     /**
      * {@inheritdoc}
      */
-    public function start()
-    {
+    public function start() {
         if ($this->started) {
             return true;
         }
@@ -54,8 +52,7 @@ class PhpBridgeSessionStorage extends NativeSessionStorage
     /**
      * {@inheritdoc}
      */
-    public function clear()
-    {
+    public function clear() {
         // clear out the bags and nothing else that may be set
         // since the purpose of this driver is to share a handler
         foreach ($this->bags as $bag) {
@@ -65,4 +62,5 @@ class PhpBridgeSessionStorage extends NativeSessionStorage
         // reconnect the bags to the session
         $this->loadSession();
     }
+
 }

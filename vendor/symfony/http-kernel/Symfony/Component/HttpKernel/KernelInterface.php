@@ -24,8 +24,8 @@ use Symfony\Component\Config\Loader\LoaderInterface;
  *
  * @api
  */
-interface KernelInterface extends HttpKernelInterface, \Serializable
-{
+interface KernelInterface extends HttpKernelInterface, \Serializable {
+
     /**
      * Returns an array of bundles to register.
      *

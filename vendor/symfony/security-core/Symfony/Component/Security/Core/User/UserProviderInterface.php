@@ -31,8 +31,8 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface UserProviderInterface
-{
+interface UserProviderInterface {
+
     /**
      * Loads the user for the given username.
      *

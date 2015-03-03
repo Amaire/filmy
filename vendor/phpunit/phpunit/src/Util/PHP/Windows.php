@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -21,8 +22,8 @@ use SebastianBergmann\Environment\Runtime;
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.5.12
  */
-class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
-{
+class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default {
+
     /**
      * @var string
      */
@@ -36,29 +37,26 @@ class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
      *
      * @see https://bugs.php.net/bug.php?id=51800
      */
-    public function runJob($job, array $settings = array())
-    {
+    public function runJob($job, array $settings = array()) {
         $runtime = new Runtime;
 
         if (false === $stdout_handle = tmpfile()) {
             throw new PHPUnit_Framework_Exception(
-                'A temporary file could not be created; verify that your TEMP environment variable is writable'
+            'A temporary file could not be created; verify that your TEMP environment variable is writable'
             );
         }
 
         $process = proc_open(
-            $runtime->getBinary() . $this->settingsToParameters($settings),
-            array(
+                $runtime->getBinary() . $this->settingsToParameters($settings), array(
             0 => array('pipe', 'r'),
             1 => $stdout_handle,
             2 => array('pipe', 'w')
-            ),
-            $pipes
+                ), $pipes
         );
 
         if (!is_resource($process)) {
             throw new PHPUnit_Framework_Exception(
-                'Unable to spawn worker process'
+            'Unable to spawn worker process'
             );
         }
 
@@ -85,26 +83,24 @@ class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
      * @throws PHPUnit_Framework_Exception
      * @since  Method available since Release 3.5.12
      */
-    protected function process($pipe, $job)
-    {
+    protected function process($pipe, $job) {
         if (!($this->tempFile = tempnam(sys_get_temp_dir(), 'PHPUnit')) ||
-            file_put_contents($this->tempFile, $job) === false) {
+                file_put_contents($this->tempFile, $job) === false) {
             throw new PHPUnit_Framework_Exception(
-                'Unable to write temporary file'
+            'Unable to write temporary file'
             );
         }
 
         fwrite(
-            $pipe,
-            "<?php require_once " . var_export($this->tempFile, true) .  "; ?>"
+                $pipe, "<?php require_once " . var_export($this->tempFile, true) . "; ?>"
         );
     }
 
     /**
      * @since Method available since Release 3.5.12
      */
-    protected function cleanup()
-    {
+    protected function cleanup() {
         unlink($this->tempFile);
     }
+
 }

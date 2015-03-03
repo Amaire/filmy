@@ -15,10 +15,9 @@ use Symfony\Component\HttpKernel\Tests\Fixtures\ExtensionPresentBundle\Extension
 use Symfony\Component\HttpKernel\Tests\Fixtures\ExtensionAbsentBundle\ExtensionAbsentBundle;
 use Symfony\Component\HttpKernel\Tests\Fixtures\ExtensionPresentBundle\Command\FooCommand;
 
-class BundleTest extends \PHPUnit_Framework_TestCase
-{
-    public function testRegisterCommands()
-    {
+class BundleTest extends \PHPUnit_Framework_TestCase {
+
+    public function testRegisterCommands() {
         $cmd = new FooCommand();
         $app = $this->getMock('Symfony\Component\Console\Application');
         $app->expects($this->once())->method('add')->with($this->equalTo($cmd));
@@ -30,4 +29,5 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($bundle2->registerCommands($app));
     }
+
 }

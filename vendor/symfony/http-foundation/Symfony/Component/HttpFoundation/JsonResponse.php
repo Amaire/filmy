@@ -22,8 +22,8 @@ namespace Symfony\Component\HttpFoundation;
  *
  * @author Igor Wiedler <igor@wiedler.ch>
  */
-class JsonResponse extends Response
-{
+class JsonResponse extends Response {
+
     protected $data;
     protected $callback;
     protected $encodingOptions;
@@ -35,8 +35,7 @@ class JsonResponse extends Response
      * @param int   $status  The response status code
      * @param array $headers An array of response headers
      */
-    public function __construct($data = null, $status = 200, $headers = array())
-    {
+    public function __construct($data = null, $status = 200, $headers = array()) {
         parent::__construct('', $status, $headers);
 
         if (null === $data) {
@@ -52,8 +51,7 @@ class JsonResponse extends Response
     /**
      * {@inheritdoc}
      */
-    public static function create($data = null, $status = 200, $headers = array())
-    {
+    public static function create($data = null, $status = 200, $headers = array()) {
         return new static($data, $status, $headers);
     }
 
@@ -66,8 +64,7 @@ class JsonResponse extends Response
      *
      * @throws \InvalidArgumentException When the callback name is not valid
      */
-    public function setCallback($callback = null)
-    {
+    public function setCallback($callback = null) {
         if (null !== $callback) {
             // taken from http://www.geekality.net/2011/08/03/valid-javascript-identifier/
             $pattern = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*+$/u';
@@ -93,8 +90,7 @@ class JsonResponse extends Response
      *
      * @throws \InvalidArgumentException
      */
-    public function setData($data = array())
-    {
+    public function setData($data = array()) {
         $errorHandler = null;
         $errorHandler = set_error_handler(function () use (&$errorHandler) {
             if (JSON_ERROR_NONE !== json_last_error()) {
@@ -131,8 +127,7 @@ class JsonResponse extends Response
      *
      * @return int
      */
-    public function getEncodingOptions()
-    {
+    public function getEncodingOptions() {
         return $this->encodingOptions;
     }
 
@@ -143,8 +138,7 @@ class JsonResponse extends Response
      *
      * @return JsonResponse
      */
-    public function setEncodingOptions($encodingOptions)
-    {
+    public function setEncodingOptions($encodingOptions) {
         $this->encodingOptions = (int) $encodingOptions;
 
         return $this->setData(json_decode($this->data));
@@ -155,8 +149,7 @@ class JsonResponse extends Response
      *
      * @return JsonResponse
      */
-    protected function update()
-    {
+    protected function update() {
         if (null !== $this->callback) {
             // Not using application/javascript for compatibility reasons with older browsers.
             $this->headers->set('Content-Type', 'text/javascript');
@@ -173,8 +166,7 @@ class JsonResponse extends Response
         return $this->setContent($this->data);
     }
 
-    private function transformJsonError()
-    {
+    private function transformJsonError() {
         if (function_exists('json_last_error_msg')) {
             return json_last_error_msg();
         }
@@ -199,4 +191,5 @@ class JsonResponse extends Response
                 return 'Unknown error.';
         }
     }
+
 }

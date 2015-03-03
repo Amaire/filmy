@@ -16,6 +16,6 @@ namespace Symfony\Component\Debug\Exception;
  *
  * @deprecated since version 2.5, to be removed in 3.0.
  */
-class DummyException extends \ErrorException
-{
+class DummyException extends \ErrorException {
+    
 }

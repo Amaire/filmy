@@ -15,21 +15,19 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\LoggingTranslator;
 use Symfony\Component\Translation\Loader\ArrayLoader;
 
-class LoggingTranslatorTest extends \PHPUnit_Framework_TestCase
-{
-    protected function setUp()
-    {
+class LoggingTranslatorTest extends \PHPUnit_Framework_TestCase {
+
+    protected function setUp() {
         if (!interface_exists('Psr\Log\LoggerInterface')) {
             $this->markTestSkipped('The "LoggerInterface" is not available');
         }
     }
 
-    public function testTransWithNoTranslationIsLogged()
-    {
+    public function testTransWithNoTranslationIsLogged() {
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $logger->expects($this->exactly(2))
-            ->method('warning')
-            ->with('Translation not found.')
+                ->method('warning')
+                ->with('Translation not found.')
         ;
 
         $translator = new Translator('ar');
@@ -38,12 +36,11 @@ class LoggingTranslatorTest extends \PHPUnit_Framework_TestCase
         $loggableTranslator->trans('bar');
     }
 
-    public function testTransChoiceFallbackIsLogged()
-    {
+    public function testTransChoiceFallbackIsLogged() {
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $logger->expects($this->once())
-            ->method('debug')
-            ->with('Translation use fallback catalogue.')
+                ->method('debug')
+                ->with('Translation use fallback catalogue.')
         ;
 
         $translator = new Translator('ar');
@@ -53,4 +50,5 @@ class LoggingTranslatorTest extends \PHPUnit_Framework_TestCase
         $loggableTranslator = new LoggingTranslator($translator, $logger);
         $loggableTranslator->transChoice('some_message2', 10, array('%count%' => 10));
     }
+
 }

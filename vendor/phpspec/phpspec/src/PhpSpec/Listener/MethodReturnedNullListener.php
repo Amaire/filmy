@@ -23,8 +23,8 @@ use PhpSpec\Locator\ResourceManager;
 use PhpSpec\Util\MethodAnalyser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class MethodReturnedNullListener implements EventSubscriberInterface
-{
+class MethodReturnedNullListener implements EventSubscriberInterface {
+
     /**
      * @var \PhpSpec\Console\IO
      */
@@ -39,14 +39,17 @@ class MethodReturnedNullListener implements EventSubscriberInterface
      * @var MethodCallEvent|null
      */
     private $lastMethodCallEvent = null;
+
     /**
      * @var \PhpSpec\Locator\ResourceManager
      */
     private $resources;
+
     /**
      * @var \PhpSpec\CodeGenerator\GeneratorManager
      */
     private $generator;
+
     /**
      * @var MethodAnalyser
      */
@@ -57,8 +60,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
      * @param ResourceManager  $resources
      * @param GeneratorManager $generator
      */
-    public function __construct(IO $io, ResourceManager $resources, GeneratorManager $generator, MethodAnalyser $methodAnalyser)
-    {
+    public function __construct(IO $io, ResourceManager $resources, GeneratorManager $generator, MethodAnalyser $methodAnalyser) {
         $this->io = $io;
         $this->resources = $resources;
         $this->generator = $generator;
@@ -68,22 +70,19 @@ class MethodReturnedNullListener implements EventSubscriberInterface
     /**
      * @{inheritdoc}
      */
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             'afterExample' => array('afterExample', 10),
-            'afterSuite'   => array('afterSuite', -20),
+            'afterSuite' => array('afterSuite', -20),
             'afterMethodCall' => array('afterMethodCall')
         );
     }
 
-    public function afterMethodCall(MethodCallEvent $methodCallEvent)
-    {
+    public function afterMethodCall(MethodCallEvent $methodCallEvent) {
         $this->lastMethodCallEvent = $methodCallEvent;
     }
 
-    public function afterExample(ExampleEvent $exampleEvent)
-    {
+    public function afterExample(ExampleEvent $exampleEvent) {
         $exception = $exampleEvent->getException();
 
         if (!$exception instanceof NotEqualException) {
@@ -95,9 +94,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         }
 
         if (
-            is_object($exception->getExpected())
-         || is_array($exception->getExpected())
-         || is_resource($exception->getExpected())
+                is_object($exception->getExpected()) || is_array($exception->getExpected()) || is_resource($exception->getExpected())
         ) {
             return;
         }
@@ -113,7 +110,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
             return;
         }
 
-        $key = $class.'::'.$method;
+        $key = $class . '::' . $method;
 
         if (!array_key_exists($key, $this->nullMethods)) {
             $this->nullMethods[$key] = array(
@@ -126,8 +123,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         $this->nullMethods[$key]['expected'][] = $exception->getExpected();
     }
 
-    public function afterSuite(SuiteEvent $event)
-    {
+    public function afterSuite(SuiteEvent $event) {
         if (!$this->io->isCodeGenerationEnabled()) {
             return;
         }
@@ -139,7 +135,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         foreach ($this->nullMethods as $methodString => $failedCall) {
             $failedCall['expected'] = array_unique($failedCall['expected']);
 
-            if (count($failedCall['expected'])>1) {
+            if (count($failedCall['expected']) > 1) {
                 continue;
             }
 
@@ -156,11 +152,11 @@ class MethodReturnedNullListener implements EventSubscriberInterface
 
             if ($this->io->askConfirmation($message)) {
                 $this->generator->generate(
-                    $resource, 'returnConstant',
-                    array('method' => $failedCall['method'], 'expected' => $expected)
+                        $resource, 'returnConstant', array('method' => $failedCall['method'], 'expected' => $expected)
                 );
                 $event->markAsWorthRerunning();
             }
         }
     }
+
 }

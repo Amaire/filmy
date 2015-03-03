@@ -19,8 +19,8 @@ namespace Symfony\Component\Security\Core\Role;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface RoleInterface
-{
+interface RoleInterface {
+
     /**
      * Returns the role.
      *

@@ -7,8 +7,8 @@ namespace ClassPreloader;
  *
  * This class contains a value, and the previous/next pointers.
  */
-class ClassNode
-{
+class ClassNode {
+
     /**
      * The next node pointer.
      *
@@ -38,9 +38,9 @@ class ClassNode
      *
      * @return void
      */
-    public function __construct($value = null, $prev = null)
-    {
+    public function __construct($value = null, $prev = null) {
         $this->value = $value;
         $this->prev = $prev;
     }
+
 }

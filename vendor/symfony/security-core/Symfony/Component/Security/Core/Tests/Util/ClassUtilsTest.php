@@ -9,14 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Security\Core\Tests\Util
-{
+namespace Symfony\Component\Security\Core\Tests\Util {
+
     use Symfony\Component\Security\Core\Util\ClassUtils;
 
-    class ClassUtilsTest extends \PHPUnit_Framework_TestCase
-    {
-        public static function dataGetClass()
-        {
+    class ClassUtilsTest extends \PHPUnit_Framework_TestCase {
+
+        public static function dataGetClass() {
             return array(
                 array('stdClass', 'stdClass'),
                 array('Symfony\Component\Security\Core\Util\ClassUtils', 'Symfony\Component\Security\Core\Util\ClassUtils'),
@@ -31,20 +30,22 @@ namespace Symfony\Component\Security\Core\Tests\Util
         /**
          * @dataProvider dataGetClass
          */
-        public function testGetRealClass($object, $expectedClassName)
-        {
+        public function testGetRealClass($object, $expectedClassName) {
             $this->assertEquals($expectedClassName, ClassUtils::getRealClass($object));
         }
+
     }
 
-    class TestObject
-    {
+    class TestObject {
+        
     }
+
 }
 
-namespace Acme\DemoBundle\Proxy\__CG__\Symfony\Component\Security\Core\Tests\Util
-{
-    class TestObject extends \Symfony\Component\Security\Core\Tests\Util\TestObject
-    {
+namespace Acme\DemoBundle\Proxy\__CG__\Symfony\Component\Security\Core\Tests\Util {
+
+    class TestObject extends \Symfony\Component\Security\Core\Tests\Util\TestObject {
+        
     }
+
 }

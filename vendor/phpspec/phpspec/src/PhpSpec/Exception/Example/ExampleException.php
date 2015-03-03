@@ -18,6 +18,6 @@ use PhpSpec\Exception\Exception;
 /**
  * Class ExampleException holds information about example exceptions
  */
-class ExampleException extends Exception
-{
+class ExampleException extends Exception {
+    
 }

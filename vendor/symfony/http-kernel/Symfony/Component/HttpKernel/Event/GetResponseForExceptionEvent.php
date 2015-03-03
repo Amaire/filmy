@@ -29,8 +29,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @api
  */
-class GetResponseForExceptionEvent extends GetResponseEvent
-{
+class GetResponseForExceptionEvent extends GetResponseEvent {
+
     /**
      * The exception object.
      *
@@ -38,8 +38,7 @@ class GetResponseForExceptionEvent extends GetResponseEvent
      */
     private $exception;
 
-    public function __construct(HttpKernelInterface $kernel, Request $request, $requestType, \Exception $e)
-    {
+    public function __construct(HttpKernelInterface $kernel, Request $request, $requestType, \Exception $e) {
         parent::__construct($kernel, $request, $requestType);
 
         $this->setException($e);
@@ -52,8 +51,7 @@ class GetResponseForExceptionEvent extends GetResponseEvent
      *
      * @api
      */
-    public function getException()
-    {
+    public function getException() {
         return $this->exception;
     }
 
@@ -66,8 +64,8 @@ class GetResponseForExceptionEvent extends GetResponseEvent
      *
      * @api
      */
-    public function setException(\Exception $exception)
-    {
+    public function setException(\Exception $exception) {
         $this->exception = $exception;
     }
+
 }

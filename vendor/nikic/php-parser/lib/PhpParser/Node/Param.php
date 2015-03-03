@@ -12,8 +12,8 @@ use PhpParser\NodeAbstract;
  * @property string           $name     Name
  * @property null|Expr        $default  Default value
  */
-class Param extends NodeAbstract
-{
+class Param extends NodeAbstract {
+
     /**
      * Constructs a parameter node.
      *
@@ -26,18 +26,18 @@ class Param extends NodeAbstract
      */
     public function __construct($name, $default = null, $type = null, $byRef = false, $variadic = false, array $attributes = array()) {
         parent::__construct(
-            array(
-                'type'     => $type,
-                'byRef'    => $byRef,
-                'variadic' => $variadic,
-                'name'     => $name,
-                'default'  => $default,
-            ),
-            $attributes
+                array(
+            'type' => $type,
+            'byRef' => $byRef,
+            'variadic' => $variadic,
+            'name' => $name,
+            'default' => $default,
+                ), $attributes
         );
 
         if ($variadic && null !== $default) {
             throw new Error('Variadic parameter cannot have a default value');
         }
     }
+
 }

@@ -17,6 +17,6 @@
  * @author     Xavier De Cock <xdecock@gmail.com>
  * @deprecated
  */
-class Swift_SignedMessage extends Swift_Message
-{
+class Swift_SignedMessage extends Swift_Message {
+    
 }

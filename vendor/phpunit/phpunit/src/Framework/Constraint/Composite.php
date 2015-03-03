@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -18,8 +19,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  */
-abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_Constraint
-{
+abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_Constraint {
+
     /**
      * @var PHPUnit_Framework_Constraint
      */
@@ -28,8 +29,7 @@ abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_
     /**
      * @param PHPUnit_Framework_Constraint $innerConstraint
      */
-    public function __construct(PHPUnit_Framework_Constraint $innerConstraint)
-    {
+    public function __construct(PHPUnit_Framework_Constraint $innerConstraint) {
         parent::__construct();
         $this->innerConstraint = $innerConstraint;
     }
@@ -50,13 +50,10 @@ abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_
      * @return mixed
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    public function evaluate($other, $description = '', $returnResult = false)
-    {
+    public function evaluate($other, $description = '', $returnResult = false) {
         try {
             return $this->innerConstraint->evaluate(
-                $other,
-                $description,
-                $returnResult
+                            $other, $description, $returnResult
             );
         } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             $this->fail($other, $description);
@@ -68,8 +65,8 @@ abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_
      *
      * @return integer
      */
-    public function count()
-    {
+    public function count() {
         return count($this->innerConstraint);
     }
+
 }

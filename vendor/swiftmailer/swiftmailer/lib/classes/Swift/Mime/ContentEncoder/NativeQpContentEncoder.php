@@ -13,8 +13,8 @@
  *
  * @author     Lars Strojny
  */
-class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_ContentEncoder
-{
+class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_ContentEncoder {
+
     /**
      * @var null|string
      */
@@ -23,8 +23,7 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
     /**
      * @param null|string $charset
      */
-    public function __construct($charset = null)
-    {
+    public function __construct($charset = null) {
         $this->charset = $charset ? $charset : 'utf-8';
     }
 
@@ -33,8 +32,7 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      *
      * @param string $charset
      */
-    public function charsetChanged($charset)
-    {
+    public function charsetChanged($charset) {
         $this->charset = $charset;
     }
 
@@ -48,11 +46,10 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      *
      * @throws RuntimeException
      */
-    public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0)
-    {
+    public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0) {
         if ($this->charset !== 'utf-8') {
             throw new RuntimeException(
-                sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
+            sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
         }
 
         $string = '';
@@ -69,8 +66,7 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return 'quoted-printable';
     }
 
@@ -85,11 +81,10 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      *
      * @throws RuntimeException
      */
-    public function encodeString($string, $firstLineOffset = 0, $maxLineLength = 0)
-    {
+    public function encodeString($string, $firstLineOffset = 0, $maxLineLength = 0) {
         if ($this->charset !== 'utf-8') {
             throw new RuntimeException(
-                sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
+            sprintf('Charset "%s" not supported. NativeQpContentEncoder only supports "utf-8"', $this->charset));
         }
 
         return $this->_standardize(quoted_printable_encode($string));
@@ -102,8 +97,7 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
      *
      * @return string
      */
-    protected function _standardize($string)
-    {
+    protected function _standardize($string) {
         // transform CR or LF to CRLF
         $string = preg_replace('~=0D(?!=0A)|(?<!=0D)=0A~', '=0D=0A', $string);
         // transform =0D=0A to CRLF
@@ -120,4 +114,5 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoder implements Swift_Mime_Con
 
         return $string;
     }
+
 }

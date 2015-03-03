@@ -14,10 +14,9 @@ namespace Symfony\Component\Routing\Tests\Loader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\PhpFileLoader;
 
-class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
-{
-    public function testSupports()
-    {
+class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase {
+
+    public function testSupports() {
         $loader = new PhpFileLoader($this->getMock('Symfony\Component\Config\FileLocator'));
 
         $this->assertTrue($loader->supports('foo.php'), '->supports() returns true if the resource is loadable');
@@ -27,9 +26,8 @@ class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($loader->supports('foo.php', 'foo'), '->supports() checks the resource type if specified');
     }
 
-    public function testLoadWithRoute()
-    {
-        $loader = new PhpFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadWithRoute() {
+        $loader = new PhpFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('validpattern.php');
         $routes = $routeCollection->all();
 
@@ -46,9 +44,8 @@ class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testLoadWithImport()
-    {
-        $loader = new PhpFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadWithImport() {
+        $loader = new PhpFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('validresource.php');
         $routes = $routeCollection->all();
 
@@ -65,9 +62,8 @@ class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testThatDefiningVariableInConfigFileHasNoSideEffects()
-    {
-        $locator = new FileLocator(array(__DIR__.'/../Fixtures'));
+    public function testThatDefiningVariableInConfigFileHasNoSideEffects() {
+        $locator = new FileLocator(array(__DIR__ . '/../Fixtures'));
         $loader = new PhpFileLoader($locator);
         $routeCollection = $loader->load('with_define_path_variable.php');
         $resources = $routeCollection->getResources();
@@ -75,8 +71,8 @@ class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertContainsOnly('Symfony\Component\Config\Resource\ResourceInterface', $resources);
         $fileResource = reset($resources);
         $this->assertSame(
-            realpath($locator->locate('with_define_path_variable.php')),
-            (string) $fileResource
+                realpath($locator->locate('with_define_path_variable.php')), (string) $fileResource
         );
     }
+
 }

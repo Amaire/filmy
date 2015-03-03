@@ -22,44 +22,40 @@ use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Exception\Fracture\ClassNotFoundException as PhpSpecClassException;
 use Prophecy\Exception\Doubler\ClassNotFoundException as ProphecyClassException;
 
-class ClassNotFoundListener implements EventSubscriberInterface
-{
+class ClassNotFoundListener implements EventSubscriberInterface {
+
     private $io;
     private $resources;
     private $generator;
     private $classes = array();
 
-    public function __construct(IO $io, ResourceManagerInterface $resources, GeneratorManager $generator)
-    {
-        $this->io        = $io;
+    public function __construct(IO $io, ResourceManagerInterface $resources, GeneratorManager $generator) {
+        $this->io = $io;
         $this->resources = $resources;
         $this->generator = $generator;
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             'afterExample' => array('afterExample', 10),
-            'afterSuite'   => array('afterSuite', -10),
+            'afterSuite' => array('afterSuite', -10),
         );
     }
 
-    public function afterExample(ExampleEvent $event)
-    {
+    public function afterExample(ExampleEvent $event) {
         if (null === $exception = $event->getException()) {
             return;
         }
 
         if (!($exception instanceof PhpSpecClassException) &&
-            !($exception instanceof ProphecyClassException)) {
+                !($exception instanceof ProphecyClassException)) {
             return;
         }
 
         $this->classes[$exception->getClassname()] = true;
     }
 
-    public function afterSuite(SuiteEvent $event)
-    {
+    public function afterSuite(SuiteEvent $event) {
         if (!$this->io->isCodeGenerationEnabled()) {
             return;
         }
@@ -79,4 +75,5 @@ class ClassNotFoundListener implements EventSubscriberInterface
             }
         }
     }
+
 }

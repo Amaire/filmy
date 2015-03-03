@@ -16,8 +16,8 @@ namespace PhpSpec\Matcher;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 
-class TypeMatcher extends BasicMatcher
-{
+class TypeMatcher extends BasicMatcher {
+
     /**
      * @var array
      */
@@ -27,6 +27,7 @@ class TypeMatcher extends BasicMatcher
         'haveType',
         'implement'
     );
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
@@ -35,8 +36,7 @@ class TypeMatcher extends BasicMatcher
     /**
      * @param PresenterInterface $presenter
      */
-    public function __construct(PresenterInterface $presenter)
-    {
+    public function __construct(PresenterInterface $presenter) {
         $this->presenter = $presenter;
     }
 
@@ -47,10 +47,8 @@ class TypeMatcher extends BasicMatcher
      *
      * @return bool
      */
-    public function supports($name, $subject, array $arguments)
-    {
-        return in_array($name, self::$keywords)
-            && 1 == count($arguments)
+    public function supports($name, $subject, array $arguments) {
+        return in_array($name, self::$keywords) && 1 == count($arguments)
         ;
     }
 
@@ -60,8 +58,7 @@ class TypeMatcher extends BasicMatcher
      *
      * @return bool
      */
-    protected function matches($subject, array $arguments)
-    {
+    protected function matches($subject, array $arguments) {
         return (null !== $subject) && ($subject instanceof $arguments[0]);
     }
 
@@ -72,12 +69,9 @@ class TypeMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getFailureException($name, $subject, array $arguments)
-    {
+    protected function getFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Expected an instance of %s, but got %s.',
-            $this->presenter->presentString($arguments[0]),
-            $this->presenter->presentValue($subject)
+                        'Expected an instance of %s, but got %s.', $this->presenter->presentString($arguments[0]), $this->presenter->presentValue($subject)
         ));
     }
 
@@ -88,12 +82,10 @@ class TypeMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getNegativeFailureException($name, $subject, array $arguments)
-    {
+    protected function getNegativeFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Did not expect instance of %s, but got %s.',
-            $this->presenter->presentString($arguments[0]),
-            $this->presenter->presentValue($subject)
+                        'Did not expect instance of %s, but got %s.', $this->presenter->presentString($arguments[0]), $this->presenter->presentValue($subject)
         ));
     }
+
 }

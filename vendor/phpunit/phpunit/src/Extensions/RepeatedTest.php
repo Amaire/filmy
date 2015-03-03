@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -18,8 +19,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
-{
+class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator {
+
     /**
      * @var mixed
      */
@@ -51,16 +52,15 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
      * @param  boolean                     $processIsolation
      * @throws PHPUnit_Framework_Exception
      */
-    public function __construct(PHPUnit_Framework_Test $test, $timesRepeat = 1, $processIsolation = false)
-    {
+    public function __construct(PHPUnit_Framework_Test $test, $timesRepeat = 1, $processIsolation = false) {
         parent::__construct($test);
 
         if (is_integer($timesRepeat) &&
-            $timesRepeat >= 0) {
+                $timesRepeat >= 0) {
             $this->timesRepeat = $timesRepeat;
         } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
-                2, 'positive integer'
+                    2, 'positive integer'
             );
         }
 
@@ -73,8 +73,7 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
      *
      * @return integer
      */
-    public function count()
-    {
+    public function count() {
         return $this->timesRepeat * count($this->test);
     }
 
@@ -86,8 +85,7 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
      * @return PHPUnit_Framework_TestResult
      * @throws PHPUnit_Framework_Exception
      */
-    public function run(PHPUnit_Framework_TestResult $result = null)
-    {
+    public function run(PHPUnit_Framework_TestResult $result = null) {
         if ($result === null) {
             $result = $this->createResult();
         }
@@ -103,4 +101,5 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
 
         return $result;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -20,8 +21,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.3.0
  */
-class PHPUnit_Framework_Constraint_IsTrue extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_IsTrue extends PHPUnit_Framework_Constraint {
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -29,8 +30,7 @@ class PHPUnit_Framework_Constraint_IsTrue extends PHPUnit_Framework_Constraint
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         return $other === true;
     }
 
@@ -39,8 +39,8 @@ class PHPUnit_Framework_Constraint_IsTrue extends PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'is true';
     }
+
 }

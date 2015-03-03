@@ -21,8 +21,8 @@ use Prophecy\Doubler\Generator\Node\ArgumentNode;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ProphecySubjectPatch implements ClassPatchInterface
-{
+class ProphecySubjectPatch implements ClassPatchInterface {
+
     /**
      * Always returns true.
      *
@@ -30,8 +30,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
      *
      * @return bool
      */
-    public function supports(ClassNode $node)
-    {
+    public function supports(ClassNode $node) {
         return true;
     }
 
@@ -40,8 +39,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
      *
      * @param ClassNode $node
      */
-    public function apply(ClassNode $node)
-    {
+    public function apply(ClassNode $node) {
         $node->addInterface('Prophecy\Prophecy\ProphecySubjectInterface');
         $node->addProperty('objectProphecy', 'private');
 
@@ -51,7 +49,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
             }
 
             $method->setCode(
-                'return $this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());'
+                    'return $this->getProphecy()->makeProphecyMethodCall(__FUNCTION__, func_get_args());'
             );
         }
 
@@ -91,8 +89,8 @@ PHP
      *
      * @return int Priority number (higher - earlier)
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 0;
     }
+
 }

@@ -1,4 +1,6 @@
-<?php namespace SuperClosure;
+<?php
+
+namespace SuperClosure;
 
 use SuperClosure\Exception\ClosureUnserializationException;
 
@@ -9,8 +11,8 @@ use SuperClosure\Exception\ClosureUnserializationException;
  * `eval()` function, you can serialize a closure, unserialize it somewhere
  * else (even a different PHP process), and execute it.
  */
-class SerializableClosure implements \Serializable
-{
+class SerializableClosure implements \Serializable {
+
     /**
      * The closure being wrapped for serialization.
      *
@@ -39,11 +41,10 @@ class SerializableClosure implements \Serializable
      * @param SerializerInterface|null $serializer
      */
     public function __construct(
-        \Closure $closure,
-        SerializerInterface $serializer = null
+    \Closure $closure, SerializerInterface $serializer = null
     ) {
         $this->closure = $closure;
-        $this->serializer = $serializer ?: new Serializer;
+        $this->serializer = $serializer ? : new Serializer;
     }
 
     /**
@@ -51,8 +52,7 @@ class SerializableClosure implements \Serializable
      *
      * @return \Closure
      */
-    public function getClosure()
-    {
+    public function getClosure() {
         return $this->closure;
     }
 
@@ -69,8 +69,7 @@ class SerializableClosure implements \Serializable
      *
      * @return mixed
      */
-    public function __invoke()
-    {
+    public function __invoke() {
         return call_user_func_array($this->closure, func_get_args());
     }
 
@@ -81,15 +80,13 @@ class SerializableClosure implements \Serializable
      *
      * @return string|null
      */
-    public function serialize()
-    {
+    public function serialize() {
         try {
-            $this->data = $this->data ?: $this->serializer->getData($this->closure, true);
+            $this->data = $this->data ? : $this->serializer->getData($this->closure, true);
             return serialize($this->data);
         } catch (\Exception $e) {
             trigger_error(
-                'Serialization of closure failed: ' . $e->getMessage(),
-                E_USER_NOTICE
+                    'Serialization of closure failed: ' . $e->getMessage(), E_USER_NOTICE
             );
             // Note: The serialize() method of Serializable must return a string
             // or null and cannot throw exceptions.
@@ -111,22 +108,20 @@ class SerializableClosure implements \Serializable
      *
      * @throws ClosureUnserializationException
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         // Unserialize the data and reconstruct the SuperClosure.
         $this->data = unserialize($serialized);
         $this->reconstructClosure();
         if (!$this->closure instanceof \Closure) {
             throw new ClosureUnserializationException(
-                'The closure is corrupted and cannot be unserialized.'
+            'The closure is corrupted and cannot be unserialized.'
             );
         }
 
         // Rebind the closure to its former binding, if it's not static.
         if (!$this->data['isStatic']) {
             $this->closure = $this->closure->bindTo(
-                $this->data['binding'],
-                $this->data['scope']
+                    $this->data['binding'], $this->data['scope']
             );
         }
     }
@@ -140,8 +135,7 @@ class SerializableClosure implements \Serializable
      * the error suppression operator, and variable variables (i.e., double
      * dollar signs) to perform the unserialization work. I'm sorry, world!
      */
-    private function reconstructClosure()
-    {
+    private function reconstructClosure() {
         // Simulate the original context the closure was created in.
         extract($this->data['context'], EXTR_OVERWRITE);
 
@@ -159,8 +153,8 @@ class SerializableClosure implements \Serializable
      *
      * @return array
      */
-    public function __debugInfo()
-    {
+    public function __debugInfo() {
         return $this->serializer->getData($this->closure);
     }
+
 }

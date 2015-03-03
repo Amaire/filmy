@@ -16,13 +16,12 @@ namespace Symfony\Component\Translation\Catalogue;
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-class DiffOperation extends AbstractOperation
-{
+class DiffOperation extends AbstractOperation {
+
     /**
      * {@inheritdoc}
      */
-    protected function processDomain($domain)
-    {
+    protected function processDomain($domain) {
         $this->messages[$domain] = array(
             'all' => array(),
             'new' => array(),
@@ -52,4 +51,5 @@ class DiffOperation extends AbstractOperation
             }
         }
     }
+
 }

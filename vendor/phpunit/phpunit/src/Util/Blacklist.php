@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 4.0.0
  */
-class PHPUnit_Util_Blacklist
-{
+class PHPUnit_Util_Blacklist {
+
     /**
      * @var array
      */
@@ -56,8 +57,7 @@ class PHPUnit_Util_Blacklist
      * @return array
      * @since  Method available since Release 4.1.0
      */
-    public function getBlacklistedDirectories()
-    {
+    public function getBlacklistedDirectories() {
         $this->initialize();
 
         return self::$directories;
@@ -67,8 +67,7 @@ class PHPUnit_Util_Blacklist
      * @param  string  $file
      * @return boolean
      */
-    public function isBlacklisted($file)
-    {
+    public function isBlacklisted($file) {
         if (defined('PHPUNIT_TESTSUITE')) {
             return false;
         }
@@ -84,8 +83,7 @@ class PHPUnit_Util_Blacklist
         return false;
     }
 
-    private function initialize()
-    {
+    private function initialize() {
         if (self::$directories === null) {
             self::$directories = array();
 
@@ -114,4 +112,5 @@ class PHPUnit_Util_Blacklist
             }
         }
     }
+
 }

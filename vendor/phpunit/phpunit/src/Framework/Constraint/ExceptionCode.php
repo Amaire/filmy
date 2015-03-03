@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.6.6
  */
-class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Constraint {
+
     /**
      * @var integer
      */
@@ -29,8 +30,7 @@ class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Const
     /**
      * @param integer $expected
      */
-    public function __construct($expected)
-    {
+    public function __construct($expected) {
         parent::__construct();
         $this->expectedCode = $expected;
     }
@@ -42,8 +42,7 @@ class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Const
      * @param  Exception $other
      * @return boolean
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         return (string) $other->getCode() == (string) $this->expectedCode;
     }
 
@@ -56,20 +55,17 @@ class PHPUnit_Framework_Constraint_ExceptionCode extends PHPUnit_Framework_Const
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         return sprintf(
-            '%s is equal to expected exception code %s',
-            $this->exporter->export($other->getCode()),
-            $this->exporter->export($this->expectedCode)
+                '%s is equal to expected exception code %s', $this->exporter->export($other->getCode()), $this->exporter->export($this->expectedCode)
         );
     }
 
     /**
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'exception code is ';
     }
+
 }

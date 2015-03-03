@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr $expr Expression
  */
-class BooleanNot extends Expr
-{
+class BooleanNot extends Expr {
+
     /**
      * Constructs a boolean not node.
      *
@@ -17,10 +17,10 @@ class BooleanNot extends Expr
      */
     public function __construct(Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
+                array(
+            'expr' => $expr
+                ), $attributes
         );
     }
+
 }

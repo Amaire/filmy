@@ -15,28 +15,26 @@ use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FragmentHandlerTest extends \PHPUnit_Framework_TestCase
-{
+class FragmentHandlerTest extends \PHPUnit_Framework_TestCase {
+
     private $requestStack;
 
-    public function setUp()
-    {
+    public function setUp() {
         $this->requestStack = $this->getMockBuilder('Symfony\\Component\\HttpFoundation\\RequestStack')
-            ->disableOriginalConstructor()
-            ->getMock()
+                ->disableOriginalConstructor()
+                ->getMock()
         ;
         $this->requestStack
-            ->expects($this->any())
-            ->method('getCurrentRequest')
-            ->will($this->returnValue(Request::create('/')))
+                ->expects($this->any())
+                ->method('getCurrentRequest')
+                ->will($this->returnValue(Request::create('/')))
         ;
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testRenderWhenRendererDoesNotExist()
-    {
+    public function testRenderWhenRendererDoesNotExist() {
         $handler = new FragmentHandler(array(), null, $this->requestStack);
         $handler->render('/', 'foo');
     }
@@ -44,8 +42,7 @@ class FragmentHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testRenderWithUnknownRenderer()
-    {
+    public function testRenderWithUnknownRenderer() {
         $handler = $this->getHandler($this->returnValue(new Response('foo')));
 
         $handler->render('/', 'bar');
@@ -55,32 +52,29 @@ class FragmentHandlerTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Error when rendering "http://localhost/" (Status code is 404).
      */
-    public function testDeliverWithUnsuccessfulResponse()
-    {
+    public function testDeliverWithUnsuccessfulResponse() {
         $handler = $this->getHandler($this->returnValue(new Response('foo', 404)));
 
         $handler->render('/', 'foo');
     }
 
-    public function testRender()
-    {
+    public function testRender() {
         $handler = $this->getHandler($this->returnValue(new Response('foo')), array('/', Request::create('/'), array('foo' => 'foo', 'ignore_errors' => true)));
 
         $this->assertEquals('foo', $handler->render('/', 'foo', array('foo' => 'foo')));
     }
 
-    protected function getHandler($returnValue, $arguments = array())
-    {
+    protected function getHandler($returnValue, $arguments = array()) {
         $renderer = $this->getMock('Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface');
         $renderer
-            ->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue('foo'))
+                ->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue('foo'))
         ;
         $e = $renderer
-            ->expects($this->any())
-            ->method('render')
-            ->will($returnValue)
+                ->expects($this->any())
+                ->method('render')
+                ->will($returnValue)
         ;
 
         if ($arguments) {
@@ -92,4 +86,5 @@ class FragmentHandlerTest extends \PHPUnit_Framework_TestCase
 
         return $handler;
     }
+
 }

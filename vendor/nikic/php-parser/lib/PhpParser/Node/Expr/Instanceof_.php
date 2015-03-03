@@ -9,8 +9,8 @@ use PhpParser\Node\Expr;
  * @property Expr $expr  Expression
  * @property Name|Expr $class Class name
  */
-class Instanceof_ extends Expr
-{
+class Instanceof_ extends Expr {
+
     /**
      * Constructs an instanceof check node.
      *
@@ -20,11 +20,11 @@ class Instanceof_ extends Expr
      */
     public function __construct(Expr $expr, $class, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr'  => $expr,
-                'class' => $class
-            ),
-            $attributes
+                array(
+            'expr' => $expr,
+            'class' => $class
+                ), $attributes
         );
     }
+
 }

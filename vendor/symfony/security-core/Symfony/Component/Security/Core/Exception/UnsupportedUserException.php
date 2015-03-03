@@ -17,6 +17,6 @@ namespace Symfony\Component\Security\Core\Exception;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class UnsupportedUserException extends AuthenticationServiceException
-{
+class UnsupportedUserException extends AuthenticationServiceException {
+    
 }

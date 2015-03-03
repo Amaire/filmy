@@ -18,11 +18,10 @@ use Symfony\Component\VarDumper\Cloner\Cursor;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class CliDumper extends AbstractDumper
-{
+class CliDumper extends AbstractDumper {
+
     public static $defaultColors;
     public static $defaultOutput = 'php://stdout';
-
     protected $colors;
     protected $maxStringWidth = 0;
     protected $styles = array(
@@ -41,14 +40,12 @@ class CliDumper extends AbstractDumper
         'key' => '38;5;113',
         'index' => '38;5;38',
     );
-
     protected static $controlCharsRx = '/[\x00-\x1F\x7F]/';
 
     /**
      * {@inheritdoc}
      */
-    public function __construct($output = null, $charset = null)
-    {
+    public function __construct($output = null, $charset = null) {
         parent::__construct($output, $charset);
 
         if ('\\' === DIRECTORY_SEPARATOR && false !== @getenv('ANSICON')) {
@@ -72,8 +69,7 @@ class CliDumper extends AbstractDumper
      *
      * @param bool $colors
      */
-    public function setColors($colors)
-    {
+    public function setColors($colors) {
         $this->colors = (bool) $colors;
     }
 
@@ -82,8 +78,7 @@ class CliDumper extends AbstractDumper
      *
      * @param int $maxStringWidth
      */
-    public function setMaxStringWidth($maxStringWidth)
-    {
+    public function setMaxStringWidth($maxStringWidth) {
         if (function_exists('iconv')) {
             $this->maxStringWidth = (int) $maxStringWidth;
         }
@@ -94,16 +89,14 @@ class CliDumper extends AbstractDumper
      *
      * @param array $styles A map of style names to style definitions.
      */
-    public function setStyles(array $styles)
-    {
+    public function setStyles(array $styles) {
         $this->styles = $styles + $this->styles;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function dumpScalar(Cursor $cursor, $type, $value)
-    {
+    public function dumpScalar(Cursor $cursor, $type, $value) {
         $this->dumpKey($cursor);
 
         $style = 'const';
@@ -118,13 +111,16 @@ class CliDumper extends AbstractDumper
                 $style = 'num';
 
                 switch (true) {
-                    case INF === $value:  $value = 'INF';  break;
-                    case -INF === $value: $value = '-INF'; break;
-                    case is_nan($value):  $value = 'NAN';  break;
+                    case INF === $value: $value = 'INF';
+                        break;
+                    case -INF === $value: $value = '-INF';
+                        break;
+                    case is_nan($value): $value = 'NAN';
+                        break;
                     default:
                         $value = (string) $value;
                         if (false === strpos($value, $this->decimalPoint)) {
-                            $value .= $this->decimalPoint.'0';
+                            $value .= $this->decimalPoint . '0';
                         }
                         break;
                 }
@@ -152,8 +148,7 @@ class CliDumper extends AbstractDumper
     /**
      * {@inheritdoc}
      */
-    public function dumpString(Cursor $cursor, $str, $bin, $cut)
-    {
+    public function dumpString(Cursor $cursor, $str, $bin, $cut) {
         $this->dumpKey($cursor);
 
         if ($bin) {
@@ -206,7 +201,7 @@ class CliDumper extends AbstractDumper
                     }
                 }
                 if ($lineCut) {
-                    $this->line .= '…'.$lineCut;
+                    $this->line .= '…' . $lineCut;
                     $lineCut = 0;
                 }
 
@@ -218,25 +213,24 @@ class CliDumper extends AbstractDumper
     /**
      * {@inheritdoc}
      */
-    public function enterHash(Cursor $cursor, $type, $class, $hasChild)
-    {
+    public function enterHash(Cursor $cursor, $type, $class, $hasChild) {
         $this->dumpKey($cursor);
 
         if (!preg_match('//u', $class)) {
             $class = $this->utf8Encode($class);
         }
         if (Cursor::HASH_OBJECT === $type) {
-            $prefix = 'stdClass' !== $class ? $this->style('note', $class).' {' : '{';
+            $prefix = 'stdClass' !== $class ? $this->style('note', $class) . ' {' : '{';
         } elseif (Cursor::HASH_RESOURCE === $type) {
-            $prefix = $this->style('note', ':'.$class).' {';
+            $prefix = $this->style('note', ':' . $class) . ' {';
         } else {
-            $prefix = $class ? $this->style('note', 'array:'.$class).' [' : '[';
+            $prefix = $class ? $this->style('note', 'array:' . $class) . ' [' : '[';
         }
 
         if ($cursor->softRefCount || 0 < $cursor->softRefHandle) {
-            $prefix .= $this->style('ref', (Cursor::HASH_RESOURCE === $type ? '@' : '#').(0 < $cursor->softRefHandle ? $cursor->softRefHandle : $cursor->softRefTo), array('count' => $cursor->softRefCount));
+            $prefix .= $this->style('ref', (Cursor::HASH_RESOURCE === $type ? '@' : '#') . (0 < $cursor->softRefHandle ? $cursor->softRefHandle : $cursor->softRefTo), array('count' => $cursor->softRefCount));
         } elseif ($cursor->hardRefTo && !$cursor->refIndex && $class) {
-            $prefix .= $this->style('ref', '&'.$cursor->hardRefTo, array('count' => $cursor->hardRefCount));
+            $prefix .= $this->style('ref', '&' . $cursor->hardRefTo, array('count' => $cursor->hardRefCount));
         }
 
         $this->line .= $prefix;
@@ -249,8 +243,7 @@ class CliDumper extends AbstractDumper
     /**
      * {@inheritdoc}
      */
-    public function leaveHash(Cursor $cursor, $type, $class, $hasChild, $cut)
-    {
+    public function leaveHash(Cursor $cursor, $type, $class, $hasChild, $cut) {
         $this->dumpEllipsis($cursor, $hasChild, $cut);
         $this->line .= Cursor::HASH_OBJECT === $type || Cursor::HASH_RESOURCE === $type ? '}' : ']';
         $this->dumpLine($cursor->depth);
@@ -263,8 +256,7 @@ class CliDumper extends AbstractDumper
      * @param bool   $hasChild When the dump of the hash has child item.
      * @param int    $cut      The number of items the hash has been cut by.
      */
-    protected function dumpEllipsis(Cursor $cursor, $hasChild, $cut)
-    {
+    protected function dumpEllipsis(Cursor $cursor, $hasChild, $cut) {
         if ($cut) {
             $this->line .= ' …';
             if (0 < $cut) {
@@ -281,8 +273,7 @@ class CliDumper extends AbstractDumper
      *
      * @param Cursor $cursor The Cursor position in the dump.
      */
-    protected function dumpKey(Cursor $cursor)
-    {
+    protected function dumpKey(Cursor $cursor) {
         if (null !== $key = $cursor->hashKey) {
             if ($cursor->hashKeyIsBinary) {
                 $key = $this->utf8Encode($key);
@@ -296,50 +287,50 @@ class CliDumper extends AbstractDumper
                     $style = 'index';
                 case Cursor::HASH_ASSOC:
                     if (is_int($key)) {
-                        $this->line .= $this->style($style, $key).' => ';
+                        $this->line .= $this->style($style, $key) . ' => ';
                     } else {
-                        $this->line .= $bin.'"'.$this->style($style, $key).'" => ';
+                        $this->line .= $bin . '"' . $this->style($style, $key) . '" => ';
                     }
                     break;
 
                 case Cursor::HASH_RESOURCE:
-                    $key = "\0~\0".$key;
-                    // No break;
+                    $key = "\0~\0" . $key;
+                // No break;
                 case Cursor::HASH_OBJECT:
                     if (!isset($key[0]) || "\0" !== $key[0]) {
-                        $this->line .= '+'.$bin.$this->style('public', $key).': ';
+                        $this->line .= '+' . $bin . $this->style('public', $key) . ': ';
                     } elseif (0 < strpos($key, "\0", 1)) {
                         $key = explode("\0", substr($key, 1), 2);
 
                         switch ($key[0]) {
                             case '+': // User inserted keys
                                 $attr['dynamic'] = true;
-                                $this->line .= '+'.$bin.'"'.$this->style('public', $key[1], $attr).'": ';
+                                $this->line .= '+' . $bin . '"' . $this->style('public', $key[1], $attr) . '": ';
                                 break 2;
                             case '~':
                                 $style = 'meta';
                                 break;
                             case '*':
                                 $style = 'protected';
-                                $bin = '#'.$bin;
+                                $bin = '#' . $bin;
                                 break;
                             default:
                                 $attr['class'] = $key[0];
                                 $style = 'private';
-                                $bin = '-'.$bin;
+                                $bin = '-' . $bin;
                                 break;
                         }
 
-                        $this->line .= $bin.$this->style($style, $key[1], $attr).': ';
+                        $this->line .= $bin . $this->style($style, $key[1], $attr) . ': ';
                     } else {
                         // This case should not happen
-                        $this->line .= '-'.$bin.'"'.$this->style('private', $key, array('class' => '')).'": ';
+                        $this->line .= '-' . $bin . '"' . $this->style('private', $key, array('class' => '')) . '": ';
                     }
                     break;
             }
 
             if ($cursor->hardRefTo) {
-                $this->line .= $this->style('ref', '&'.($cursor->hardRefCount ? $cursor->hardRefTo : ''), array('count' => $cursor->hardRefCount)).' ';
+                $this->line .= $this->style('ref', '&' . ($cursor->hardRefCount ? $cursor->hardRefTo : ''), array('count' => $cursor->hardRefCount)) . ' ';
             }
         }
     }
@@ -353,8 +344,7 @@ class CliDumper extends AbstractDumper
      *
      * @return string The value with style decoration.
      */
-    protected function style($style, $value, $attr = array())
-    {
+    protected function style($style, $value, $attr = array()) {
         if (null === $this->colors) {
             $this->colors = $this->supportsColors();
         }
@@ -371,8 +361,7 @@ class CliDumper extends AbstractDumper
     /**
      * @return bool Tells if the current output stream supports ANSI colors or not.
      */
-    protected function supportsColors()
-    {
+    protected function supportsColors() {
         if ($this->outputStream !== static::$defaultOutput) {
             return @(is_resource($this->outputStream) && function_exists('posix_isatty') && posix_isatty($this->outputStream));
         }
@@ -418,11 +407,11 @@ class CliDumper extends AbstractDumper
     /**
      * {@inheritdoc}
      */
-    protected function dumpLine($depth)
-    {
+    protected function dumpLine($depth) {
         if ($this->colors) {
             $this->line = sprintf("\033[%sm%s\033[m", $this->styles['default'], $this->line);
         }
         parent::dumpLine($depth);
     }
+
 }

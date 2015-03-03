@@ -17,8 +17,8 @@ namespace Symfony\Component\Security\Core\Authentication\RememberMe;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface PersistentTokenInterface
-{
+interface PersistentTokenInterface {
+
     /**
      * Returns the class of the user.
      *

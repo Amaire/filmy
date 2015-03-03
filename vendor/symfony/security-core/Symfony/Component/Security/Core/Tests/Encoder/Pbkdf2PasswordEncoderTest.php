@@ -13,17 +13,15 @@ namespace Symfony\Component\Security\Core\Tests\Encoder;
 
 use Symfony\Component\Security\Core\Encoder\Pbkdf2PasswordEncoder;
 
-class Pbkdf2PasswordEncoderTest extends \PHPUnit_Framework_TestCase
-{
-    public function testIsPasswordValid()
-    {
+class Pbkdf2PasswordEncoderTest extends \PHPUnit_Framework_TestCase {
+
+    public function testIsPasswordValid() {
         $encoder = new Pbkdf2PasswordEncoder('sha256', false, 1, 40);
 
         $this->assertTrue($encoder->isPasswordValid('c1232f10f62715fda06ae7c0a2037ca19b33cf103b727ba56d870c11f290a2ab106974c75607c8a3', 'password', ''));
     }
 
-    public function testEncodePassword()
-    {
+    public function testEncodePassword() {
         $encoder = new Pbkdf2PasswordEncoder('sha256', false, 1, 40);
         $this->assertSame('c1232f10f62715fda06ae7c0a2037ca19b33cf103b727ba56d870c11f290a2ab106974c75607c8a3', $encoder->encodePassword('password', ''));
 
@@ -37,8 +35,7 @@ class Pbkdf2PasswordEncoderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      */
-    public function testEncodePasswordAlgorithmDoesNotExist()
-    {
+    public function testEncodePasswordAlgorithmDoesNotExist() {
         $encoder = new Pbkdf2PasswordEncoder('foobar');
         $encoder->encodePassword('password', '');
     }
@@ -46,17 +43,16 @@ class Pbkdf2PasswordEncoderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      */
-    public function testEncodePasswordLength()
-    {
+    public function testEncodePasswordLength() {
         $encoder = new Pbkdf2PasswordEncoder('foobar');
 
         $encoder->encodePassword(str_repeat('a', 5000), 'salt');
     }
 
-    public function testCheckPasswordLength()
-    {
+    public function testCheckPasswordLength() {
         $encoder = new Pbkdf2PasswordEncoder('foobar');
 
         $this->assertFalse($encoder->isPasswordValid('encoded', str_repeat('a', 5000), 'salt'));
     }
+
 }

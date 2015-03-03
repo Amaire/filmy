@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class MessageDigestPasswordEncoder extends BasePasswordEncoder
-{
+class MessageDigestPasswordEncoder extends BasePasswordEncoder {
+
     private $algorithm;
     private $encodeHashAsBase64;
     private $iterations;
@@ -31,8 +31,7 @@ class MessageDigestPasswordEncoder extends BasePasswordEncoder
      * @param bool   $encodeHashAsBase64 Whether to base64 encode the password hash
      * @param int    $iterations         The number of iterations to use to stretch the password hash
      */
-    public function __construct($algorithm = 'sha512', $encodeHashAsBase64 = true, $iterations = 5000)
-    {
+    public function __construct($algorithm = 'sha512', $encodeHashAsBase64 = true, $iterations = 5000) {
         $this->algorithm = $algorithm;
         $this->encodeHashAsBase64 = $encodeHashAsBase64;
         $this->iterations = $iterations;
@@ -41,8 +40,7 @@ class MessageDigestPasswordEncoder extends BasePasswordEncoder
     /**
      * {@inheritdoc}
      */
-    public function encodePassword($raw, $salt)
-    {
+    public function encodePassword($raw, $salt) {
         if ($this->isPasswordTooLong($raw)) {
             throw new BadCredentialsException('Invalid password.');
         }
@@ -56,7 +54,7 @@ class MessageDigestPasswordEncoder extends BasePasswordEncoder
 
         // "stretch" hash
         for ($i = 1; $i < $this->iterations; $i++) {
-            $digest = hash($this->algorithm, $digest.$salted, true);
+            $digest = hash($this->algorithm, $digest . $salted, true);
         }
 
         return $this->encodeHashAsBase64 ? base64_encode($digest) : bin2hex($digest);
@@ -65,8 +63,8 @@ class MessageDigestPasswordEncoder extends BasePasswordEncoder
     /**
      * {@inheritdoc}
      */
-    public function isPasswordValid($encoded, $raw, $salt)
-    {
+    public function isPasswordValid($encoded, $raw, $salt) {
         return !$this->isPasswordTooLong($raw) && $this->comparePasswords($encoded, $this->encodePassword($raw, $salt));
     }
+
 }

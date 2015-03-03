@@ -25,14 +25,14 @@ use Monolog\Formatter\LineFormatter;
  *
  * @author Thomas Tourlourat <thomas@tourlourat.com>
  */
-class RedisHandler extends AbstractProcessingHandler
-{
+class RedisHandler extends AbstractProcessingHandler {
+
     private $redisClient;
     private $redisKey;
 
     # redis instance, key to use
-    public function __construct($redis, $key, $level = Logger::DEBUG, $bubble = true)
-    {
+
+    public function __construct($redis, $key, $level = Logger::DEBUG, $bubble = true) {
         if (!(($redis instanceof \Predis\Client) || ($redis instanceof \Redis))) {
             throw new \InvalidArgumentException('Predis\Client or Redis instance required');
         }
@@ -43,16 +43,15 @@ class RedisHandler extends AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
 
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         $this->redisClient->rpush($this->redisKey, $record["formatted"]);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function getDefaultFormatter()
-    {
+    protected function getDefaultFormatter() {
         return new LineFormatter();
     }
+
 }

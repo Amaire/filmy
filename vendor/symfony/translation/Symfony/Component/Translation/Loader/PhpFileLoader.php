@@ -22,15 +22,14 @@ use Symfony\Component\Config\Resource\FileResource;
  *
  * @api
  */
-class PhpFileLoader extends ArrayLoader implements LoaderInterface
-{
+class PhpFileLoader extends ArrayLoader implements LoaderInterface {
+
     /**
      * {@inheritdoc}
      *
      * @api
      */
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -46,4 +45,5 @@ class PhpFileLoader extends ArrayLoader implements LoaderInterface
 
         return $catalogue;
     }
+
 }

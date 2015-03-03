@@ -5,8 +5,8 @@ namespace Matcher;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\MatcherInterface;
 
-class FileHasContentsMatcher implements MatcherInterface
-{
+class FileHasContentsMatcher implements MatcherInterface {
+
     /**
      * Checks if matcher supports provided subject and matcher name.
      *
@@ -16,8 +16,7 @@ class FileHasContentsMatcher implements MatcherInterface
      *
      * @return Boolean
      */
-    public function supports($name, $subject, array $arguments)
-    {
+    public function supports($name, $subject, array $arguments) {
         return ('haveContents' == $name && is_string($subject));
     }
 
@@ -28,16 +27,12 @@ class FileHasContentsMatcher implements MatcherInterface
      * @param mixed $subject
      * @param array $arguments
      */
-    public function positiveMatch($name, $subject, array $arguments)
-    {
+    public function positiveMatch($name, $subject, array $arguments) {
         $path = $subject;
         $expectedContents = $arguments[0];
         if ($expectedContents != file_get_contents($path)) {
             throw new FailureException(sprintf(
-                "File at '%s' did not contain expected contents.\nExpected: '%s'\nActual: '%s'",
-                $path,
-                $expectedContents,
-                file_get_contents($path)
+                    "File at '%s' did not contain expected contents.\nExpected: '%s'\nActual: '%s'", $path, $expectedContents, file_get_contents($path)
             ));
         }
     }
@@ -49,8 +44,7 @@ class FileHasContentsMatcher implements MatcherInterface
      * @param mixed $subject
      * @param array $arguments
      */
-    public function negativeMatch($name, $subject, array $arguments)
-    {
+    public function negativeMatch($name, $subject, array $arguments) {
         throw new FailureException('Negative file contents matcher not implemented');
     }
 
@@ -59,8 +53,8 @@ class FileHasContentsMatcher implements MatcherInterface
      *
      * @return integer
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 51;
     }
+
 }

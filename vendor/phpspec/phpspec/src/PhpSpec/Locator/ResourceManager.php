@@ -15,8 +15,8 @@ namespace PhpSpec\Locator;
 
 use RuntimeException;
 
-class ResourceManager implements ResourceManagerInterface
-{
+class ResourceManager implements ResourceManagerInterface {
+
     /**
      * @var ResourceLocatorInterface[]
      */
@@ -25,13 +25,12 @@ class ResourceManager implements ResourceManagerInterface
     /**
      * @param ResourceLocatorInterface $locator
      */
-    public function registerLocator(ResourceLocatorInterface $locator)
-    {
+    public function registerLocator(ResourceLocatorInterface $locator) {
         $this->locators[] = $locator;
 
         @usort($this->locators, function ($locator1, $locator2) {
-            return $locator2->getPriority() - $locator1->getPriority();
-        });
+                    return $locator2->getPriority() - $locator1->getPriority();
+                });
     }
 
     /**
@@ -39,8 +38,7 @@ class ResourceManager implements ResourceManagerInterface
      *
      * @return ResourceInterface[]
      */
-    public function locateResources($query)
-    {
+    public function locateResources($query) {
         $resources = array();
         foreach ($this->locators as $locator) {
             if (empty($query)) {
@@ -65,8 +63,7 @@ class ResourceManager implements ResourceManagerInterface
      *
      * @throws \RuntimeException
      */
-    public function createResource($classname)
-    {
+    public function createResource($classname) {
         foreach ($this->locators as $locator) {
             if ($locator->supportsClass($classname)) {
                 return $locator->createResource($classname);
@@ -74,7 +71,7 @@ class ResourceManager implements ResourceManagerInterface
         }
 
         throw new RuntimeException(sprintf(
-            'Can not find appropriate suite scope for class `%s`.', $classname
+                'Can not find appropriate suite scope for class `%s`.', $classname
         ));
     }
 
@@ -83,8 +80,7 @@ class ResourceManager implements ResourceManagerInterface
      *
      * @return ResourceInterface[]
      */
-    private function removeDuplicateResources(array $resources)
-    {
+    private function removeDuplicateResources(array $resources) {
         $filteredResources = array();
 
         foreach ($resources as $resource) {
@@ -95,4 +91,5 @@ class ResourceManager implements ResourceManagerInterface
 
         return array_values($filteredResources);
     }
+
 }

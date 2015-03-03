@@ -19,8 +19,8 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * Class MethodCallEvent holds information about method call events
  */
-class MethodCallEvent extends Event implements EventInterface
-{
+class MethodCallEvent extends Event implements EventInterface {
+
     /**
      * @var \PhpSpec\Loader\Node\ExampleNode
      */
@@ -53,8 +53,7 @@ class MethodCallEvent extends Event implements EventInterface
      * @param array       $arguments
      * @param mixed       $returnValue
      */
-    public function __construct(ExampleNode $example, $subject, $method, $arguments, $returnValue = null)
-    {
+    public function __construct(ExampleNode $example, $subject, $method, $arguments, $returnValue = null) {
         $this->example = $example;
         $this->subject = $subject;
         $this->method = $method;
@@ -65,56 +64,50 @@ class MethodCallEvent extends Event implements EventInterface
     /**
      * @return ExampleNode
      */
-    public function getExample()
-    {
+    public function getExample() {
         return $this->example;
     }
 
     /**
      * @return \PhpSpec\Loader\Node\SpecificationNode
      */
-    public function getSpecification()
-    {
+    public function getSpecification() {
         return $this->example->getSpecification();
     }
 
     /**
      * @return \PhpSpec\Loader\Suite
      */
-    public function getSuite()
-    {
+    public function getSuite() {
         return $this->example->getSpecification()->getSuite();
     }
 
     /**
      * @return mixed
      */
-    public function getSubject()
-    {
+    public function getSubject() {
         return $this->subject;
     }
 
     /**
      * @return string
      */
-    public function getMethod()
-    {
+    public function getMethod() {
         return $this->method;
     }
 
     /**
      * @return array
      */
-    public function getArguments()
-    {
+    public function getArguments() {
         return $this->arguments;
     }
 
     /**
      * @return mixed
      */
-    public function getReturnValue()
-    {
+    public function getReturnValue() {
         return $this->returnValue;
     }
+
 }

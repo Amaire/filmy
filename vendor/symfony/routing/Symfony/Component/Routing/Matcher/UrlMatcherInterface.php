@@ -22,8 +22,8 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
  *
  * @api
  */
-interface UrlMatcherInterface extends RequestContextAwareInterface
-{
+interface UrlMatcherInterface extends RequestContextAwareInterface {
+
     /**
      * Tries to match a URL path with a set of routes.
      *

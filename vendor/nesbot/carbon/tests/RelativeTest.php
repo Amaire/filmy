@@ -11,10 +11,9 @@
 
 use Carbon\Carbon;
 
-class RelativeTest extends TestFixture
-{
-    public function testSecondsSinceMidnight()
-    {
+class RelativeTest extends TestFixture {
+
+    public function testSecondsSinceMidnight() {
         $d = Carbon::today()->addSeconds(30);
         $this->assertSame(30, $d->secondsSinceMidnight());
 
@@ -28,8 +27,7 @@ class RelativeTest extends TestFixture
         $this->assertSame(42, $d->secondsSinceMidnight());
     }
 
-    public function testSecondsUntilEndOfDay()
-    {
+    public function testSecondsUntilEndOfDay() {
         $d = Carbon::today()->endOfDay();
         $this->assertSame(0, $d->secondsUntilEndOfDay());
 
@@ -39,7 +37,8 @@ class RelativeTest extends TestFixture
         $d = Carbon::create(2014, 10, 24, 12, 34, 56);
         $this->assertSame(41103, $d->secondsUntilEndOfDay());
 
-         $d = Carbon::create(2014, 10, 24, 0, 0, 0);
+        $d = Carbon::create(2014, 10, 24, 0, 0, 0);
         $this->assertSame(86399, $d->secondsUntilEndOfDay());
     }
+
 }

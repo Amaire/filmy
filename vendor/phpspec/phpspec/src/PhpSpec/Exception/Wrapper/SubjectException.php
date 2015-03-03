@@ -18,6 +18,6 @@ use PhpSpec\Exception\Exception;
 /**
  * Class SubjectException holds information about the subject exception
  */
-class SubjectException extends Exception
-{
+class SubjectException extends Exception {
+    
 }

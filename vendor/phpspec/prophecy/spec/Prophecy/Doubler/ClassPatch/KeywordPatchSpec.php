@@ -6,15 +6,13 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 
-class KeywordPatchSpec extends ObjectBehavior
-{
-    function it_is_a_patch()
-    {
+class KeywordPatchSpec extends ObjectBehavior {
+
+    function it_is_a_patch() {
         $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
     }
 
-    function its_priority_is_50()
-    {
+    function its_priority_is_50() {
         $this->getPriority()->shouldReturn(50);
     }
 
@@ -24,8 +22,7 @@ class KeywordPatchSpec extends ObjectBehavior
      * @param \Prophecy\Doubler\Generator\Node\MethodNode $method2
      * @param \Prophecy\Doubler\Generator\Node\MethodNode $method3
      */
-    function it_will_remove_echo_and_eval_methods($node, $method1, $method2, $method3)
-    {
+    function it_will_remove_echo_and_eval_methods($node, $method1, $method2, $method3) {
         $node->removeMethod('eval')->shouldBeCalled();
         $node->removeMethod('echo')->shouldBeCalled();
 
@@ -41,4 +38,5 @@ class KeywordPatchSpec extends ObjectBehavior
 
         $this->apply($node);
     }
+
 }

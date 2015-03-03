@@ -23,44 +23,39 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
  *
  * Shows, searches and replays readline history. Not too shabby.
  */
-class HistoryCommand extends Command
-{
+class HistoryCommand extends Command {
+
     /**
      * Set the Shell's Readline service.
      *
      * @param Readline $readline
      */
-    public function setReadline(Readline $readline)
-    {
+    public function setReadline(Readline $readline) {
         $this->readline = $readline;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
-            ->setName('history')
-            ->setAliases(array('hist'))
-            ->setDefinition(array(
-                new InputOption('show',        's', InputOption::VALUE_REQUIRED, 'Show the given range of lines'),
-                new InputOption('head',        'H', InputOption::VALUE_REQUIRED, 'Display the first N items.'),
-                new InputOption('tail',        'T', InputOption::VALUE_REQUIRED, 'Display the last N items.'),
-
-                new InputOption('grep',        'G', InputOption::VALUE_REQUIRED, 'Show lines matching the given pattern (string or regex).'),
-                new InputOption('insensitive', 'i', InputOption::VALUE_NONE,     'Case insensitive search (requires --grep).'),
-                new InputOption('invert',      'v', InputOption::VALUE_NONE,     'Inverted search (requires --grep).'),
-
-                new InputOption('no-numbers',  'N', InputOption::VALUE_NONE,     'Omit line numbers.'),
-
-                new InputOption('save',        '',  InputOption::VALUE_REQUIRED, 'Save history to a file.'),
-                new InputOption('replay',      '',  InputOption::VALUE_NONE,     'Replay'),
-                new InputOption('clear',       '',  InputOption::VALUE_NONE,     'Clear the history.'),
-            ))
-            ->setDescription('Show the Psy Shell history.')
-            ->setHelp(
-                <<<HELP
+                ->setName('history')
+                ->setAliases(array('hist'))
+                ->setDefinition(array(
+                    new InputOption('show', 's', InputOption::VALUE_REQUIRED, 'Show the given range of lines'),
+                    new InputOption('head', 'H', InputOption::VALUE_REQUIRED, 'Display the first N items.'),
+                    new InputOption('tail', 'T', InputOption::VALUE_REQUIRED, 'Display the last N items.'),
+                    new InputOption('grep', 'G', InputOption::VALUE_REQUIRED, 'Show lines matching the given pattern (string or regex).'),
+                    new InputOption('insensitive', 'i', InputOption::VALUE_NONE, 'Case insensitive search (requires --grep).'),
+                    new InputOption('invert', 'v', InputOption::VALUE_NONE, 'Inverted search (requires --grep).'),
+                    new InputOption('no-numbers', 'N', InputOption::VALUE_NONE, 'Omit line numbers.'),
+                    new InputOption('save', '', InputOption::VALUE_REQUIRED, 'Save history to a file.'),
+                    new InputOption('replay', '', InputOption::VALUE_NONE, 'Replay'),
+                    new InputOption('clear', '', InputOption::VALUE_NONE, 'Clear the history.'),
+                ))
+                ->setDescription('Show the Psy Shell history.')
+                ->setHelp(
+                        <<<HELP
 Show, search, save or replay the Psy Shell history.
 
 e.g.
@@ -69,25 +64,22 @@ e.g.
 <return>>>> history --clear</return>
 <return>>>> history --tail 1000 --save somefile.txt</return>
 HELP
-            );
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $this->validateOnlyOne($input, array('show', 'head', 'tail'));
         $this->validateOnlyOne($input, array('save', 'replay', 'clear'));
 
         $history = $this->getHistorySlice(
-            $input->getOption('show'),
-            $input->getOption('head'),
-            $input->getOption('tail')
+                $input->getOption('show'), $input->getOption('head'), $input->getOption('tail')
         );
         $highlighted = false;
 
-        $invert      = $input->getOption('invert');
+        $invert = $input->getOption('invert');
         $insensitive = $input->getOption('insensitive');
         if ($pattern = $input->getOption('grep')) {
             if (substr($pattern, 0, 1) !== '/' || substr($pattern, -1) !== '/' || strlen($pattern) < 3) {
@@ -100,14 +92,14 @@ HELP
 
             $this->validateRegex($pattern);
 
-            $matches     = array();
+            $matches = array();
             $highlighted = array();
             foreach ($history as $i => $line) {
                 if (preg_match($pattern, $line, $matches) xor $invert) {
                     if (!$invert) {
                         $chunks = explode($matches[0], $history[$i]);
                         $chunks = array_map(array(__CLASS__, 'escape'), $chunks);
-                        $glue   = sprintf('<urgent>%s</urgent>', self::escape($matches[0]));
+                        $glue = sprintf('<urgent>%s</urgent>', self::escape($matches[0]));
 
                         $highlighted[$i] = implode($glue, $chunks);
                     }
@@ -142,7 +134,7 @@ HELP
                 $type = $type | ShellOutput::OUTPUT_RAW;
             }
 
-            $output->page($highlighted ?: $history, $type);
+            $output->page($highlighted ? : $history, $type);
         }
     }
 
@@ -153,8 +145,7 @@ HELP
      *
      * @return array [ start, end ]
      */
-    private function extractRange($range)
-    {
+    private function extractRange($range) {
         if (preg_match('/^\d+$/', $range)) {
             return array($range, $range + 1);
         }
@@ -162,7 +153,7 @@ HELP
         $matches = array();
         if ($range !== '..' && preg_match('/^(\d*)\.\.(\d*)$/', $range, $matches)) {
             $start = $matches[1] ? intval($matches[1]) : 0;
-            $end   = $matches[2] ? intval($matches[2]) + 1 : PHP_INT_MAX;
+            $end = $matches[2] ? intval($matches[2]) + 1 : PHP_INT_MAX;
 
             return array($start, $end);
         }
@@ -179,8 +170,7 @@ HELP
      *
      * @return array A slilce of history.
      */
-    private function getHistorySlice($show, $head, $tail)
-    {
+    private function getHistorySlice($show, $head, $tail) {
         $history = $this->readline->listHistory();
 
         if ($show) {
@@ -191,14 +181,14 @@ HELP
                 throw new \InvalidArgumentException('Please specify an integer argument for --head.');
             }
 
-            $start  = 0;
+            $start = 0;
             $length = intval($head);
         } elseif ($tail) {
             if (!preg_match('/^\d+$/', $tail)) {
                 throw new \InvalidArgumentException('Please specify an integer argument for --tail.');
             }
 
-            $start  = count($history) - $tail;
+            $start = count($history) - $tail;
             $length = intval($tail) + 1;
         } else {
             return $history;
@@ -214,8 +204,7 @@ HELP
      *
      * @return boolean
      */
-    private function validateRegex($pattern)
-    {
+    private function validateRegex($pattern) {
         set_error_handler(array('Psy\Exception\ErrorException', 'throwException'));
         try {
             preg_match($pattern, '');
@@ -231,8 +220,7 @@ HELP
      * @param InputInterface $input
      * @param array          $options
      */
-    private function validateOnlyOne(InputInterface $input, array $options)
-    {
+    private function validateOnlyOne(InputInterface $input, array $options) {
         $count = 0;
         foreach ($options as $opt) {
             if ($input->getOption($opt)) {
@@ -248,13 +236,12 @@ HELP
     /**
      * Clear the readline history.
      */
-    private function clearHistory()
-    {
+    private function clearHistory() {
         $this->readline->clearHistory();
     }
 
-    public static function escape($string)
-    {
+    public static function escape($string) {
         return OutputFormatter::escape($string);
     }
+
 }

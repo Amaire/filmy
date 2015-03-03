@@ -18,8 +18,8 @@ namespace Symfony\Component\Translation;
  *
  * @api
  */
-interface TranslatorInterface
-{
+interface TranslatorInterface {
+
     /**
      * Translates the given message.
      *

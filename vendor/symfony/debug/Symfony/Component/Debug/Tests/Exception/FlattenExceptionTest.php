@@ -27,10 +27,9 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
-class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
-{
-    public function testStatusCode()
-    {
+class FlattenExceptionTest extends \PHPUnit_Framework_TestCase {
+
+    public function testStatusCode() {
         $flattened = FlattenException::create(new \RuntimeException(), 403);
         $this->assertEquals('403', $flattened->getStatusCode());
 
@@ -80,8 +79,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('415', $flattened->getStatusCode());
     }
 
-    public function testHeadersForHttpException()
-    {
+    public function testHeadersForHttpException() {
         $flattened = FlattenException::create(new MethodNotAllowedHttpException(array('POST')));
         $this->assertEquals(array('Allow' => 'POST'), $flattened->getHeaders());
 
@@ -104,8 +102,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testFlattenHttpException(\Exception $exception, $statusCode)
-    {
+    public function testFlattenHttpException(\Exception $exception, $statusCode) {
         $flattened = FlattenException::create($exception);
         $flattened2 = FlattenException::create($exception);
 
@@ -119,8 +116,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testPrevious(\Exception $exception, $statusCode)
-    {
+    public function testPrevious(\Exception $exception, $statusCode) {
         $flattened = FlattenException::create($exception);
         $flattened2 = FlattenException::create($exception);
 
@@ -134,8 +130,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testLine(\Exception $exception)
-    {
+    public function testLine(\Exception $exception) {
         $flattened = FlattenException::create($exception);
         $this->assertSame($exception->getLine(), $flattened->getLine());
     }
@@ -143,8 +138,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testFile(\Exception $exception)
-    {
+    public function testFile(\Exception $exception) {
         $flattened = FlattenException::create($exception);
         $this->assertSame($exception->getFile(), $flattened->getFile());
     }
@@ -152,8 +146,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testToArray(\Exception $exception, $statusCode)
-    {
+    public function testToArray(\Exception $exception, $statusCode) {
         $flattened = FlattenException::create($exception);
         $flattened->setTrace(array(), 'foo.php', 123);
 
@@ -162,22 +155,20 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
                 'message' => 'test',
                 'class' => 'Exception',
                 'trace' => array(array(
-                    'namespace' => '', 'short_class' => '', 'class' => '', 'type' => '', 'function' => '', 'file' => 'foo.php', 'line' => 123,
-                    'args' => array(),
-                )),
+                        'namespace' => '', 'short_class' => '', 'class' => '', 'type' => '', 'function' => '', 'file' => 'foo.php', 'line' => 123,
+                        'args' => array(),
+                    )),
             ),
-        ), $flattened->toArray());
+                ), $flattened->toArray());
     }
 
-    public function flattenDataProvider()
-    {
+    public function flattenDataProvider() {
         return array(
             array(new \Exception('test', 123), 500),
         );
     }
 
-    public function testRecursionInArguments()
-    {
+    public function testRecursionInArguments() {
         $a = array('foo', array(2, &$a));
         $exception = $this->createException($a);
 
@@ -186,8 +177,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('*DEEP NESTED ARRAY*', serialize($trace));
     }
 
-    public function testTooBigArray()
-    {
+    public function testTooBigArray() {
         $a = array();
         for ($i = 0; $i < 20; $i++) {
             for ($j = 0; $j < 50; $j++) {
@@ -208,26 +198,23 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertNotContains('*value1*', $serializeTrace);
     }
 
-    private function createException($foo)
-    {
+    private function createException($foo) {
         return new \Exception();
     }
 
-    public function testSetTraceIncompleteClass()
-    {
+    public function testSetTraceIncompleteClass() {
         $flattened = FlattenException::create(new \Exception('test', 123));
         $flattened->setTrace(
-            array(
                 array(
-                    'file' => __FILE__,
-                    'line' => 123,
-                    'function' => 'test',
-                    'args' => array(
-                        unserialize('O:14:"BogusTestClass":0:{}'),
-                    ),
+            array(
+                'file' => __FILE__,
+                'line' => 123,
+                'function' => 'test',
+                'args' => array(
+                    unserialize('O:14:"BogusTestClass":0:{}'),
                 ),
             ),
-            'foo.php', 123
+                ), 'foo.php', 123
         );
 
         $this->assertEquals(array(
@@ -251,6 +238,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ),
-        ), $flattened->toArray());
+                ), $flattened->toArray());
     }
+
 }

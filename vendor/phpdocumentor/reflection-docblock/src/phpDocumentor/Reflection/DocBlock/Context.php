@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -19,17 +20,17 @@ namespace phpDocumentor\Reflection\DocBlock;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class Context
-{
+class Context {
+
     /** @var string The current namespace. */
     protected $namespace = '';
 
     /** @var array List of namespace aliases => Fully Qualified Namespace. */
     protected $namespace_aliases = array();
-    
+
     /** @var string Name of the structural element, within the namespace. */
     protected $lsen = '';
-    
+
     /**
      * Cteates a new context.
      * @param string $namespace         The namespace where this DocBlock
@@ -40,9 +41,7 @@ class Context
      *     the namespace.
      */
     public function __construct(
-        $namespace = '',
-        array $namespace_aliases = array(),
-        $lsen = ''
+    $namespace = '', array $namespace_aliases = array(), $lsen = ''
     ) {
         if (!empty($namespace)) {
             $this->setNamespace($namespace);
@@ -54,29 +53,26 @@ class Context
     /**
      * @return string The namespace where this DocBlock resides in.
      */
-    public function getNamespace()
-    {
+    public function getNamespace() {
         return $this->namespace;
     }
 
     /**
      * @return array List of namespace aliases => Fully Qualified Namespace.
      */
-    public function getNamespaceAliases()
-    {
+    public function getNamespaceAliases() {
         return $this->namespace_aliases;
     }
-    
+
     /**
      * Returns the Local Structural Element Name.
      * 
      * @return string Name of the structural element, within the namespace.
      */
-    public function getLSEN()
-    {
+    public function getLSEN() {
         return $this->lsen;
     }
-    
+
     /**
      * Sets a new namespace.
      * 
@@ -88,19 +84,17 @@ class Context
      * 
      * @return $this
      */
-    public function setNamespace($namespace)
-    {
-        if ('global' !== $namespace
-            && 'default' !== $namespace
+    public function setNamespace($namespace) {
+        if ('global' !== $namespace && 'default' !== $namespace
         ) {
             // Srip leading and trailing slash
-            $this->namespace = trim((string)$namespace, '\\');
+            $this->namespace = trim((string) $namespace, '\\');
         } else {
             $this->namespace = '';
         }
         return $this;
     }
-    
+
     /**
      * Sets the namespace aliases, replacing all previous ones.
      * 
@@ -109,15 +103,14 @@ class Context
      * 
      * @return $this
      */
-    public function setNamespaceAliases(array $namespace_aliases)
-    {
+    public function setNamespaceAliases(array $namespace_aliases) {
         $this->namespace_aliases = array();
         foreach ($namespace_aliases as $alias => $fqnn) {
             $this->setNamespaceAlias($alias, $fqnn);
         }
         return $this;
     }
-    
+
     /**
      * Adds a namespace alias to the context.
      * 
@@ -129,12 +122,11 @@ class Context
      * 
      * @return $this
      */
-    public function setNamespaceAlias($alias, $fqnn)
-    {
-        $this->namespace_aliases[$alias] = '\\' . trim((string)$fqnn, '\\');
+    public function setNamespaceAlias($alias, $fqnn) {
+        $this->namespace_aliases[$alias] = '\\' . trim((string) $fqnn, '\\');
         return $this;
     }
-    
+
     /**
      * Sets a new Local Structural Element Name.
      * 
@@ -146,9 +138,9 @@ class Context
      * 
      * @return $this
      */
-    public function setLSEN($lsen)
-    {
-        $this->lsen = (string)$lsen;
+    public function setLSEN($lsen) {
+        $this->lsen = (string) $lsen;
         return $this;
     }
+
 }

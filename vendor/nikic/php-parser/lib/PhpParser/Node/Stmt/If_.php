@@ -10,8 +10,7 @@ use PhpParser\Node;
  * @property Node\Stmt\ElseIf_[]  $elseifs Elseif clauses
  * @property null|Node\Stmt\Else_ $else    Else clause
  */
-class If_ extends Node\Stmt
-{
+class If_ extends Node\Stmt {
 
     /**
      * Constructs an if node.
@@ -25,14 +24,14 @@ class If_ extends Node\Stmt
      */
     public function __construct(Node\Expr $cond, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'cond'    => $cond,
-                'stmts'   => isset($subNodes['stmts'])   ? $subNodes['stmts']   : array(),
-                'elseifs' => isset($subNodes['elseifs']) ? $subNodes['elseifs'] : array(),
-                'else'    => isset($subNodes['else'])    ? $subNodes['else']    : null,
-            ),
-            $attributes
+                array(
+            'cond' => $cond,
+            'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
+            'elseifs' => isset($subNodes['elseifs']) ? $subNodes['elseifs'] : array(),
+            'else' => isset($subNodes['else']) ? $subNodes['else'] : null,
+                ), $attributes
         );
         $this->cond = $cond;
     }
+
 }

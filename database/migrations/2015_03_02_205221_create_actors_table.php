@@ -18,7 +18,6 @@ class CreateActorsTable extends Migration {
             $table->integer('age');
             $table->timestamps();
         });
-        
     }
 
     /**

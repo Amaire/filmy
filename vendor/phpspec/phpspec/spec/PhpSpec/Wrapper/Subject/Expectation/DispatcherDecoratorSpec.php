@@ -4,28 +4,23 @@ namespace spec\PhpSpec\Wrapper\Subject\Expectation;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-
 use PhpSpec\Wrapper\Subject\Expectation\ExpectationInterface;
 use PhpSpec\Loader\Node\ExampleNode;
 use PhpSpec\Matcher\MatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 use PhpSpec\Event\ExpectationEvent;
 
-class DispatcherDecoratorSpec extends ObjectBehavior
-{
-    function let(ExpectationInterface $expectation, EventDispatcherInterface $dispatcher, MatcherInterface $matcher, ExampleNode $example)
-    {
+class DispatcherDecoratorSpec extends ObjectBehavior {
+
+    function let(ExpectationInterface $expectation, EventDispatcherInterface $dispatcher, MatcherInterface $matcher, ExampleNode $example) {
         $this->beConstructedWith($expectation, $dispatcher, $matcher, $example);
     }
 
-    function it_implements_the_interface_of_the_decorated()
-    {
+    function it_implements_the_interface_of_the_decorated() {
         $this->shouldImplement('PhpSpec\Wrapper\Subject\Expectation\ExpectationInterface');
     }
 
-    function it_dispatches_before_and_after_events(EventDispatcherInterface $dispatcher)
-    {
+    function it_dispatches_before_and_after_events(EventDispatcherInterface $dispatcher) {
         $alias = 'be';
         $subject = new \stdClass();
         $arguments = array();
@@ -35,8 +30,7 @@ class DispatcherDecoratorSpec extends ObjectBehavior
         $this->match($alias, $subject, $arguments);
     }
 
-    function it_decorates_expectation_with_failed_event(ExpectationInterface $expectation, EventDispatcherInterface $dispatcher)
-    {
+    function it_decorates_expectation_with_failed_event(ExpectationInterface $expectation, EventDispatcherInterface $dispatcher) {
         $alias = 'be';
         $subject = new \stdClass();
         $arguments = array();
@@ -49,8 +43,7 @@ class DispatcherDecoratorSpec extends ObjectBehavior
         $this->shouldThrow('PhpSpec\Exception\Example\FailureException')->duringMatch($alias, $subject, $arguments);
     }
 
-    function it_decorates_expectation_with_broken_event(ExpectationInterface $expectation, EventDispatcherInterface $dispatcher)
-    {
+    function it_decorates_expectation_with_broken_event(ExpectationInterface $expectation, EventDispatcherInterface $dispatcher) {
         $alias = 'be';
         $subject = new \stdClass();
         $arguments = array();
@@ -62,4 +55,5 @@ class DispatcherDecoratorSpec extends ObjectBehavior
 
         $this->shouldThrow('\RuntimeException')->duringMatch($alias, $subject, $arguments);
     }
+
 }

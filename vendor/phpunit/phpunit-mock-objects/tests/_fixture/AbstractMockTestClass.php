@@ -1,10 +1,11 @@
 <?php
-abstract class AbstractMockTestClass
-{
+
+abstract class AbstractMockTestClass {
+
     abstract public function doSomething();
 
-    public function returnAnything()
-    {
+    public function returnAnything() {
         return 1;
     }
+
 }

@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Util\StringUtils;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class BasePasswordEncoder implements PasswordEncoderInterface
-{
+abstract class BasePasswordEncoder implements PasswordEncoderInterface {
+
     const MAX_PASSWORD_LENGTH = 4096;
 
     /**
@@ -29,8 +29,7 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
      *
      * @return array An array where the first element is the password and the second the salt
      */
-    protected function demergePasswordAndSalt($mergedPasswordSalt)
-    {
+    protected function demergePasswordAndSalt($mergedPasswordSalt) {
         if (empty($mergedPasswordSalt)) {
             return array('', '');
         }
@@ -57,8 +56,7 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
      *
      * @throws \InvalidArgumentException
      */
-    protected function mergePasswordAndSalt($password, $salt)
-    {
+    protected function mergePasswordAndSalt($password, $salt) {
         if (empty($salt)) {
             return $password;
         }
@@ -67,7 +65,7 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
             throw new \InvalidArgumentException('Cannot use { or } in salt.');
         }
 
-        return $password.'{'.$salt.'}';
+        return $password . '{' . $salt . '}';
     }
 
     /**
@@ -81,8 +79,7 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
      *
      * @return bool true if the two passwords are the same, false otherwise
      */
-    protected function comparePasswords($password1, $password2)
-    {
+    protected function comparePasswords($password1, $password2) {
         return StringUtils::equals($password1, $password2);
     }
 
@@ -93,8 +90,8 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
      *
      * @return bool true if the password is too long, false otherwise
      */
-    protected function isPasswordTooLong($password)
-    {
+    protected function isPasswordTooLong($password) {
         return strlen($password) > self::MAX_PASSWORD_LENGTH;
     }
+
 }

@@ -2,8 +2,8 @@
 
 namespace PhpParser;
 
-class NodeDumper
-{
+class NodeDumper {
+
     /**
      * Dumps a node or array.
      *
@@ -38,4 +38,5 @@ class NodeDumper
 
         return $r . "\n" . ')';
     }
+
 }

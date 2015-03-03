@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -18,10 +19,10 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.6.0
  */
-class ClassWithToString
-{
-    public function __toString()
-    {
+class ClassWithToString {
+
+    public function __toString() {
         return 'string representation';
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Method Tag Test
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class MethodTagTest extends \PHPUnit_Framework_TestCase
-{
+class MethodTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @param string $signature       The signature to test.
      * @param bool   $valid           Whether the given signature is expected to
@@ -40,22 +41,14 @@ class MethodTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstruct(
-        $signature,
-        $valid,
-        $expected_name,
-        $expected_return,
-        $expected_isStatic,
-        $paramCount,
-        $description
+    $signature, $valid, $expected_name, $expected_return, $expected_isStatic, $paramCount, $description
     ) {
         ob_start();
         $tag = new MethodTag('method', $signature);
         $stdout = ob_get_clean();
 
         $this->assertSame(
-            $valid,
-            empty($stdout),
-            'No error should have been output if the signature is valid'
+                $valid, empty($stdout), 'No error should have been output if the signature is valid'
         );
 
         if (!$valid) {
@@ -69,8 +62,7 @@ class MethodTagTest extends \PHPUnit_Framework_TestCase
         $this->assertCount($paramCount, $tag->getArguments());
     }
 
-    public function getTestSignatures()
-    {
+    public function getTestSignatures() {
         return array(
             // TODO: Verify this case
 //            array(
@@ -143,4 +135,5 @@ class MethodTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

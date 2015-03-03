@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -22,8 +23,8 @@ use SebastianBergmann\Diff\Differ;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class ComparisonFailure extends \RuntimeException
-{
+class ComparisonFailure extends \RuntimeException {
+
     /**
      * Expected value of the retrieval which does not match $actual.
      * @var mixed
@@ -71,52 +72,46 @@ class ComparisonFailure extends \RuntimeException
      * @param string $message A string which is prefixed on all returned lines
      *                        in the difference output.
      */
-    public function __construct($expected, $actual, $expectedAsString, $actualAsString, $identical = false, $message = '')
-    {
-        $this->expected         = $expected;
-        $this->actual           = $actual;
+    public function __construct($expected, $actual, $expectedAsString, $actualAsString, $identical = false, $message = '') {
+        $this->expected = $expected;
+        $this->actual = $actual;
         $this->expectedAsString = $expectedAsString;
-        $this->actualAsString   = $actualAsString;
-        $this->message          = $message;
+        $this->actualAsString = $actualAsString;
+        $this->message = $message;
     }
 
     /**
      * @return mixed
      */
-    public function getActual()
-    {
+    public function getActual() {
         return $this->actual;
     }
 
     /**
      * @return mixed
      */
-    public function getExpected()
-    {
+    public function getExpected() {
         return $this->expected;
     }
 
     /**
      * @return string
      */
-    public function getActualAsString()
-    {
+    public function getActualAsString() {
         return $this->actualAsString;
     }
 
     /**
      * @return string
      */
-    public function getExpectedAsString()
-    {
+    public function getExpectedAsString() {
         return $this->expectedAsString;
     }
 
     /**
      * @return string
      */
-    public function getDiff()
-    {
+    public function getDiff() {
         if (!$this->actualAsString && !$this->expectedAsString) {
             return '';
         }
@@ -129,8 +124,8 @@ class ComparisonFailure extends \RuntimeException
     /**
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return $this->message . $this->getDiff();
     }
+
 }

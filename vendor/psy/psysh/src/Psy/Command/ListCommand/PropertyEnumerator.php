@@ -16,13 +16,12 @@ use Symfony\Component\Console\Input\InputInterface;
 /**
  * Property Enumerator class.
  */
-class PropertyEnumerator extends Enumerator
-{
+class PropertyEnumerator extends Enumerator {
+
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null)
-    {
+    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null) {
         // only list properties when a Reflector is present.
 
         if ($reflector === null) {
@@ -39,7 +38,7 @@ class PropertyEnumerator extends Enumerator
             return;
         }
 
-        $showAll    = $input->getOption('all');
+        $showAll = $input->getOption('all');
         $properties = $this->prepareProperties($this->getProperties($showAll, $reflector), $target);
 
         if (empty($properties)) {
@@ -60,8 +59,7 @@ class PropertyEnumerator extends Enumerator
      *
      * @return array
      */
-    protected function getProperties($showAll, \Reflector $reflector)
-    {
+    protected function getProperties($showAll, \Reflector $reflector) {
         $properties = array();
         foreach ($reflector->getProperties() as $property) {
             if ($showAll || $property->isPublic()) {
@@ -82,8 +80,7 @@ class PropertyEnumerator extends Enumerator
      *
      * @return array
      */
-    protected function prepareProperties(array $properties, $target = null)
-    {
+    protected function prepareProperties(array $properties, $target = null) {
         // My kingdom for a generator.
         $ret = array();
 
@@ -91,7 +88,7 @@ class PropertyEnumerator extends Enumerator
             if ($this->showItem($name)) {
                 $fname = '$' . $name;
                 $ret[$fname] = array(
-                    'name'  => $fname,
+                    'name' => $fname,
                     'style' => $this->getVisibilityStyle($property),
                     'value' => $this->presentValue($property, $target),
                 );
@@ -108,8 +105,7 @@ class PropertyEnumerator extends Enumerator
      *
      * @return string
      */
-    protected function getKindLabel(\ReflectionClass $reflector)
-    {
+    protected function getKindLabel(\ReflectionClass $reflector) {
         if ($reflector->isInterface()) {
             return 'Interface Properties';
         } elseif (method_exists($reflector, 'isTrait') && $reflector->isTrait()) {
@@ -126,8 +122,7 @@ class PropertyEnumerator extends Enumerator
      *
      * @return string
      */
-    private function getVisibilityStyle(\ReflectionProperty $property)
-    {
+    private function getVisibilityStyle(\ReflectionProperty $property) {
         if ($property->isPublic()) {
             return self::IS_PUBLIC;
         } elseif ($property->isProtected()) {
@@ -145,8 +140,7 @@ class PropertyEnumerator extends Enumerator
      *
      * @return string
      */
-    protected function presentValue(\ReflectionProperty $property, $target)
-    {
+    protected function presentValue(\ReflectionProperty $property, $target) {
         if (!is_object($target)) {
             // TODO: figure out if there's a way to return defaults when target
             // is a class/interface/trait rather than an object.
@@ -158,4 +152,5 @@ class PropertyEnumerator extends Enumerator
 
         return $this->presentRef($value);
     }
+
 }

@@ -18,8 +18,8 @@ use PhpSpec\Locator\ResourceInterface;
 /**
  * Interface that all Generators need to implement in PhpSpec
  */
-interface GeneratorInterface
-{
+interface GeneratorInterface {
+
     /**
      * @param ResourceInterface $resource
      * @param string            $generation

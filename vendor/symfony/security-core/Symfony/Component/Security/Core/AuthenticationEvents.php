@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Security\Core;
 
-final class AuthenticationEvents
-{
+final class AuthenticationEvents {
+
     /**
      * The AUTHENTICATION_SUCCESS event occurs after a user is authenticated
      * by one provider.
@@ -35,4 +35,5 @@ final class AuthenticationEvents
      * @var string
      */
     const AUTHENTICATION_FAILURE = 'security.authentication.failure';
+
 }

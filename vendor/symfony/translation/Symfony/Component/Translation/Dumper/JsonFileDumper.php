@@ -22,21 +22,20 @@ if (!defined('JSON_PRETTY_PRINT')) {
  *
  * @author singles
  */
-class JsonFileDumper extends FileDumper
-{
+class JsonFileDumper extends FileDumper {
+
     /**
      * {@inheritdoc}
      */
-    public function format(MessageCatalogue $messages, $domain = 'messages')
-    {
+    public function format(MessageCatalogue $messages, $domain = 'messages') {
         return json_encode($messages->all($domain), JSON_PRETTY_PRINT);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getExtension()
-    {
+    protected function getExtension() {
         return 'json';
     }
+
 }

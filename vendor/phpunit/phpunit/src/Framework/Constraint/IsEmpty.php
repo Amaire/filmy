@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -20,8 +21,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.5.0
  */
-class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint {
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -29,8 +30,7 @@ class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         if ($other instanceof Countable) {
             return count($other) === 0;
         }
@@ -43,8 +43,7 @@ class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'is empty';
     }
 
@@ -57,15 +56,12 @@ class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         $type = gettype($other);
 
         return sprintf(
-            '%s %s %s',
-            $type[0] == 'a' || $type[0] == 'o' ? 'an' : 'a',
-            $type,
-            $this->toString()
+                '%s %s %s', $type[0] == 'a' || $type[0] == 'o' ? 'an' : 'a', $type, $this->toString()
         );
     }
+
 }

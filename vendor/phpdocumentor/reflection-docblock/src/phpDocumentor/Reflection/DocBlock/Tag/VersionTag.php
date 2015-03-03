@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,8 +22,8 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class VersionTag extends Tag
-{
+class VersionTag extends Tag {
+
     /**
      * PCRE regular expression matching a version vector.
      * Assumes the "x" modifier.
@@ -41,9 +42,8 @@ class VersionTag extends Tag
 
     /** @var string The version vector. */
     protected $version = '';
-    
-    public function getContent()
-    {
+
+    public function getContent() {
         if (null === $this->content) {
             $this->content = "{$this->version} {$this->description}";
         }
@@ -54,21 +54,18 @@ class VersionTag extends Tag
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         parent::setContent($content);
 
         if (preg_match(
-            '/^
+                        '/^
                 # The version vector
                 (' . self::REGEX_VECTOR . ')
                 \s*
                 # The description
                 (.+)?
-            $/sux',
-            $this->description,
-            $matches
-        )) {
+            $/sux', $this->description, $matches
+                )) {
             $this->version = $matches[1];
             $this->setDescription(isset($matches[2]) ? $matches[2] : '');
             $this->content = $content;
@@ -82,11 +79,10 @@ class VersionTag extends Tag
      *
      * @return string The version section of the tag.
      */
-    public function getVersion()
-    {
+    public function getVersion() {
         return $this->version;
     }
-    
+
     /**
      * Sets the version section of the tag.
      * 
@@ -95,14 +91,11 @@ class VersionTag extends Tag
      * 
      * @return $this
      */
-    public function setVersion($version)
-    {
-        $this->version
-            = preg_match('/^' . self::REGEX_VECTOR . '$/ux', $version)
-            ? $version
-            : '';
+    public function setVersion($version) {
+        $this->version = preg_match('/^' . self::REGEX_VECTOR . '$/ux', $version) ? $version : '';
 
         $this->content = null;
         return $this;
     }
+
 }

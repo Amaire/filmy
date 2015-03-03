@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -56,13 +57,12 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Class available since Release 1.0.0
  */
-class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder
-{
+class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Framework_MockObject_Matcher_InvokedRecorder {
+
     /**
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'invoked at least once';
     }
 
@@ -72,14 +72,14 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Fr
      *
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    public function verify()
-    {
+    public function verify() {
         $count = $this->getInvocationCount();
 
         if ($count < 1) {
             throw new PHPUnit_Framework_ExpectationFailedException(
-              'Expected invocation at least once but it never occured.'
+            'Expected invocation at least once but it never occured.'
             );
         }
     }
+
 }

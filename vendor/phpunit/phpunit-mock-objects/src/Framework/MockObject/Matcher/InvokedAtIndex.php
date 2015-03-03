@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -60,8 +61,8 @@
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Class available since Release 1.0.0
  */
-class PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex implements PHPUnit_Framework_MockObject_Matcher_Invocation
-{
+class PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex implements PHPUnit_Framework_MockObject_Matcher_Invocation {
+
     /**
      * @var integer
      */
@@ -75,16 +76,14 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex implements PHPUnit_Fra
     /**
      * @param integer $sequenceIndex
      */
-    public function __construct($sequenceIndex)
-    {
+    public function __construct($sequenceIndex) {
         $this->sequenceIndex = $sequenceIndex;
     }
 
     /**
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'invoked at sequence index ' . $this->sequenceIndex;
     }
 
@@ -92,8 +91,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex implements PHPUnit_Fra
      * @param  PHPUnit_Framework_MockObject_Invocation $invocation
      * @return boolean
      */
-    public function matches(PHPUnit_Framework_MockObject_Invocation $invocation)
-    {
+    public function matches(PHPUnit_Framework_MockObject_Invocation $invocation) {
         $this->currentIndex++;
 
         return $this->currentIndex == $this->sequenceIndex;
@@ -102,8 +100,8 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex implements PHPUnit_Fra
     /**
      * @param PHPUnit_Framework_MockObject_Invocation $invocation
      */
-    public function invoked(PHPUnit_Framework_MockObject_Invocation $invocation)
-    {
+    public function invoked(PHPUnit_Framework_MockObject_Invocation $invocation) {
+        
     }
 
     /**
@@ -112,16 +110,14 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex implements PHPUnit_Fra
      *
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
-    public function verify()
-    {
+    public function verify() {
         if ($this->currentIndex < $this->sequenceIndex) {
             throw new PHPUnit_Framework_ExpectationFailedException(
-              sprintf(
-                'The expected invocation at index %s was never reached.',
-
-                $this->sequenceIndex
-              )
+            sprintf(
+                    'The expected invocation at index %s was never reached.', $this->sequenceIndex
+            )
             );
         }
     }
+
 }

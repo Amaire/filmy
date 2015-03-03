@@ -6,8 +6,8 @@ use PhpParser;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-abstract class Declaration extends PhpParser\BuilderAbstract
-{
+abstract class Declaration extends PhpParser\BuilderAbstract {
+
     protected $attributes = array();
 
     abstract public function addStmt($stmt);
@@ -41,4 +41,5 @@ abstract class Declaration extends PhpParser\BuilderAbstract
 
         return $this;
     }
+
 }

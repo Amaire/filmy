@@ -13,13 +13,12 @@ namespace Symfony\Component\HttpKernel\Tests\DataCollector;
 
 use Symfony\Component\HttpKernel\DataCollector\LoggerDataCollector;
 
-class LoggerDataCollectorTest extends \PHPUnit_Framework_TestCase
-{
+class LoggerDataCollectorTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider getCollectTestData
      */
-    public function testCollect($nb, $logs, $expectedLogs, $expectedDeprecationCount, $expectedScreamCount, $expectedPriorities = null)
-    {
+    public function testCollect($nb, $logs, $expectedLogs, $expectedDeprecationCount, $expectedScreamCount, $expectedPriorities = null) {
         $logger = $this->getMock('Symfony\Component\HttpKernel\Log\DebugLoggerInterface');
         $logger->expects($this->once())->method('countErrors')->will($this->returnValue($nb));
         $logger->expects($this->exactly(2))->method('getLogs')->will($this->returnValue($logs));
@@ -38,8 +37,7 @@ class LoggerDataCollectorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function getCollectTestData()
-    {
+    public function getCollectTestData() {
         return array(
             array(
                 1,
@@ -82,4 +80,5 @@ class LoggerDataCollectorTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

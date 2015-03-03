@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -26,8 +27,8 @@ require_once __DIR__ . '/../Framework/Error/Deprecated.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.3.0
  */
-class PHPUnit_Util_ErrorHandler
-{
+class PHPUnit_Util_ErrorHandler {
+
     protected static $errorStack = array();
 
     /**
@@ -35,8 +36,7 @@ class PHPUnit_Util_ErrorHandler
      *
      * @return array
      */
-    public static function getErrorStack()
-    {
+    public static function getErrorStack() {
         return self::$errorStack;
     }
 
@@ -47,8 +47,7 @@ class PHPUnit_Util_ErrorHandler
      * @param  integer                 $errline
      * @throws PHPUnit_Framework_Error
      */
-    public static function handleError($errno, $errstr, $errfile, $errline)
-    {
+    public static function handleError($errno, $errstr, $errfile, $errline) {
         if (!($errno & error_reporting())) {
             return false;
         }
@@ -96,8 +95,7 @@ class PHPUnit_Util_ErrorHandler
      * @link   http://www.php.net/manual/en/errorfunc.constants.php
      * @throws Exception if event of specified severity is emitted
      */
-    public static function handleErrorOnce($severity = E_WARNING)
-    {
+    public static function handleErrorOnce($severity = E_WARNING) {
         $terminator = function () {
             static $expired = false;
             if (!$expired) {
@@ -117,4 +115,5 @@ class PHPUnit_Util_ErrorHandler
 
         return $terminator;
     }
+
 }

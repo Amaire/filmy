@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Formatter\Presenter;
 
-interface PresenterInterface
-{
+interface PresenterInterface {
+
     /**
      * @param mixed $value
      *

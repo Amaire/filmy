@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Param tag test.
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class ParamTagTest extends \PHPUnit_Framework_TestCase
-{
+class ParamTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\ParamTag can
      * understand the @param DocBlock.
@@ -39,12 +40,7 @@ class ParamTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParsesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $extractedType,
-        $extractedTypes,
-        $extractedVarName,
-        $extractedDescription
+    $type, $content, $extractedType, $extractedTypes, $extractedVarName, $extractedDescription
     ) {
         $tag = new ParamTag($type, $content);
 
@@ -60,8 +56,7 @@ class ParamTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstructor()
-    {
+    public function provideDataForConstructor() {
         return array(
             array('param', 'int', 'int', array('int'), '', ''),
             array('param', '$bob', '', array(), '$bob', ''),
@@ -115,4 +110,5 @@ class ParamTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -18,13 +19,12 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class Framework_TestImplementorTest extends PHPUnit_Framework_TestCase
-{
+class Framework_TestImplementorTest extends PHPUnit_Framework_TestCase {
+
     /**
      * @covers PHPUnit_Framework_TestCase
      */
-    public function testSuccessfulRun()
-    {
+    public function testSuccessfulRun() {
         $result = new PHPUnit_Framework_TestResult;
 
         $test = new DoubleTestCase(new Success);
@@ -34,4 +34,5 @@ class Framework_TestImplementorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $result->errorCount());
         $this->assertEquals(0, $result->failureCount());
     }
+
 }

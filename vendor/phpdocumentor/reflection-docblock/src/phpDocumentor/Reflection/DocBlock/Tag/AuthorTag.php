@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,8 +22,8 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class AuthorTag extends Tag
-{
+class AuthorTag extends Tag {
+
     /**
      * PCRE regular expression matching any valid value for the name component.
      */
@@ -38,9 +39,8 @@ class AuthorTag extends Tag
 
     /** @var string The email of the author */
     protected $authorEmail = '';
-    
-    public function getContent()
-    {
+
+    public function getContent() {
         if (null === $this->content) {
             $this->content = $this->authorName;
             if ('' != $this->authorEmail) {
@@ -54,16 +54,13 @@ class AuthorTag extends Tag
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         parent::setContent($content);
         if (preg_match(
-            '/^(' . self::REGEX_AUTHOR_NAME .
-            ')(\<(' . self::REGEX_AUTHOR_EMAIL .
-            ')\>)?$/u',
-            $this->description,
-            $matches
-        )) {
+                        '/^(' . self::REGEX_AUTHOR_NAME .
+                        ')(\<(' . self::REGEX_AUTHOR_EMAIL .
+                        ')\>)?$/u', $this->description, $matches
+                )) {
             $this->authorName = trim($matches[1]);
             if (isset($matches[3])) {
                 $this->authorEmail = trim($matches[3]);
@@ -78,11 +75,10 @@ class AuthorTag extends Tag
      * 
      * @return string The author's name.
      */
-    public function getAuthorName()
-    {
+    public function getAuthorName() {
         return $this->authorName;
     }
-    
+
     /**
      * Sets the author's name.
      * 
@@ -91,12 +87,9 @@ class AuthorTag extends Tag
      * 
      * @return $this
      */
-    public function setAuthorName($authorName)
-    {
+    public function setAuthorName($authorName) {
         $this->content = null;
-        $this->authorName
-            = preg_match('/^' . self::REGEX_AUTHOR_NAME . '$/u', $authorName)
-            ? $authorName : '';
+        $this->authorName = preg_match('/^' . self::REGEX_AUTHOR_NAME . '$/u', $authorName) ? $authorName : '';
 
         return $this;
     }
@@ -106,11 +99,10 @@ class AuthorTag extends Tag
      * 
      * @return string The author's email.
      */
-    public function getAuthorEmail()
-    {
+    public function getAuthorEmail() {
         return $this->authorEmail;
     }
-    
+
     /**
      * Sets the author's email.
      * 
@@ -119,13 +111,11 @@ class AuthorTag extends Tag
      * 
      * @return $this
      */
-    public function setAuthorEmail($authorEmail)
-    {
-        $this->authorEmail
-            = preg_match('/^' . self::REGEX_AUTHOR_EMAIL . '$/u', $authorEmail)
-            ? $authorEmail : '';
+    public function setAuthorEmail($authorEmail) {
+        $this->authorEmail = preg_match('/^' . self::REGEX_AUTHOR_EMAIL . '$/u', $authorEmail) ? $authorEmail : '';
 
         $this->content = null;
         return $this;
     }
+
 }

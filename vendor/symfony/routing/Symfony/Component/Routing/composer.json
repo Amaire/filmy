@@ -34,7 +34,9 @@
         "doctrine/annotations": "For using the annotation loader"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\Routing\\": "" }
+        "psr-0": {
+            "Symfony\\Component\\Routing\\": ""
+        }
     },
     "target-dir": "Symfony/Component/Routing",
     "minimum-stability": "dev",

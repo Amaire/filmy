@@ -1,4 +1,6 @@
-<?php namespace SuperClosure\Analyzer\Visitor;
+<?php
+
+namespace SuperClosure\Analyzer\Visitor;
 
 use SuperClosure\Exception\ClosureAnalysisException;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
@@ -14,8 +16,8 @@ use PhpParser\NodeVisitorAbstract as NodeVisitor;
  *
  * @internal
  */
-final class ClosureLocatorVisitor extends NodeVisitor
-{
+final class ClosureLocatorVisitor extends NodeVisitor {
+
     /**
      * @var \ReflectionFunction
      */
@@ -34,29 +36,25 @@ final class ClosureLocatorVisitor extends NodeVisitor
     /**
      * @param \ReflectionFunction $reflection
      */
-    public function __construct($reflection)
-    {
+    public function __construct($reflection) {
         $this->reflection = $reflection;
         $this->location = [
-            'class'     => null,
+            'class' => null,
             'directory' => dirname($this->reflection->getFileName()),
-            'file'      => $this->reflection->getFileName(),
-            'function'  => $this->reflection->getName(),
-            'line'      => $this->reflection->getStartLine(),
-            'method'    => null,
+            'file' => $this->reflection->getFileName(),
+            'function' => $this->reflection->getName(),
+            'line' => $this->reflection->getStartLine(),
+            'method' => null,
             'namespace' => null,
-            'trait'     => null,
+            'trait' => null,
         ];
     }
 
-    public function enterNode(AstNode $node)
-    {
+    public function enterNode(AstNode $node) {
         // Determine information about the closure's location
         if (!$this->closureNode) {
             if ($node instanceof NamespaceNode) {
-                $namespace = ($node->name && is_array($node->name->parts))
-                    ? implode('\\', $node->name->parts)
-                    : null;
+                $namespace = ($node->name && is_array($node->name->parts)) ? implode('\\', $node->name->parts) : null;
                 $this->location['namespace'] = $namespace;
             }
             if ($node instanceof TraitNode) {
@@ -74,8 +72,8 @@ final class ClosureLocatorVisitor extends NodeVisitor
                 if ($this->closureNode) {
                     $line = $this->location['file'] . ':' . $node->getAttribute('startLine');
                     throw new ClosureAnalysisException("Two closures were "
-                        . "declared on the same line ({$line}) of code. Cannot "
-                        . "determine which closure was the intended target.");
+                    . "declared on the same line ({$line}) of code. Cannot "
+                    . "determine which closure was the intended target.");
                 } else {
                     $this->closureNode = $node;
                 }
@@ -83,8 +81,7 @@ final class ClosureLocatorVisitor extends NodeVisitor
         }
     }
 
-    public function leaveNode(AstNode $node)
-    {
+    public function leaveNode(AstNode $node) {
         // Determine information about the closure's location
         if (!$this->closureNode) {
             if ($node instanceof NamespaceNode) {
@@ -98,8 +95,7 @@ final class ClosureLocatorVisitor extends NodeVisitor
         }
     }
 
-    public function afterTraverse(array $nodes)
-    {
+    public function afterTraverse(array $nodes) {
         if ($this->location['class']) {
             $this->location['class'] = $this->location['namespace'] . '\\' . $this->location['class'];
             $this->location['method'] = "{$this->location['class']}::{$this->location['function']}";
@@ -114,4 +110,5 @@ final class ClosureLocatorVisitor extends NodeVisitor
             $this->location['class'] = $closureScopeClass ? $closureScopeClass->getName() : null;
         }
     }
+
 }

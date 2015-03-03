@@ -20,8 +20,8 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface AuthenticationManagerInterface
-{
+interface AuthenticationManagerInterface {
+
     /**
      * Attempts to authenticate a TokenInterface object.
      *

@@ -19,8 +19,8 @@ use InvalidArgumentException;
 /**
  * Uses registered generators to generate code honoring priority order
  */
-class GeneratorManager
-{
+class GeneratorManager {
+
     /**
      * @var array
      */
@@ -29,12 +29,11 @@ class GeneratorManager
     /**
      * @param Generator\GeneratorInterface $generator
      */
-    public function registerGenerator(Generator\GeneratorInterface $generator)
-    {
+    public function registerGenerator(Generator\GeneratorInterface $generator) {
         $this->generators[] = $generator;
         @usort($this->generators, function ($generator1, $generator2) {
-            return $generator2->getPriority() - $generator1->getPriority();
-        });
+                    return $generator2->getPriority() - $generator1->getPriority();
+                });
     }
 
     /**
@@ -45,8 +44,7 @@ class GeneratorManager
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    public function generate(ResourceInterface $resource, $name, array $data = array())
-    {
+    public function generate(ResourceInterface $resource, $name, array $data = array()) {
         foreach ($this->generators as $generator) {
             if ($generator->supports($resource, $name, $data)) {
                 return $generator->generate($resource, $data);
@@ -54,7 +52,8 @@ class GeneratorManager
         }
 
         throw new InvalidArgumentException(sprintf(
-            '"%s" code generator is not registered.', $name
+                '"%s" code generator is not registered.', $name
         ));
     }
+
 }

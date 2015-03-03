@@ -7,8 +7,8 @@ use PhpParser\Node\Scalar;
 /**
  * @property array $parts Encaps list
  */
-class Encapsed extends Scalar
-{
+class Encapsed extends Scalar {
+
     /**
      * Constructs an encapsed string node.
      *
@@ -17,10 +17,10 @@ class Encapsed extends Scalar
      */
     public function __construct(array $parts = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'parts' => $parts
-            ),
-            $attributes
+                array(
+            'parts' => $parts
+                ), $attributes
         );
     }
+
 }

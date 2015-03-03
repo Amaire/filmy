@@ -49,7 +49,9 @@
         "symfony/var-dumper": ""
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\HttpKernel\\": "" }
+        "psr-0": {
+            "Symfony\\Component\\HttpKernel\\": ""
+        }
     },
     "target-dir": "Symfony/Component/HttpKernel",
     "minimum-stability": "dev",

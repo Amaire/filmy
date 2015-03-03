@@ -21,8 +21,8 @@ use Symfony\Component\HttpFoundation\Session\Storage\Proxy\SessionHandlerProxy;
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
-class SessionHandlerProxyTest extends \PHPUnit_Framework_TestCase
-{
+class SessionHandlerProxyTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @var \PHPUnit_Framework_MockObject_Matcher
      */
@@ -33,23 +33,20 @@ class SessionHandlerProxyTest extends \PHPUnit_Framework_TestCase
      */
     private $proxy;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->mock = $this->getMock('SessionHandlerInterface');
         $this->proxy = new SessionHandlerProxy($this->mock);
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         $this->mock = null;
         $this->proxy = null;
     }
 
-    public function testOpen()
-    {
+    public function testOpen() {
         $this->mock->expects($this->once())
-            ->method('open')
-            ->will($this->returnValue(true));
+                ->method('open')
+                ->will($this->returnValue(true));
 
         $this->assertFalse($this->proxy->isActive());
         $this->proxy->open('name', 'id');
@@ -60,68 +57,62 @@ class SessionHandlerProxyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testOpenFalse()
-    {
+    public function testOpenFalse() {
         $this->mock->expects($this->once())
-            ->method('open')
-            ->will($this->returnValue(false));
+                ->method('open')
+                ->will($this->returnValue(false));
 
         $this->assertFalse($this->proxy->isActive());
         $this->proxy->open('name', 'id');
         $this->assertFalse($this->proxy->isActive());
     }
 
-    public function testClose()
-    {
+    public function testClose() {
         $this->mock->expects($this->once())
-            ->method('close')
-            ->will($this->returnValue(true));
+                ->method('close')
+                ->will($this->returnValue(true));
 
         $this->assertFalse($this->proxy->isActive());
         $this->proxy->close();
         $this->assertFalse($this->proxy->isActive());
     }
 
-    public function testCloseFalse()
-    {
+    public function testCloseFalse() {
         $this->mock->expects($this->once())
-            ->method('close')
-            ->will($this->returnValue(false));
+                ->method('close')
+                ->will($this->returnValue(false));
 
         $this->assertFalse($this->proxy->isActive());
         $this->proxy->close();
         $this->assertFalse($this->proxy->isActive());
     }
 
-    public function testRead()
-    {
+    public function testRead() {
         $this->mock->expects($this->once())
-            ->method('read');
+                ->method('read');
 
         $this->proxy->read('id');
     }
 
-    public function testWrite()
-    {
+    public function testWrite() {
         $this->mock->expects($this->once())
-            ->method('write');
+                ->method('write');
 
         $this->proxy->write('id', 'data');
     }
 
-    public function testDestroy()
-    {
+    public function testDestroy() {
         $this->mock->expects($this->once())
-            ->method('destroy');
+                ->method('destroy');
 
         $this->proxy->destroy('id');
     }
 
-    public function testGc()
-    {
+    public function testGc() {
         $this->mock->expects($this->once())
-            ->method('gc');
+                ->method('gc');
 
         $this->proxy->gc(86400);
     }
+
 }

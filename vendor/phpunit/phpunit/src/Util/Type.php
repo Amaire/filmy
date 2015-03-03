@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,13 +20,11 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class PHPUnit_Util_Type
-{
-    public static function isType($type)
-    {
+class PHPUnit_Util_Type {
+
+    public static function isType($type) {
         return in_array(
-            $type,
-            array(
+                $type, array(
             'numeric',
             'integer',
             'int',
@@ -38,7 +37,8 @@ class PHPUnit_Util_Type
             'object',
             'resource',
             'scalar'
-            )
+                )
         );
     }
+
 }

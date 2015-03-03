@@ -18,17 +18,15 @@ use PhpSpec\SpecificationInterface;
 use PhpSpec\Runner\MatcherManager;
 use PhpSpec\Runner\CollaboratorManager;
 
-class LetAndLetgoMaintainer implements MaintainerInterface
-{
+class LetAndLetgoMaintainer implements MaintainerInterface {
+
     /**
      * @param ExampleNode $example
      *
      * @return bool
      */
-    public function supports(ExampleNode $example)
-    {
-        return $example->getSpecification()->getClassReflection()->hasMethod('let')
-            || $example->getSpecification()->getClassReflection()->hasMethod('letgo')
+    public function supports(ExampleNode $example) {
+        return $example->getSpecification()->getClassReflection()->hasMethod('let') || $example->getSpecification()->getClassReflection()->hasMethod('letgo')
         ;
     }
 
@@ -38,9 +36,7 @@ class LetAndLetgoMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function prepare(ExampleNode $example, SpecificationInterface $context,
-                            MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function prepare(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         if (!$example->getSpecification()->getClassReflection()->hasMethod('let')) {
             return;
         }
@@ -55,9 +51,7 @@ class LetAndLetgoMaintainer implements MaintainerInterface
      * @param MatcherManager         $matchers
      * @param CollaboratorManager    $collaborators
      */
-    public function teardown(ExampleNode $example, SpecificationInterface $context,
-                             MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    public function teardown(ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         if (!$example->getSpecification()->getClassReflection()->hasMethod('letgo')) {
             return;
         }
@@ -69,8 +63,8 @@ class LetAndLetgoMaintainer implements MaintainerInterface
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 10;
     }
+
 }

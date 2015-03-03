@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Symfony package.
  *
@@ -12,12 +13,11 @@ namespace Symfony\Component\HttpKernel\Tests\Profiler;
 
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
-abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
-{
-    public function testStore()
-    {
+abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase {
+
+    public function testStore() {
         for ($i = 0; $i < 10; $i ++) {
-            $profile = new Profile('token_'.$i);
+            $profile = new Profile('token_' . $i);
             $profile->setIp('127.0.0.1');
             $profile->setUrl('http://foo.bar');
             $profile->setMethod('GET');
@@ -26,8 +26,7 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(10, $this->getStorage()->find('127.0.0.1', 'http://foo.bar', 20, 'GET'), '->write() stores data in the storage');
     }
 
-    public function testChildren()
-    {
+    public function testChildren() {
         $parentProfile = new Profile('token_parent');
         $parentProfile->setIp('127.0.0.1');
         $parentProfile->setUrl('http://foo.bar/parent');
@@ -55,8 +54,7 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($childProfile->getToken(), $children[0]->getToken());
     }
 
-    public function testStoreSpecialCharsInUrl()
-    {
+    public function testStoreSpecialCharsInUrl() {
         // The storage accepts special characters in URLs (Even though URLs are not
         // supposed to contain them)
         $profile = new Profile('simple_quote');
@@ -80,8 +78,7 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(false !== $this->getStorage()->read('comma'), '->write() accepts comma in URL');
     }
 
-    public function testStoreDuplicateToken()
-    {
+    public function testStoreDuplicateToken() {
         $profile = new Profile('token');
         $profile->setUrl('http://example.com/');
 
@@ -95,8 +92,7 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $this->getStorage()->find('', '', 1000, ''), '->find() does not return the same profile twice');
     }
 
-    public function testRetrieveByIp()
-    {
+    public function testRetrieveByIp() {
         $profile = new Profile('token');
         $profile->setIp('127.0.0.1');
         $profile->setMethod('GET');
@@ -107,8 +103,7 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $this->getStorage()->find('127.0._.1', '', 10, 'GET'), '->find() does not interpret a "_" as a wildcard in the IP');
     }
 
-    public function testRetrieveByUrl()
-    {
+    public function testRetrieveByUrl() {
         $profile = new Profile('simple_quote');
         $profile->setIp('127.0.0.1');
         $profile->setUrl('http://foo.bar/\'');
@@ -153,14 +148,13 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $this->getStorage()->find('127.0.0.1', 'http://foo.bar/_', 10, 'GET'), '->find() does not interpret a "_" as a wildcard in the URL');
     }
 
-    public function testStoreTime()
-    {
+    public function testStoreTime() {
         $dt = new \DateTime('now');
         $start = $dt->getTimestamp();
 
         for ($i = 0; $i < 3; $i++) {
             $dt->modify('+1 minute');
-            $profile = new Profile('time_'.$i);
+            $profile = new Profile('time_' . $i);
             $profile->setIp('127.0.0.1');
             $profile->setUrl('http://foo.bar');
             $profile->setTime($dt->getTimestamp());
@@ -178,10 +172,9 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $records, '->find() should return only first two of the previously added records');
     }
 
-    public function testRetrieveByEmptyUrlAndIp()
-    {
+    public function testRetrieveByEmptyUrlAndIp() {
         for ($i = 0; $i < 5; $i++) {
-            $profile = new Profile('token_'.$i);
+            $profile = new Profile('token_' . $i);
             $profile->setMethod('GET');
             $this->getStorage()->write($profile);
         }
@@ -189,11 +182,10 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->getStorage()->purge();
     }
 
-    public function testRetrieveByMethodAndLimit()
-    {
+    public function testRetrieveByMethodAndLimit() {
         foreach (array('POST', 'GET') as $method) {
             for ($i = 0; $i < 5; $i++) {
-                $profile = new Profile('token_'.$i.$method);
+                $profile = new Profile('token_' . $i . $method);
                 $profile->setMethod($method);
                 $this->getStorage()->write($profile);
             }
@@ -204,8 +196,7 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->getStorage()->purge();
     }
 
-    public function testPurge()
-    {
+    public function testPurge() {
         $profile = new Profile('token1');
         $profile->setIp('127.0.0.1');
         $profile->setUrl('http://example.com/');
@@ -230,10 +221,9 @@ abstract class AbstractProfilerStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $this->getStorage()->find('127.0.0.1', '', 10, 'GET'), '->purge() removes all items from index');
     }
 
-    public function testDuplicates()
-    {
+    public function testDuplicates() {
         for ($i = 1; $i <= 5; $i++) {
-            $profile = new Profile('foo'.$i);
+            $profile = new Profile('foo' . $i);
             $profile->setIp('127.0.0.1');
             $profile->setUrl('http://example.net/');
             $profile->setMethod('GET');

@@ -19,8 +19,8 @@ use PhpSpec\Loader\Node\SpecificationNode;
 /**
  * Class SpecificationEvent holds information about the specification event
  */
-class SpecificationEvent extends Event implements EventInterface
-{
+class SpecificationEvent extends Event implements EventInterface {
+
     /**
      * @var \PhpSpec\Loader\Node\SpecificationNode
      */
@@ -41,50 +41,45 @@ class SpecificationEvent extends Event implements EventInterface
      * @param float             $time
      * @param integer           $result
      */
-    public function __construct(SpecificationNode $specification, $time = null, $result = null)
-    {
+    public function __construct(SpecificationNode $specification, $time = null, $result = null) {
         $this->specification = $specification;
-        $this->time          = $time;
-        $this->result        = $result;
+        $this->time = $time;
+        $this->result = $result;
     }
 
     /**
      * @return SpecificationNode
      */
-    public function getSpecification()
-    {
+    public function getSpecification() {
         return $this->specification;
     }
 
     /**
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->specification->getTitle();
     }
 
     /**
      * @return \PhpSpec\Loader\Suite
      */
-    public function getSuite()
-    {
+    public function getSuite() {
         return $this->specification->getSuite();
     }
 
     /**
      * @return float
      */
-    public function getTime()
-    {
+    public function getTime() {
         return $this->time;
     }
 
     /**
      * @return integer
      */
-    public function getResult()
-    {
+    public function getResult() {
         return $this->result;
     }
+
 }

@@ -15,26 +15,23 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Matcher\ApacheUrlMatcher;
 
-class LegacyApacheUrlMatcherTest extends \PHPUnit_Framework_TestCase
-{
+class LegacyApacheUrlMatcherTest extends \PHPUnit_Framework_TestCase {
+
     protected $server;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
         $this->server = $_SERVER;
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         $_SERVER = $this->server;
     }
 
     /**
      * @dataProvider getMatchData
      */
-    public function testMatch($name, $pathinfo, $server, $expect)
-    {
+    public function testMatch($name, $pathinfo, $server, $expect) {
         $collection = new RouteCollection();
         $context = new RequestContext();
         $matcher = new ApacheUrlMatcher($collection, $context);
@@ -45,8 +42,7 @@ class LegacyApacheUrlMatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(var_export($expect, true), var_export($result, true));
     }
 
-    public function getMatchData()
-    {
+    public function getMatchData() {
         return array(
             array(
                 'Simple route',
@@ -150,4 +146,5 @@ class LegacyApacheUrlMatcherTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

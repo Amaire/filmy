@@ -14,19 +14,11 @@ namespace Symfony\Component\Routing\Tests;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
 
-class RequestContextTest extends \PHPUnit_Framework_TestCase
-{
-    public function testConstruct()
-    {
+class RequestContextTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConstruct() {
         $requestContext = new RequestContext(
-            'foo',
-            'post',
-            'foo.bar',
-            'HTTPS',
-            8080,
-            444,
-            '/baz',
-            'bar=foobar'
+                'foo', 'post', 'foo.bar', 'HTTPS', 8080, 444, '/baz', 'bar=foobar'
         );
 
         $this->assertEquals('foo', $requestContext->getBaseUrl());
@@ -39,8 +31,7 @@ class RequestContextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar=foobar', $requestContext->getQueryString());
     }
 
-    public function testFromRequest()
-    {
+    public function testFromRequest() {
         $request = Request::create('https://test.com:444/foo?bar=baz');
         $requestContext = new RequestContext();
         $requestContext->setHttpPort(123);
@@ -64,8 +55,7 @@ class RequestContextTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(567, $requestContext->getHttpsPort());
     }
 
-    public function testGetParameters()
-    {
+    public function testGetParameters() {
         $requestContext = new RequestContext();
         $this->assertEquals(array(), $requestContext->getParameters());
 
@@ -73,8 +63,7 @@ class RequestContextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('foo' => 'bar'), $requestContext->getParameters());
     }
 
-    public function testHasParameter()
-    {
+    public function testHasParameter() {
         $requestContext = new RequestContext();
         $requestContext->setParameters(array('foo' => 'bar'));
 
@@ -82,8 +71,7 @@ class RequestContextTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($requestContext->hasParameter('baz'));
     }
 
-    public function testGetParameter()
-    {
+    public function testGetParameter() {
         $requestContext = new RequestContext();
         $requestContext->setParameters(array('foo' => 'bar'));
 
@@ -91,48 +79,42 @@ class RequestContextTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($requestContext->getParameter('baz'));
     }
 
-    public function testSetParameter()
-    {
+    public function testSetParameter() {
         $requestContext = new RequestContext();
         $requestContext->setParameter('foo', 'bar');
 
         $this->assertEquals('bar', $requestContext->getParameter('foo'));
     }
 
-    public function testMethod()
-    {
+    public function testMethod() {
         $requestContext = new RequestContext();
         $requestContext->setMethod('post');
 
         $this->assertSame('POST', $requestContext->getMethod());
     }
 
-    public function testScheme()
-    {
+    public function testScheme() {
         $requestContext = new RequestContext();
         $requestContext->setScheme('HTTPS');
 
         $this->assertSame('https', $requestContext->getScheme());
     }
 
-    public function testHost()
-    {
+    public function testHost() {
         $requestContext = new RequestContext();
         $requestContext->setHost('eXampLe.com');
 
         $this->assertSame('example.com', $requestContext->getHost());
     }
 
-    public function testQueryString()
-    {
+    public function testQueryString() {
         $requestContext = new RequestContext();
         $requestContext->setQueryString(null);
 
         $this->assertSame('', $requestContext->getQueryString());
     }
 
-    public function testPort()
-    {
+    public function testPort() {
         $requestContext = new RequestContext();
         $requestContext->setHttpPort('123');
         $requestContext->setHttpsPort('456');
@@ -141,8 +123,7 @@ class RequestContextTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(456, $requestContext->getHttpsPort());
     }
 
-    public function testFluentInterface()
-    {
+    public function testFluentInterface() {
         $requestContext = new RequestContext();
 
         $this->assertSame($requestContext, $requestContext->setBaseUrl('/app.php'));
@@ -156,4 +137,5 @@ class RequestContextTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($requestContext, $requestContext->setParameters(array()));
         $this->assertSame($requestContext, $requestContext->setParameter('foo', 'bar'));
     }
+
 }

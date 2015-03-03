@@ -22,8 +22,10 @@
         "ext-symfony_debug": ""
     },
     "autoload": {
-        "files": [ "Resources/functions/dump.php" ],
-        "psr-0": { "Symfony\\Component\\VarDumper\\": "" }
+        "files": ["Resources/functions/dump.php"],
+        "psr-0": {
+            "Symfony\\Component\\VarDumper\\": ""
+        }
     },
     "target-dir": "Symfony/Component/VarDumper",
     "minimum-stability": "dev",

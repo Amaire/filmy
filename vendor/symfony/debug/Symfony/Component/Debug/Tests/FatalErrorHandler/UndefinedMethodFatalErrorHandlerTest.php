@@ -14,13 +14,12 @@ namespace Symfony\Component\Debug\Tests\FatalErrorHandler;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\Debug\FatalErrorHandler\UndefinedMethodFatalErrorHandler;
 
-class UndefinedMethodFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
-{
+class UndefinedMethodFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @dataProvider provideUndefinedMethodData
      */
-    public function testUndefinedMethod($error, $translatedMessage)
-    {
+    public function testUndefinedMethod($error, $translatedMessage) {
         $handler = new UndefinedMethodFatalErrorHandler();
         $exception = $handler->handleError($error, new FatalErrorException('', 0, $error['type'], $error['file'], $error['line']));
 
@@ -31,8 +30,7 @@ class UndefinedMethodFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($error['line'], $exception->getLine());
     }
 
-    public function provideUndefinedMethodData()
-    {
+    public function provideUndefinedMethodData() {
         return array(
             array(
                 array(
@@ -63,4 +61,5 @@ class UndefinedMethodFatalErrorHandlerTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
 }

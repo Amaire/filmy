@@ -27,8 +27,8 @@ use Prophecy\Exception\Prediction\AggregateException;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class Prophet
-{
+class Prophet {
+
     private $doubler;
     private $revealer;
     private $util;
@@ -45,9 +45,7 @@ class Prophet
      * @param null|RevealerInterface $revealer
      * @param null|StringUtil        $util
      */
-    public function __construct(Doubler $doubler = null, RevealerInterface $revealer = null,
-                                StringUtil $util = null)
-    {
+    public function __construct(Doubler $doubler = null, RevealerInterface $revealer = null, StringUtil $util = null) {
         if (null === $doubler) {
             $doubler = new Doubler;
             $doubler->registerClassPatch(new ClassPatch\SplFileInfoPatch);
@@ -60,9 +58,9 @@ class Prophet
             $doubler->registerClassPatch(new ClassPatch\KeywordPatch);
         }
 
-        $this->doubler  = $doubler;
-        $this->revealer = $revealer ?: new Revealer;
-        $this->util     = $util ?: new StringUtil;
+        $this->doubler = $doubler;
+        $this->revealer = $revealer ? : new Revealer;
+        $this->util = $util ? : new StringUtil;
     }
 
     /**
@@ -72,12 +70,9 @@ class Prophet
      *
      * @return ObjectProphecy
      */
-    public function prophesize($classOrInterface = null)
-    {
+    public function prophesize($classOrInterface = null) {
         $this->prophecies[] = $prophecy = new ObjectProphecy(
-            new LazyDouble($this->doubler),
-            new CallCenter($this->util),
-            $this->revealer
+                new LazyDouble($this->doubler), new CallCenter($this->util), $this->revealer
         );
 
         if ($classOrInterface && class_exists($classOrInterface)) {
@@ -96,8 +91,7 @@ class Prophet
      *
      * @return ObjectProphecy[]
      */
-    public function getProphecies()
-    {
+    public function getProphecies() {
         return $this->prophecies;
     }
 
@@ -106,8 +100,7 @@ class Prophet
      *
      * @return Doubler
      */
-    public function getDoubler()
-    {
+    public function getDoubler() {
         return $this->doubler;
     }
 
@@ -116,8 +109,7 @@ class Prophet
      *
      * @throws Exception\Prediction\AggregateException If any prediction fails
      */
-    public function checkPredictions()
-    {
+    public function checkPredictions() {
         $exception = new AggregateException("Some predictions failed:\n");
         foreach ($this->prophecies as $prophecy) {
             try {
@@ -131,4 +123,5 @@ class Prophet
             throw $exception;
         }
     }
+
 }

@@ -15,15 +15,14 @@ namespace PhpSpec\Util;
 
 use PhpSpec\Exception\Fracture\ClassNotFoundException;
 
-class Instantiator
-{
+class Instantiator {
+
     /**
      * @param string $className
      *
      * @return object
      */
-    public function instantiate($className)
-    {
+    public function instantiate($className) {
         if (!class_exists($className)) {
             throw new ClassNotFoundException("Class $className does not exist.", $className);
         }
@@ -32,4 +31,5 @@ class Instantiator
 
         return $instantiator->instantiate($className);
     }
+
 }

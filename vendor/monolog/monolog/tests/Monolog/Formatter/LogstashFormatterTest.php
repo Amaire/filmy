@@ -13,13 +13,12 @@ namespace Monolog\Formatter;
 
 use Monolog\Logger;
 
-class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
-{
+class LogstashFormatterTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testDefaultFormatter()
-    {
+    public function testDefaultFormatter() {
         $formatter = new LogstashFormatter('test', 'hostname');
         $record = array(
             'level' => Logger::ERROR,
@@ -51,8 +50,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testFormatWithFileAndLine()
-    {
+    public function testFormatWithFileAndLine() {
         $formatter = new LogstashFormatter('test');
         $record = array(
             'level' => Logger::ERROR,
@@ -73,8 +71,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testFormatWithContext()
-    {
+    public function testFormatWithContext() {
         $formatter = new LogstashFormatter('test');
         $record = array(
             'level' => Logger::ERROR,
@@ -106,8 +103,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testFormatWithExtra()
-    {
+    public function testFormatWithExtra() {
         $formatter = new LogstashFormatter('test');
         $record = array(
             'level' => Logger::ERROR,
@@ -136,8 +132,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('pair', $message_array['EXTkey']);
     }
 
-    public function testFormatWithApplicationName()
-    {
+    public function testFormatWithApplicationName() {
         $formatter = new LogstashFormatter('app', 'test');
         $record = array(
             'level' => Logger::ERROR,
@@ -158,8 +153,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testDefaultFormatterV1()
-    {
+    public function testDefaultFormatterV1() {
         $formatter = new LogstashFormatter('test', 'hostname', null, 'ctxt_', LogstashFormatter::V1);
         $record = array(
             'level' => Logger::ERROR,
@@ -191,8 +185,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testFormatWithFileAndLineV1()
-    {
+    public function testFormatWithFileAndLineV1() {
         $formatter = new LogstashFormatter('test', null, null, 'ctxt_', LogstashFormatter::V1);
         $record = array(
             'level' => Logger::ERROR,
@@ -213,8 +206,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testFormatWithContextV1()
-    {
+    public function testFormatWithContextV1() {
         $formatter = new LogstashFormatter('test', null, null, 'ctxt_', LogstashFormatter::V1);
         $record = array(
             'level' => Logger::ERROR,
@@ -242,8 +234,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Monolog\Formatter\LogstashFormatter::format
      */
-    public function testFormatWithExtraV1()
-    {
+    public function testFormatWithExtraV1() {
         $formatter = new LogstashFormatter('test', null, null, 'ctxt_', LogstashFormatter::V1);
         $record = array(
             'level' => Logger::ERROR,
@@ -268,8 +259,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('pair', $message['EXTkey']);
     }
 
-    public function testFormatWithApplicationNameV1()
-    {
+    public function testFormatWithApplicationNameV1() {
         $formatter = new LogstashFormatter('app', 'test', null, 'ctxt_', LogstashFormatter::V1);
         $record = array(
             'level' => Logger::ERROR,
@@ -286,4 +276,5 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('type', $message);
         $this->assertEquals('app', $message['type']);
     }
+
 }

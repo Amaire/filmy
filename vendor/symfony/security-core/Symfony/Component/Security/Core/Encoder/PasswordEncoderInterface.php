@@ -16,8 +16,8 @@ namespace Symfony\Component\Security\Core\Encoder;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface PasswordEncoderInterface
-{
+interface PasswordEncoderInterface {
+
     /**
      * Encodes the raw password.
      *

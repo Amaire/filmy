@@ -16,18 +16,18 @@ namespace PhpSpec\Exception\Example;
 /**
  * Class ErrorException holds information about generic php errors
  */
-class ErrorException extends ExampleException
-{
+class ErrorException extends ExampleException {
+
     /**
      * @var array
      */
     private $levels = array(
-        E_WARNING           => 'warning',
-        E_NOTICE            => 'notice',
-        E_USER_ERROR        => 'error',
-        E_USER_WARNING      => 'warning',
-        E_USER_NOTICE       => 'notice',
-        E_STRICT            => 'notice',
+        E_WARNING => 'warning',
+        E_NOTICE => 'notice',
+        E_USER_ERROR => 'error',
+        E_USER_WARNING => 'warning',
+        E_USER_NOTICE => 'notice',
+        E_STRICT => 'notice',
         E_RECOVERABLE_ERROR => 'error',
     );
 
@@ -39,13 +39,9 @@ class ErrorException extends ExampleException
      * @param string $file    error file
      * @param string $line    error line
      */
-    public function __construct($level, $message, $file, $line)
-    {
-        parent::__construct(sprintf('%s: %s in %s line %d',
-            isset($this->levels[$level]) ? $this->levels[$level] : $level,
-            $message,
-            $file,
-            $line
+    public function __construct($level, $message, $file, $line) {
+        parent::__construct(sprintf('%s: %s in %s line %d', isset($this->levels[$level]) ? $this->levels[$level] : $level, $message, $file, $line
         ));
     }
+
 }

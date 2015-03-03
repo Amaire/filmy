@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of SwiftMailer.
  * (c) 2009 Fabien Potencier
@@ -12,8 +13,8 @@
  *
  * @author     Arjen Brouwer
  */
-class Swift_Plugins_ImpersonatePlugin implements Swift_Events_SendListener
-{
+class Swift_Plugins_ImpersonatePlugin implements Swift_Events_SendListener {
+
     /**
      * The sender to impersonate.
      *
@@ -26,8 +27,7 @@ class Swift_Plugins_ImpersonatePlugin implements Swift_Events_SendListener
      *
      * @param string $sender address
      */
-    public function __construct($sender)
-    {
+    public function __construct($sender) {
         $this->_sender = $sender;
     }
 
@@ -36,8 +36,7 @@ class Swift_Plugins_ImpersonatePlugin implements Swift_Events_SendListener
      *
      * @param Swift_Events_SendEvent $evt
      */
-    public function beforeSendPerformed(Swift_Events_SendEvent $evt)
-    {
+    public function beforeSendPerformed(Swift_Events_SendEvent $evt) {
         $message = $evt->getMessage();
         $headers = $message->getHeaders();
 
@@ -53,8 +52,7 @@ class Swift_Plugins_ImpersonatePlugin implements Swift_Events_SendListener
      *
      * @param Swift_Events_SendEvent $evt
      */
-    public function sendPerformed(Swift_Events_SendEvent $evt)
-    {
+    public function sendPerformed(Swift_Events_SendEvent $evt) {
         $message = $evt->getMessage();
 
         // restore original headers
@@ -65,4 +63,5 @@ class Swift_Plugins_ImpersonatePlugin implements Swift_Events_SendListener
             $headers->removeAll('X-Swift-Return-Path');
         }
     }
+
 }

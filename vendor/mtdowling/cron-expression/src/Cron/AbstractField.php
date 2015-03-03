@@ -5,8 +5,8 @@ namespace Cron;
 /**
  * Abstract CRON expression field
  */
-abstract class AbstractField implements FieldInterface
-{
+abstract class AbstractField implements FieldInterface {
+
     /**
      * Check to see if a field is satisfied by a value
      *
@@ -15,8 +15,7 @@ abstract class AbstractField implements FieldInterface
      *
      * @return bool
      */
-    public function isSatisfied($dateValue, $value)
-    {
+    public function isSatisfied($dateValue, $value) {
         if ($this->isIncrementsOfRanges($value)) {
             return $this->isInIncrementsOfRanges($dateValue, $value);
         } elseif ($this->isRange($value)) {
@@ -33,8 +32,7 @@ abstract class AbstractField implements FieldInterface
      *
      * @return bool
      */
-    public function isRange($value)
-    {
+    public function isRange($value) {
         return strpos($value, '-') !== false;
     }
 
@@ -45,8 +43,7 @@ abstract class AbstractField implements FieldInterface
      *
      * @return bool
      */
-    public function isIncrementsOfRanges($value)
-    {
+    public function isIncrementsOfRanges($value) {
         return strpos($value, '/') !== false;
     }
 
@@ -58,8 +55,7 @@ abstract class AbstractField implements FieldInterface
      *
      * @return bool
      */
-    public function isInRange($dateValue, $value)
-    {
+    public function isInRange($dateValue, $value) {
         $parts = array_map('trim', explode('-', $value, 2));
 
         return $dateValue >= $parts[0] && $dateValue <= $parts[1];
@@ -73,8 +69,7 @@ abstract class AbstractField implements FieldInterface
      *
      * @return bool
      */
-    public function isInIncrementsOfRanges($dateValue, $value)
-    {
+    public function isInIncrementsOfRanges($dateValue, $value) {
         $parts = array_map('trim', explode('/', $value, 2));
         $stepSize = isset($parts[1]) ? $parts[1] : 0;
         if (($parts[0] == '*' || $parts[0] === '0') && 0 !== $stepSize) {
@@ -90,7 +85,7 @@ abstract class AbstractField implements FieldInterface
         }
 
         if ($dateValue > $offset && 0 === $stepSize) {
-          return false;
+            return false;
         }
 
         for ($i = $offset; $i <= $to; $i+= $stepSize) {
@@ -101,4 +96,5 @@ abstract class AbstractField implements FieldInterface
 
         return false;
     }
+
 }

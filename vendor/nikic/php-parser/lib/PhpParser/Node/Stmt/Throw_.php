@@ -7,8 +7,8 @@ use PhpParser\Node;
 /**
  * @property Node\Expr $expr Expression
  */
-class Throw_ extends Node\Stmt
-{
+class Throw_ extends Node\Stmt {
+
     /**
      * Constructs a throw node.
      *
@@ -17,10 +17,10 @@ class Throw_ extends Node\Stmt
      */
     public function __construct(Node\Expr $expr, array $attributes = array()) {
         parent::__construct(
-            array(
-                'expr' => $expr,
-            ),
-            $attributes
+                array(
+            'expr' => $expr,
+                ), $attributes
         );
     }
+
 }

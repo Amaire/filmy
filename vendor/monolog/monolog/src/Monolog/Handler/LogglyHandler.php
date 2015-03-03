@@ -20,18 +20,16 @@ use Monolog\Formatter\LogglyFormatter;
  * @author Przemek Sobstel <przemek@sobstel.org>
  * @author Adam Pancutt <adam@pancutt.com>
  */
-class LogglyHandler extends AbstractProcessingHandler
-{
+class LogglyHandler extends AbstractProcessingHandler {
+
     const HOST = 'logs-01.loggly.com';
     const ENDPOINT_SINGLE = 'inputs';
     const ENDPOINT_BATCH = 'bulk';
 
     protected $token;
-
     protected $tag;
 
-    public function __construct($token, $level = Logger::DEBUG, $bubble = true)
-    {
+    public function __construct($token, $level = Logger::DEBUG, $bubble = true) {
         if (!extension_loaded('curl')) {
             throw new \LogicException('The curl extension is needed to use the LogglyHandler');
         }
@@ -41,23 +39,19 @@ class LogglyHandler extends AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
 
-    public function setTag($tag)
-    {
+    public function setTag($tag) {
         $this->tag = $tag;
     }
 
-    public function addTag($tag)
-    {
-        $this->tag = (strlen($this->tag) > 0) ? $this->tag .','. $tag : $tag;
+    public function addTag($tag) {
+        $this->tag = (strlen($this->tag) > 0) ? $this->tag . ',' . $tag : $tag;
     }
 
-    protected function write(array $record)
-    {
+    protected function write(array $record) {
         $this->send($record["formatted"], self::ENDPOINT_SINGLE);
     }
 
-    public function handleBatch(array $records)
-    {
+    public function handleBatch(array $records) {
         $level = $this->level;
 
         $records = array_filter($records, function ($record) use ($level) {
@@ -69,8 +63,7 @@ class LogglyHandler extends AbstractProcessingHandler
         }
     }
 
-    protected function send($data, $endpoint)
-    {
+    protected function send($data, $endpoint) {
         $url = sprintf("https://%s/%s/%s/", self::HOST, $endpoint, $this->token);
 
         $headers = array('Content-Type: application/json');
@@ -91,8 +84,8 @@ class LogglyHandler extends AbstractProcessingHandler
         curl_close($ch);
     }
 
-    protected function getDefaultFormatter()
-    {
+    protected function getDefaultFormatter() {
         return new LogglyFormatter();
     }
+
 }

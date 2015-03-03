@@ -24,8 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Parse PHP code and show the abstract syntax tree.
  */
-class ParseCommand extends Command implements PresenterManagerAware
-{
+class ParseCommand extends Command implements PresenterManagerAware {
+
     private $presenterManager;
     private $parser;
 
@@ -34,8 +34,7 @@ class ParseCommand extends Command implements PresenterManagerAware
      *
      * @param PresenterManager $manager
      */
-    public function setPresenterManager(PresenterManager $manager)
-    {
+    public function setPresenterManager(PresenterManager $manager) {
         $this->presenterManager = new PresenterManager();
 
         foreach ($manager as $presenter) {
@@ -48,17 +47,16 @@ class ParseCommand extends Command implements PresenterManagerAware
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure() {
         $this
-            ->setName('parse')
-            ->setDefinition(array(
-                new InputArgument('code', InputArgument::REQUIRED, 'PHP code to parse.'),
-                new InputOption('depth', '', InputOption::VALUE_REQUIRED, 'Depth to parse', 10),
-            ))
-            ->setDescription('Parse PHP code and show the abstract syntax tree.')
-            ->setHelp(
-                <<<HELP
+                ->setName('parse')
+                ->setDefinition(array(
+                    new InputArgument('code', InputArgument::REQUIRED, 'PHP code to parse.'),
+                    new InputOption('depth', '', InputOption::VALUE_REQUIRED, 'Depth to parse', 10),
+                ))
+                ->setDescription('Parse PHP code and show the abstract syntax tree.')
+                ->setHelp(
+                        <<<HELP
 Parse PHP code and show the abstract syntax tree.
 
 This command is used in the development of PsySH. Given a string of PHP code,
@@ -68,14 +66,13 @@ See https://github.com/nikic/PHP-Parser
 
 It prolly won't be super useful for most of you, but it's here if you want to play.
 HELP
-            );
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $code = $input->getArgument('code');
         if (strpos('<?', $code) === false) {
             $code = '<?php ' . $code;
@@ -93,8 +90,7 @@ HELP
      *
      * @return array Statements
      */
-    private function parse($code)
-    {
+    private function parse($code) {
         $parser = $this->getParser();
 
         try {
@@ -114,12 +110,12 @@ HELP
      *
      * @return Parser
      */
-    private function getParser()
-    {
+    private function getParser() {
         if (!isset($this->parser)) {
             $this->parser = new Parser(new Lexer());
         }
 
         return $this->parser;
     }
+
 }

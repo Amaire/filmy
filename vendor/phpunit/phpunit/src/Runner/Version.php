@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class PHPUnit_Runner_Version
-{
+class PHPUnit_Runner_Version {
+
     private static $pharVersion;
     private static $version;
 
@@ -29,8 +30,7 @@ class PHPUnit_Runner_Version
      *
      * @return string
      */
-    public static function id()
-    {
+    public static function id() {
         if (self::$pharVersion !== null) {
             return self::$pharVersion;
         }
@@ -46,8 +46,7 @@ class PHPUnit_Runner_Version
     /**
      * @return string
      */
-    public static function getVersionString()
-    {
+    public static function getVersionString() {
         return 'PHPUnit ' . self::id() . ' by Sebastian Bergmann and contributors.';
     }
 
@@ -55,8 +54,7 @@ class PHPUnit_Runner_Version
      * @return string
      * @since  Method available since Release 4.0.0
      */
-    public static function getReleaseChannel()
-    {
+    public static function getReleaseChannel() {
         if (strpos(self::$pharVersion, 'alpha') !== false) {
             return '-alpha';
         }
@@ -67,4 +65,5 @@ class PHPUnit_Runner_Version
 
         return '';
     }
+
 }

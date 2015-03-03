@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class RoleVoter implements VoterInterface
-{
+class RoleVoter implements VoterInterface {
+
     private $prefix;
 
     /**
@@ -27,32 +27,28 @@ class RoleVoter implements VoterInterface
      *
      * @param string $prefix The role prefix
      */
-    public function __construct($prefix = 'ROLE_')
-    {
+    public function __construct($prefix = 'ROLE_') {
         $this->prefix = $prefix;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supportsAttribute($attribute)
-    {
+    public function supportsAttribute($attribute) {
         return 0 === strpos($attribute, $this->prefix);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
-    {
+    public function supportsClass($class) {
         return true;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
-    {
+    public function vote(TokenInterface $token, $object, array $attributes) {
         $result = VoterInterface::ACCESS_ABSTAIN;
         $roles = $this->extractRoles($token);
 
@@ -72,8 +68,8 @@ class RoleVoter implements VoterInterface
         return $result;
     }
 
-    protected function extractRoles(TokenInterface $token)
-    {
+    protected function extractRoles(TokenInterface $token) {
         return $token->getRoles();
     }
+
 }

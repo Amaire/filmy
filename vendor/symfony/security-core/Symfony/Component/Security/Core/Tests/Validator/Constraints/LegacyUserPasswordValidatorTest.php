@@ -17,10 +17,10 @@ use Symfony\Component\Validator\Validation;
  * @since  2.5.4
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class LegacyUserPasswordValidatorApiTest extends UserPasswordValidatorTest
-{
-    protected function getApiVersion()
-    {
+class LegacyUserPasswordValidatorApiTest extends UserPasswordValidatorTest {
+
+    protected function getApiVersion() {
         return Validation::API_VERSION_2_5_BC;
     }
+
 }

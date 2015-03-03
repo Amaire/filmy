@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,9 +22,9 @@ use phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class ExampleTag extends SourceTag
-{
-    /** 
+class ExampleTag extends SourceTag {
+
+    /**
      * @var string Path to a file to use as an example.
      *     May also be an absolute URI.
      */
@@ -38,16 +39,13 @@ class ExampleTag extends SourceTag
     /**
      * {@inheritdoc}
      */
-    public function getContent()
-    {
+    public function getContent() {
         if (null === $this->content) {
             $filePath = '';
             if ($this->isURI) {
                 if (false === strpos($this->filePath, ':')) {
                     $filePath = str_replace(
-                        '%2F',
-                        '/',
-                        rawurlencode($this->filePath)
+                            '%2F', '/', rawurlencode($this->filePath)
                     );
                 } else {
                     $filePath = $this->filePath;
@@ -61,14 +59,14 @@ class ExampleTag extends SourceTag
 
         return $this->content;
     }
+
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         Tag::setContent($content);
         if (preg_match(
-            '/^
+                        '/^
                 # File component
                 (?:
                     # File path in quotes
@@ -79,10 +77,8 @@ class ExampleTag extends SourceTag
                 )
                 # Remaining content (parsed by SourceTag)
                 (?:\s+(.*))?
-            $/sux',
-            $this->description,
-            $matches
-        )) {
+            $/sux', $this->description, $matches
+                )) {
             if ('' !== $matches[1]) {
                 $this->setFilePath($matches[1]);
             } else {
@@ -106,11 +102,10 @@ class ExampleTag extends SourceTag
      * @return string Path to a file to use as an example.
      *     May also be an absolute URI.
      */
-    public function getFilePath()
-    {
+    public function getFilePath() {
         return $this->filePath;
     }
-    
+
     /**
      * Sets the file path.
      * 
@@ -118,15 +113,14 @@ class ExampleTag extends SourceTag
      * 
      * @return $this
      */
-    public function setFilePath($filePath)
-    {
+    public function setFilePath($filePath) {
         $this->isURI = false;
         $this->filePath = trim($filePath);
 
         $this->content = null;
         return $this;
     }
-    
+
     /**
      * Sets the file path as an URI.
      * 
@@ -137,13 +131,12 @@ class ExampleTag extends SourceTag
      * 
      * @param type $uri The new file URI to use as an example.
      */
-    public function setFileURI($uri)
-    {
+    public function setFileURI($uri) {
         $this->isURI = true;
         if (false === strpos($uri, ':')) {
             //Relative URL
             $this->filePath = rawurldecode(
-                str_replace(array('/', '\\'), '%2F', $uri)
+                    str_replace(array('/', '\\'), '%2F', $uri)
             );
         } else {
             //Absolute URL or URI.
@@ -153,4 +146,5 @@ class ExampleTag extends SourceTag
         $this->content = null;
         return $this;
     }
+
 }

@@ -15,10 +15,9 @@ namespace Cron;
  * number between one and five. It allows you to specify constructs such as
  * "the second Friday" of a given month.
  */
-class DayOfWeekField extends AbstractField
-{
-    public function isSatisfiedBy(\DateTime $date, $value)
-    {
+class DayOfWeekField extends AbstractField {
+
+    public function isSatisfiedBy(\DateTime $date, $value) {
         if ($value == '?') {
             return true;
         }
@@ -97,8 +96,7 @@ class DayOfWeekField extends AbstractField
         return $this->isSatisfied($fieldValue, $value);
     }
 
-    public function increment(\DateTime $date, $invert = false)
-    {
+    public function increment(\DateTime $date, $invert = false) {
         if ($invert) {
             $date->modify('-1 day');
             $date->setTime(23, 59, 0);
@@ -110,8 +108,7 @@ class DayOfWeekField extends AbstractField
         return $this;
     }
 
-    public function validate($value)
-    {
+    public function validate($value) {
         $value = $this->convertLiterals($value);
 
         foreach (explode(',', $value) as $expr) {
@@ -123,12 +120,10 @@ class DayOfWeekField extends AbstractField
         return true;
     }
 
-    private function convertLiterals($string)
-    {
+    private function convertLiterals($string) {
         return str_ireplace(
-            array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'),
-            range(0, 6),
-            $string
+                array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'), range(0, 6), $string
         );
     }
+
 }

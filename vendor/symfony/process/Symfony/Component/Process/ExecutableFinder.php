@@ -17,8 +17,8 @@ namespace Symfony\Component\Process;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class ExecutableFinder
-{
+class ExecutableFinder {
+
     private $suffixes = array('.exe', '.bat', '.cmd', '.com');
 
     /**
@@ -26,8 +26,7 @@ class ExecutableFinder
      *
      * @param array $suffixes
      */
-    public function setSuffixes(array $suffixes)
-    {
+    public function setSuffixes(array $suffixes) {
         $this->suffixes = $suffixes;
     }
 
@@ -36,8 +35,7 @@ class ExecutableFinder
      *
      * @param string $suffix
      */
-    public function addSuffix($suffix)
-    {
+    public function addSuffix($suffix) {
         $this->suffixes[] = $suffix;
     }
 
@@ -50,8 +48,7 @@ class ExecutableFinder
      *
      * @return string The executable path or default value
      */
-    public function find($name, $default = null, array $extraDirs = array())
-    {
+    public function find($name, $default = null, array $extraDirs = array()) {
         if (ini_get('open_basedir')) {
             $searchPath = explode(PATH_SEPARATOR, ini_get('open_basedir'));
             $dirs = array();
@@ -66,8 +63,7 @@ class ExecutableFinder
             }
         } else {
             $dirs = array_merge(
-                explode(PATH_SEPARATOR, getenv('PATH') ?: getenv('Path')),
-                $extraDirs
+                    explode(PATH_SEPARATOR, getenv('PATH') ? : getenv('Path')), $extraDirs
             );
         }
 
@@ -78,7 +74,7 @@ class ExecutableFinder
         }
         foreach ($suffixes as $suffix) {
             foreach ($dirs as $dir) {
-                if (is_file($file = $dir.DIRECTORY_SEPARATOR.$name.$suffix) && ('\\' === DIRECTORY_SEPARATOR || is_executable($file))) {
+                if (is_file($file = $dir . DIRECTORY_SEPARATOR . $name . $suffix) && ('\\' === DIRECTORY_SEPARATOR || is_executable($file))) {
                     return $file;
                 }
             }
@@ -86,4 +82,5 @@ class ExecutableFinder
 
         return $default;
     }
+
 }

@@ -14,8 +14,8 @@ namespace Symfony\Component\Routing;
 /**
  * @api
  */
-interface RequestContextAwareInterface
-{
+interface RequestContextAwareInterface {
+
     /**
      * Sets the request context.
      *

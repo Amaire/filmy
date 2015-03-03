@@ -14,14 +14,13 @@ namespace Monolog\Handler;
 use Monolog\TestCase;
 use Monolog\Logger;
 
-class StreamHandlerTest extends TestCase
-{
+class StreamHandlerTest extends TestCase {
+
     /**
      * @covers Monolog\Handler\StreamHandler::__construct
      * @covers Monolog\Handler\StreamHandler::write
      */
-    public function testWrite()
-    {
+    public function testWrite() {
         $handle = fopen('php://memory', 'a+');
         $handler = new StreamHandler($handle);
         $handler->setFormatter($this->getIdentityFormatter());
@@ -35,8 +34,7 @@ class StreamHandlerTest extends TestCase
     /**
      * @covers Monolog\Handler\StreamHandler::close
      */
-    public function testClose()
-    {
+    public function testClose() {
         $handle = fopen('php://memory', 'a+');
         $handler = new StreamHandler($handle);
         $this->assertTrue(is_resource($handle));
@@ -47,8 +45,7 @@ class StreamHandlerTest extends TestCase
     /**
      * @covers Monolog\Handler\StreamHandler::write
      */
-    public function testWriteCreatesTheStreamResource()
-    {
+    public function testWriteCreatesTheStreamResource() {
         $handler = new StreamHandler('php://memory');
         $handler->handle($this->getRecord());
     }
@@ -57,8 +54,7 @@ class StreamHandlerTest extends TestCase
      * @covers Monolog\Handler\StreamHandler::__construct
      * @covers Monolog\Handler\StreamHandler::write
      */
-    public function testWriteLocking()
-    {
+    public function testWriteLocking() {
         $temp = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'monolog_locked_log';
         $handler = new StreamHandler($temp, Logger::DEBUG, true, null, true);
         $handler->handle($this->getRecord());
@@ -69,14 +65,12 @@ class StreamHandlerTest extends TestCase
      * @covers Monolog\Handler\StreamHandler::__construct
      * @covers Monolog\Handler\StreamHandler::write
      */
-    public function testWriteMissingResource()
-    {
+    public function testWriteMissingResource() {
         $handler = new StreamHandler(null);
         $handler->handle($this->getRecord());
     }
 
-    public function invalidArgumentProvider()
-    {
+    public function invalidArgumentProvider() {
         return array(
             array(1),
             array(array()),
@@ -89,8 +83,7 @@ class StreamHandlerTest extends TestCase
      * @expectedException InvalidArgumentException
      * @covers Monolog\Handler\StreamHandler::__construct
      */
-    public function testWriteInvalidArgument($invalidArgument)
-    {
+    public function testWriteInvalidArgument($invalidArgument) {
         $handler = new StreamHandler($invalidArgument);
     }
 
@@ -99,8 +92,7 @@ class StreamHandlerTest extends TestCase
      * @covers Monolog\Handler\StreamHandler::__construct
      * @covers Monolog\Handler\StreamHandler::write
      */
-    public function testWriteInvalidResource()
-    {
+    public function testWriteInvalidResource() {
         $handler = new StreamHandler('bogus://url');
         $handler->handle($this->getRecord());
     }
@@ -110,9 +102,9 @@ class StreamHandlerTest extends TestCase
      * @covers Monolog\Handler\StreamHandler::__construct
      * @covers Monolog\Handler\StreamHandler::write
      */
-    public function testWriteNonExistingResource()
-    {
-        $handler = new StreamHandler('/foo/bar/baz/'.rand(0, 10000));
+    public function testWriteNonExistingResource() {
+        $handler = new StreamHandler('/foo/bar/baz/' . rand(0, 10000));
         $handler->handle($this->getRecord());
     }
+
 }

@@ -23,8 +23,8 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Arnaud Le Blanc <arnaud.lb@gmail.com>
  */
-class ApacheUrlMatcher extends UrlMatcher
-{
+class ApacheUrlMatcher extends UrlMatcher {
+
     /**
      * Tries to match a URL based on Apache mod_rewrite matching.
      *
@@ -36,8 +36,7 @@ class ApacheUrlMatcher extends UrlMatcher
      *
      * @throws MethodNotAllowedException If the current method is not allowed
      */
-    public function match($pathinfo)
-    {
+    public function match($pathinfo) {
         $parameters = array();
         $defaults = array();
         $allow = array();
@@ -64,8 +63,8 @@ class ApacheUrlMatcher extends UrlMatcher
                 continue;
             }
             if (false !== $pos = strpos($name, '_', 9)) {
-                $type = substr($name, 9, $pos-9);
-                $name = substr($name, $pos+1);
+                $type = substr($name, 9, $pos - 9);
+                $name = substr($name, $pos + 1);
             } else {
                 $type = substr($name, 9);
             }
@@ -103,8 +102,7 @@ class ApacheUrlMatcher extends UrlMatcher
      *
      * @return array
      */
-    private function denormalizeValues(array $values)
-    {
+    private function denormalizeValues(array $values) {
         $normalizedValues = array();
         foreach ($values as $key => $value) {
             if (preg_match('~^(.*)\[(\d+)\]$~', $key, $matches)) {
@@ -119,4 +117,5 @@ class ApacheUrlMatcher extends UrlMatcher
 
         return $normalizedValues;
     }
+
 }

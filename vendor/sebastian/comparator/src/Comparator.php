@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -22,8 +23,8 @@ use SebastianBergmann\Exporter\Exporter;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-abstract class Comparator
-{
+abstract class Comparator {
+
     /**
      * @var Factory
      */
@@ -34,16 +35,14 @@ abstract class Comparator
      */
     protected $exporter;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->exporter = new Exporter;
     }
 
     /**
      * @param Factory $factory
      */
-    public function setFactory(Factory $factory)
-    {
+    public function setFactory(Factory $factory) {
         $this->factory = $factory;
     }
 

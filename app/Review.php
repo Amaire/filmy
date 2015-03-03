@@ -1,19 +1,23 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model {
+
     protected $fillable = [
-      'title',
+        'title',
         'description'
-        
     ];
-        public function users() {
+
+    public function users() {
         return $this->belongsTo('App\User');
     }
-        public function movies() {
+
+    public function movies() {
         return $this->belongsTo('App\Movie');
     }
-	//
 
+    //
 }

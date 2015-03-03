@@ -20,13 +20,12 @@ use Symfony\Component\Config\Resource\FileResource;
  *
  * @author stealth35
  */
-class IniFileLoader extends ArrayLoader implements LoaderInterface
-{
+class IniFileLoader extends ArrayLoader implements LoaderInterface {
+
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $locale, $domain = 'messages')
-    {
+    public function load($resource, $locale, $domain = 'messages') {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
@@ -42,4 +41,5 @@ class IniFileLoader extends ArrayLoader implements LoaderInterface
 
         return $catalogue;
     }
+
 }

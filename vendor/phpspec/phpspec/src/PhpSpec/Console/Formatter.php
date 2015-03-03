@@ -20,15 +20,14 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
  * Class Formatter is responsible for configuring the console output formatting
  * style
  */
-class Formatter extends OutputFormatter
-{
+class Formatter extends OutputFormatter {
+
     /**
      * @param boolean $decorated
      *
      * @param array $styles
      */
-    public function __construct($decorated = false, array $styles = array())
-    {
+    public function __construct($decorated = false, array $styles = array()) {
         parent::__construct($decorated, $styles);
 
         $this->setStyle('pending', new OutputFormatterStyle('yellow'));
@@ -61,4 +60,5 @@ class Formatter extends OutputFormatter
         $this->setStyle('diff-add', new OutputFormatterStyle('green'));
         $this->setStyle('diff-del', new OutputFormatterStyle('red'));
     }
+
 }

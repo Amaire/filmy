@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Wrapper\Subject\Expectation;
 
-interface ThrowExpectation
-{
+interface ThrowExpectation {
+
     /**
      * @param string $method
      * @param array  $arguments

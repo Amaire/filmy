@@ -28,8 +28,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class AuthenticationProviderManager implements AuthenticationManagerInterface
-{
+class AuthenticationProviderManager implements AuthenticationManagerInterface {
+
     private $providers;
     private $eraseCredentials;
     private $eventDispatcher;
@@ -42,8 +42,7 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $providers, $eraseCredentials = true)
-    {
+    public function __construct(array $providers, $eraseCredentials = true) {
         if (!$providers) {
             throw new \InvalidArgumentException('You must at least add one authentication provider.');
         }
@@ -52,16 +51,14 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
         $this->eraseCredentials = (bool) $eraseCredentials;
     }
 
-    public function setEventDispatcher(EventDispatcherInterface $dispatcher)
-    {
+    public function setEventDispatcher(EventDispatcherInterface $dispatcher) {
         $this->eventDispatcher = $dispatcher;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function authenticate(TokenInterface $token)
-    {
+    public function authenticate(TokenInterface $token) {
         $lastException = null;
         $result = null;
 
@@ -109,4 +106,5 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
 
         throw $lastException;
     }
+
 }

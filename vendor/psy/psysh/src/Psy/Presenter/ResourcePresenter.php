@@ -14,8 +14,8 @@ namespace Psy\Presenter;
 /**
  * A resource Presenter.
  */
-class ResourcePresenter implements Presenter
-{
+class ResourcePresenter implements Presenter {
+
     const FMT = '<resource>\\<%s <strong>resource #%s</strong>></resource>';
 
     /**
@@ -25,8 +25,7 @@ class ResourcePresenter implements Presenter
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return is_resource($value);
     }
 
@@ -37,8 +36,7 @@ class ResourcePresenter implements Presenter
      *
      * @return string
      */
-    public function presentRef($value)
-    {
+    public function presentRef($value) {
         $type = get_resource_type($value);
         if ($type === 'stream') {
             $meta = stream_get_meta_data($value);
@@ -59,8 +57,8 @@ class ResourcePresenter implements Presenter
      *
      * @return string
      */
-    public function present($value, $depth = null, $options = 0)
-    {
+    public function present($value, $depth = null, $options = 0) {
         return $this->presentRef($value);
     }
+
 }

@@ -17,17 +17,15 @@ use Symfony\Component\HttpKernel\EventListener\LocaleListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
-class LocaleListenerTest extends \PHPUnit_Framework_TestCase
-{
+class LocaleListenerTest extends \PHPUnit_Framework_TestCase {
+
     private $requestStack;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->requestStack = $this->getMock('Symfony\Component\HttpFoundation\RequestStack', array(), array(), '', false);
     }
 
-    public function testDefaultLocaleWithoutSession()
-    {
+    public function testDefaultLocaleWithoutSession() {
         $listener = new LocaleListener('fr', null, $this->requestStack);
         $event = $this->getEvent($request = Request::create('/'));
 
@@ -35,8 +33,7 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('fr', $request->getLocale());
     }
 
-    public function testLocaleFromRequestAttribute()
-    {
+    public function testLocaleFromRequestAttribute() {
         $request = Request::create('/');
         session_name('foo');
         $request->cookies->set('foo', 'value');
@@ -49,8 +46,7 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('es', $request->getLocale());
     }
 
-    public function testLocaleSetForRoutingContext()
-    {
+    public function testLocaleSetForRoutingContext() {
         // the request context is updated
         $context = $this->getMock('Symfony\Component\Routing\RequestContext');
         $context->expects($this->once())->method('setParameter')->with('_locale', 'es');
@@ -65,8 +61,7 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
         $listener->onKernelRequest($this->getEvent($request));
     }
 
-    public function testRouterResetWithParentRequestOnKernelFinishRequest()
-    {
+    public function testRouterResetWithParentRequestOnKernelFinishRequest() {
         // the request context is updated
         $context = $this->getMock('Symfony\Component\Routing\RequestContext');
         $context->expects($this->once())->method('setParameter')->with('_locale', 'es');
@@ -85,8 +80,7 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
         $listener->onKernelFinishRequest($event);
     }
 
-    public function testRequestLocaleIsNotOverridden()
-    {
+    public function testRequestLocaleIsNotOverridden() {
         $request = Request::create('/');
         $request->setLocale('de');
         $listener = new LocaleListener('fr', null, $this->requestStack);
@@ -96,8 +90,8 @@ class LocaleListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('de', $request->getLocale());
     }
 
-    private function getEvent(Request $request)
-    {
+    private function getEvent(Request $request) {
         return new GetResponseEvent($this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface'), $request, HttpKernelInterface::MASTER_REQUEST);
     }
+
 }

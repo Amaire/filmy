@@ -19,8 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Саша Стаменковић <umpirsky@gmail.com>
  */
-class Table
-{
+class Table {
+
     /**
      * Table headers.
      *
@@ -58,11 +58,9 @@ class Table
      * @var TableStyle
      */
     private $style;
-
     private static $styles;
 
-    public function __construct(OutputInterface $output)
-    {
+    public function __construct(OutputInterface $output) {
         $this->output = $output;
 
         if (!self::$styles) {
@@ -78,8 +76,7 @@ class Table
      * @param string     $name  The style name
      * @param TableStyle $style A TableStyle instance
      */
-    public static function setStyleDefinition($name, TableStyle $style)
-    {
+    public static function setStyleDefinition($name, TableStyle $style) {
         if (!self::$styles) {
             self::$styles = self::initStyles();
         }
@@ -94,8 +91,7 @@ class Table
      *
      * @return TableStyle A TableStyle instance
      */
-    public static function getStyleDefinition($name)
-    {
+    public static function getStyleDefinition($name) {
         if (!self::$styles) {
             self::$styles = self::initStyles();
         }
@@ -114,8 +110,7 @@ class Table
      *
      * @return Table
      */
-    public function setStyle($name)
-    {
+    public function setStyle($name) {
         if ($name instanceof TableStyle) {
             $this->style = $name;
         } elseif (isset(self::$styles[$name])) {
@@ -132,27 +127,23 @@ class Table
      *
      * @return TableStyle
      */
-    public function getStyle()
-    {
+    public function getStyle() {
         return $this->style;
     }
 
-    public function setHeaders(array $headers)
-    {
+    public function setHeaders(array $headers) {
         $this->headers = array_values($headers);
 
         return $this;
     }
 
-    public function setRows(array $rows)
-    {
+    public function setRows(array $rows) {
         $this->rows = array();
 
         return $this->addRows($rows);
     }
 
-    public function addRows(array $rows)
-    {
+    public function addRows(array $rows) {
         foreach ($rows as $row) {
             $this->addRow($row);
         }
@@ -160,8 +151,7 @@ class Table
         return $this;
     }
 
-    public function addRow($row)
-    {
+    public function addRow($row) {
         if ($row instanceof TableSeparator) {
             $this->rows[] = $row;
 
@@ -201,8 +191,7 @@ class Table
         return $this;
     }
 
-    public function setRow($column, array $row)
-    {
+    public function setRow($column, array $row) {
         $this->rows[$column] = $row;
 
         return $this;
@@ -220,8 +209,7 @@ class Table
      * | 960-425-059-0 | The Lord of the Rings | J. R. R. Tolkien |
      * +---------------+-----------------------+------------------+
      */
-    public function render()
-    {
+    public function render() {
         $this->renderRowSeparator();
         $this->renderRow($this->headers, $this->style->getCellHeaderFormat());
         if (!empty($this->headers)) {
@@ -246,8 +234,7 @@ class Table
      *
      * Example: +-----+-----------+-------+
      */
-    private function renderRowSeparator()
-    {
+    private function renderRowSeparator() {
         if (0 === $count = $this->getNumberOfColumns()) {
             return;
         }
@@ -258,7 +245,7 @@ class Table
 
         $markup = $this->style->getCrossingChar();
         for ($column = 0; $column < $count; $column++) {
-            $markup .= str_repeat($this->style->getHorizontalBorderChar(), $this->getColumnWidth($column)).$this->style->getCrossingChar();
+            $markup .= str_repeat($this->style->getHorizontalBorderChar(), $this->getColumnWidth($column)) . $this->style->getCrossingChar();
         }
 
         $this->output->writeln(sprintf($this->style->getBorderFormat(), $markup));
@@ -267,8 +254,7 @@ class Table
     /**
      * Renders vertical column separator.
      */
-    private function renderColumnSeparator()
-    {
+    private function renderColumnSeparator() {
         $this->output->write(sprintf($this->style->getBorderFormat(), $this->style->getVerticalBorderChar()));
     }
 
@@ -280,8 +266,7 @@ class Table
      * @param array  $row
      * @param string $cellFormat
      */
-    private function renderRow(array $row, $cellFormat)
-    {
+    private function renderRow(array $row, $cellFormat) {
         if (empty($row)) {
             return;
         }
@@ -301,8 +286,7 @@ class Table
      * @param int    $column
      * @param string $cellFormat
      */
-    private function renderCell(array $row, $column, $cellFormat)
-    {
+    private function renderCell(array $row, $column, $cellFormat) {
         $cell = isset($row[$column]) ? $row[$column] : '';
         $width = $this->getColumnWidth($column);
 
@@ -323,8 +307,7 @@ class Table
      *
      * @return int
      */
-    private function getNumberOfColumns()
-    {
+    private function getNumberOfColumns() {
         if (null !== $this->numberOfColumns) {
             return $this->numberOfColumns;
         }
@@ -344,8 +327,7 @@ class Table
      *
      * @return int
      */
-    private function getColumnWidth($column)
-    {
+    private function getColumnWidth($column) {
         if (isset($this->columnWidths[$column])) {
             return $this->columnWidths[$column];
         }
@@ -370,35 +352,32 @@ class Table
      *
      * @return int
      */
-    private function getCellWidth(array $row, $column)
-    {
+    private function getCellWidth(array $row, $column) {
         return isset($row[$column]) ? Helper::strlenWithoutDecoration($this->output->getFormatter(), $row[$column]) : 0;
     }
 
     /**
      * Called after rendering to cleanup cache data.
      */
-    private function cleanup()
-    {
+    private function cleanup() {
         $this->columnWidths = array();
         $this->numberOfColumns = null;
     }
 
-    private static function initStyles()
-    {
+    private static function initStyles() {
         $borderless = new TableStyle();
         $borderless
-            ->setHorizontalBorderChar('=')
-            ->setVerticalBorderChar(' ')
-            ->setCrossingChar(' ')
+                ->setHorizontalBorderChar('=')
+                ->setVerticalBorderChar(' ')
+                ->setCrossingChar(' ')
         ;
 
         $compact = new TableStyle();
         $compact
-            ->setHorizontalBorderChar('')
-            ->setVerticalBorderChar(' ')
-            ->setCrossingChar('')
-            ->setCellRowContentFormat('%s')
+                ->setHorizontalBorderChar('')
+                ->setVerticalBorderChar(' ')
+                ->setCrossingChar('')
+                ->setCellRowContentFormat('%s')
         ;
 
         return array(
@@ -407,4 +386,5 @@ class Table
             'compact' => $compact,
         );
     }
+
 }

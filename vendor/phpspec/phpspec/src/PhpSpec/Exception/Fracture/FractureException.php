@@ -18,6 +18,6 @@ use PhpSpec\Exception\Exception;
 /**
  * Class FractureException holds information about fracture exception
  */
-class FractureException extends Exception
-{
+class FractureException extends Exception {
+    
 }

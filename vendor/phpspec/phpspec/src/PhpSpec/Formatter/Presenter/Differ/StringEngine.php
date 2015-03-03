@@ -13,17 +13,15 @@
 
 namespace PhpSpec\Formatter\Presenter\Differ;
 
-class StringEngine implements EngineInterface
-{
-    public function supports($expected, $actual)
-    {
+class StringEngine implements EngineInterface {
+
+    public function supports($expected, $actual) {
         return is_string($expected) && is_string($actual);
     }
 
-    public function compare($expected, $actual)
-    {
+    public function compare($expected, $actual) {
         $expected = explode(PHP_EOL, (string) $expected);
-        $actual   = explode(PHP_EOL, (string) $actual);
+        $actual = explode(PHP_EOL, (string) $actual);
 
         $diff = new \Diff($expected, $actual, array());
 
@@ -43,4 +41,5 @@ class StringEngine implements EngineInterface
 
         return sprintf("<code>%s%s</code>", PHP_EOL, implode(PHP_EOL, $lines));
     }
+
 }

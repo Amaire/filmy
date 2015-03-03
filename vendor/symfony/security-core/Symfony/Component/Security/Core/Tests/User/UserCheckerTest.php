@@ -13,17 +13,15 @@ namespace Symfony\Component\Security\Core\Tests\User;
 
 use Symfony\Component\Security\Core\User\UserChecker;
 
-class UserCheckerTest extends \PHPUnit_Framework_TestCase
-{
-    public function testCheckPostAuthNotAdvancedUserInterface()
-    {
+class UserCheckerTest extends \PHPUnit_Framework_TestCase {
+
+    public function testCheckPostAuthNotAdvancedUserInterface() {
         $checker = new UserChecker();
 
         $this->assertNull($checker->checkPostAuth($this->getMock('Symfony\Component\Security\Core\User\UserInterface')));
     }
 
-    public function testCheckPostAuthPass()
-    {
+    public function testCheckPostAuthPass() {
         $checker = new UserChecker();
 
         $account = $this->getMock('Symfony\Component\Security\Core\User\AdvancedUserInterface');
@@ -35,8 +33,7 @@ class UserCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\CredentialsExpiredException
      */
-    public function testCheckPostAuthCredentialsExpired()
-    {
+    public function testCheckPostAuthCredentialsExpired() {
         $checker = new UserChecker();
 
         $account = $this->getMock('Symfony\Component\Security\Core\User\AdvancedUserInterface');
@@ -45,15 +42,13 @@ class UserCheckerTest extends \PHPUnit_Framework_TestCase
         $checker->checkPostAuth($account);
     }
 
-    public function testCheckPreAuthNotAdvancedUserInterface()
-    {
+    public function testCheckPreAuthNotAdvancedUserInterface() {
         $checker = new UserChecker();
 
         $this->assertNull($checker->checkPreAuth($this->getMock('Symfony\Component\Security\Core\User\UserInterface')));
     }
 
-    public function testCheckPreAuthPass()
-    {
+    public function testCheckPreAuthPass() {
         $checker = new UserChecker();
 
         $account = $this->getMock('Symfony\Component\Security\Core\User\AdvancedUserInterface');
@@ -67,8 +62,7 @@ class UserCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\LockedException
      */
-    public function testCheckPreAuthAccountLocked()
-    {
+    public function testCheckPreAuthAccountLocked() {
         $checker = new UserChecker();
 
         $account = $this->getMock('Symfony\Component\Security\Core\User\AdvancedUserInterface');
@@ -80,8 +74,7 @@ class UserCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\DisabledException
      */
-    public function testCheckPreAuthDisabled()
-    {
+    public function testCheckPreAuthDisabled() {
         $checker = new UserChecker();
 
         $account = $this->getMock('Symfony\Component\Security\Core\User\AdvancedUserInterface');
@@ -94,8 +87,7 @@ class UserCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\AccountExpiredException
      */
-    public function testCheckPreAuthAccountExpired()
-    {
+    public function testCheckPreAuthAccountExpired() {
         $checker = new UserChecker();
 
         $account = $this->getMock('Symfony\Component\Security\Core\User\AdvancedUserInterface');
@@ -105,4 +97,5 @@ class UserCheckerTest extends \PHPUnit_Framework_TestCase
 
         $checker->checkPreAuth($account);
     }
+
 }

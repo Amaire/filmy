@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property string|Expr $name Name
  */
-class Variable extends Expr
-{
+class Variable extends Expr {
+
     /**
      * Constructs a variable node.
      *
@@ -17,10 +17,10 @@ class Variable extends Expr
      */
     public function __construct($name, array $attributes = array()) {
         parent::__construct(
-            array(
-                 'name' => $name
-            ),
-            $attributes
+                array(
+            'name' => $name
+                ), $attributes
         );
     }
+
 }

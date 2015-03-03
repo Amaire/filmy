@@ -23,8 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @api
  */
-interface TerminableInterface
-{
+interface TerminableInterface {
+
     /**
      * Terminates a request/response cycle.
      *

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -19,8 +20,8 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 1.1.0
  */
-class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
-{
+class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator {
+
     /**
      * @var integer
      */
@@ -36,8 +37,7 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      *
      * @param PHP_CodeCoverage_Report_Node_Directory $node
      */
-    public function __construct(PHP_CodeCoverage_Report_Node_Directory $node)
-    {
+    public function __construct(PHP_CodeCoverage_Report_Node_Directory $node) {
         $this->nodes = $node->getChildNodes();
     }
 
@@ -45,8 +45,7 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      * Rewinds the Iterator to the first element.
      *
      */
-    public function rewind()
-    {
+    public function rewind() {
         $this->position = 0;
     }
 
@@ -55,8 +54,7 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      *
      * @return boolean
      */
-    public function valid()
-    {
+    public function valid() {
         return $this->position < count($this->nodes);
     }
 
@@ -65,8 +63,7 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      *
      * @return integer
      */
-    public function key()
-    {
+    public function key() {
         return $this->position;
     }
 
@@ -75,8 +72,7 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      *
      * @return PHPUnit_Framework_Test
      */
-    public function current()
-    {
+    public function current() {
         return $this->valid() ? $this->nodes[$this->position] : null;
     }
 
@@ -84,8 +80,7 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      * Moves forward to next element.
      *
      */
-    public function next()
-    {
+    public function next() {
         $this->position++;
     }
 
@@ -94,10 +89,9 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      *
      * @return PHP_CodeCoverage_Report_Node_Iterator
      */
-    public function getChildren()
-    {
+    public function getChildren() {
         return new PHP_CodeCoverage_Report_Node_Iterator(
-            $this->nodes[$this->position]
+                $this->nodes[$this->position]
         );
     }
 
@@ -106,8 +100,8 @@ class PHP_CodeCoverage_Report_Node_Iterator implements RecursiveIterator
      *
      * @return boolean
      */
-    public function hasChildren()
-    {
+    public function hasChildren() {
         return $this->nodes[$this->position] instanceof PHP_CodeCoverage_Report_Node_Directory;
     }
+
 }

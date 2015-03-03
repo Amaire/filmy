@@ -20,10 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
-{
-    public function testCollect()
-    {
+class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase {
+
+    public function testCollect() {
         $c = new RequestDataCollector();
 
         $c->collect($this->createRequest(), $this->createResponse());
@@ -54,8 +53,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Test various types of controller callables.
      */
-    public function testControllerInspection()
-    {
+    public function testControllerInspection() {
         // make sure we always match the line number
         $r1 = new \ReflectionMethod($this, 'testControllerInspection');
         $r2 = new \ReflectionMethod($this, 'staticControllerMethod');
@@ -72,24 +70,23 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'line' => $r1->getStartLine(),
                 ),
             ),
-
             array(
                 'Closure',
-                function () { return 'foo'; },
+                function () {
+                    return 'foo';
+                },
                 array(
-                    'class' => __NAMESPACE__.'\{closure}',
+                    'class' => __NAMESPACE__ . '\{closure}',
                     'method' => null,
                     'file' => __FILE__,
                     'line' => __LINE__ - 5,
                 ),
             ),
-
             array(
                 'Static callback as string',
                 'Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest::staticControllerMethod',
                 'Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest::staticControllerMethod',
             ),
-
             array(
                 'Static callable with instance',
                 array($this, 'staticControllerMethod'),
@@ -100,7 +97,6 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'line' => $r2->getStartLine(),
                 ),
             ),
-
             array(
                 'Static callable with class name',
                 array('Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest', 'staticControllerMethod'),
@@ -111,7 +107,6 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'line' => $r2->getStartLine(),
                 ),
             ),
-
             array(
                 'Callable with instance depending on __call()',
                 array($this, 'magicMethod'),
@@ -122,7 +117,6 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'line' => 'n/a',
                 ),
             ),
-
             array(
                 'Callable with class name depending on __callStatic()',
                 array('Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest', 'magicMethod'),
@@ -133,7 +127,6 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'line' => 'n/a',
                 ),
             ),
-
             array(
                 'Invokable controller',
                 $this,
@@ -156,8 +149,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    protected function createRequest()
-    {
+    protected function createRequest() {
         $request = Request::create('http://test.com/foo?bar=baz');
         $request->attributes->set('foo', 'bar');
         $request->attributes->set('_route', 'foobar');
@@ -168,8 +160,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
         return $request;
     }
 
-    protected function createResponse()
-    {
+    protected function createResponse() {
         $response = new Response();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'application/json');
@@ -183,8 +174,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Inject the given controller callable into the data collector.
      */
-    protected function injectController($collector, $controller, $request)
-    {
+    protected function injectController($collector, $controller, $request) {
         $resolver = $this->getMock('Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface');
         $httpKernel = new HttpKernel(new EventDispatcher(), $resolver);
         $event = new FilterControllerEvent($httpKernel, $controller, $request, HttpKernelInterface::MASTER_REQUEST);
@@ -194,29 +184,26 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Dummy method used as controller callable.
      */
-    public static function staticControllerMethod()
-    {
+    public static function staticControllerMethod() {
         throw new \LogicException('Unexpected method call');
     }
 
     /**
      * Magic method to allow non existing methods to be called and delegated.
      */
-    public function __call($method, $args)
-    {
+    public function __call($method, $args) {
         throw new \LogicException('Unexpected method call');
     }
 
     /**
      * Magic method to allow non existing methods to be called and delegated.
      */
-    public static function __callStatic($method, $args)
-    {
+    public static function __callStatic($method, $args) {
         throw new \LogicException('Unexpected method call');
     }
 
-    public function __invoke()
-    {
+    public function __invoke() {
         throw new \LogicException('Unexpected method call');
     }
+
 }

@@ -14,10 +14,9 @@ namespace Symfony\Component\Security\Core\Tests\Authentication\RememberMe;
 use Symfony\Component\Security\Core\Authentication\RememberMe\PersistentToken;
 use Symfony\Component\Security\Core\Authentication\RememberMe\InMemoryTokenProvider;
 
-class InMemoryTokenProviderTest extends \PHPUnit_Framework_TestCase
-{
-    public function testCreateNewToken()
-    {
+class InMemoryTokenProviderTest extends \PHPUnit_Framework_TestCase {
+
+    public function testCreateNewToken() {
         $provider = new InMemoryTokenProvider();
 
         $token = new PersistentToken('foo', 'foo', 'foo', 'foo', new \DateTime());
@@ -29,14 +28,12 @@ class InMemoryTokenProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\TokenNotFoundException
      */
-    public function testLoadTokenBySeriesThrowsNotFoundException()
-    {
+    public function testLoadTokenBySeriesThrowsNotFoundException() {
         $provider = new InMemoryTokenProvider();
         $provider->loadTokenBySeries('foo');
     }
 
-    public function testUpdateToken()
-    {
+    public function testUpdateToken() {
         $provider = new InMemoryTokenProvider();
 
         $token = new PersistentToken('foo', 'foo', 'foo', 'foo', new \DateTime());
@@ -51,8 +48,7 @@ class InMemoryTokenProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\TokenNotFoundException
      */
-    public function testDeleteToken()
-    {
+    public function testDeleteToken() {
         $provider = new InMemoryTokenProvider();
 
         $token = new PersistentToken('foo', 'foo', 'foo', 'foo', new \DateTime());
@@ -60,4 +56,5 @@ class InMemoryTokenProviderTest extends \PHPUnit_Framework_TestCase
         $provider->deleteTokenBySeries('foo');
         $provider->loadTokenBySeries('foo');
     }
+
 }

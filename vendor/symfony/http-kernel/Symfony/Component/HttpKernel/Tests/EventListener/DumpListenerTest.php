@@ -23,18 +23,15 @@ use Symfony\Component\VarDumper\VarDumper;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class DumpListenerTest extends \PHPUnit_Framework_TestCase
-{
-    public function testSubscribedEvents()
-    {
+class DumpListenerTest extends \PHPUnit_Framework_TestCase {
+
+    public function testSubscribedEvents() {
         $this->assertSame(
-            array(KernelEvents::REQUEST => array('configure', 1024)),
-            DumpListener::getSubscribedEvents()
+                array(KernelEvents::REQUEST => array('configure', 1024)), DumpListener::getSubscribedEvents()
         );
     }
 
-    public function testConfigure()
-    {
+    public function testConfigure() {
         $prevDumper = VarDumper::setHandler('var_dump');
         VarDumper::setHandler($prevDumper);
 
@@ -53,6 +50,7 @@ class DumpListenerTest extends \PHPUnit_Framework_TestCase
 
             $this->assertSame('+foo-+bar-', ob_get_clean());
         } catch (\Exception $exception) {
+            
         }
 
         VarDumper::setHandler($prevDumper);
@@ -61,22 +59,23 @@ class DumpListenerTest extends \PHPUnit_Framework_TestCase
             throw $exception;
         }
     }
+
 }
 
-class MockCloner implements ClonerInterface
-{
-    public function cloneVar($var)
-    {
-        return new Data(array($var.'-'));
+class MockCloner implements ClonerInterface {
+
+    public function cloneVar($var) {
+        return new Data(array($var . '-'));
     }
+
 }
 
-class MockDumper implements DataDumperInterface
-{
-    public function dump(Data $data)
-    {
+class MockDumper implements DataDumperInterface {
+
+    public function dump(Data $data) {
         $rawData = $data->getRawData();
 
-        echo '+'.$rawData[0];
+        echo '+' . $rawData[0];
     }
+
 }

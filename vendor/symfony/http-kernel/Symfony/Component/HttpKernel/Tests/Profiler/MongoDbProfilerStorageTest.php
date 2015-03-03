@@ -17,42 +17,39 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DummyMongoDbProfilerStorage extends MongoDbProfilerStorage
-{
-    public function getMongo()
-    {
+class DummyMongoDbProfilerStorage extends MongoDbProfilerStorage {
+
+    public function getMongo() {
         return parent::getMongo();
     }
+
 }
 
-class MongoDbProfilerStorageTestDataCollector extends DataCollector
-{
-    public function setData($data)
-    {
+class MongoDbProfilerStorageTestDataCollector extends DataCollector {
+
+    public function setData($data) {
         $this->data = $data;
     }
 
-    public function getData()
-    {
+    public function getData() {
         return $this->data;
     }
 
-    public function collect(Request $request, Response $response, \Exception $exception = null)
-    {
+    public function collect(Request $request, Response $response, \Exception $exception = null) {
+        
     }
 
-    public function getName()
-    {
+    public function getName() {
         return 'test_data_collector';
     }
+
 }
 
-class MongoDbProfilerStorageTest extends AbstractProfilerStorageTest
-{
+class MongoDbProfilerStorageTest extends AbstractProfilerStorageTest {
+
     protected static $storage;
 
-    public static function setUpBeforeClass()
-    {
+    public static function setUpBeforeClass() {
         if (extension_loaded('mongo')) {
             self::$storage = new DummyMongoDbProfilerStorage('mongodb://localhost/symfony_tests/profiler_data', '', '', 86400);
             try {
@@ -63,46 +60,43 @@ class MongoDbProfilerStorageTest extends AbstractProfilerStorageTest
         }
     }
 
-    public static function tearDownAfterClass()
-    {
+    public static function tearDownAfterClass() {
         if (self::$storage) {
             self::$storage->purge();
             self::$storage = null;
         }
     }
 
-    public function getDsns()
-    {
+    public function getDsns() {
         return array(
             array('mongodb://localhost/symfony_tests/profiler_data', array(
-                'mongodb://localhost/symfony_tests',
-                'symfony_tests',
-                'profiler_data',
-            )),
+                    'mongodb://localhost/symfony_tests',
+                    'symfony_tests',
+                    'profiler_data',
+                )),
             array('mongodb://user:password@localhost/symfony_tests/profiler_data', array(
-                'mongodb://user:password@localhost/symfony_tests',
-                'symfony_tests',
-                'profiler_data',
-            )),
+                    'mongodb://user:password@localhost/symfony_tests',
+                    'symfony_tests',
+                    'profiler_data',
+                )),
             array('mongodb://user:password@localhost/admin/symfony_tests/profiler_data', array(
-                'mongodb://user:password@localhost/admin',
-                'symfony_tests',
-                'profiler_data',
-            )),
+                    'mongodb://user:password@localhost/admin',
+                    'symfony_tests',
+                    'profiler_data',
+                )),
             array('mongodb://user:password@localhost:27009,localhost:27010/?replicaSet=rs-name&authSource=admin/symfony_tests/profiler_data', array(
-                'mongodb://user:password@localhost:27009,localhost:27010/?replicaSet=rs-name&authSource=admin',
-                'symfony_tests',
-                'profiler_data',
-            )),
+                    'mongodb://user:password@localhost:27009,localhost:27010/?replicaSet=rs-name&authSource=admin',
+                    'symfony_tests',
+                    'profiler_data',
+                )),
         );
     }
 
-    public function testCleanup()
-    {
+    public function testCleanup() {
         $dt = new \DateTime('-2 day');
         for ($i = 0; $i < 3; $i++) {
             $dt->modify('-1 day');
-            $profile = new Profile('time_'.$i);
+            $profile = new Profile('time_' . $i);
             $profile->setTime($dt->getTimestamp());
             $profile->setMethod('GET');
             self::$storage->write($profile);
@@ -116,16 +110,14 @@ class MongoDbProfilerStorageTest extends AbstractProfilerStorageTest
     /**
      * @dataProvider getDsns
      */
-    public function testDsnParser($dsn, $expected)
-    {
+    public function testDsnParser($dsn, $expected) {
         $m = new \ReflectionMethod(self::$storage, 'parseDsn');
         $m->setAccessible(true);
 
         $this->assertEquals($expected, $m->invoke(self::$storage, $dsn));
     }
 
-    public function testUtf8()
-    {
+    public function testUtf8() {
         $profile = new Profile('utf8_test_profile');
 
         $data = 'HЁʃʃϿ, ϢorЃd!';
@@ -149,17 +141,16 @@ class MongoDbProfilerStorageTest extends AbstractProfilerStorageTest
     /**
      * @return \Symfony\Component\HttpKernel\Profiler\ProfilerStorageInterface
      */
-    protected function getStorage()
-    {
+    protected function getStorage() {
         return self::$storage;
     }
 
-    protected function setUp()
-    {
+    protected function setUp() {
         if (self::$storage) {
             self::$storage->purge();
         } else {
             $this->markTestSkipped('MongoDbProfilerStorageTest requires the mongo PHP extension and a MongoDB server on localhost');
         }
     }
+
 }

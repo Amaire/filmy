@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -19,6 +20,6 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class PropertyWriteTag extends PropertyTag
-{
+class PropertyWriteTag extends PropertyTag {
+    
 }

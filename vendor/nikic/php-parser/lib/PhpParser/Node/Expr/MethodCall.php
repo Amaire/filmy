@@ -10,8 +10,8 @@ use PhpParser\Node\Expr;
  * @property string|Expr $name Method name
  * @property Arg[]       $args Arguments
  */
-class MethodCall extends Expr
-{
+class MethodCall extends Expr {
+
     /**
      * Constructs a function call node.
      *
@@ -22,12 +22,12 @@ class MethodCall extends Expr
      */
     public function __construct(Expr $var, $name, array $args = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'var'  => $var,
-                'name' => $name,
-                'args' => $args
-            ),
-            $attributes
+                array(
+            'var' => $var,
+            'name' => $name,
+            'args' => $args
+                ), $attributes
         );
     }
+
 }

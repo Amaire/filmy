@@ -13,12 +13,11 @@ namespace Symfony\Component\HttpFoundation\Tests\Session\Storage\Handler;
 
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\LegacyPdoSessionHandler;
 
-class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
-{
+class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase {
+
     private $pdo;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
 
         if (!class_exists('PDO') || !in_array('sqlite', \PDO::getAvailableDrivers())) {
@@ -31,14 +30,12 @@ class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->pdo->exec($sql);
     }
 
-    public function testIncompleteOptions()
-    {
+    public function testIncompleteOptions() {
         $this->setExpectedException('InvalidArgumentException');
         $storage = new LegacyPdoSessionHandler($this->pdo, array());
     }
 
-    public function testWrongPdoErrMode()
-    {
+    public function testWrongPdoErrMode() {
         $pdo = new \PDO('sqlite::memory:');
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
         $pdo->exec('CREATE TABLE sessions (sess_id VARCHAR(128) PRIMARY KEY, sess_data TEXT, sess_time INTEGER)');
@@ -47,29 +44,25 @@ class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $storage = new LegacyPdoSessionHandler($pdo, array('db_table' => 'sessions'));
     }
 
-    public function testWrongTableOptionsWrite()
-    {
+    public function testWrongTableOptionsWrite() {
         $storage = new LegacyPdoSessionHandler($this->pdo, array('db_table' => 'bad_name'));
         $this->setExpectedException('RuntimeException');
         $storage->write('foo', 'bar');
     }
 
-    public function testWrongTableOptionsRead()
-    {
+    public function testWrongTableOptionsRead() {
         $storage = new LegacyPdoSessionHandler($this->pdo, array('db_table' => 'bad_name'));
         $this->setExpectedException('RuntimeException');
         $storage->read('foo', 'bar');
     }
 
-    public function testWriteRead()
-    {
+    public function testWriteRead() {
         $storage = new LegacyPdoSessionHandler($this->pdo, array('db_table' => 'sessions'));
         $storage->write('foo', 'bar');
         $this->assertEquals('bar', $storage->read('foo'), 'written value can be read back correctly');
     }
 
-    public function testMultipleInstances()
-    {
+    public function testMultipleInstances() {
         $storage1 = new LegacyPdoSessionHandler($this->pdo, array('db_table' => 'sessions'));
         $storage1->write('foo', 'bar');
 
@@ -77,8 +70,7 @@ class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $storage2->read('foo'), 'values persist between instances');
     }
 
-    public function testSessionDestroy()
-    {
+    public function testSessionDestroy() {
         $storage = new LegacyPdoSessionHandler($this->pdo, array('db_table' => 'sessions'));
         $storage->write('foo', 'bar');
         $this->assertCount(1, $this->pdo->query('SELECT * FROM sessions')->fetchAll());
@@ -88,8 +80,7 @@ class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $this->pdo->query('SELECT * FROM sessions')->fetchAll());
     }
 
-    public function testSessionGC()
-    {
+    public function testSessionGC() {
         $storage = new LegacyPdoSessionHandler($this->pdo, array('db_table' => 'sessions'));
 
         $storage->write('foo', 'bar');
@@ -101,8 +92,7 @@ class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $this->pdo->query('SELECT * FROM sessions')->fetchAll());
     }
 
-    public function testGetConnection()
-    {
+    public function testGetConnection() {
         $storage = new LegacyPdoSessionHandler($this->pdo, array('db_table' => 'sessions'), array());
 
         $method = new \ReflectionMethod($storage, 'getConnection');
@@ -110,4 +100,5 @@ class LegacyPdoSessionHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\PDO', $method->invoke($storage));
     }
+
 }

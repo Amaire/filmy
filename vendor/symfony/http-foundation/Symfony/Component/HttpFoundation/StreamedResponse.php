@@ -26,8 +26,8 @@ namespace Symfony\Component\HttpFoundation;
  *
  * @api
  */
-class StreamedResponse extends Response
-{
+class StreamedResponse extends Response {
+
     protected $callback;
     protected $streamed;
 
@@ -40,8 +40,7 @@ class StreamedResponse extends Response
      *
      * @api
      */
-    public function __construct($callback = null, $status = 200, $headers = array())
-    {
+    public function __construct($callback = null, $status = 200, $headers = array()) {
         parent::__construct(null, $status, $headers);
 
         if (null !== $callback) {
@@ -59,8 +58,7 @@ class StreamedResponse extends Response
      *
      * @return StreamedResponse
      */
-    public static function create($callback = null, $status = 200, $headers = array())
-    {
+    public static function create($callback = null, $status = 200, $headers = array()) {
         return new static($callback, $status, $headers);
     }
 
@@ -71,8 +69,7 @@ class StreamedResponse extends Response
      *
      * @throws \LogicException
      */
-    public function setCallback($callback)
-    {
+    public function setCallback($callback) {
         if (!is_callable($callback)) {
             throw new \LogicException('The Response callback must be a valid PHP callable.');
         }
@@ -84,8 +81,7 @@ class StreamedResponse extends Response
      *
      * This method only sends the content once.
      */
-    public function sendContent()
-    {
+    public function sendContent() {
         if ($this->streamed) {
             return;
         }
@@ -104,8 +100,7 @@ class StreamedResponse extends Response
      *
      * @throws \LogicException when the content is not null
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         if (null !== $content) {
             throw new \LogicException('The content cannot be set on a StreamedResponse instance.');
         }
@@ -116,8 +111,8 @@ class StreamedResponse extends Response
      *
      * @return false
      */
-    public function getContent()
-    {
+    public function getContent() {
         return false;
     }
+
 }

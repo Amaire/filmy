@@ -15,8 +15,8 @@ namespace PhpSpec\Process\ReRunner;
 
 use PhpSpec\Process\ReRunner;
 
-interface PlatformSpecificReRunner extends ReRunner
-{
+interface PlatformSpecificReRunner extends ReRunner {
+
     /**
      * Does the current platform support this rerunner
      *

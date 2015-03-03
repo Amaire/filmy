@@ -17,13 +17,12 @@ use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
-{
-    public function testGetEncoderWithMessageDigestEncoder()
-    {
+class EncoderFactoryTest extends \PHPUnit_Framework_TestCase {
+
+    public function testGetEncoderWithMessageDigestEncoder() {
         $factory = new EncoderFactory(array('Symfony\Component\Security\Core\User\UserInterface' => array(
-            'class' => 'Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder',
-            'arguments' => array('sha512', true, 5),
+                'class' => 'Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder',
+                'arguments' => array('sha512', true, 5),
         )));
 
         $encoder = $factory->getEncoder($this->getMock('Symfony\Component\Security\Core\User\UserInterface'));
@@ -32,8 +31,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedEncoder->encodePassword('foo', 'moo'), $encoder->encodePassword('foo', 'moo'));
     }
 
-    public function testGetEncoderWithService()
-    {
+    public function testGetEncoderWithService() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\User\UserInterface' => new MessageDigestPasswordEncoder('sha1'),
         ));
@@ -47,8 +45,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedEncoder->encodePassword('foo', ''), $encoder->encodePassword('foo', ''));
     }
 
-    public function testGetEncoderWithClassName()
-    {
+    public function testGetEncoderWithClassName() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\User\UserInterface' => new MessageDigestPasswordEncoder('sha1'),
         ));
@@ -58,8 +55,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedEncoder->encodePassword('foo', ''), $encoder->encodePassword('foo', ''));
     }
 
-    public function testGetEncoderConfiguredForConcreteClassWithService()
-    {
+    public function testGetEncoderConfiguredForConcreteClassWithService() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\User\User' => new MessageDigestPasswordEncoder('sha1'),
         ));
@@ -69,8 +65,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedEncoder->encodePassword('foo', ''), $encoder->encodePassword('foo', ''));
     }
 
-    public function testGetEncoderConfiguredForConcreteClassWithClassName()
-    {
+    public function testGetEncoderConfiguredForConcreteClassWithClassName() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\Tests\Encoder\SomeUser' => new MessageDigestPasswordEncoder('sha1'),
         ));
@@ -80,8 +75,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedEncoder->encodePassword('foo', ''), $encoder->encodePassword('foo', ''));
     }
 
-    public function testGetNamedEncoderForEncoderAware()
-    {
+    public function testGetNamedEncoderForEncoderAware() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\Tests\Encoder\EncAwareUser' => new MessageDigestPasswordEncoder('sha256'),
             'encoder_name' => new MessageDigestPasswordEncoder('sha1'),
@@ -92,8 +86,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedEncoder->encodePassword('foo', ''), $encoder->encodePassword('foo', ''));
     }
 
-    public function testGetNullNamedEncoderForEncoderAware()
-    {
+    public function testGetNullNamedEncoderForEncoderAware() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\Tests\Encoder\EncAwareUser' => new MessageDigestPasswordEncoder('sha1'),
             'encoder_name' => new MessageDigestPasswordEncoder('sha256'),
@@ -109,8 +102,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException RuntimeException
      */
-    public function testGetInvalidNamedEncoderForEncoderAware()
-    {
+    public function testGetInvalidNamedEncoderForEncoderAware() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\Tests\Encoder\EncAwareUser' => new MessageDigestPasswordEncoder('sha1'),
             'encoder_name' => new MessageDigestPasswordEncoder('sha256'),
@@ -121,8 +113,7 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $encoder = $factory->getEncoder($user);
     }
 
-    public function testGetEncoderForEncoderAwareWithClassName()
-    {
+    public function testGetEncoderForEncoderAwareWithClassName() {
         $factory = new EncoderFactory(array(
             'Symfony\Component\Security\Core\Tests\Encoder\EncAwareUser' => new MessageDigestPasswordEncoder('sha1'),
             'encoder_name' => new MessageDigestPasswordEncoder('sha256'),
@@ -132,37 +123,43 @@ class EncoderFactoryTest extends \PHPUnit_Framework_TestCase
         $expectedEncoder = new MessageDigestPasswordEncoder('sha1');
         $this->assertEquals($expectedEncoder->encodePassword('foo', ''), $encoder->encodePassword('foo', ''));
     }
+
 }
 
-class SomeUser implements UserInterface
-{
-    public function getRoles()
-    {
+class SomeUser implements UserInterface {
+
+    public function getRoles() {
+        
     }
-    public function getPassword()
-    {
+
+    public function getPassword() {
+        
     }
-    public function getSalt()
-    {
+
+    public function getSalt() {
+        
     }
-    public function getUsername()
-    {
+
+    public function getUsername() {
+        
     }
-    public function eraseCredentials()
-    {
+
+    public function eraseCredentials() {
+        
     }
+
 }
 
-class SomeChildUser extends SomeUser
-{
+class SomeChildUser extends SomeUser {
+    
 }
 
-class EncAwareUser extends SomeUser implements EncoderAwareInterface
-{
+class EncAwareUser extends SomeUser implements EncoderAwareInterface {
+
     public $encoderName = 'encoder_name';
 
-    public function getEncoderName()
-    {
+    public function getEncoderName() {
         return $this->encoderName;
     }
+
 }

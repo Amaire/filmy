@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,23 +20,22 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-abstract class PHPUnit_Runner_BaseTestRunner
-{
-    const STATUS_PASSED     = 0;
-    const STATUS_SKIPPED    = 1;
+abstract class PHPUnit_Runner_BaseTestRunner {
+
+    const STATUS_PASSED = 0;
+    const STATUS_SKIPPED = 1;
     const STATUS_INCOMPLETE = 2;
-    const STATUS_FAILURE    = 3;
-    const STATUS_ERROR      = 4;
-    const STATUS_RISKY      = 5;
-    const SUITE_METHODNAME  = 'suite';
+    const STATUS_FAILURE = 3;
+    const STATUS_ERROR = 4;
+    const STATUS_RISKY = 5;
+    const SUITE_METHODNAME = 'suite';
 
     /**
      * Returns the loader to be used.
      *
      * @return PHPUnit_Runner_TestSuiteLoader
      */
-    public function getLoader()
-    {
+    public function getLoader() {
         return new PHPUnit_Runner_StandardTestSuiteLoader;
     }
 
@@ -49,13 +49,12 @@ abstract class PHPUnit_Runner_BaseTestRunner
      * @param  mixed                  $suffixes
      * @return PHPUnit_Framework_Test
      */
-    public function getTest($suiteClassName, $suiteClassFile = '', $suffixes = '')
-    {
+    public function getTest($suiteClassName, $suiteClassFile = '', $suffixes = '') {
         if (is_dir($suiteClassName) &&
-            !is_file($suiteClassName . '.php') && empty($suiteClassFile)) {
+                !is_file($suiteClassName . '.php') && empty($suiteClassFile)) {
             $facade = new File_Iterator_Facade;
-            $files  = $facade->getFilesAsArray(
-                $suiteClassName, $suffixes
+            $files = $facade->getFilesAsArray(
+                    $suiteClassName, $suffixes
             );
 
             $suite = new PHPUnit_Framework_TestSuite($suiteClassName);
@@ -66,7 +65,7 @@ abstract class PHPUnit_Runner_BaseTestRunner
 
         try {
             $testClass = $this->loadSuiteClass(
-                $suiteClassName, $suiteClassFile
+                    $suiteClassName, $suiteClassFile
             );
         } catch (PHPUnit_Framework_Exception $e) {
             $this->runFailed($e->getMessage());
@@ -79,7 +78,7 @@ abstract class PHPUnit_Runner_BaseTestRunner
 
             if (!$suiteMethod->isStatic()) {
                 $this->runFailed(
-                    'suite() method must be static.'
+                        'suite() method must be static.'
                 );
 
                 return null;
@@ -89,10 +88,9 @@ abstract class PHPUnit_Runner_BaseTestRunner
                 $test = $suiteMethod->invoke(null, $testClass->getName());
             } catch (ReflectionException $e) {
                 $this->runFailed(
-                    sprintf(
-                        "Failed to invoke suite() method.\n%s",
-                        $e->getMessage()
-                    )
+                        sprintf(
+                                "Failed to invoke suite() method.\n%s", $e->getMessage()
+                        )
                 );
 
                 return null;
@@ -118,8 +116,7 @@ abstract class PHPUnit_Runner_BaseTestRunner
      * @param  string          $suiteClassFile
      * @return ReflectionClass
      */
-    protected function loadSuiteClass($suiteClassName, $suiteClassFile = '')
-    {
+    protected function loadSuiteClass($suiteClassName, $suiteClassFile = '') {
         $loader = $this->getLoader();
 
         return $loader->load($suiteClassName, $suiteClassFile);
@@ -129,8 +126,8 @@ abstract class PHPUnit_Runner_BaseTestRunner
      * Clears the status message.
      *
      */
-    protected function clearStatus()
-    {
+    protected function clearStatus() {
+        
     }
 
     /**

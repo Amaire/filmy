@@ -14,10 +14,9 @@ namespace Symfony\Component\Security\Core\Tests\Authentication\Token;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Role\Role;
 
-class UsernamePasswordTokenTest extends \PHPUnit_Framework_TestCase
-{
-    public function testConstructor()
-    {
+class UsernamePasswordTokenTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConstructor() {
         $token = new UsernamePasswordToken('foo', 'bar', 'key');
         $this->assertFalse($token->isAuthenticated());
 
@@ -30,29 +29,26 @@ class UsernamePasswordTokenTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      */
-    public function testSetAuthenticatedToTrue()
-    {
+    public function testSetAuthenticatedToTrue() {
         $token = new UsernamePasswordToken('foo', 'bar', 'key');
         $token->setAuthenticated(true);
     }
 
-    public function testSetAuthenticatedToFalse()
-    {
+    public function testSetAuthenticatedToFalse() {
         $token = new UsernamePasswordToken('foo', 'bar', 'key');
         $token->setAuthenticated(false);
         $this->assertFalse($token->isAuthenticated());
     }
 
-    public function testEraseCredentials()
-    {
+    public function testEraseCredentials() {
         $token = new UsernamePasswordToken('foo', 'bar', 'key');
         $token->eraseCredentials();
         $this->assertEquals('', $token->getCredentials());
     }
 
-    public function testToString()
-    {
+    public function testToString() {
         $token = new UsernamePasswordToken('foo', '', 'foo', array('A', 'B'));
         $this->assertEquals('UsernamePasswordToken(user="foo", authenticated=true, roles="A, B")', (string) $token);
     }
+
 }

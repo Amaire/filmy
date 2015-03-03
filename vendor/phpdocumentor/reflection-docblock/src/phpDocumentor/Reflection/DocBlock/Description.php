@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,8 +22,8 @@ use phpDocumentor\Reflection\DocBlock;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class Description implements \Reflector
-{
+class Description implements \Reflector {
+
     /** @var string */
     protected $contents = '';
 
@@ -38,8 +39,7 @@ class Description implements \Reflector
      * @param string   $content  The description's conetnts.
      * @param DocBlock $docblock The DocBlock which this description belongs to.
      */
-    public function __construct($content, DocBlock $docblock = null)
-    {
+    public function __construct($content, DocBlock $docblock = null) {
         $this->setContent($content)->setDocBlock($docblock);
     }
 
@@ -48,8 +48,7 @@ class Description implements \Reflector
      *
      * @return string
      */
-    public function getContents()
-    {
+    public function getContents() {
         return $this->contents;
     }
 
@@ -60,8 +59,7 @@ class Description implements \Reflector
      *
      * @return $this
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         $this->contents = trim($content);
 
         $this->parsedContents = null;
@@ -74,11 +72,10 @@ class Description implements \Reflector
      * @return array An array of strings and tag objects, in the order they
      *     occur within the description.
      */
-    public function getParsedContents()
-    {
+    public function getParsedContents() {
         if (null === $this->parsedContents) {
             $this->parsedContents = preg_split(
-                '/\{
+                    '/\{
                     # "{@}" is not a valid inline tag. This ensures that
                     # we do not treat it as one, but treat it literally.
                     (?!@\})
@@ -107,28 +104,22 @@ class Description implements \Reflector
                            # We use "*" since there may not be any nested inline
                            # tags.
                     )
-                \}/Sux',
-                $this->contents,
-                null,
-                PREG_SPLIT_DELIM_CAPTURE
+                \}/Sux', $this->contents, null, PREG_SPLIT_DELIM_CAPTURE
             );
 
             $count = count($this->parsedContents);
-            for ($i=1; $i<$count; $i += 2) {
+            for ($i = 1; $i < $count; $i += 2) {
                 $this->parsedContents[$i] = Tag::createInstance(
-                    $this->parsedContents[$i],
-                    $this->docblock
+                                $this->parsedContents[$i], $this->docblock
                 );
             }
 
             //In order to allow "literal" inline tags, the otherwise invalid
             //sequence "{@}" is changed to "@", and "{}" is changed to "}".
             //See unit tests for examples.
-            for ($i=0; $i<$count; $i += 2) {
+            for ($i = 0; $i < $count; $i += 2) {
                 $this->parsedContents[$i] = str_replace(
-                    array('{@}', '{}'),
-                    array('@', '}'),
-                    $this->parsedContents[$i]
+                        array('{@}', '{}'), array('@', '}'), $this->parsedContents[$i]
                 );
             }
         }
@@ -146,8 +137,7 @@ class Description implements \Reflector
      *
      * @return string
      */
-    public function getFormattedContents()
-    {
+    public function getFormattedContents() {
         $result = $this->contents;
 
         // if the long description contains a plain HTML <code> element, surround
@@ -155,9 +145,7 @@ class Description implements \Reflector
         // and not preg_replace to gain performance
         if (strpos($result, '<code>') !== false) {
             $result = str_replace(
-                array('<code>', "<code>\r\n", "<code>\n", "<code>\r", '</code>'),
-                array('<pre><code>', '<code>', '<code>', '<code>', '</code></pre>'),
-                $result
+                    array('<code>', "<code>\r\n", "<code>\n", "<code>\r", '</code>'), array('<pre><code>', '<code>', '<code>', '<code>', '</code></pre>'), $result
             );
         }
 
@@ -177,8 +165,7 @@ class Description implements \Reflector
      *
      * @return DocBlock The docblock this description belongs to.
      */
-    public function getDocBlock()
-    {
+    public function getDocBlock() {
         return $this->docblock;
     }
 
@@ -190,8 +177,7 @@ class Description implements \Reflector
      *
      * @return $this
      */
-    public function setDocBlock(DocBlock $docblock = null)
-    {
+    public function setDocBlock(DocBlock $docblock = null) {
         $this->docblock = $docblock;
 
         return $this;
@@ -206,8 +192,7 @@ class Description implements \Reflector
      * @return void
      * @codeCoverageIgnore Not yet implemented
      */
-    public static function export()
-    {
+    public static function export() {
         throw new \Exception('Not yet implemented');
     }
 
@@ -216,8 +201,8 @@ class Description implements \Reflector
      *
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         return $this->getContents();
     }
+
 }

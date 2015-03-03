@@ -18,6 +18,6 @@ namespace Symfony\Component\Translation\Exception;
  *
  * @api
  */
-interface ExceptionInterface
-{
+interface ExceptionInterface {
+    
 }

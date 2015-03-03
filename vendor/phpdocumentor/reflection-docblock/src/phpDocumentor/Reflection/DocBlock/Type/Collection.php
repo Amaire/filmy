@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -22,8 +23,8 @@ use phpDocumentor\Reflection\DocBlock\Context;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class Collection extends \ArrayObject
-{
+class Collection extends \ArrayObject {
+
     /** @var string Definition of the OR operator for types */
     const OPERATOR_OR = '|';
 
@@ -59,8 +60,7 @@ class Collection extends \ArrayObject
      * @param Context  $location The current invoking location.
      */
     public function __construct(
-        array $types = array(),
-        Context $context = null
+    array $types = array(), Context $context = null
     ) {
         $this->context = null === $context ? new Context() : $context;
 
@@ -74,8 +74,7 @@ class Collection extends \ArrayObject
      *
      * @return Context
      */
-    public function getContext()
-    {
+    public function getContext() {
         return $this->context;
     }
 
@@ -96,12 +95,11 @@ class Collection extends \ArrayObject
      *
      * @return void
      */
-    public function add($type)
-    {
+    public function add($type) {
         if (!is_string($type)) {
             throw new \InvalidArgumentException(
-                'A type should be represented by a string, received: '
-                .var_export($type, true)
+            'A type should be represented by a string, received: '
+            . var_export($type, true)
             );
         }
 
@@ -114,15 +112,14 @@ class Collection extends \ArrayObject
             }
         }
     }
-    
+
     /**
      * Returns a string representation of the collection.
      * 
      * @return string The resolved types across the collection, separated with
      *     {@link self::OPERATOR_OR}.
      */
-    public function __toString()
-    {
+    public function __toString() {
         return implode(self::OPERATOR_OR, $this->getArrayCopy());
     }
 
@@ -144,8 +141,7 @@ class Collection extends \ArrayObject
      *
      * @return string
      */
-    protected function expand($type)
-    {
+    protected function expand($type) {
         $type = trim($type);
         if (!$type) {
             return '';
@@ -184,8 +180,7 @@ class Collection extends \ArrayObject
      *
      * @return bool
      */
-    protected function isTypeAnArray($type)
-    {
+    protected function isTypeAnArray($type) {
         return substr($type, -2) === self::OPERATOR_ARRAY;
     }
 
@@ -197,8 +192,7 @@ class Collection extends \ArrayObject
      *
      * @return bool
      */
-    protected function isTypeAKeyword($type)
-    {
+    protected function isTypeAKeyword($type) {
         return in_array(strtolower($type), static::$keywords, true);
     }
 
@@ -213,9 +207,8 @@ class Collection extends \ArrayObject
      *
      * @return bool
      */
-    protected function isRelativeType($type)
-    {
-        return ($type[0] !== self::OPERATOR_NAMESPACE)
-            || $this->isTypeAKeyword($type);
+    protected function isRelativeType($type) {
+        return ($type[0] !== self::OPERATOR_NAMESPACE) || $this->isTypeAKeyword($type);
     }
+
 }

@@ -20,22 +20,22 @@ use PhpSpec\Matcher\MatcherInterface;
 /**
  * Class ExpectationEvent holds information about the expectation event
  */
-class ExpectationEvent extends Event implements EventInterface
-{
+class ExpectationEvent extends Event implements EventInterface {
+
     /**
      * Expectation passed
      */
-    const PASSED  = 0;
+    const PASSED = 0;
 
     /**
      * Expectation failed
      */
-    const FAILED  = 1;
+    const FAILED = 1;
 
     /**
      * Expectation broken
      */
-    const BROKEN  = 2;
+    const BROKEN = 2;
 
     /**
      * @var \PhpSpec\Loader\Node\ExampleNode
@@ -81,9 +81,7 @@ class ExpectationEvent extends Event implements EventInterface
      * @param integer          $result
      * @param \Exception       $exception
      */
-    public function __construct(ExampleNode $example, MatcherInterface $matcher, $subject,
-                                $method, $arguments, $result = null, $exception = null)
-    {
+    public function __construct(ExampleNode $example, MatcherInterface $matcher, $subject, $method, $arguments, $result = null, $exception = null) {
         $this->example = $example;
         $this->matcher = $matcher;
         $this->subject = $subject;
@@ -96,72 +94,64 @@ class ExpectationEvent extends Event implements EventInterface
     /**
      * @return MatcherInterface
      */
-    public function getMatcher()
-    {
+    public function getMatcher() {
         return $this->matcher;
     }
 
     /**
      * @return ExampleNode
      */
-    public function getExample()
-    {
+    public function getExample() {
         return $this->example;
     }
 
     /**
      * @return \PhpSpec\Loader\Node\SpecificationNode
      */
-    public function getSpecification()
-    {
+    public function getSpecification() {
         return $this->example->getSpecification();
     }
 
     /**
      * @return \PhpSpec\Loader\Suite
      */
-    public function getSuite()
-    {
+    public function getSuite() {
         return $this->example->getSpecification()->getSuite();
     }
 
     /**
      * @return mixed
      */
-    public function getSubject()
-    {
+    public function getSubject() {
         return $this->subject;
     }
 
     /**
      * @return string
      */
-    public function getMethod()
-    {
+    public function getMethod() {
         return $this->method;
     }
 
     /**
      * @return array
      */
-    public function getArguments()
-    {
+    public function getArguments() {
         return $this->arguments;
     }
 
     /**
      * @return \Exception
      */
-    public function getException()
-    {
+    public function getException() {
         return $this->exception;
     }
 
     /**
      * @return integer
      */
-    public function getResult()
-    {
+    public function getResult() {
         return $this->result;
     }
+
 }

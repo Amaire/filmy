@@ -21,30 +21,27 @@ use PhpSpec\Exception\Fracture\NamedConstructorNotFoundException;
 use PhpSpec\Locator\ResourceManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class NamedConstructorNotFoundListener implements EventSubscriberInterface
-{
+class NamedConstructorNotFoundListener implements EventSubscriberInterface {
+
     private $io;
     private $resources;
     private $generator;
     private $methods = array();
 
-    public function __construct(IO $io, ResourceManager $resources, GeneratorManager $generator)
-    {
-        $this->io        = $io;
+    public function __construct(IO $io, ResourceManager $resources, GeneratorManager $generator) {
+        $this->io = $io;
         $this->resources = $resources;
         $this->generator = $generator;
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             'afterExample' => array('afterExample', 10),
-            'afterSuite'   => array('afterSuite', -10),
+            'afterSuite' => array('afterSuite', -10),
         );
     }
 
-    public function afterExample(ExampleEvent $event)
-    {
+    public function afterExample(ExampleEvent $event) {
         if (null === $exception = $event->getException()) {
             return;
         }
@@ -53,11 +50,10 @@ class NamedConstructorNotFoundListener implements EventSubscriberInterface
             return;
         }
 
-        $this->methods[get_class($exception->getSubject()).'::'.$exception->getMethodName()] = $exception->getArguments();
+        $this->methods[get_class($exception->getSubject()) . '::' . $exception->getMethodName()] = $exception->getArguments();
     }
 
-    public function afterSuite(SuiteEvent $event)
-    {
+    public function afterSuite(SuiteEvent $event) {
         if (!$this->io->isCodeGenerationEnabled()) {
             return;
         }
@@ -74,11 +70,12 @@ class NamedConstructorNotFoundListener implements EventSubscriberInterface
 
             if ($this->io->askConfirmation($message)) {
                 $this->generator->generate($resource, 'named_constructor', array(
-                    'name'      => $method,
+                    'name' => $method,
                     'arguments' => $arguments
                 ));
                 $event->markAsWorthRerunning();
             }
         }
     }
+
 }

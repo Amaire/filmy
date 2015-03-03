@@ -37,8 +37,8 @@ use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class MimeTypeGuesser implements MimeTypeGuesserInterface
-{
+class MimeTypeGuesser implements MimeTypeGuesserInterface {
+
     /**
      * The singleton instance.
      *
@@ -58,8 +58,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
      *
      * @return MimeTypeGuesser
      */
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if (null === self::$instance) {
             self::$instance = new self();
         }
@@ -70,8 +69,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
     /**
      * Registers all natively provided mime type guessers.
      */
-    private function __construct()
-    {
+    private function __construct() {
         if (FileBinaryMimeTypeGuesser::isSupported()) {
             $this->register(new FileBinaryMimeTypeGuesser());
         }
@@ -88,8 +86,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
      *
      * @param MimeTypeGuesserInterface $guesser
      */
-    public function register(MimeTypeGuesserInterface $guesser)
-    {
+    public function register(MimeTypeGuesserInterface $guesser) {
         array_unshift($this->guessers, $guesser);
     }
 
@@ -109,8 +106,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
      * @throws FileNotFoundException
      * @throws AccessDeniedException
      */
-    public function guess($path)
-    {
+    public function guess($path) {
         if (!is_file($path)) {
             throw new FileNotFoundException($path);
         }
@@ -133,4 +129,5 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
             }
         }
     }
+
 }

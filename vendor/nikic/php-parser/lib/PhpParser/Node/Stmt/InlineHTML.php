@@ -7,8 +7,8 @@ use PhpParser\Node\Stmt;
 /**
  * @property string $value String
  */
-class InlineHTML extends Stmt
-{
+class InlineHTML extends Stmt {
+
     /**
      * Constructs an inline HTML node.
      *
@@ -17,10 +17,10 @@ class InlineHTML extends Stmt
      */
     public function __construct($value, array $attributes = array()) {
         parent::__construct(
-            array(
-                'value' => $value,
-            ),
-            $attributes
+                array(
+            'value' => $value,
+                ), $attributes
         );
     }
+
 }

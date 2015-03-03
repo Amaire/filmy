@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the PHP_CodeCoverage package.
  *
@@ -17,8 +18,8 @@
  * @link       http://github.com/sebastianbergmann/php-code-coverage
  * @since      Class available since Release 2.0.0
  */
-class PHP_CodeCoverage_Report_XML_File_Coverage
-{
+class PHP_CodeCoverage_Report_XML_File_Coverage {
+
     /**
      * @var XMLWriter
      */
@@ -34,8 +35,7 @@ class PHP_CodeCoverage_Report_XML_File_Coverage
      */
     private $finalized = false;
 
-    public function __construct(DOMElement $context, $line)
-    {
+    public function __construct(DOMElement $context, $line) {
         $this->contextNode = $context;
 
         $this->writer = new XMLWriter();
@@ -44,8 +44,7 @@ class PHP_CodeCoverage_Report_XML_File_Coverage
         $this->writer->writeAttribute('nr', $line);
     }
 
-    public function addTest($test)
-    {
+    public function addTest($test) {
         if ($this->finalized) {
             throw new PHP_CodeCoverage_Exception('Coverage Report already finalized');
         }
@@ -55,18 +54,17 @@ class PHP_CodeCoverage_Report_XML_File_Coverage
         $this->writer->endElement();
     }
 
-    public function finalize()
-    {
+    public function finalize() {
         $this->writer->endElement();
 
         $fragment = $this->contextNode->ownerDocument->createDocumentFragment();
         $fragment->appendXML($this->writer->outputMemory());
 
         $this->contextNode->parentNode->replaceChild(
-            $fragment,
-            $this->contextNode
+                $fragment, $this->contextNode
         );
 
         $this->finalized = true;
     }
+
 }

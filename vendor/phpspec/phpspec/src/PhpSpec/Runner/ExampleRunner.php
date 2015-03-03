@@ -24,16 +24,18 @@ use PhpSpec\Exception\Example as ExampleException;
 use Prophecy\Exception as ProphecyException;
 use Exception;
 
-class ExampleRunner
-{
+class ExampleRunner {
+
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     private $dispatcher;
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
     private $presenter;
+
     /**
      * @var Maintainer\MaintainerInterface[]
      */
@@ -43,22 +45,20 @@ class ExampleRunner
      * @param EventDispatcherInterface $dispatcher
      * @param PresenterInterface       $presenter
      */
-    public function __construct(EventDispatcherInterface $dispatcher, PresenterInterface $presenter)
-    {
+    public function __construct(EventDispatcherInterface $dispatcher, PresenterInterface $presenter) {
         $this->dispatcher = $dispatcher;
-        $this->presenter  = $presenter;
+        $this->presenter = $presenter;
     }
 
     /**
      * @param Maintainer\MaintainerInterface $maintainer
      */
-    public function registerMaintainer(Maintainer\MaintainerInterface $maintainer)
-    {
+    public function registerMaintainer(Maintainer\MaintainerInterface $maintainer) {
         $this->maintainers[] = $maintainer;
 
         @usort($this->maintainers, function ($maintainer1, $maintainer2) {
-            return $maintainer2->getPriority() - $maintainer1->getPriority();
-        });
+                    return $maintainer2->getPriority() - $maintainer1->getPriority();
+                });
     }
 
     /**
@@ -66,35 +66,32 @@ class ExampleRunner
      *
      * @return int
      */
-    public function run(ExampleNode $example)
-    {
+    public function run(ExampleNode $example) {
         $startTime = microtime(true);
-        $this->dispatcher->dispatch('beforeExample',
-            new ExampleEvent($example)
+        $this->dispatcher->dispatch('beforeExample', new ExampleEvent($example)
         );
 
         try {
             $this->executeExample(
-                $example->getSpecification()->getClassReflection()->newInstance(),
-                $example
+                    $example->getSpecification()->getClassReflection()->newInstance(), $example
             );
 
-            $status    = ExampleEvent::PASSED;
+            $status = ExampleEvent::PASSED;
             $exception = null;
         } catch (ExampleException\PendingException $e) {
-            $status    = ExampleEvent::PENDING;
+            $status = ExampleEvent::PENDING;
             $exception = $e;
         } catch (ExampleException\SkippingException $e) {
-            $status    = ExampleEvent::SKIPPED;
+            $status = ExampleEvent::SKIPPED;
             $exception = $e;
         } catch (ProphecyException\Prediction\PredictionException $e) {
-            $status    = ExampleEvent::FAILED;
+            $status = ExampleEvent::FAILED;
             $exception = $e;
         } catch (ExampleException\FailureException $e) {
-            $status    = ExampleEvent::FAILED;
+            $status = ExampleEvent::FAILED;
             $exception = $e;
         } catch (Exception $e) {
-            $status    = ExampleEvent::BROKEN;
+            $status = ExampleEvent::BROKEN;
             $exception = $e;
         }
 
@@ -103,8 +100,7 @@ class ExampleRunner
         }
 
         $runTime = microtime(true) - $startTime;
-        $this->dispatcher->dispatch('afterExample',
-            $event = new ExampleEvent($example, $runTime, $status, $exception)
+        $this->dispatcher->dispatch('afterExample', $event = new ExampleEvent($example, $runTime, $status, $exception)
         );
 
         return $event->getResult();
@@ -117,15 +113,14 @@ class ExampleRunner
      * @throws \PhpSpec\Exception\Example\PendingException
      * @throws \Exception
      */
-    protected function executeExample(SpecificationInterface $context, ExampleNode $example)
-    {
+    protected function executeExample(SpecificationInterface $context, ExampleNode $example) {
         if ($example->isPending()) {
             throw new ExampleException\PendingException();
         }
 
-        $matchers      = new MatcherManager($this->presenter);
+        $matchers = new MatcherManager($this->presenter);
         $collaborators = new CollaboratorManager($this->presenter);
-        $maintainers   = array_filter($this->maintainers, function ($maintainer) use ($example) {
+        $maintainers = array_filter($this->maintainers, function ($maintainer) use ($example) {
             return $maintainer->supports($example);
         });
 
@@ -141,11 +136,7 @@ class ExampleRunner
             $reflection->invokeArgs($context, $collaborators->getArgumentsFor($reflection));
         } catch (\Exception $e) {
             $this->runMaintainersTeardown(
-                $this->searchExceptionMaintainers($maintainers),
-                $example,
-                $context,
-                $matchers,
-                $collaborators
+                    $this->searchExceptionMaintainers($maintainers), $example, $context, $matchers, $collaborators
             );
             throw $e;
         }
@@ -160,8 +151,7 @@ class ExampleRunner
      * @param MatcherManager                   $matchers
      * @param CollaboratorManager              $collaborators
      */
-    private function runMaintainersTeardown(array $maintainers, ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators)
-    {
+    private function runMaintainersTeardown(array $maintainers, ExampleNode $example, SpecificationInterface $context, MatcherManager $matchers, CollaboratorManager $collaborators) {
         foreach (array_reverse($maintainers) as $maintainer) {
             $maintainer->teardown($example, $context, $matchers, $collaborators);
         }
@@ -172,13 +162,12 @@ class ExampleRunner
      *
      * @return Maintainer\MaintainerInterface[]
      */
-    private function searchExceptionMaintainers(array $maintainers)
-    {
+    private function searchExceptionMaintainers(array $maintainers) {
         return array_filter(
-            $maintainers,
-            function ($maintainer) {
-                return $maintainer instanceof LetAndLetgoMaintainer;
-            }
+                $maintainers, function ($maintainer) {
+            return $maintainer instanceof LetAndLetgoMaintainer;
+        }
         );
     }
+
 }

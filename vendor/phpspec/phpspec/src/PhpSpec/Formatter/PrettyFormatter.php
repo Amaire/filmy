@@ -17,17 +17,15 @@ use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Event\SpecificationEvent;
 use PhpSpec\Event\ExampleEvent;
 
-class PrettyFormatter extends ConsoleFormatter
-{
-    public function beforeSpecification(SpecificationEvent $event)
-    {
+class PrettyFormatter extends ConsoleFormatter {
+
+    public function beforeSpecification(SpecificationEvent $event) {
         $this->getIO()->writeln(sprintf("\n      %s\n", $event->getSpecification()->getTitle()), 0);
     }
 
-    public function afterExample(ExampleEvent $event)
-    {
+    public function afterExample(ExampleEvent $event) {
         $io = $this->getIO();
-        $line  = $event->getExample()->getFunctionReflection()->getStartLine();
+        $line = $event->getExample()->getFunctionReflection()->getStartLine();
         $depth = 2;
         $title = preg_replace('/^it /', '', $event->getExample()->getTitle());
 
@@ -56,15 +54,14 @@ class PrettyFormatter extends ConsoleFormatter
         $this->printException($event);
     }
 
-    public function afterSuite(SuiteEvent $event)
-    {
+    public function afterSuite(SuiteEvent $event) {
         $io = $this->getIO();
         $io->writeln();
 
         foreach (array(
-            'failed' => $this->getStatisticsCollector()->getFailedEvents(),
-            'broken' => $this->getStatisticsCollector()->getBrokenEvents(),
-            'skipped' => $this->getStatisticsCollector()->getSkippedEvents(),
+    'failed' => $this->getStatisticsCollector()->getFailedEvents(),
+    'broken' => $this->getStatisticsCollector()->getBrokenEvents(),
+    'skipped' => $this->getStatisticsCollector()->getSkippedEvents(),
         ) as $status => $events) {
             if (!count($events)) {
                 continue;
@@ -72,9 +69,8 @@ class PrettyFormatter extends ConsoleFormatter
 
             $io->writeln(sprintf("<%s>----  %s examples</%s>\n", $status, $status, $status));
             foreach ($events as $failEvent) {
-                $io->writeln(sprintf('%s',
-                    str_replace('\\', DIRECTORY_SEPARATOR, $failEvent->getSpecification()->getTitle())
-                ), 8);
+                $io->writeln(sprintf('%s', str_replace('\\', DIRECTORY_SEPARATOR, $failEvent->getSpecification()->getTitle())
+                        ), 8);
                 $this->afterExample($failEvent);
                 $io->writeln();
             }
@@ -97,8 +93,7 @@ class PrettyFormatter extends ConsoleFormatter
         $io->writeln(sprintf("\n%sms", round($event->getTime() * 1000)));
     }
 
-    protected function printSlowTime(ExampleEvent $event)
-    {
+    protected function printSlowTime(ExampleEvent $event) {
         $io = $this->getIO();
         $ms = $event->getTime() * 1000;
         if ($ms > 100) {
@@ -108,15 +103,14 @@ class PrettyFormatter extends ConsoleFormatter
         }
     }
 
-    protected function printException(ExampleEvent $event, $depth = null)
-    {
+    protected function printException(ExampleEvent $event, $depth = null) {
         $io = $this->getIO();
 
         if (null === $exception = $event->getException()) {
             return;
         }
 
-        $depth = $depth ?: 8;
+        $depth = $depth ? : 8;
         $message = $this->getPresenter()->presentException($exception, $io->isVerbose());
 
         if (ExampleEvent::FAILED === $event->getResult()) {
@@ -129,4 +123,5 @@ class PrettyFormatter extends ConsoleFormatter
             $io->writeln(sprintf('<broken>%s</broken>', lcfirst($message)), $depth);
         }
     }
+
 }

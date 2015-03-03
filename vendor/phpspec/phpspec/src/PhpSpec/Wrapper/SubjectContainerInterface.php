@@ -13,8 +13,8 @@
 
 namespace PhpSpec\Wrapper;
 
-interface SubjectContainerInterface
-{
+interface SubjectContainerInterface {
+
     /**
      * @param Subject $subject
      */

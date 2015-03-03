@@ -1,4 +1,5 @@
 <?php
+
 /**
  * GlobalState
  *
@@ -48,6 +49,6 @@ namespace SebastianBergmann\GlobalState\TestFixture;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/global-state
  */
-class BlacklistedChildClass extends BlacklistedClass
-{
+class BlacklistedChildClass extends BlacklistedClass {
+    
 }

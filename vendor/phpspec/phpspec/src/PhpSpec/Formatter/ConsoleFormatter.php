@@ -20,8 +20,8 @@ use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Listener\StatisticsCollector;
 
-class ConsoleFormatter extends BasicFormatter
-{
+class ConsoleFormatter extends BasicFormatter {
+
     /**
      * @var IO
      */
@@ -32,8 +32,7 @@ class ConsoleFormatter extends BasicFormatter
      * @param IO                  $io
      * @param StatisticsCollector $stats
      */
-    public function __construct(PresenterInterface $presenter, IO $io, StatisticsCollector $stats)
-    {
+    public function __construct(PresenterInterface $presenter, IO $io, StatisticsCollector $stats) {
         parent::__construct($presenter, $io, $stats);
         $this->io = $io;
     }
@@ -41,16 +40,14 @@ class ConsoleFormatter extends BasicFormatter
     /**
      * @return IO
      */
-    protected function getIO()
-    {
+    protected function getIO() {
         return $this->io;
     }
 
     /**
      * @param ExampleEvent $event
      */
-    protected function printException(ExampleEvent $event)
-    {
+    protected function printException(ExampleEvent $event) {
         if (null === $exception = $event->getException()) {
             return;
         }
@@ -72,8 +69,7 @@ class ConsoleFormatter extends BasicFormatter
      * @param ExampleEvent $event
      * @param string $type
      */
-    protected function printSpecificException(ExampleEvent $event, $type)
-    {
+    protected function printSpecificException(ExampleEvent $event, $type) {
         $title = str_replace('\\', DIRECTORY_SEPARATOR, $event->getSpecification()->getTitle());
         $message = $this->getPresenter()->presentException($event->getException(), $this->io->isVerbose());
 
@@ -82,13 +78,10 @@ class ConsoleFormatter extends BasicFormatter
         }
 
         $this->io->writeln(sprintf(
-            '<lineno>%4d</lineno>  <%s>- %s</%s>',
-            $event->getExample()->getFunctionReflection()->getStartLine(),
-            $type,
-            $event->getExample()->getTitle(),
-            $type
+                        '<lineno>%4d</lineno>  <%s>- %s</%s>', $event->getExample()->getFunctionReflection()->getStartLine(), $type, $event->getExample()->getTitle(), $type
         ));
         $this->io->writeln(sprintf('<%s>%s</%s>', $type, lcfirst($message), $type), 6);
         $this->io->writeln();
     }
+
 }

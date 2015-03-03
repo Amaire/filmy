@@ -14,15 +14,14 @@ namespace Monolog\Formatter;
 use Monolog\Logger;
 use Monolog\TestCase;
 
-class JsonFormatterTest extends TestCase
-{
+class JsonFormatterTest extends TestCase {
+
     /**
      * @covers Monolog\Formatter\JsonFormatter::__construct
      * @covers Monolog\Formatter\JsonFormatter::getBatchMode
      * @covers Monolog\Formatter\JsonFormatter::isAppendingNewlines
      */
-    public function testConstruct()
-    {
+    public function testConstruct() {
         $formatter = new JsonFormatter();
         $this->assertEquals(JsonFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
         $this->assertEquals(true, $formatter->isAppendingNewlines());
@@ -34,11 +33,10 @@ class JsonFormatterTest extends TestCase
     /**
      * @covers Monolog\Formatter\JsonFormatter::format
      */
-    public function testFormat()
-    {
+    public function testFormat() {
         $formatter = new JsonFormatter();
         $record = $this->getRecord();
-        $this->assertEquals(json_encode($record)."\n", $formatter->format($record));
+        $this->assertEquals(json_encode($record) . "\n", $formatter->format($record));
 
         $formatter = new JsonFormatter(JsonFormatter::BATCH_MODE_JSON, false);
         $record = $this->getRecord();
@@ -49,8 +47,7 @@ class JsonFormatterTest extends TestCase
      * @covers Monolog\Formatter\JsonFormatter::formatBatch
      * @covers Monolog\Formatter\JsonFormatter::formatBatchJson
      */
-    public function testFormatBatch()
-    {
+    public function testFormatBatch() {
         $formatter = new JsonFormatter();
         $records = array(
             $this->getRecord(Logger::WARNING),
@@ -63,8 +60,7 @@ class JsonFormatterTest extends TestCase
      * @covers Monolog\Formatter\JsonFormatter::formatBatch
      * @covers Monolog\Formatter\JsonFormatter::formatBatchNewlines
      */
-    public function testFormatBatchNewlines()
-    {
+    public function testFormatBatchNewlines() {
         $formatter = new JsonFormatter(JsonFormatter::BATCH_MODE_NEWLINES);
         $records = $expected = array(
             $this->getRecord(Logger::WARNING),
@@ -75,4 +71,5 @@ class JsonFormatterTest extends TestCase
         });
         $this->assertEquals(implode("\n", $expected), $formatter->formatBatch($records));
     }
+
 }

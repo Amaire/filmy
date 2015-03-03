@@ -16,9 +16,10 @@ namespace Symfony\Component\Security\Core;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class Security
-{
+final class Security {
+
     const ACCESS_DENIED_ERROR = '_security.403_error';
     const AUTHENTICATION_ERROR = '_security.last_error';
     const LAST_USERNAME = '_security.last_username';
+
 }

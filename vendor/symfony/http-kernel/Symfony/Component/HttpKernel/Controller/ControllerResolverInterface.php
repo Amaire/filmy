@@ -25,8 +25,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @api
  */
-interface ControllerResolverInterface
-{
+interface ControllerResolverInterface {
+
     /**
      * Returns the Controller instance associated with a Request.
      *

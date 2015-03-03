@@ -16,8 +16,8 @@ namespace PhpSpec\Matcher;
 use PhpSpec\Formatter\Presenter\PresenterInterface;
 use PhpSpec\Exception\Example\FailureException;
 
-class StringEndMatcher extends BasicMatcher
-{
+class StringEndMatcher extends BasicMatcher {
+
     /**
      * @var \PhpSpec\Formatter\Presenter\PresenterInterface
      */
@@ -26,8 +26,7 @@ class StringEndMatcher extends BasicMatcher
     /**
      * @param PresenterInterface $presenter
      */
-    public function __construct(PresenterInterface $presenter)
-    {
+    public function __construct(PresenterInterface $presenter) {
         $this->presenter = $presenter;
     }
 
@@ -38,11 +37,8 @@ class StringEndMatcher extends BasicMatcher
      *
      * @return bool
      */
-    public function supports($name, $subject, array $arguments)
-    {
-        return 'endWith' === $name
-            && is_string($subject)
-            && 1 == count($arguments)
+    public function supports($name, $subject, array $arguments) {
+        return 'endWith' === $name && is_string($subject) && 1 == count($arguments)
         ;
     }
 
@@ -52,8 +48,7 @@ class StringEndMatcher extends BasicMatcher
      *
      * @return bool
      */
-    protected function matches($subject, array $arguments)
-    {
+    protected function matches($subject, array $arguments) {
         return $arguments[0] === substr($subject, 0 - strlen($arguments[0]));
     }
 
@@ -64,12 +59,9 @@ class StringEndMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getFailureException($name, $subject, array $arguments)
-    {
+    protected function getFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Expected %s to end with %s, but it does not.',
-            $this->presenter->presentString($subject),
-            $this->presenter->presentString($arguments[0])
+                        'Expected %s to end with %s, but it does not.', $this->presenter->presentString($subject), $this->presenter->presentString($arguments[0])
         ));
     }
 
@@ -80,12 +72,10 @@ class StringEndMatcher extends BasicMatcher
      *
      * @return FailureException
      */
-    protected function getNegativeFailureException($name, $subject, array $arguments)
-    {
+    protected function getNegativeFailureException($name, $subject, array $arguments) {
         return new FailureException(sprintf(
-            'Expected %s not to end with %s, but it does.',
-            $this->presenter->presentString($subject),
-            $this->presenter->presentString($arguments[0])
+                        'Expected %s not to end with %s, but it does.', $this->presenter->presentString($subject), $this->presenter->presentString($arguments[0])
         ));
     }
+
 }

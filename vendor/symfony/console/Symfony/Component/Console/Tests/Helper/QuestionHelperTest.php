@@ -22,10 +22,9 @@ use Symfony\Component\Console\Question\Question;
 /**
  * @group tty
  */
-class QuestionHelperTest extends \PHPUnit_Framework_TestCase
-{
-    public function testAskChoice()
-    {
+class QuestionHelperTest extends \PHPUnit_Framework_TestCase {
+
+    public function testAskChoice() {
         $questionHelper = new QuestionHelper();
 
         $helperSet = new HelperSet(array(new FormatterHelper()));
@@ -78,8 +77,7 @@ class QuestionHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('Superman', 'Batman'), $questionHelper->ask($this->createInputInterfaceMock(), $this->createOutputInterface(), $question));
     }
 
-    public function testAsk()
-    {
+    public function testAsk() {
         $dialog = new QuestionHelper();
 
         $dialog->setInputStream($this->getInputStream("\n8AM\n"));
@@ -94,8 +92,7 @@ class QuestionHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('What time is it?', stream_get_contents($output->getStream()));
     }
 
-    public function testAskWithAutocomplete()
-    {
+    public function testAskWithAutocomplete() {
         if (!$this->hasSttyAvailable()) {
             $this->markTestSkipped('`stty` is required to test autocomplete functionality');
         }
@@ -128,8 +125,7 @@ class QuestionHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('FooBundle', $dialog->ask($this->createInputInterfaceMock(), $this->createOutputInterface(), $question));
     }
 
-    public function testAskHiddenResponse()
-    {
+    public function testAskHiddenResponse() {
         if ('\\' === DIRECTORY_SEPARATOR) {
             $this->markTestSkipped('This test is not supported on Windows');
         }
@@ -143,8 +139,7 @@ class QuestionHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('8AM', $dialog->ask($this->createInputInterfaceMock(), $this->createOutputInterface(), $question));
     }
 
-    public function testAskConfirmation()
-    {
+    public function testAskConfirmation() {
         $dialog = new QuestionHelper();
 
         $dialog->setInputStream($this->getInputStream("\n\n"));
@@ -166,8 +161,7 @@ class QuestionHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($dialog->ask($this->createInputInterfaceMock(), $this->createOutputInterface(), $question));
     }
 
-    public function testAskAndValidate()
-    {
+    public function testAskAndValidate() {
         $dialog = new QuestionHelper();
         $helperSet = new HelperSet(array(new FormatterHelper()));
         $dialog->setHelperSet($helperSet);
@@ -198,15 +192,13 @@ class QuestionHelperTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testNoInteraction()
-    {
+    public function testNoInteraction() {
         $dialog = new QuestionHelper();
         $question = new Question('Do you have a job?', 'not yet');
         $this->assertEquals('not yet', $dialog->ask($this->createInputInterfaceMock(false), $this->createOutputInterface(), $question));
     }
 
-    protected function getInputStream($input)
-    {
+    protected function getInputStream($input) {
         $stream = fopen('php://memory', 'r+', false);
         fputs($stream, $input);
         rewind($stream);
@@ -214,25 +206,23 @@ class QuestionHelperTest extends \PHPUnit_Framework_TestCase
         return $stream;
     }
 
-    protected function createOutputInterface()
-    {
+    protected function createOutputInterface() {
         return new StreamOutput(fopen('php://memory', 'r+', false));
     }
 
-    protected function createInputInterfaceMock($interactive = true)
-    {
+    protected function createInputInterfaceMock($interactive = true) {
         $mock = $this->getMock('Symfony\Component\Console\Input\InputInterface');
         $mock->expects($this->any())
-            ->method('isInteractive')
-            ->will($this->returnValue($interactive));
+                ->method('isInteractive')
+                ->will($this->returnValue($interactive));
 
         return $mock;
     }
 
-    private function hasSttyAvailable()
-    {
+    private function hasSttyAvailable() {
         exec('stty 2>&1', $output, $exitcode);
 
         return $exitcode === 0;
     }
+
 }

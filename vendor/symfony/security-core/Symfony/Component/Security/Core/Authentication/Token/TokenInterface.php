@@ -19,8 +19,8 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface TokenInterface extends \Serializable
-{
+interface TokenInterface extends \Serializable {
+
     /**
      * Returns a string representation of the Token.
      *

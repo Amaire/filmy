@@ -8,8 +8,8 @@ use PhpParser\Node\Expr;
  * @property Expr        $var  Variable holding object
  * @property string|Expr $name Property Name
  */
-class PropertyFetch extends Expr
-{
+class PropertyFetch extends Expr {
+
     /**
      * Constructs a function call node.
      *
@@ -19,11 +19,11 @@ class PropertyFetch extends Expr
      */
     public function __construct(Expr $var, $name, array $attributes = array()) {
         parent::__construct(
-            array(
-                'var'  => $var,
-                'name' => $name
-            ),
-            $attributes
+                array(
+            'var' => $var,
+            'name' => $name
+                ), $attributes
         );
     }
+
 }

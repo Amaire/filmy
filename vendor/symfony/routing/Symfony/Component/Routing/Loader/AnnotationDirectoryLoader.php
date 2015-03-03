@@ -20,8 +20,8 @@ use Symfony\Component\Config\Resource\DirectoryResource;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class AnnotationDirectoryLoader extends AnnotationFileLoader
-{
+class AnnotationDirectoryLoader extends AnnotationFileLoader {
+
     /**
      * Loads from annotations from a directory.
      *
@@ -32,8 +32,7 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
      *
      * @throws \InvalidArgumentException When the directory does not exist or its routes cannot be parsed
      */
-    public function load($path, $type = null)
-    {
+    public function load($path, $type = null) {
         $dir = $this->locator->locate($path);
 
         $collection = new RouteCollection();
@@ -64,8 +63,7 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
     /**
      * {@inheritdoc}
      */
-    public function supports($resource, $type = null)
-    {
+    public function supports($resource, $type = null) {
         try {
             $path = $this->locator->locate($resource);
         } catch (\Exception $e) {
@@ -74,4 +72,5 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
 
         return is_string($resource) && is_dir($path) && (!$type || 'annotation' === $type);
     }
+
 }

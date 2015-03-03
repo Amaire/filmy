@@ -25,13 +25,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-abstract class ConfigurableExtension extends Extension
-{
+abstract class ConfigurableExtension extends Extension {
+
     /**
      * {@inheritdoc}
      */
-    final public function load(array $configs, ContainerBuilder $container)
-    {
+    final public function load(array $configs, ContainerBuilder $container) {
         $this->loadInternal($this->processConfiguration($this->getConfiguration($configs, $container), $configs), $container);
     }
 

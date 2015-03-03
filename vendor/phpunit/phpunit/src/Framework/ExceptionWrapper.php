@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -25,8 +26,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 4.3.0
  */
-class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
-{
+class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception {
+
     /**
      * @var string
      */
@@ -37,8 +38,7 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
      */
     protected $previous;
 
-    public function __construct(Exception $e)
-    {
+    public function __construct(Exception $e) {
         // PDOException::getCode() is a string.
         // @see http://php.net/manual/en/class.pdoexception.php#95812
         parent::__construct($e->getMessage(), (int) $e->getCode());
@@ -60,24 +60,21 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
     /**
      * @return string
      */
-    public function getClassname()
-    {
+    public function getClassname() {
         return $this->classname;
     }
 
     /**
      * @return PHPUnit_Framework_ExceptionWrapper
      */
-    public function getPreviousWrapped()
-    {
+    public function getPreviousWrapped() {
         return $this->previous;
     }
 
     /**
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         $string = PHPUnit_Framework_TestFailure::exceptionToString($this);
 
         if ($trace = PHPUnit_Util_Filter::getFilteredStacktrace($this)) {
@@ -90,4 +87,5 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
 
         return $string;
     }
+
 }

@@ -11,14 +11,13 @@
 
 namespace Symfony\Component\Process\Tests;
 
-class SigchildEnabledProcessTest extends AbstractProcessTest
-{
+class SigchildEnabledProcessTest extends AbstractProcessTest {
+
     /**
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. Term signal can not be retrieved.
      */
-    public function testProcessIsSignaledIfStopped()
-    {
+    public function testProcessIsSignaledIfStopped() {
         parent::testProcessIsSignaledIfStopped();
     }
 
@@ -26,8 +25,7 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. Term signal can not be retrieved.
      */
-    public function testProcessWithTermSignal()
-    {
+    public function testProcessWithTermSignal() {
         parent::testProcessWithTermSignal();
     }
 
@@ -35,8 +33,7 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. Term signal can not be retrieved.
      */
-    public function testProcessIsNotSignaled()
-    {
+    public function testProcessIsNotSignaled() {
         parent::testProcessIsNotSignaled();
     }
 
@@ -44,8 +41,7 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. Term signal can not be retrieved.
      */
-    public function testProcessWithoutTermSignal()
-    {
+    public function testProcessWithoutTermSignal() {
         parent::testProcessWithoutTermSignal();
     }
 
@@ -53,8 +49,7 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. The process identifier can not be retrieved.
      */
-    public function testGetPid()
-    {
+    public function testGetPid() {
         parent::testGetPid();
     }
 
@@ -62,8 +57,7 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. The process identifier can not be retrieved.
      */
-    public function testGetPidIsNullBeforeStart()
-    {
+    public function testGetPidIsNullBeforeStart() {
         parent::testGetPidIsNullBeforeStart();
     }
 
@@ -71,13 +65,11 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. The process identifier can not be retrieved.
      */
-    public function testGetPidIsNullAfterRun()
-    {
+    public function testGetPidIsNullAfterRun() {
         parent::testGetPidIsNullAfterRun();
     }
 
-    public function testExitCodeText()
-    {
+    public function testExitCodeText() {
         $process = $this->getProcess('qdfsmfkqsdfmqmsd');
         $process->run();
 
@@ -88,8 +80,7 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. The process can not be signaled.
      */
-    public function testSignal()
-    {
+    public function testSignal() {
         parent::testSignal();
     }
 
@@ -97,52 +88,45 @@ class SigchildEnabledProcessTest extends AbstractProcessTest
      * @expectedException \Symfony\Component\Process\Exception\RuntimeException
      * @expectedExceptionMessage This PHP has been compiled with --enable-sigchild. Term signal can not be retrieved.
      */
-    public function testProcessWithoutTermSignalIsNotSignaled()
-    {
+    public function testProcessWithoutTermSignalIsNotSignaled() {
         parent::testProcessWithoutTermSignalIsNotSignaled();
     }
 
-    public function testProcessThrowsExceptionWhenExternallySignaled()
-    {
+    public function testProcessThrowsExceptionWhenExternallySignaled() {
         $this->markTestSkipped('Retrieving Pid is not supported in sigchild environment');
     }
 
-    public function testExitCodeIsAvailableAfterSignal()
-    {
+    public function testExitCodeIsAvailableAfterSignal() {
         $this->markTestSkipped('Signal is not supported in sigchild environment');
     }
 
-    public function testStartAfterATimeout()
-    {
+    public function testStartAfterATimeout() {
         if ('\\' === DIRECTORY_SEPARATOR) {
             $this->markTestSkipped('Restarting a timed-out process on Windows is not supported in sigchild environment');
         }
         parent::testStartAfterATimeout();
     }
 
-    public function testStopWithTimeoutIsActuallyWorking()
-    {
+    public function testStopWithTimeoutIsActuallyWorking() {
         $this->markTestSkipped('Stopping with signal is not supported in sigchild environment');
     }
 
-    public function testRunProcessWithTimeout()
-    {
+    public function testRunProcessWithTimeout() {
         $this->markTestSkipped('Signal (required for timeout) is not supported in sigchild environment');
     }
 
-    public function testCheckTimeoutOnStartedProcess()
-    {
+    public function testCheckTimeoutOnStartedProcess() {
         $this->markTestSkipped('Signal (required for timeout) is not supported in sigchild environment');
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getProcess($commandline, $cwd = null, array $env = null, $input = null, $timeout = 60, array $options = array())
-    {
+    protected function getProcess($commandline, $cwd = null, array $env = null, $input = null, $timeout = 60, array $options = array()) {
         $process = new ProcessInSigchildEnvironment($commandline, $cwd, $env, $input, $timeout, $options);
         $process->setEnhanceSigchildCompatibility(true);
 
         return $process;
     }
+
 }

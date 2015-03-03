@@ -21,8 +21,8 @@ use Symfony\Component\HttpKernel\DataCollector\Util\ValueExporter;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bernhard Schussek <bschussek@symfony.com>
  */
-abstract class DataCollector implements DataCollectorInterface, \Serializable
-{
+abstract class DataCollector implements DataCollectorInterface, \Serializable {
+
     protected $data = array();
 
     /**
@@ -30,13 +30,11 @@ abstract class DataCollector implements DataCollectorInterface, \Serializable
      */
     private $valueExporter;
 
-    public function serialize()
-    {
+    public function serialize() {
         return serialize($this->data);
     }
 
-    public function unserialize($data)
-    {
+    public function unserialize($data) {
         $this->data = unserialize($data);
     }
 
@@ -47,12 +45,12 @@ abstract class DataCollector implements DataCollectorInterface, \Serializable
      *
      * @return string The string representation of the variable
      */
-    protected function varToString($var)
-    {
+    protected function varToString($var) {
         if (null === $this->valueExporter) {
             $this->valueExporter = new ValueExporter();
         }
 
         return $this->valueExporter->exportValue($var);
     }
+
 }

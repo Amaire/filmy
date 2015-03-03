@@ -21,8 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @api
  */
-interface DataCollectorInterface
-{
+interface DataCollectorInterface {
+
     /**
      * Collects data for the given Request and Response.
      *

@@ -16,13 +16,13 @@ namespace PhpSpec\Exception\Example;
 /**
  * Class PendingException holds information about pending exception
  */
-class PendingException extends ExampleException
-{
+class PendingException extends ExampleException {
+
     /**
      * @param string $text
      */
-    public function __construct($text = 'write pending example')
-    {
+    public function __construct($text = 'write pending example') {
         parent::__construct(sprintf('todo: %s', $text));
     }
+
 }

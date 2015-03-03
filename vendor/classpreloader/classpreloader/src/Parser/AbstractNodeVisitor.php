@@ -9,8 +9,8 @@ use PhpParser\NodeVisitorAbstract;
  *
  * This is used to track the filename.
  */
-abstract class AbstractNodeVisitor extends NodeVisitorAbstract
-{
+abstract class AbstractNodeVisitor extends NodeVisitorAbstract {
+
     /**
      * The current file being parsed.
      *
@@ -25,8 +25,7 @@ abstract class AbstractNodeVisitor extends NodeVisitorAbstract
      *
      * @return \ClassPreloader\Parser\AbstractNodeVisitor
      */
-    public function setFilename($filename)
-    {
+    public function setFilename($filename) {
         $this->filename = $filename;
 
         return $this;
@@ -37,8 +36,7 @@ abstract class AbstractNodeVisitor extends NodeVisitorAbstract
      *
      * @return string
      */
-    public function getFilename()
-    {
+    public function getFilename() {
         return $this->filename;
     }
 
@@ -47,8 +45,8 @@ abstract class AbstractNodeVisitor extends NodeVisitorAbstract
      *
      * @return string
      */
-    public function getDir()
-    {
+    public function getDir() {
         return dirname($this->getFilename());
     }
+
 }

@@ -21,12 +21,11 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class RouterDataCollector extends DataCollector
-{
+class RouterDataCollector extends DataCollector {
+
     protected $controllers;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->controllers = new \SplObjectStorage();
 
         $this->data = array(
@@ -39,8 +38,7 @@ class RouterDataCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Exception $exception = null)
-    {
+    public function collect(Request $request, Response $response, \Exception $exception = null) {
         if ($response instanceof RedirectResponse) {
             $this->data['redirect'] = true;
             $this->data['url'] = $response->getTargetUrl();
@@ -53,8 +51,7 @@ class RouterDataCollector extends DataCollector
         unset($this->controllers[$request]);
     }
 
-    protected function guessRoute(Request $request, $controller)
-    {
+    protected function guessRoute(Request $request, $controller) {
         return 'n/a';
     }
 
@@ -63,40 +60,36 @@ class RouterDataCollector extends DataCollector
      *
      * @param FilterControllerEvent $event The filter controller event
      */
-    public function onKernelController(FilterControllerEvent $event)
-    {
+    public function onKernelController(FilterControllerEvent $event) {
         $this->controllers[$event->getRequest()] = $event->getController();
     }
 
     /**
      * @return bool Whether this request will result in a redirect
      */
-    public function getRedirect()
-    {
+    public function getRedirect() {
         return $this->data['redirect'];
     }
 
     /**
      * @return string|null The target URL
      */
-    public function getTargetUrl()
-    {
+    public function getTargetUrl() {
         return $this->data['url'];
     }
 
     /**
      * @return string|null The target route
      */
-    public function getTargetRoute()
-    {
+    public function getTargetRoute() {
         return $this->data['route'];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'router';
     }
+
 }

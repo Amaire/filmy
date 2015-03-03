@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Environment
  *
@@ -45,31 +46,29 @@ namespace SebastianBergmann\Environment;
 
 use PHPUnit_Framework_TestCase;
 
-class ConsoleTest extends PHPUnit_Framework_TestCase
-{
+class ConsoleTest extends PHPUnit_Framework_TestCase {
+
     /**
      * @var \SebastianBergmann\Environment\Console
      */
     private $console;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->console = new Console;
     }
 
     /**
      * @covers \SebastianBergmann\Environment\Console::hasColorSupport
      */
-    public function testCanDetectColorSupport()
-    {
+    public function testCanDetectColorSupport() {
         $this->assertInternalType('boolean', $this->console->hasColorSupport());
     }
 
     /**
      * @covers \SebastianBergmann\Environment\Console::hasColorSupport
      */
-    public function testCanDetectNumberOfColumns()
-    {
+    public function testCanDetectNumberOfColumns() {
         $this->assertInternalType('integer', $this->console->getNumberOfColumns());
     }
+
 }

@@ -19,8 +19,8 @@ use Psr\Log\LoggerInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class SecureRandom implements SecureRandomInterface
-{
+final class SecureRandom implements SecureRandomInterface {
+
     private $logger;
     private $useOpenSsl;
     private $seed;
@@ -37,8 +37,7 @@ final class SecureRandom implements SecureRandomInterface
      * @param string          $seedFile
      * @param LoggerInterface $logger
      */
-    public function __construct($seedFile = null, LoggerInterface $logger = null)
-    {
+    public function __construct($seedFile = null, LoggerInterface $logger = null) {
         $this->seedFile = $seedFile;
         $this->logger = $logger;
 
@@ -58,8 +57,7 @@ final class SecureRandom implements SecureRandomInterface
     /**
      * {@inheritdoc}
      */
-    public function nextBytes($nbBytes)
-    {
+    public function nextBytes($nbBytes) {
         // try OpenSSL
         if ($this->useOpenSsl) {
             $bytes = openssl_random_pseudo_bytes($nbBytes, $strong);
@@ -90,25 +88,24 @@ final class SecureRandom implements SecureRandomInterface
         $bytes = '';
         while (strlen($bytes) < $nbBytes) {
             static $incr = 1;
-            $bytes .= hash('sha512', $incr++.$this->seed.uniqid(mt_rand(), true).$nbBytes, true);
-            $this->seed = base64_encode(hash('sha512', $this->seed.$bytes.$nbBytes, true));
+            $bytes .= hash('sha512', $incr++ . $this->seed . uniqid(mt_rand(), true) . $nbBytes, true);
+            $this->seed = base64_encode(hash('sha512', $this->seed . $bytes . $nbBytes, true));
             $this->updateSeed();
         }
 
         return substr($bytes, 0, $nbBytes);
     }
 
-    private function readSeed()
-    {
+    private function readSeed() {
         return json_decode(file_get_contents($this->seedFile));
     }
 
-    private function updateSeed()
-    {
+    private function updateSeed() {
         if (!$this->seedUpdated && $this->seedLastUpdatedAt < time() - mt_rand(1, 10)) {
             file_put_contents($this->seedFile, json_encode(array($this->seed, microtime(true))));
         }
 
         $this->seedUpdated = true;
     }
+
 }

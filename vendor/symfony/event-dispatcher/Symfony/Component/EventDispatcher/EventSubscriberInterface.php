@@ -24,8 +24,8 @@ namespace Symfony\Component\EventDispatcher;
  *
  * @api
  */
-interface EventSubscriberInterface
-{
+interface EventSubscriberInterface {
+
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *

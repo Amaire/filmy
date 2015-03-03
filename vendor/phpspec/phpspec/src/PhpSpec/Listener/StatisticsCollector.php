@@ -18,35 +18,30 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SpecificationEvent;
 
-class StatisticsCollector implements EventSubscriberInterface
-{
-    private $globalResult    = 0;
-    private $totalSpecs      = 0;
-    private $totalSpecsCount = 0;
+class StatisticsCollector implements EventSubscriberInterface {
 
-    private $passedEvents  = array();
+    private $globalResult = 0;
+    private $totalSpecs = 0;
+    private $totalSpecsCount = 0;
+    private $passedEvents = array();
     private $pendingEvents = array();
     private $skippedEvents = array();
-    private $failedEvents  = array();
-    private $brokenEvents  = array();
+    private $failedEvents = array();
+    private $brokenEvents = array();
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             'afterSpecification' => array('afterSpecification', 10),
-            'afterExample'       => array('afterExample', 10),
-            'beforeSuite'       => array('beforeSuite', 10),
-
+            'afterExample' => array('afterExample', 10),
+            'beforeSuite' => array('beforeSuite', 10),
         );
     }
 
-    public function afterSpecification(SpecificationEvent $event)
-    {
+    public function afterSpecification(SpecificationEvent $event) {
         $this->totalSpecs++;
     }
 
-    public function afterExample(ExampleEvent $event)
-    {
+    public function afterExample(ExampleEvent $event) {
         $this->globalResult = max($this->globalResult, $event->getResult());
 
         switch ($event->getResult()) {
@@ -68,75 +63,60 @@ class StatisticsCollector implements EventSubscriberInterface
         }
     }
 
-    public function beforeSuite(SuiteEvent $suiteEvent)
-    {
+    public function beforeSuite(SuiteEvent $suiteEvent) {
         $this->totalSpecsCount = count($suiteEvent->getSuite()->getSpecifications());
     }
 
-    public function getGlobalResult()
-    {
+    public function getGlobalResult() {
         return $this->globalResult;
     }
 
-    public function getAllEvents()
-    {
+    public function getAllEvents() {
         return array_merge(
-            $this->passedEvents,
-            $this->pendingEvents,
-            $this->skippedEvents,
-            $this->failedEvents,
-            $this->brokenEvents
+                $this->passedEvents, $this->pendingEvents, $this->skippedEvents, $this->failedEvents, $this->brokenEvents
         );
     }
 
-    public function getPassedEvents()
-    {
+    public function getPassedEvents() {
         return $this->passedEvents;
     }
 
-    public function getPendingEvents()
-    {
+    public function getPendingEvents() {
         return $this->pendingEvents;
     }
 
-    public function getSkippedEvents()
-    {
+    public function getSkippedEvents() {
         return $this->skippedEvents;
     }
 
-    public function getFailedEvents()
-    {
+    public function getFailedEvents() {
         return $this->failedEvents;
     }
 
-    public function getBrokenEvents()
-    {
+    public function getBrokenEvents() {
         return $this->brokenEvents;
     }
 
-    public function getCountsHash()
-    {
+    public function getCountsHash() {
         return array(
-            'passed'  => count($this->getPassedEvents()),
+            'passed' => count($this->getPassedEvents()),
             'pending' => count($this->getPendingEvents()),
             'skipped' => count($this->getSkippedEvents()),
-            'failed'  => count($this->getFailedEvents()),
-            'broken'  => count($this->getBrokenEvents()),
+            'failed' => count($this->getFailedEvents()),
+            'broken' => count($this->getBrokenEvents()),
         );
     }
 
-    public function getTotalSpecs()
-    {
+    public function getTotalSpecs() {
         return $this->totalSpecs;
     }
 
-    public function getEventsCount()
-    {
+    public function getEventsCount() {
         return count($this->getAllEvents());
     }
 
-    public function getTotalSpecsCount()
-    {
+    public function getTotalSpecsCount() {
         return $this->totalSpecsCount;
     }
+
 }

@@ -22,8 +22,8 @@ use Psr\Log\LoggerInterface as PsrLogger;
  *
  * @api
  */
-interface LoggerInterface extends PsrLogger
-{
+interface LoggerInterface extends PsrLogger {
+
     /**
      * @api
      *

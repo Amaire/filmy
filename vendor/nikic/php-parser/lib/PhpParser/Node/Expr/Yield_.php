@@ -8,8 +8,8 @@ use PhpParser\Node\Expr;
  * @property null|Expr $value Value expression
  * @property null|Expr $key   Key expression
  */
-class Yield_ extends Expr
-{
+class Yield_ extends Expr {
+
     /**
      * Constructs a yield expression node.
      *
@@ -19,11 +19,11 @@ class Yield_ extends Expr
      */
     public function __construct(Expr $value = null, Expr $key = null, array $attributes = array()) {
         parent::__construct(
-            array(
-                'key'   => $key,
-                'value' => $value,
-            ),
-            $attributes
+                array(
+            'key' => $key,
+            'value' => $value,
+                ), $attributes
         );
     }
+
 }

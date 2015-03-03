@@ -8,8 +8,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Name $name Constant name
  */
-class ConstFetch extends Expr
-{
+class ConstFetch extends Expr {
+
     /**
      * Constructs a const fetch node.
      *
@@ -18,10 +18,10 @@ class ConstFetch extends Expr
      */
     public function __construct(Name $name, array $attributes = array()) {
         parent::__construct(
-            array(
-                'name'  => $name
-            ),
-            $attributes
+                array(
+            'name' => $name
+                ), $attributes
         );
     }
+
 }

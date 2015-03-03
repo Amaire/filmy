@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,17 +20,17 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.4.0
  */
-class PHPUnit_Framework_TestSuite_DataProvider extends PHPUnit_Framework_TestSuite
-{
+class PHPUnit_Framework_TestSuite_DataProvider extends PHPUnit_Framework_TestSuite {
+
     /**
      * Sets the dependencies of a TestCase.
      *
      * @param array $dependencies
      */
-    public function setDependencies(array $dependencies)
-    {
+    public function setDependencies(array $dependencies) {
         foreach ($this->tests as $test) {
             $test->setDependencies($dependencies);
         }
     }
+
 }

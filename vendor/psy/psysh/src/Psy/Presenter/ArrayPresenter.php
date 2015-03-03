@@ -16,8 +16,8 @@ use Psy\Util\Json;
 /**
  * An array Presenter.
  */
-class ArrayPresenter extends RecursivePresenter
-{
+class ArrayPresenter extends RecursivePresenter {
+
     const ARRAY_OBJECT_FMT = '<object>\\<<class>%s</class> <strong>#%s</strong>></object>';
 
     /**
@@ -27,8 +27,7 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return boolean
      */
-    public function canPresent($value)
-    {
+    public function canPresent($value) {
         return is_array($value) || $this->isArrayObject($value);
     }
 
@@ -40,8 +39,7 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return boolean
      */
-    protected function isArrayObject($value)
-    {
+    protected function isArrayObject($value) {
         return $value instanceof \ArrayObject;
     }
 
@@ -52,8 +50,7 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return string
      */
-    public function presentRef($value)
-    {
+    public function presentRef($value) {
         if ($this->isArrayObject($value)) {
             return $this->presentArrayObjectRef($value);
         } elseif (empty($value)) {
@@ -70,8 +67,7 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return string
      */
-    protected function presentArrayObjectRef($value)
-    {
+    protected function presentArrayObjectRef($value) {
         return sprintf(self::ARRAY_OBJECT_FMT, get_class($value), spl_object_hash($value));
     }
 
@@ -83,8 +79,7 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return array
      */
-    protected function getArrayObjectValue($value)
-    {
+    protected function getArrayObjectValue($value) {
         return iterator_to_array($value->getIterator());
     }
 
@@ -97,12 +92,11 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return string
      */
-    protected function presentValue($value, $depth = null, $options = 0)
-    {
+    protected function presentValue($value, $depth = null, $options = 0) {
         $prefix = '';
         if ($this->isArrayObject($value)) {
             $prefix = $this->presentArrayObjectRef($value) . ' ';
-            $value  = $this->getArrayObjectValue($value);
+            $value = $this->getArrayObjectValue($value);
         }
 
         if (empty($value) || $depth === 0) {
@@ -124,7 +118,7 @@ class ArrayPresenter extends RecursivePresenter
         }
 
         $template = sprintf('%s[%s%s%%s%s]', $prefix, PHP_EOL, self::INDENT, PHP_EOL);
-        $glue     = sprintf(',%s%s', PHP_EOL, self::INDENT);
+        $glue = sprintf(',%s%s', PHP_EOL, self::INDENT);
 
         return sprintf($template, implode($glue, $formatted));
     }
@@ -139,8 +133,7 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return boolean
      */
-    protected function shouldShowKeys(array $array)
-    {
+    protected function shouldShowKeys(array $array) {
         $i = 0;
         foreach (array_keys($array) as $k) {
             if ($k !== $i++) {
@@ -160,15 +153,13 @@ class ArrayPresenter extends RecursivePresenter
      *
      * @return string
      */
-    protected function formatKeyAndValue($key, $value, $pad = 0)
-    {
+    protected function formatKeyAndValue($key, $value, $pad = 0) {
         $type = is_string($value) ? 'string' : 'number';
-        $tpl  = "<$type>%-${pad}s</$type> => %s";
+        $tpl = "<$type>%-${pad}s</$type> => %s";
 
         return sprintf(
-            $tpl,
-            Json::encode($key),
-            $this->indentValue($value)
+                $tpl, Json::encode($key), $this->indentValue($value)
         );
     }
+
 }

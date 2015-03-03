@@ -2,8 +2,8 @@
 
 namespace PhpParser;
 
-class NodeTraverser implements NodeTraverserInterface
-{
+class NodeTraverser implements NodeTraverserInterface {
+
     /**
      * @var NodeVisitor[] Visitors
      */
@@ -68,7 +68,7 @@ class NodeTraverser implements NodeTraverserInterface
         $node = clone $node;
 
         foreach ($node->getSubNodeNames() as $name) {
-            $subNode =& $node->$name;
+            $subNode = & $node->$name;
 
             if (is_array($subNode)) {
                 $subNode = $this->traverseArray($subNode);
@@ -143,4 +143,5 @@ class NodeTraverser implements NodeTraverserInterface
 
         return $nodes;
     }
+
 }

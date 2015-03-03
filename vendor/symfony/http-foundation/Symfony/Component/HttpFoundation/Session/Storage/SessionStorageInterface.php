@@ -21,8 +21,8 @@ use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
  *
  * @api
  */
-interface SessionStorageInterface
-{
+interface SessionStorageInterface {
+
     /**
      * Starts the session.
      *

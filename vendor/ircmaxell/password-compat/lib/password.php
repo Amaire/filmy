@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A Compatibility library with PHP 5.5's simplified password hashing API.
  *
@@ -140,10 +141,8 @@ namespace {
             }
             if ($salt_requires_encoding) {
                 // encode string with the Base64 variant used by crypt
-                $base64_digits =
-                    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-                $bcrypt64_digits =
-                    './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                $base64_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+                $bcrypt64_digits = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
                 $base64_string = base64_encode($salt);
                 $salt = strtr(rtrim($base64_string, '='), $base64_digits, $bcrypt64_digits);
@@ -244,8 +243,8 @@ namespace {
 
             return $status === 0;
         }
-    }
 
+    }
 }
 
 namespace PasswordCompat\binary {

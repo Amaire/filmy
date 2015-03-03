@@ -16,8 +16,8 @@ use Symfony\Component\Console\Tester\ApplicationTester;
 /**
  * Defines application features from the specific context.
  */
-class ApplicationContext implements Context, MatchersProviderInterface
-{
+class ApplicationContext implements Context, MatchersProviderInterface {
+
     /**
      * @var Application
      */
@@ -46,8 +46,7 @@ class ApplicationContext implements Context, MatchersProviderInterface
     /**
      * @beforeScenario
      */
-    public function setupApplication()
-    {
+    public function setupApplication() {
         $this->application = new Application('2.1-dev');
         $this->application->setAutoExit(false);
 
@@ -57,16 +56,14 @@ class ApplicationContext implements Context, MatchersProviderInterface
         $this->setupReRunner();
     }
 
-    private function setupDialogHelper()
-    {
+    private function setupDialogHelper() {
         $this->dialogHelper = new DialogHelper();
 
         $helperSet = $this->application->getHelperSet();
         $helperSet->set($this->dialogHelper);
     }
 
-    private function setupReRunner()
-    {
+    private function setupReRunner() {
         $this->reRunner = new ReRunner;
         $this->application->getContainer()->set('process.rerunner.platformspecific', $this->reRunner);
     }
@@ -75,8 +72,7 @@ class ApplicationContext implements Context, MatchersProviderInterface
      * @Given I have started describing the :class class
      * @Given I start describing the :class class
      */
-    public function iDescribeTheClass($class)
-    {
+    public function iDescribeTheClass($class) {
         $arguments = array(
             'command' => 'describe',
             'class' => $class
@@ -93,9 +89,8 @@ class ApplicationContext implements Context, MatchersProviderInterface
      * @When /I run phpspec (?P<interactive>interactively)$/
      * @When /I run phpspec (?P<interactive>interactively) with the (?P<option>.*) option/
      */
-    public function iRunPhpspec($formatter = null, $option = null, $interactive=null)
-    {
-        $arguments = array (
+    public function iRunPhpspec($formatter = null, $option = null, $interactive = null) {
+        $arguments = array(
             'command' => 'run'
         );
 
@@ -105,22 +100,21 @@ class ApplicationContext implements Context, MatchersProviderInterface
 
         $this->addOptionToArguments($option, $arguments);
 
-        $this->lastExitCode = $this->tester->run($arguments, array('interactive' => (bool)$interactive));
+        $this->lastExitCode = $this->tester->run($arguments, array('interactive' => (bool) $interactive));
     }
 
     /**
      * @When I run phpspec and answer :answer when asked if I want to generate the code
      * @When I run phpspec with the option :option and (I) answer :answer when asked if I want to generate the code
      */
-    public function iRunPhpspecAndAnswerWhenAskedIfIWantToGenerateTheCode($answer, $option=null)
-    {
-        $arguments = array (
+    public function iRunPhpspecAndAnswerWhenAskedIfIWantToGenerateTheCode($answer, $option = null) {
+        $arguments = array(
             'command' => 'run'
         );
 
         $this->addOptionToArguments($option, $arguments);
 
-        $this->dialogHelper->setAnswer($answer=='y');
+        $this->dialogHelper->setAnswer($answer == 'y');
 
         $this->lastExitCode = $this->tester->run($arguments, array('interactive' => true));
     }
@@ -129,8 +123,7 @@ class ApplicationContext implements Context, MatchersProviderInterface
      * @param string $option
      * @param array $arguments
      */
-    private function addOptionToArguments($option, array &$arguments)
-    {
+    private function addOptionToArguments($option, array &$arguments) {
         if ($option) {
             if (preg_match('/(?P<option>[a-z-]+)=(?P<value>[a-z.]+)/', $option, $matches)) {
                 $arguments[$matches['option']] = $matches['value'];
@@ -144,80 +137,70 @@ class ApplicationContext implements Context, MatchersProviderInterface
      * @Then I should see :output
      * @Then I should see:
      */
-    public function iShouldSee($output)
-    {
-        expect($this->tester)->toHaveOutput((string)$output);
+    public function iShouldSee($output) {
+        expect($this->tester)->toHaveOutput((string) $output);
     }
 
     /**
      * @Then I should be prompted for code generation
      */
-    public function iShouldBePromptedForCodeGeneration()
-    {
+    public function iShouldBePromptedForCodeGeneration() {
         expect($this->dialogHelper)->toHaveBeenAsked();
     }
 
     /**
      * @Then I should not be prompted for code generation
      */
-    public function iShouldNotBePromptedForCodeGeneration()
-    {
+    public function iShouldNotBePromptedForCodeGeneration() {
         expect($this->dialogHelper)->toNotHaveBeenAsked();
     }
 
     /**
      * @Then the suite should pass
      */
-    public function theSuiteShouldPass()
-    {
+    public function theSuiteShouldPass() {
         expect($this->lastExitCode)->toBeLike(0);
     }
 
     /**
      * @Then :number example(s) should have been skipped
      */
-    public function exampleShouldHaveBeenSkipped($number)
-    {
+    public function exampleShouldHaveBeenSkipped($number) {
         expect($this->tester)->toHaveOutput("($number skipped)");
     }
 
     /**
      * @Then :number example(s) should have been run
      */
-    public function examplesShouldHaveBeenRun($number)
-    {
+    public function examplesShouldHaveBeenRun($number) {
         expect($this->tester)->toHaveOutput("$number examples");
     }
 
     /**
      * @Then the exit code should be :code
      */
-    public function theExitCodeShouldBe($code)
-    {
+    public function theExitCodeShouldBe($code) {
         expect($this->lastExitCode)->toBeLike($code);
     }
 
     /**
      * @Then I should see valid junit output
      */
-    public function iShouldSeeValidJunitOutput()
-    {
+    public function iShouldSeeValidJunitOutput() {
         expect($this->tester)->toHaveOutputValidJunitXml();
     }
 
     /**
      * @Then the tests should be rerun
      */
-    public function theTestsShouldBeRerun()
-    {
+    public function theTestsShouldBeRerun() {
         expect($this->reRunner)->toHaveBeenRerun();
     }
 
     /**
      * @Then the tests should not be rerun
      */
-    public function theTestsShouldNotBeRerun()
-    {
+    public function theTestsShouldNotBeRerun() {
         expect($this->reRunner)->toNotHaveBeenRerun();
     }
 
@@ -226,11 +209,11 @@ class ApplicationContext implements Context, MatchersProviderInterface
      *
      * @return array
      */
-    public function getMatchers()
-    {
+    public function getMatchers() {
         return array(
             new ApplicationOutputMatcher(),
             new ValidJUnitXmlMatcher()
         );
     }
+
 }

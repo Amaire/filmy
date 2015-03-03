@@ -7,7 +7,6 @@ if (defined('HHVM_VERSION'))
 ?>
 --FILE--
 <?php
-
 $_SERVER['argv'][1] = '--no-configuration';
 $_SERVER['argv'][] = '--report-useless-tests';
 $_SERVER['argv'][] = '--process-isolation';

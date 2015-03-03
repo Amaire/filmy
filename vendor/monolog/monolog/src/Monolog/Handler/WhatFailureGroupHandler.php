@@ -17,13 +17,12 @@ namespace Monolog\Handler;
  *
  * @author Craig D'Amelio <craig@damelio.ca>
  */
-class WhatFailureGroupHandler extends GroupHandler
-{
+class WhatFailureGroupHandler extends GroupHandler {
+
     /**
      * {@inheritdoc}
      */
-    public function handle(array $record)
-    {
+    public function handle(array $record) {
         if ($this->processors) {
             foreach ($this->processors as $processor) {
                 $record = call_user_func($processor, $record);
@@ -44,8 +43,7 @@ class WhatFailureGroupHandler extends GroupHandler
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records)
-    {
+    public function handleBatch(array $records) {
         foreach ($this->handlers as $handler) {
             try {
                 $handler->handleBatch($records);
@@ -54,4 +52,5 @@ class WhatFailureGroupHandler extends GroupHandler
             }
         }
     }
+
 }

@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface AccessDecisionManagerInterface
-{
+interface AccessDecisionManagerInterface {
+
     /**
      * Decides whether the access is possible or not.
      *

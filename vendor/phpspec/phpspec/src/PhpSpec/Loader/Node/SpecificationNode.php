@@ -17,24 +17,28 @@ use PhpSpec\Loader\Suite;
 use PhpSpec\Locator\ResourceInterface;
 use ReflectionClass;
 
-class SpecificationNode implements \Countable
-{
+class SpecificationNode implements \Countable {
+
     /**
      * @var string
      */
     private $title;
+
     /**
      * @var \ReflectionClass
      */
     private $class;
+
     /**
      * @var \PhpSpec\Locator\ResourceInterface
      */
     private $resource;
+
     /**
      * @var Suite
      */
     private $suite;
+
     /**
      * @var ExampleNode[]
      */
@@ -45,42 +49,37 @@ class SpecificationNode implements \Countable
      * @param ReflectionClass   $class
      * @param ResourceInterface $resource
      */
-    public function __construct($title, ReflectionClass $class, ResourceInterface $resource)
-    {
-        $this->title    = $title;
-        $this->class    = $class;
+    public function __construct($title, ReflectionClass $class, ResourceInterface $resource) {
+        $this->title = $title;
+        $this->class = $class;
         $this->resource = $resource;
     }
 
     /**
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
     /**
      * @return ReflectionClass
      */
-    public function getClassReflection()
-    {
+    public function getClassReflection() {
         return $this->class;
     }
 
     /**
      * @return ResourceInterface
      */
-    public function getResource()
-    {
+    public function getResource() {
         return $this->resource;
     }
 
     /**
      * @param ExampleNode $example
      */
-    public function addExample(ExampleNode $example)
-    {
+    public function addExample(ExampleNode $example) {
         $this->examples[] = $example;
         $example->setSpecification($this);
     }
@@ -88,32 +87,29 @@ class SpecificationNode implements \Countable
     /**
      * @return ExampleNode[]
      */
-    public function getExamples()
-    {
+    public function getExamples() {
         return $this->examples;
     }
 
     /**
      * @param Suite $suite
      */
-    public function setSuite(Suite $suite)
-    {
+    public function setSuite(Suite $suite) {
         $this->suite = $suite;
     }
 
     /**
      * @return Suite|null
      */
-    public function getSuite()
-    {
+    public function getSuite() {
         return $this->suite;
     }
 
     /**
      * @return int
      */
-    public function count()
-    {
+    public function count() {
         return count($this->examples);
     }
+
 }

@@ -21,10 +21,9 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandle
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
-class NativeSessionHandlerTest extends \PHPUnit_Framework_TestCase
-{
-    public function testConstruct()
-    {
+class NativeSessionHandlerTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConstruct() {
         $handler = new NativeSessionHandler();
 
         // note for PHPUnit optimisers - the use of assertTrue/False
@@ -37,4 +36,5 @@ class NativeSessionHandlerTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue($handler instanceof NativeSessionHandler);
         }
     }
+
 }

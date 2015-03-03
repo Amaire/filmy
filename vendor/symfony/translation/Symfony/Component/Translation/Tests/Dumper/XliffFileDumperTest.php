@@ -14,10 +14,9 @@ namespace Symfony\Component\Translation\Tests\Dumper;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
 
-class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
-{
-    public function testDump()
-    {
+class XliffFileDumperTest extends \PHPUnit_Framework_TestCase {
+
+    public function testDump() {
         $catalogue = new MessageCatalogue('en_US');
         $catalogue->add(array(
             'foo' => 'bar',
@@ -32,10 +31,10 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
         $dumper->dump($catalogue, array('path' => $tempDir, 'default_locale' => 'fr_FR'));
 
         $this->assertEquals(
-            file_get_contents(__DIR__.'/../fixtures/resources-clean.xlf'),
-            file_get_contents($tempDir.'/messages.en_US.xlf')
+                file_get_contents(__DIR__ . '/../fixtures/resources-clean.xlf'), file_get_contents($tempDir . '/messages.en_US.xlf')
         );
 
-        unlink($tempDir.'/messages.en_US.xlf');
+        unlink($tempDir . '/messages.en_US.xlf');
     }
+
 }

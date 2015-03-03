@@ -17,11 +17,10 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class HtmlDumperTest extends \PHPUnit_Framework_TestCase
-{
-    public function testGet()
-    {
-        require __DIR__.'/Fixtures/dumb-var.php';
+class HtmlDumperTest extends \PHPUnit_Framework_TestCase {
+
+    public function testGet() {
+        require __DIR__ . '/Fixtures/dumb-var.php';
 
         $dumper = new HtmlDumper('php://output');
         $dumper->setDumpHeader('<foo></foo>');
@@ -49,7 +48,7 @@ class HtmlDumperTest extends \PHPUnit_Framework_TestCase
         $res2 = (int) $var[8];
 
         $this->assertStringMatchesFormat(
-            <<<EOTXT
+                <<<EOTXT
 <foo></foo><bar><span class=sf-dump-note>array:25</span> [<samp>
   "<span class=sf-dump-key>number</span>" => <span class=sf-dump-num>1</span>
   <span class=sf-dump-key>0</span> => <a class=sf-dump-ref href=#{$dumpId}-ref01 title="2 occurrences">&amp;1</a> <span class=sf-dump-const>null</span>
@@ -108,14 +107,11 @@ class HtmlDumperTest extends \PHPUnit_Framework_TestCase
 </bar>
 
 EOTXT
-            ,
-
-            $out
+                , $out
         );
     }
 
-    public function testCharset()
-    {
+    public function testCharset() {
         if (!extension_loaded('mbstring')) {
             $this->markTestSkipped('This test requires mbstring.');
         }
@@ -133,14 +129,13 @@ EOTXT
         $out = stream_get_contents($out);
 
         $this->assertStringMatchesFormat(
-            <<<EOTXT
+                <<<EOTXT
 <foo></foo><bar>b"<span class=sf-dump-str title="7 binary or non-UTF-8 characters">&#1057;&#1083;&#1086;&#1074;&#1072;&#1088;&#1100;</span>"
 </bar>
 
 EOTXT
-            ,
-
-            $out
+                , $out
         );
     }
+
 }

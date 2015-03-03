@@ -19,8 +19,8 @@ use Psy\Shell;
  * This version is preferred, as it won't die prematurely if user input includes
  * a fatal error, such as redeclaring a class or function.
  */
-class ForkingLoop extends Loop
-{
+class ForkingLoop extends Loop {
+
     private $savegame;
 
     /**
@@ -32,8 +32,7 @@ class ForkingLoop extends Loop
      *
      * @param Shell $shell
      */
-    public function run(Shell $shell)
-    {
+    public function run(Shell $shell) {
         list($up, $down) = stream_socket_pair(STREAM_PF_UNIX, STREAM_SOCK_STREAM, STREAM_IPPROTO_IP);
 
         if (!$up) {
@@ -45,13 +44,12 @@ class ForkingLoop extends Loop
             throw new \RuntimeException('Unable to start execution loop.');
         } elseif ($pid > 0) {
             // This is the main thread. We'll just wait for a while.
-
             // We won't be needing this one.
             fclose($up);
 
             // Wait for a return value from the loop process.
-            $read   = array($down);
-            $write  = null;
+            $read = array($down);
+            $write = null;
             $except = null;
             if (stream_select($read, $write, $except, null) === false) {
                 throw new \RuntimeException('Error waiting for execution loop.');
@@ -88,16 +86,14 @@ class ForkingLoop extends Loop
     /**
      * Create a savegame at the start of each loop iteration.
      */
-    public function beforeLoop()
-    {
+    public function beforeLoop() {
         $this->createSavegame();
     }
 
     /**
      * Clean up old savegames at the end of each loop iteration.
      */
-    public function afterLoop()
-    {
+    public function afterLoop() {
         // if there's an old savegame hanging around, let's kill it.
         if (isset($this->savegame)) {
             posix_kill($this->savegame, SIGKILL);
@@ -112,8 +108,7 @@ class ForkingLoop extends Loop
      * the event that the worker dies unexpectedly (for example, by encountering
      * a PHP fatal error).
      */
-    private function createSavegame()
-    {
+    private function createSavegame() {
         // the current process will become the savegame
         $this->savegame = posix_getpid();
 
@@ -146,8 +141,7 @@ class ForkingLoop extends Loop
      *
      * @return string
      */
-    private function serializeReturn(array $return)
-    {
+    private function serializeReturn(array $return) {
         $serializable = array();
         foreach ($return as $key => $value) {
             try {
@@ -160,4 +154,5 @@ class ForkingLoop extends Loop
 
         return serialize($serializable);
     }
+
 }

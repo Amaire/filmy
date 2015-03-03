@@ -1,6 +1,5 @@
 #!/usr/bin/env php
 <?php
-
 /*
  * This file is part of PsySH
  *
@@ -17,9 +16,9 @@ if (is_file(__DIR__ . '/../vendor/autoload.php')) {
     require(__DIR__ . '/../../../autoload.php');
 } else {
     die(
-        'You must set up the Psy Shell dependencies, run the following commands:' . PHP_EOL .
-        'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
-        'php composer.phar install' . PHP_EOL
+            'You must set up the Psy Shell dependencies, run the following commands:' . PHP_EOL .
+            'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+            'php composer.phar install' . PHP_EOL
     );
 }
 /* >>> */
@@ -56,10 +55,9 @@ call_user_func(function() {
     $input = new ArgvInput();
     try {
         $input->bind(new InputDefinition(array(
-            new InputOption('help',    'h', InputOption::VALUE_NONE),
-            new InputOption('config',  'c', InputOption::VALUE_REQUIRED),
+            new InputOption('help', 'h', InputOption::VALUE_NONE),
+            new InputOption('config', 'c', InputOption::VALUE_REQUIRED),
             new InputOption('version', 'v', InputOption::VALUE_NONE),
-
             new InputArgument('include', InputArgument::IS_ARRAY),
         )));
     } catch (\RuntimeException $e) {
@@ -82,7 +80,7 @@ call_user_func(function() {
         }
 
         $version = $shell->getVersion();
-        $name    = basename(reset($_SERVER['argv']));
+        $name = basename(reset($_SERVER['argv']));
         echo <<<EOL
 $version
 
@@ -117,7 +115,6 @@ EOL;
         // TODO: this triggers the "exited unexpectedly" logic in the
         // ForkingLoop, so we can't exit(1) after starting the shell...
         // fix this :)
-
         // exit(1);
     }
 });

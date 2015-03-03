@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -20,6 +21,6 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
-class PHPUnit_Framework_IncompleteTestError extends PHPUnit_Framework_AssertionFailedError implements PHPUnit_Framework_IncompleteTest
-{
+class PHPUnit_Framework_IncompleteTestError extends PHPUnit_Framework_AssertionFailedError implements PHPUnit_Framework_IncompleteTest {
+    
 }

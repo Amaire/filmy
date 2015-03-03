@@ -18,8 +18,8 @@ namespace Symfony\Component\Security\Core\User;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface UserCheckerInterface
-{
+interface UserCheckerInterface {
+
     /**
      * Checks the user account before authentication.
      *

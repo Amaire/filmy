@@ -3,6 +3,7 @@
 namespace Psy;
 
 if (!function_exists('Psy\sh')) {
+
     /**
      * Command to return the eval-able code to startup PsySH.
      *
@@ -10,8 +11,8 @@ if (!function_exists('Psy\sh')) {
      *
      * @return string
      */
-    function sh()
-    {
+    function sh() {
         return 'extract(\Psy\Shell::debug(get_defined_vars(), $this ?: null));';
     }
+
 }

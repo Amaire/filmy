@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 4.3.0
  */
-class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framework_Constraint {
+
     /**
      * @var integer
      */
@@ -29,8 +30,7 @@ class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framew
     /**
      * @param string $expected
      */
-    public function __construct($expected)
-    {
+    public function __construct($expected) {
         parent::__construct();
         $this->expectedMessageRegExp = $expected;
     }
@@ -42,13 +42,12 @@ class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framew
      * @param  Exception $other
      * @return boolean
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         $match = PHPUnit_Util_Regex::pregMatchSafe($this->expectedMessageRegExp, $other->getMessage());
 
         if (false === $match) {
-            throw new PHPUnit_Framework_Exception (
-                "Invalid expected exception message regex given: '{$this->expectedMessageRegExp}'"
+            throw new PHPUnit_Framework_Exception(
+            "Invalid expected exception message regex given: '{$this->expectedMessageRegExp}'"
             );
         }
 
@@ -64,20 +63,17 @@ class PHPUnit_Framework_Constraint_ExceptionMessageRegExp extends PHPUnit_Framew
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         return sprintf(
-            "exception message '%s' matches '%s'",
-            $other->getMessage(),
-            $this->expectedMessageRegExp
+                "exception message '%s' matches '%s'", $other->getMessage(), $this->expectedMessageRegExp
         );
     }
 
     /**
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return "exception message matches ";
     }
+
 }

@@ -69,7 +69,7 @@ foreach ($files as $file) {
 
 function showHelp($error) {
     die($error . "\n\n" .
-        <<<OUTPUT
+            <<<OUTPUT
 Usage:
 
     php php-parse.php [operations] file1.php [file2.php ...]

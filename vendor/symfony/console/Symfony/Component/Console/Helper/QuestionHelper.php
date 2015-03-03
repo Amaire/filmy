@@ -22,8 +22,8 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class QuestionHelper extends Helper
-{
+class QuestionHelper extends Helper {
+
     private $inputStream;
     private static $shell;
     private static $stty;
@@ -39,8 +39,7 @@ class QuestionHelper extends Helper
      *
      * @throws \RuntimeException If there is no data to read in the input stream
      */
-    public function ask(InputInterface $input, OutputInterface $output, Question $question)
-    {
+    public function ask(InputInterface $input, OutputInterface $output, Question $question) {
         if (!$input->isInteractive()) {
             return $question->getDefault();
         }
@@ -67,8 +66,7 @@ class QuestionHelper extends Helper
      *
      * @throws \InvalidArgumentException In case the stream is not a resource
      */
-    public function setInputStream($stream)
-    {
+    public function setInputStream($stream) {
         if (!is_resource($stream)) {
             throw new \InvalidArgumentException('Input stream must be a valid resource.');
         }
@@ -81,16 +79,14 @@ class QuestionHelper extends Helper
      *
      * @return resource
      */
-    public function getInputStream()
-    {
+    public function getInputStream() {
         return $this->inputStream;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'question';
     }
 
@@ -107,9 +103,8 @@ class QuestionHelper extends Helper
      * @throws \Exception
      * @throws \RuntimeException
      */
-    public function doAsk(OutputInterface $output, Question $question)
-    {
-        $inputStream = $this->inputStream ?: STDIN;
+    public function doAsk(OutputInterface $output, Question $question) {
+        $inputStream = $this->inputStream ? : STDIN;
 
         $message = $question->getQuestion();
         if ($question instanceof ChoiceQuestion) {
@@ -168,8 +163,7 @@ class QuestionHelper extends Helper
      *
      * @return string
      */
-    private function autocomplete(OutputInterface $output, Question $question, $inputStream)
-    {
+    private function autocomplete(OutputInterface $output, Question $question, $inputStream) {
         $autocomplete = $question->getAutocompleterValues();
         $ret = '';
 
@@ -266,7 +260,7 @@ class QuestionHelper extends Helper
                 // Save cursor position
                 $output->write("\0337");
                 // Write highlighted text
-                $output->write('<hl>'.substr($matches[$ofs], $i).'</hl>');
+                $output->write('<hl>' . substr($matches[$ofs], $i) . '</hl>');
                 // Restore cursor position
                 $output->write("\0338");
             }
@@ -287,14 +281,13 @@ class QuestionHelper extends Helper
      *
      * @throws \RuntimeException In case the fallback is deactivated and the response cannot be hidden
      */
-    private function getHiddenResponse(OutputInterface $output, $inputStream)
-    {
+    private function getHiddenResponse(OutputInterface $output, $inputStream) {
         if ('\\' === DIRECTORY_SEPARATOR) {
-            $exe = __DIR__.'/../Resources/bin/hiddeninput.exe';
+            $exe = __DIR__ . '/../Resources/bin/hiddeninput.exe';
 
             // handle code running from a phar
             if ('phar:' === substr(__FILE__, 0, 5)) {
-                $tmpExe = sys_get_temp_dir().'/hiddeninput.exe';
+                $tmpExe = sys_get_temp_dir() . '/hiddeninput.exe';
                 copy($exe, $tmpExe);
                 $exe = $tmpExe;
             }
@@ -349,8 +342,7 @@ class QuestionHelper extends Helper
      *
      * @throws \Exception In case the max number of attempts has been reached and no valid response has been given
      */
-    private function validateAttempts($interviewer, OutputInterface $output, Question $question)
-    {
+    private function validateAttempts($interviewer, OutputInterface $output, Question $question) {
         $error = null;
         $attempts = $question->getMaxAttempts();
         while (null === $attempts || $attempts--) {
@@ -358,7 +350,7 @@ class QuestionHelper extends Helper
                 if (null !== $this->getHelperSet() && $this->getHelperSet()->has('formatter')) {
                     $message = $this->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error');
                 } else {
-                    $message = '<error>'.$error->getMessage().'</error>';
+                    $message = '<error>' . $error->getMessage() . '</error>';
                 }
 
                 $output->writeln($message);
@@ -367,6 +359,7 @@ class QuestionHelper extends Helper
             try {
                 return call_user_func($question->getValidator(), $interviewer());
             } catch (\Exception $error) {
+                
             }
         }
 
@@ -378,8 +371,7 @@ class QuestionHelper extends Helper
      *
      * @return string|bool The valid shell name, false in case no valid shell is found
      */
-    private function getShell()
-    {
+    private function getShell() {
         if (null !== self::$shell) {
             return self::$shell;
         }
@@ -405,8 +397,7 @@ class QuestionHelper extends Helper
      *
      * @return bool
      */
-    private function hasSttyAvailable()
-    {
+    private function hasSttyAvailable() {
         if (null !== self::$stty) {
             return self::$stty;
         }
@@ -415,4 +406,5 @@ class QuestionHelper extends Helper
 
         return self::$stty = $exitcode === 0;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,12 +20,12 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class Struct
-{
+class Struct {
+
     public $var;
 
-    public function __construct($var)
-    {
+    public function __construct($var) {
         $this->var = $var;
     }
+
 }

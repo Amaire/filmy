@@ -14,12 +14,11 @@ namespace Symfony\Component\Translation\Tests\Loader;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 
-class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase
-{
-    public function testLoad()
-    {
+class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase {
+
+    public function testLoad() {
         $loader = new XliffFileLoader();
-        $resource = __DIR__.'/../fixtures/resources.xlf';
+        $resource = __DIR__ . '/../fixtures/resources.xlf';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals('en', $catalogue->getLocale());
@@ -27,14 +26,13 @@ class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array(), libxml_get_errors());
     }
 
-    public function testLoadWithInternalErrorsEnabled()
-    {
+    public function testLoadWithInternalErrorsEnabled() {
         libxml_use_internal_errors(true);
 
         $this->assertSame(array(), libxml_get_errors());
 
         $loader = new XliffFileLoader();
-        $resource = __DIR__.'/../fixtures/resources.xlf';
+        $resource = __DIR__ . '/../fixtures/resources.xlf';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals('en', $catalogue->getLocale());
@@ -42,31 +40,28 @@ class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array(), libxml_get_errors());
     }
 
-    public function testLoadWithResname()
-    {
+    public function testLoadWithResname() {
         $loader = new XliffFileLoader();
-        $catalogue = $loader->load(__DIR__.'/../fixtures/resname.xlf', 'en', 'domain1');
+        $catalogue = $loader->load(__DIR__ . '/../fixtures/resname.xlf', 'en', 'domain1');
 
         $this->assertEquals(array('foo' => 'bar', 'bar' => 'baz', 'baz' => 'foo'), $catalogue->all('domain1'));
     }
 
-    public function testIncompleteResource()
-    {
+    public function testIncompleteResource() {
         $loader = new XliffFileLoader();
-        $catalogue = $loader->load(__DIR__.'/../fixtures/resources.xlf', 'en', 'domain1');
+        $catalogue = $loader->load(__DIR__ . '/../fixtures/resources.xlf', 'en', 'domain1');
 
         $this->assertEquals(array('foo' => 'bar', 'key' => '', 'test' => 'with'), $catalogue->all('domain1'));
         $this->assertFalse($catalogue->has('extra', 'domain1'));
     }
 
-    public function testEncoding()
-    {
+    public function testEncoding() {
         if (!function_exists('iconv') && !function_exists('mb_convert_encoding')) {
             $this->markTestSkipped('The iconv and mbstring extensions are not available.');
         }
 
         $loader = new XliffFileLoader();
-        $catalogue = $loader->load(__DIR__.'/../fixtures/encoding.xlf', 'en', 'domain1');
+        $catalogue = $loader->load(__DIR__ . '/../fixtures/encoding.xlf', 'en', 'domain1');
 
         $this->assertEquals(utf8_decode('föö'), $catalogue->get('bar', 'domain1'));
         $this->assertEquals(utf8_decode('bär'), $catalogue->get('foo', 'domain1'));
@@ -76,36 +71,32 @@ class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Translation\Exception\InvalidResourceException
      */
-    public function testLoadInvalidResource()
-    {
+    public function testLoadInvalidResource() {
         $loader = new XliffFileLoader();
-        $loader->load(__DIR__.'/../fixtures/resources.php', 'en', 'domain1');
+        $loader->load(__DIR__ . '/../fixtures/resources.php', 'en', 'domain1');
     }
 
     /**
      * @expectedException \Symfony\Component\Translation\Exception\InvalidResourceException
      */
-    public function testLoadResourceDoesNotValidate()
-    {
+    public function testLoadResourceDoesNotValidate() {
         $loader = new XliffFileLoader();
-        $loader->load(__DIR__.'/../fixtures/non-valid.xlf', 'en', 'domain1');
+        $loader->load(__DIR__ . '/../fixtures/non-valid.xlf', 'en', 'domain1');
     }
 
     /**
      * @expectedException \Symfony\Component\Translation\Exception\NotFoundResourceException
      */
-    public function testLoadNonExistingResource()
-    {
+    public function testLoadNonExistingResource() {
         $loader = new XliffFileLoader();
-        $resource = __DIR__.'/../fixtures/non-existing.xlf';
+        $resource = __DIR__ . '/../fixtures/non-existing.xlf';
         $loader->load($resource, 'en', 'domain1');
     }
 
     /**
      * @expectedException \Symfony\Component\Translation\Exception\InvalidResourceException
      */
-    public function testLoadThrowsAnExceptionIfFileNotLocal()
-    {
+    public function testLoadThrowsAnExceptionIfFileNotLocal() {
         $loader = new XliffFileLoader();
         $resource = 'http://example.com/resources.xlf';
         $loader->load($resource, 'en', 'domain1');
@@ -115,28 +106,26 @@ class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase
      * @expectedException        \Symfony\Component\Translation\Exception\InvalidResourceException
      * @expectedExceptionMessage Document types are not allowed.
      */
-    public function testDocTypeIsNotAllowed()
-    {
+    public function testDocTypeIsNotAllowed() {
         $loader = new XliffFileLoader();
-        $loader->load(__DIR__.'/../fixtures/withdoctype.xlf', 'en', 'domain1');
+        $loader->load(__DIR__ . '/../fixtures/withdoctype.xlf', 'en', 'domain1');
     }
 
-    public function testParseEmptyFile()
-    {
+    public function testParseEmptyFile() {
         $loader = new XliffFileLoader();
-        $resource = __DIR__.'/../fixtures/empty.xlf';
+        $resource = __DIR__ . '/../fixtures/empty.xlf';
         $this->setExpectedException('Symfony\Component\Translation\Exception\InvalidResourceException', sprintf('Unable to load "%s":', $resource));
         $loader->load($resource, 'en', 'domain1');
     }
 
-    public function testLoadNotes()
-    {
+    public function testLoadNotes() {
         $loader = new XliffFileLoader();
-        $catalogue = $loader->load(__DIR__.'/../fixtures/withnote.xlf', 'en', 'domain1');
+        $catalogue = $loader->load(__DIR__ . '/../fixtures/withnote.xlf', 'en', 'domain1');
 
         $this->assertEquals(array('notes' => array(array('priority' => 1, 'content' => 'foo'))), $catalogue->getMetadata('foo', 'domain1'));
         // message without target
         $this->assertNull($catalogue->getMetadata('extra', 'domain1'));
         $this->assertEquals(array('notes' => array(array('content' => 'baz'), array('priority' => 2, 'from' => 'bar', 'content' => 'qux'))), $catalogue->getMetadata('key', 'domain1'));
     }
+
 }

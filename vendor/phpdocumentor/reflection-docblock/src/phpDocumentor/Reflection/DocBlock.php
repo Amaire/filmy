@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -23,8 +24,8 @@ use phpDocumentor\Reflection\DocBlock\Location;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class DocBlock implements \Reflector
-{
+class DocBlock implements \Reflector {
+
     /** @var string The opening line for this docblock. */
     protected $short_description = '';
 
@@ -70,15 +71,13 @@ class DocBlock implements \Reflector
      *     getDocComment method.
      */
     public function __construct(
-        $docblock,
-        Context $context = null,
-        Location $location = null
+    $docblock, Context $context = null, Location $location = null
     ) {
         if (is_object($docblock)) {
             if (!method_exists($docblock, 'getDocComment')) {
                 throw new \InvalidArgumentException(
-                    'Invalid object passed; the given reflector must support '
-                    . 'the getDocComment method'
+                'Invalid object passed; the given reflector must support '
+                . 'the getDocComment method'
                 );
             }
 
@@ -94,7 +93,7 @@ class DocBlock implements \Reflector
         $this->long_description = new DocBlock\Description($long, $this);
         $this->parseTags($tags);
 
-        $this->context  = $context;
+        $this->context = $context;
         $this->location = $location;
     }
 
@@ -105,14 +104,11 @@ class DocBlock implements \Reflector
      *
      * @return string
      */
-    protected function cleanInput($comment)
-    {
+    protected function cleanInput($comment) {
         $comment = trim(
-            preg_replace(
-                '#[ \t]*(?:\/\*\*|\*\/|\*)?[ \t]{0,1}(.*)?#u',
-                '$1',
-                $comment
-            )
+                preg_replace(
+                        '#[ \t]*(?:\/\*\*|\*\/|\*)?[ \t]{0,1}(.*)?#u', '$1', $comment
+                )
         );
 
         // reg ex above is not able to remove */ from a single line docblock
@@ -136,8 +132,7 @@ class DocBlock implements \Reflector
      *
      * @return string[] containing the template marker (if any), summary, description and a string containing the tags.
      */
-    protected function splitDocBlock($comment)
-    {
+    protected function splitDocBlock($comment) {
         // Performance improvement cheat: if the first character is an @ then only tags are in this DocBlock. This
         // method does not split tags so we return this verbatim as the fourth result (tags). This saves us the
         // performance impact of running a regular expression
@@ -163,7 +158,7 @@ class DocBlock implements \Reflector
          * Big thanks to RichardJ for contributing this Regular Expression
          */
         preg_match(
-            '/
+                '/
             \A
             # 1. Extract the template marker
             (?:(\#\@\+|\#\@\-)\n?)?
@@ -197,9 +192,7 @@ class DocBlock implements \Reflector
 
             # 4. Extract the tags (anything that follows)
             (\s+ [\s\S]*)? # everything that follows
-            /ux',
-            $comment,
-            $matches
+            /ux', $comment, $matches
         );
         array_shift($matches);
 
@@ -217,15 +210,14 @@ class DocBlock implements \Reflector
      *
      * @return void
      */
-    protected function parseTags($tags)
-    {
+    protected function parseTags($tags) {
         $result = array();
         $tags = trim($tags);
         if ('' !== $tags) {
             if ('@' !== $tags[0]) {
                 throw new \LogicException(
-                    'A tag block started with text instead of an actual tag,'
-                    . ' this makes the tag block invalid: ' . $tags
+                'A tag block started with text instead of an actual tag,'
+                . ' this makes the tag block invalid: ' . $tags
                 );
             }
             foreach (explode("\n", $tags) as $tag_line) {
@@ -253,8 +245,7 @@ class DocBlock implements \Reflector
      * 
      * @return string The text portion of the doc block.
      */
-    public function getText()
-    {
+    public function getText() {
         $short = $this->getShortDescription();
         $long = $this->getLongDescription()->getContents();
 
@@ -275,20 +266,19 @@ class DocBlock implements \Reflector
      * 
      * @return $this This doc block.
      */
-    public function setText($comment)
-    {
-        list(,$short, $long) = $this->splitDocBlock($comment);
+    public function setText($comment) {
+        list(, $short, $long) = $this->splitDocBlock($comment);
         $this->short_description = $short;
         $this->long_description = new DocBlock\Description($long, $this);
         return $this;
     }
+
     /**
      * Returns the opening line or also known as short description.
      *
      * @return string
      */
-    public function getShortDescription()
-    {
+    public function getShortDescription() {
         return $this->short_description;
     }
 
@@ -297,8 +287,7 @@ class DocBlock implements \Reflector
      *
      * @return DocBlock\Description
      */
-    public function getLongDescription()
-    {
+    public function getLongDescription() {
         return $this->long_description;
     }
 
@@ -323,8 +312,7 @@ class DocBlock implements \Reflector
      *
      * @return boolean
      */
-    public function isTemplateStart()
-    {
+    public function isTemplateStart() {
         return $this->isTemplateStart;
     }
 
@@ -335,8 +323,7 @@ class DocBlock implements \Reflector
      *
      * @return boolean
      */
-    public function isTemplateEnd()
-    {
+    public function isTemplateEnd() {
         return $this->isTemplateEnd;
     }
 
@@ -345,8 +332,7 @@ class DocBlock implements \Reflector
      *
      * @return Context
      */
-    public function getContext()
-    {
+    public function getContext() {
         return $this->context;
     }
 
@@ -355,8 +341,7 @@ class DocBlock implements \Reflector
      *
      * @return Location
      */
-    public function getLocation()
-    {
+    public function getLocation() {
         return $this->location;
     }
 
@@ -365,8 +350,7 @@ class DocBlock implements \Reflector
      *
      * @return Tag[]
      */
-    public function getTags()
-    {
+    public function getTags() {
         return $this->tags;
     }
 
@@ -378,8 +362,7 @@ class DocBlock implements \Reflector
      *
      * @return Tag[]
      */
-    public function getTagsByName($name)
-    {
+    public function getTagsByName($name) {
         $result = array();
 
         /** @var Tag $tag */
@@ -401,8 +384,7 @@ class DocBlock implements \Reflector
      *
      * @return bool
      */
-    public function hasTag($name)
-    {
+    public function hasTag($name) {
         /** @var Tag $tag */
         foreach ($this->getTags() as $tag) {
             if ($tag->getName() == $name) {
@@ -422,8 +404,7 @@ class DocBlock implements \Reflector
      *
      * @throws \LogicException When the tag belongs to a different DocBlock.
      */
-    public function appendTag(Tag $tag)
-    {
+    public function appendTag(Tag $tag) {
         if (null === $tag->getDocBlock()) {
             $tag->setDocBlock($this);
         }
@@ -432,13 +413,12 @@ class DocBlock implements \Reflector
             $this->tags[] = $tag;
         } else {
             throw new \LogicException(
-                'This tag belongs to a different DocBlock object.'
+            'This tag belongs to a different DocBlock object.'
             );
         }
 
         return $tag;
     }
-
 
     /**
      * Builds a string representation of this object.
@@ -449,8 +429,7 @@ class DocBlock implements \Reflector
      * @return string
      * @codeCoverageIgnore Not yet implemented
      */
-    public static function export()
-    {
+    public static function export() {
         throw new \Exception('Not yet implemented');
     }
 
@@ -461,8 +440,8 @@ class DocBlock implements \Reflector
      * @return string
      * @codeCoverageIgnore Not yet implemented
      */
-    public function __toString()
-    {
+    public function __toString() {
         return 'Not yet implemented';
     }
+
 }

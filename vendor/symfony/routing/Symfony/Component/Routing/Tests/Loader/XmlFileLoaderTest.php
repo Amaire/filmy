@@ -15,10 +15,9 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\Tests\Fixtures\CustomXmlFileLoader;
 
-class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
-{
-    public function testSupports()
-    {
+class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase {
+
+    public function testSupports() {
         $loader = new XmlFileLoader($this->getMock('Symfony\Component\Config\FileLocator'));
 
         $this->assertTrue($loader->supports('foo.xml'), '->supports() returns true if the resource is loadable');
@@ -28,9 +27,8 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($loader->supports('foo.xml', 'foo'), '->supports() checks the resource type if specified');
     }
 
-    public function testLoadWithRoute()
-    {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadWithRoute() {
+        $loader = new XmlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('validpattern.xml');
         $routes = $routeCollection->all();
 
@@ -51,9 +49,8 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testLoadWithNamespacePrefix()
-    {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadWithNamespacePrefix() {
+        $loader = new XmlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('namespaceprefix.xml');
 
         $this->assertCount(1, $routeCollection->all(), 'One route is loaded');
@@ -68,9 +65,8 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('RouteCompiler', $route->getOption('compiler_class'));
     }
 
-    public function testLoadWithImport()
-    {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadWithImport() {
+        $loader = new XmlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('validresource.xml');
         $routes = $routeCollection->all();
 
@@ -91,9 +87,8 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
      * @expectedException \InvalidArgumentException
      * @dataProvider getPathsToInvalidFiles
      */
-    public function testLoadThrowsExceptionWithInvalidFile($filePath)
-    {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadThrowsExceptionWithInvalidFile($filePath) {
+        $loader = new XmlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $loader->load($filePath);
     }
 
@@ -101,14 +96,12 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
      * @expectedException \InvalidArgumentException
      * @dataProvider getPathsToInvalidFiles
      */
-    public function testLoadThrowsExceptionWithInvalidFileEvenWithoutSchemaValidation($filePath)
-    {
-        $loader = new CustomXmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testLoadThrowsExceptionWithInvalidFileEvenWithoutSchemaValidation($filePath) {
+        $loader = new CustomXmlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $loader->load($filePath);
     }
 
-    public function getPathsToInvalidFiles()
-    {
+    public function getPathsToInvalidFiles() {
         return array(array('nonvalidnode.xml'), array('nonvalidroute.xml'), array('nonvalid.xml'), array('missing_id.xml'), array('missing_path.xml'));
     }
 
@@ -116,15 +109,13 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Document types are not allowed.
      */
-    public function testDocTypeIsNotAllowed()
-    {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testDocTypeIsNotAllowed() {
+        $loader = new XmlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $loader->load('withdoctype.xml');
     }
 
-    public function testNullValues()
-    {
-        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+    public function testNullValues() {
+        $loader = new XmlFileLoader(new FileLocator(array(__DIR__ . '/../Fixtures')));
         $routeCollection = $loader->load('null_values.xml');
         $route = $routeCollection->get('blog_show');
 
@@ -135,4 +126,5 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $route->getDefault('foobar'));
         $this->assertEquals('bar', $route->getDefault('baz'));
     }
+
 }

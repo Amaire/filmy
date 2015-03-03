@@ -23,8 +23,8 @@ use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
  *
  * @api
  */
-class File extends \SplFileInfo
-{
+class File extends \SplFileInfo {
+
     /**
      * Constructs a new file from the given path.
      *
@@ -35,8 +35,7 @@ class File extends \SplFileInfo
      *
      * @api
      */
-    public function __construct($path, $checkPath = true)
-    {
+    public function __construct($path, $checkPath = true) {
         if ($checkPath && !is_file($path)) {
             throw new FileNotFoundException($path);
         }
@@ -59,8 +58,7 @@ class File extends \SplFileInfo
      * @see ExtensionGuesser
      * @see getMimeType()
      */
-    public function guessExtension()
-    {
+    public function guessExtension() {
         $type = $this->getMimeType();
         $guesser = ExtensionGuesser::getInstance();
 
@@ -80,8 +78,7 @@ class File extends \SplFileInfo
      *
      * @api
      */
-    public function getMimeType()
-    {
+    public function getMimeType() {
         $guesser = MimeTypeGuesser::getInstance();
 
         return $guesser->guess($this->getPathname());
@@ -96,8 +93,7 @@ class File extends \SplFileInfo
      *
      * @api
      */
-    public function getExtension()
-    {
+    public function getExtension() {
         return pathinfo($this->getBasename(), PATHINFO_EXTENSION);
     }
 
@@ -113,8 +109,7 @@ class File extends \SplFileInfo
      *
      * @api
      */
-    public function move($directory, $name = null)
-    {
+    public function move($directory, $name = null) {
         $target = $this->getTargetFile($directory, $name);
 
         if (!@rename($this->getPathname(), $target)) {
@@ -127,8 +122,7 @@ class File extends \SplFileInfo
         return $target;
     }
 
-    protected function getTargetFile($directory, $name = null)
-    {
+    protected function getTargetFile($directory, $name = null) {
         if (!is_dir($directory)) {
             if (false === @mkdir($directory, 0777, true)) {
                 throw new FileException(sprintf('Unable to create the "%s" directory', $directory));
@@ -137,7 +131,7 @@ class File extends \SplFileInfo
             throw new FileException(sprintf('Unable to write in the "%s" directory', $directory));
         }
 
-        $target = rtrim($directory, '/\\').DIRECTORY_SEPARATOR.(null === $name ? $this->getBasename() : $this->getName($name));
+        $target = rtrim($directory, '/\\') . DIRECTORY_SEPARATOR . (null === $name ? $this->getBasename() : $this->getName($name));
 
         return new File($target, false);
     }
@@ -149,12 +143,12 @@ class File extends \SplFileInfo
      *
      * @return string containing
      */
-    protected function getName($name)
-    {
+    protected function getName($name) {
         $originalName = str_replace('\\', '/', $name);
         $pos = strrpos($originalName, '/');
         $originalName = false === $pos ? $originalName : substr($originalName, $pos + 1);
 
         return $originalName;
     }
+
 }

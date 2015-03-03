@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -19,8 +20,8 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.7.20
  */
-class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
-{
+class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint {
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -28,8 +29,7 @@ class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
      * @param  mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
-    {
+    protected function matches($other) {
         json_decode($other);
         if (json_last_error()) {
             return false;
@@ -47,17 +47,14 @@ class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
      * @param  mixed  $other Evaluated value or object.
      * @return string
      */
-    protected function failureDescription($other)
-    {
+    protected function failureDescription($other) {
         json_decode($other);
         $error = PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::determineJsonError(
-            json_last_error()
+                        json_last_error()
         );
 
         return sprintf(
-            '%s is valid JSON (%s)',
-            $this->exporter->shortenedExport($other),
-            $error
+                '%s is valid JSON (%s)', $this->exporter->shortenedExport($other), $error
         );
     }
 
@@ -66,8 +63,8 @@ class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
      *
      * @return string
      */
-    public function toString()
-    {
+    public function toString() {
         return 'is valid JSON';
     }
+
 }

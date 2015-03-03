@@ -42,10 +42,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @author Tobias Schultze <http://tobion.de>
  */
-class SaveSessionListener implements EventSubscriberInterface
-{
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
+class SaveSessionListener implements EventSubscriberInterface {
+
+    public function onKernelResponse(FilterResponseEvent $event) {
         if (!$event->isMasterRequest()) {
             return;
         }
@@ -56,11 +55,11 @@ class SaveSessionListener implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             // low priority but higher than StreamedResponseListener
             KernelEvents::RESPONSE => array(array('onKernelResponse', -1000)),
         );
     }
+
 }

@@ -22,8 +22,8 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterfac
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface AuthenticationProviderInterface extends AuthenticationManagerInterface
-{
+interface AuthenticationProviderInterface extends AuthenticationManagerInterface {
+
     /**
      * Checks whether this provider supports the given token.
      *

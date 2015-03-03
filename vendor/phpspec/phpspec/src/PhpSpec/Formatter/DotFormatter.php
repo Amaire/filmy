@@ -16,8 +16,8 @@ namespace PhpSpec\Formatter;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Event\ExampleEvent;
 
-class DotFormatter extends ConsoleFormatter
-{
+class DotFormatter extends ConsoleFormatter {
+
     /**
      * @var int
      */
@@ -26,16 +26,14 @@ class DotFormatter extends ConsoleFormatter
     /**
      * @param SuiteEvent $event
      */
-    public function beforeSuite(SuiteEvent $event)
-    {
+    public function beforeSuite(SuiteEvent $event) {
         $this->examplesCount = count($event->getSuite());
     }
 
     /**
      * @param ExampleEvent $event
      */
-    public function afterExample(ExampleEvent $event)
-    {
+    public function afterExample(ExampleEvent $event) {
         $io = $this->getIO();
 
         $eventsCount = $this->getStatisticsCollector()->getEventsCount();
@@ -75,18 +73,17 @@ class DotFormatter extends ConsoleFormatter
     /**
      * @param SuiteEvent $event
      */
-    public function afterSuite(SuiteEvent $event)
-    {
+    public function afterSuite(SuiteEvent $event) {
         $io = $this->getIO();
         $stats = $this->getStatisticsCollector();
 
         $io->writeln("\n");
 
         foreach (array(
-            'failed' => $stats->getFailedEvents(),
-            'broken' => $stats->getBrokenEvents(),
-            'pending' => $stats->getPendingEvents(),
-            'skipped' => $stats->getSkippedEvents(),
+    'failed' => $stats->getFailedEvents(),
+    'broken' => $stats->getBrokenEvents(),
+    'pending' => $stats->getPendingEvents(),
+    'skipped' => $stats->getSkippedEvents(),
         ) as $status => $events) {
             if (!count($events)) {
                 continue;
@@ -116,4 +113,5 @@ class DotFormatter extends ConsoleFormatter
 
         $io->writeln(sprintf("\n%sms", round($event->getTime() * 1000)));
     }
+
 }

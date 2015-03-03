@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-file-iterator
  *
@@ -53,8 +54,8 @@
  * @link      http://github.com/sebastianbergmann/php-file-iterator/tree
  * @since     Class available since Release 1.1.0
  */
-class File_Iterator_Factory
-{
+class File_Iterator_Factory {
+
     /**
      * @param  array|string $paths
      * @param  array|string $suffixes
@@ -62,8 +63,7 @@ class File_Iterator_Factory
      * @param  array        $exclude
      * @return AppendIterator
      */
-    public function getFileIterator($paths, $suffixes = '', $prefixes = '', array $exclude = array())
-    {
+    public function getFileIterator($paths, $suffixes = '', $prefixes = '', array $exclude = array()) {
         if (is_string($paths)) {
             $paths = array($paths);
         }
@@ -102,19 +102,16 @@ class File_Iterator_Factory
         foreach ($paths as $path) {
             if (is_dir($path)) {
                 $iterator->append(
-                  new File_Iterator(
-                    new RecursiveIteratorIterator(
-                      new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::FOLLOW_SYMLINKS)
-                    ),
-                    $suffixes,
-                    $prefixes,
-                    $exclude,
-                    $path
-                  )
+                        new File_Iterator(
+                        new RecursiveIteratorIterator(
+                        new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::FOLLOW_SYMLINKS)
+                        ), $suffixes, $prefixes, $exclude, $path
+                        )
                 );
             }
         }
 
         return $iterator;
     }
+
 }

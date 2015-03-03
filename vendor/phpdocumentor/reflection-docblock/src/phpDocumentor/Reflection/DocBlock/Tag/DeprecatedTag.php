@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor
  *
@@ -21,6 +22,6 @@ use phpDocumentor\Reflection\DocBlock\Tag\VersionTag;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class DeprecatedTag extends VersionTag
-{
+class DeprecatedTag extends VersionTag {
+    
 }

@@ -1,9 +1,11 @@
-<?php namespace SuperClosure\Analyzer;
+<?php
+
+namespace SuperClosure\Analyzer;
 
 use SuperClosure\Exception\ClosureAnalysisException;
 
-abstract class ClosureAnalyzer
-{
+abstract class ClosureAnalyzer {
+
     /**
      * Analyzer a given closure.
      *
@@ -13,17 +15,16 @@ abstract class ClosureAnalyzer
      *
      * @return array
      */
-    public function analyze(\Closure $closure)
-    {
+    public function analyze(\Closure $closure) {
         $data = [
             'reflection' => new \ReflectionFunction($closure),
-            'code'       => null,
-            'hasThis'    => false,
-            'context'    => [],
-            'hasRefs'    => false,
-            'binding'    => null,
-            'scope'      => null,
-            'isStatic'   => $this->isClosureStatic($closure),
+            'code' => null,
+            'hasThis' => false,
+            'context' => [],
+            'hasRefs' => false,
+            'binding' => null,
+            'scope' => null,
+            'isStatic' => $this->isClosureStatic($closure),
         ];
 
         $this->determineCode($data);
@@ -45,18 +46,17 @@ abstract class ClosureAnalyzer
      */
     abstract protected function determineContext(array &$data);
 
-    private function determineBinding(array &$data)
-    {
+    private function determineBinding(array &$data) {
         $data['binding'] = $data['reflection']->getClosureThis();
         if ($scope = $data['reflection']->getClosureScopeClass()) {
             $data['scope'] = $scope->getName();
         }
     }
 
-    private function isClosureStatic(\Closure $closure)
-    {
+    private function isClosureStatic(\Closure $closure) {
         $rebound = new \ReflectionFunction(@$closure->bindTo(new \stdClass));
 
         return $rebound->getClosureThis() === null;
     }
+
 }

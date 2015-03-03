@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpDocumentor Throws tag test.
  * 
@@ -20,8 +21,8 @@ namespace phpDocumentor\Reflection\DocBlock\Tag;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class ThrowsTagTest extends \PHPUnit_Framework_TestCase
-{
+class ThrowsTagTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * Test that the \phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag can
      * understand the @throws DocBlock.
@@ -38,11 +39,7 @@ class ThrowsTagTest extends \PHPUnit_Framework_TestCase
      * @return void
      */
     public function testConstructorParsesInputsIntoCorrectFields(
-        $type,
-        $content,
-        $extractedType,
-        $extractedTypes,
-        $extractedDescription
+    $type, $content, $extractedType, $extractedTypes, $extractedDescription
     ) {
         $tag = new ThrowsTag($type, $content);
 
@@ -57,8 +54,7 @@ class ThrowsTagTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provideDataForConstructor()
-    {
+    public function provideDataForConstructor() {
         return array(
             array('throws', '', '', array(), ''),
             array('throws', 'int', 'int', array('int'), ''),
@@ -99,4 +95,5 @@ class ThrowsTagTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
 }

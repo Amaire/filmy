@@ -19,8 +19,8 @@ use PhpSpec\Locator\ResourceInterface;
  * Generates spec classes from resources and puts them into the appropriate
  * folder using the appropriate template.
  */
-class SpecificationGenerator extends PromptingGenerator
-{
+class SpecificationGenerator extends PromptingGenerator {
+
     /**
      * @param ResourceInterface $resource
      * @param string            $generation
@@ -28,16 +28,14 @@ class SpecificationGenerator extends PromptingGenerator
      *
      * @return bool
      */
-    public function supports(ResourceInterface $resource, $generation, array $data)
-    {
+    public function supports(ResourceInterface $resource, $generation, array $data) {
         return 'specification' === $generation;
     }
 
     /**
      * @return int
      */
-    public function getPriority()
-    {
+    public function getPriority() {
         return 0;
     }
 
@@ -47,13 +45,12 @@ class SpecificationGenerator extends PromptingGenerator
      *
      * @return string
      */
-    protected function renderTemplate(ResourceInterface $resource, $filepath)
-    {
+    protected function renderTemplate(ResourceInterface $resource, $filepath) {
         $values = array(
-            '%filepath%'  => $filepath,
-            '%name%'      => $resource->getSpecName(),
+            '%filepath%' => $filepath,
+            '%name%' => $resource->getSpecName(),
             '%namespace%' => $resource->getSpecNamespace(),
-            '%subject%'   => $resource->getSrcClassname()
+            '%subject%' => $resource->getSrcClassname()
         );
 
         if (!$content = $this->getTemplateRenderer()->render('specification', $values)) {
@@ -66,17 +63,15 @@ class SpecificationGenerator extends PromptingGenerator
     /**
      * @return string
      */
-    protected function getTemplate()
-    {
-        return file_get_contents(__DIR__.'/templates/specification.template');
+    protected function getTemplate() {
+        return file_get_contents(__DIR__ . '/templates/specification.template');
     }
 
     /**
      * @param  ResourceInterface $resource
      * @return mixed
      */
-    protected function getFilePath(ResourceInterface $resource)
-    {
+    protected function getFilePath(ResourceInterface $resource) {
         return $resource->getSpecFilename();
     }
 
@@ -86,11 +81,10 @@ class SpecificationGenerator extends PromptingGenerator
      *
      * @return string
      */
-    protected function getGeneratedMessage(ResourceInterface $resource, $filepath)
-    {
+    protected function getGeneratedMessage(ResourceInterface $resource, $filepath) {
         return sprintf(
-            "<info>Specification for <value>%s</value> created in <value>%s</value>.</info>\n",
-            $resource->getSrcClassname(), $filepath
+                "<info>Specification for <value>%s</value> created in <value>%s</value>.</info>\n", $resource->getSrcClassname(), $filepath
         );
     }
+
 }

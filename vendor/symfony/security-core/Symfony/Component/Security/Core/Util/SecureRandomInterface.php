@@ -16,8 +16,8 @@ namespace Symfony\Component\Security\Core\Util;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface SecureRandomInterface
-{
+interface SecureRandomInterface {
+
     /**
      * Generates the specified number of secure random bytes.
      *

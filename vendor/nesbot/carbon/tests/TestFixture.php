@@ -9,29 +9,26 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use Carbon\Carbon;
 
-class TestFixture extends \PHPUnit_Framework_TestCase
-{
+class TestFixture extends \PHPUnit_Framework_TestCase {
+
     private $saveTz;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         //save current timezone
         $this->saveTz = date_default_timezone_get();
 
         date_default_timezone_set('America/Toronto');
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         date_default_timezone_set($this->saveTz);
     }
 
-    protected function assertCarbon(Carbon $d, $year, $month, $day, $hour = null, $minute = null, $second = null)
-    {
+    protected function assertCarbon(Carbon $d, $year, $month, $day, $hour = null, $minute = null, $second = null) {
         $this->assertSame($year, $d->year, 'Carbon->year');
         $this->assertSame($month, $d->month, 'Carbon->month');
         $this->assertSame($day, $d->day, 'Carbon->day');
@@ -48,4 +45,5 @@ class TestFixture extends \PHPUnit_Framework_TestCase
             $this->assertSame($second, $d->second, 'Carbon->second');
         }
     }
+
 }

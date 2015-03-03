@@ -24,8 +24,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @api
  */
-class GetResponseEvent extends KernelEvent
-{
+class GetResponseEvent extends KernelEvent {
+
     /**
      * The response object.
      *
@@ -40,8 +40,7 @@ class GetResponseEvent extends KernelEvent
      *
      * @api
      */
-    public function getResponse()
-    {
+    public function getResponse() {
         return $this->response;
     }
 
@@ -52,8 +51,7 @@ class GetResponseEvent extends KernelEvent
      *
      * @api
      */
-    public function setResponse(Response $response)
-    {
+    public function setResponse(Response $response) {
         $this->response = $response;
 
         $this->stopPropagation();
@@ -66,8 +64,8 @@ class GetResponseEvent extends KernelEvent
      *
      * @api
      */
-    public function hasResponse()
-    {
+    public function hasResponse() {
         return null !== $this->response;
     }
+
 }

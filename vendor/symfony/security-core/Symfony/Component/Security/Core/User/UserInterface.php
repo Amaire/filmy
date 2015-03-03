@@ -31,8 +31,8 @@ use Symfony\Component\Security\Core\Role\Role;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface UserInterface
-{
+interface UserInterface {
+
     /**
      * Returns the roles granted to the user.
      *

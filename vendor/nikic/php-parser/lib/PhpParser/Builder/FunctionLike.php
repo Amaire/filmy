@@ -6,8 +6,8 @@ use PhpParser;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-abstract class FunctionLike extends Declaration
-{
+abstract class FunctionLike extends Declaration {
+
     protected $returnByRef = false;
     protected $params = array();
 
@@ -55,4 +55,5 @@ abstract class FunctionLike extends Declaration
 
         return $this;
     }
+
 }

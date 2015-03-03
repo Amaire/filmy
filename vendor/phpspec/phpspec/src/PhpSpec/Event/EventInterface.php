@@ -16,6 +16,6 @@ namespace PhpSpec\Event;
 /**
  * Interface EventInterface is used for all events in PhpSpec
  */
-interface EventInterface
-{
+interface EventInterface {
+    
 }

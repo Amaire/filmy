@@ -1,4 +1,6 @@
-<?php namespace SuperClosure\Analyzer;
+<?php
+
+namespace SuperClosure\Analyzer;
 
 /**
  * A Token object represents and individual token parsed from PHP code.
@@ -8,8 +10,8 @@
  *
  * @link http://us2.php.net/manual/en/tokens.php
  */
-class Token
-{
+class Token {
+
     /**
      * @var string The token name. Always null for literal tokens.
      */
@@ -39,8 +41,7 @@ class Token
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($code, $value = null, $line = null)
-    {
+    public function __construct($code, $value = null, $line = null) {
         if (is_array($code)) {
             list($value, $code, $line) = array_pad($code, 3, null);
         }
@@ -58,13 +59,12 @@ class Token
      *
      * @return bool True if the token is equal to the value.
      */
-    public function is($value)
-    {
+    public function is($value) {
         return ($this->code === $value || $this->value === $value);
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         return $this->code;
     }
+
 }

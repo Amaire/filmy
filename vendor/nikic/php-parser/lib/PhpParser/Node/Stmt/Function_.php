@@ -10,8 +10,8 @@ use PhpParser\Node;
  * @property Node\Param[] $params Parameters
  * @property Node[]       $stmts  Statements
  */
-class Function_ extends Node\Stmt
-{
+class Function_ extends Node\Stmt {
+
     /**
      * Constructs a function node.
      *
@@ -24,14 +24,14 @@ class Function_ extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            array(
-                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'name'   => $name,
-                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
-                'stmts'  => isset($subNodes['stmts'])  ? $subNodes['stmts']  : array(),
-            ),
-            $attributes
+                array(
+            'byRef' => isset($subNodes['byRef']) ? $subNodes['byRef'] : false,
+            'name' => $name,
+            'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
+            'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
+                ), $attributes
         );
         $this->name = $name;
     }
+
 }

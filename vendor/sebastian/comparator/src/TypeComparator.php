@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Comparator package.
  *
@@ -19,8 +20,8 @@ namespace SebastianBergmann\Comparator;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/comparator
  */
-class TypeComparator extends Comparator
-{
+class TypeComparator extends Comparator {
+
     /**
      * Returns whether the comparator can compare two values.
      *
@@ -28,8 +29,7 @@ class TypeComparator extends Comparator
      * @param  mixed $actual The second value to compare
      * @return boolean
      */
-    public function accepts($expected, $actual)
-    {
+    public function accepts($expected, $actual) {
         return true;
     }
 
@@ -48,22 +48,16 @@ class TypeComparator extends Comparator
      *                           fails. Contains information about the
      *                           specific errors that lead to the failure.
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-    {
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false) {
         if (gettype($expected) != gettype($actual)) {
             throw new ComparisonFailure(
-                $expected,
-                $actual,
-                // we don't need a diff
-                '',
-                '',
-                false,
-                sprintf(
-                    '%s does not match expected type "%s".',
-                    $this->exporter->shortenedExport($actual),
-                    gettype($expected)
-                )
+            $expected, $actual,
+            // we don't need a diff
+            '', '', false, sprintf(
+                    '%s does not match expected type "%s".', $this->exporter->shortenedExport($actual), gettype($expected)
+            )
             );
         }
     }
+
 }

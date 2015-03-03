@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Dotenv
  *
  * Loads a `.env` file in the given directory and sets the environment vars
  */
-class Dotenv
-{
+class Dotenv {
+
     /**
      * If true, then environment variables will not be overwritten
      * @var bool
@@ -15,8 +16,7 @@ class Dotenv
     /**
      * Load `.env` file in given directory
      */
-    public static function load($path, $file = '.env')
-    {
+    public static function load($path, $file = '.env') {
         if (!is_string($file)) {
             $file = '.env';
         }
@@ -24,12 +24,10 @@ class Dotenv
         $filePath = rtrim($path, '/') . '/' . $file;
         if (!is_readable($filePath) || !is_file($filePath)) {
             throw new \InvalidArgumentException(
-                sprintf(
+            sprintf(
                     "Dotenv: Environment file %s not found or not readable. " .
-                    "Create file with your environment settings at %s",
-                    $file,
-                    $filePath
-                )
+                    "Create file with your environment settings at %s", $file, $filePath
+            )
             );
         }
 
@@ -62,8 +60,7 @@ class Dotenv
      * @param $name
      * @param null $value
      */
-    public static function setEnvironmentVariable($name, $value = null)
-    {
+    public static function setEnvironmentVariable($name, $value = null) {
         list($name, $value) = static::normaliseEnvironmentVariable($name, $value);
 
         // Don't overwrite existing environment variables if we're immutable
@@ -86,8 +83,7 @@ class Dotenv
      * @param  string[]          $allowedValues
      * @return true              (or throws exception on error)
      */
-    public static function required($environmentVariables, array $allowedValues = array())
-    {
+    public static function required($environmentVariables, array $allowedValues = array()) {
         $environmentVariables = (array) $environmentVariables;
         $missingEnvironmentVariables = array();
 
@@ -105,10 +101,9 @@ class Dotenv
 
         if ($missingEnvironmentVariables) {
             throw new \RuntimeException(
-                sprintf(
-                    "Required environment variable missing, or value not allowed: '%s'",
-                    implode("', '", $missingEnvironmentVariables)
-                )
+            sprintf(
+                    "Required environment variable missing, or value not allowed: '%s'", implode("', '", $missingEnvironmentVariables)
+            )
             );
         }
 
@@ -126,10 +121,9 @@ class Dotenv
      * @param $value
      * @return array
      */
-    protected static function normaliseEnvironmentVariable($name, $value)
-    {
+    protected static function normaliseEnvironmentVariable($name, $value) {
         list($name, $value) = static::splitCompoundStringIntoParts($name, $value);
-        $name  = static::sanitiseVariableName($name);
+        $name = static::sanitiseVariableName($name);
         $value = static::sanitiseVariableValue($value);
         $value = static::resolveNestedVariables($value);
 
@@ -143,8 +137,7 @@ class Dotenv
      * @param $value
      * @return array
      */
-    protected static function splitCompoundStringIntoParts($name, $value)
-    {
+    protected static function splitCompoundStringIntoParts($name, $value) {
         if (strpos($name, '=') !== false) {
             list($name, $value) = array_map('trim', explode('=', $name, 2));
         }
@@ -158,10 +151,10 @@ class Dotenv
      * @param $value
      * @return string
      */
-    protected static function sanitiseVariableValue($value)
-    {
+    protected static function sanitiseVariableValue($value) {
         $value = trim($value);
-        if (!$value) return '';
+        if (!$value)
+            return '';
         if (strpbrk($value[0], '"\'') !== false) { // value starts with a quote
             $quote = $value[0];
             $regexPattern = sprintf('/^
@@ -192,8 +185,7 @@ class Dotenv
      * @param $name
      * @return string
      */
-    protected static function sanitiseVariableName($name)
-    {
+    protected static function sanitiseVariableName($name) {
         return trim(str_replace(array('export ', '\'', '"'), '', $name));
     }
 
@@ -204,20 +196,17 @@ class Dotenv
      * @param $value
      * @return mixed
      */
-    protected static function resolveNestedVariables($value)
-    {
+    protected static function resolveNestedVariables($value) {
         if (strpos($value, '$') !== false) {
             $value = preg_replace_callback(
-                '/{\$([a-zA-Z0-9_]+)}/',
-                function ($matchedPatterns) {
-                    $nestedVariable = Dotenv::findEnvironmentVariable($matchedPatterns[1]);
-                    if (is_null($nestedVariable)) {
-                        return $matchedPatterns[0];
-                    } else {
-                        return  $nestedVariable;
-                    }
-                },
-                $value
+                    '/{\$([a-zA-Z0-9_]+)}/', function ($matchedPatterns) {
+                $nestedVariable = Dotenv::findEnvironmentVariable($matchedPatterns[1]);
+                if (is_null($nestedVariable)) {
+                    return $matchedPatterns[0];
+                } else {
+                    return $nestedVariable;
+                }
+            }, $value
             );
         }
 
@@ -229,8 +218,7 @@ class Dotenv
      * @param $name
      * @return string
      */
-    public static function findEnvironmentVariable($name)
-    {
+    public static function findEnvironmentVariable($name) {
         switch (true) {
             case array_key_exists($name, $_ENV):
                 return $_ENV[$name];
@@ -246,16 +234,15 @@ class Dotenv
     /**
      * Make Dotenv immutable. This means that once set, an environment variable cannot be overridden.
      */
-    public static function makeImmutable()
-    {
+    public static function makeImmutable() {
         static::$immutable = true;
     }
 
     /**
      * Make Dotenv mutable. Environment variables will act as, well, variables.
      */
-    public static function makeMutable()
-    {
+    public static function makeMutable() {
         static::$immutable = false;
     }
+
 }

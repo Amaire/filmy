@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -31,8 +32,8 @@ use ReflectionClass;
  *
  * @covers \Doctrine\Instantiator\Instantiator
  */
-class InstantiatorTest extends PHPUnit_Framework_TestCase
-{
+class InstantiatorTest extends PHPUnit_Framework_TestCase {
+
     /**
      * @var Instantiator
      */
@@ -41,8 +42,7 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
-    {
+    protected function setUp() {
         $this->instantiator = new Instantiator();
     }
 
@@ -51,8 +51,7 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getInstantiableClasses
      */
-    public function testCanInstantiate($className)
-    {
+    public function testCanInstantiate($className) {
         $this->assertInstanceOf($className, $this->instantiator->instantiate($className));
     }
 
@@ -61,8 +60,7 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getInstantiableClasses
      */
-    public function testInstantiatesSeparateInstances($className)
-    {
+    public function testInstantiatesSeparateInstances($className) {
         $instance1 = $this->instantiator->instantiate($className);
         $instance2 = $this->instantiator->instantiate($className);
 
@@ -70,12 +68,11 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame($instance1, $instance2);
     }
 
-    public function testExceptionOnUnSerializationException()
-    {
+    public function testExceptionOnUnSerializationException() {
         if (defined('HHVM_VERSION')) {
             $this->markTestSkipped(
-                'As of facebook/hhvm#3432, HHVM has no PDORow, and therefore '
-                . ' no internal final classes that cannot be instantiated'
+                    'As of facebook/hhvm#3432, HHVM has no PDORow, and therefore '
+                    . ' no internal final classes that cannot be instantiated'
             );
         }
 
@@ -94,11 +91,10 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
         $this->instantiator->instantiate($className);
     }
 
-    public function testNoticeOnUnSerializationException()
-    {
+    public function testNoticeOnUnSerializationException() {
         if (\PHP_VERSION_ID >= 50600) {
             $this->markTestSkipped(
-                'PHP 5.6 supports `ReflectionClass#newInstanceWithoutConstructor()` for some internal classes'
+                    'PHP 5.6 supports `ReflectionClass#newInstanceWithoutConstructor()` for some internal classes'
             );
         }
 
@@ -108,17 +104,16 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was raised');
         } catch (UnexpectedValueException $exception) {
             $wakeUpNoticesReflection = new ReflectionClass('DoctrineTest\\InstantiatorTestAsset\\WakeUpNoticesAsset');
-            $previous                = $exception->getPrevious();
+            $previous = $exception->getPrevious();
 
             $this->assertInstanceOf('Exception', $previous);
 
             // in PHP 5.4.29 and PHP 5.5.13, this case is not a notice, but an exception being thrown
-            if (! (\PHP_VERSION_ID === 50429 || \PHP_VERSION_ID === 50513)) {
+            if (!(\PHP_VERSION_ID === 50429 || \PHP_VERSION_ID === 50513)) {
                 $this->assertSame(
-                    'Could not produce an instance of "DoctrineTest\\InstantiatorTestAsset\WakeUpNoticesAsset" '
-                    . 'via un-serialization, since an error was triggered in file "'
-                    . $wakeUpNoticesReflection->getFileName() . '" at line "36"',
-                    $exception->getMessage()
+                        'Could not produce an instance of "DoctrineTest\\InstantiatorTestAsset\WakeUpNoticesAsset" '
+                        . 'via un-serialization, since an error was triggered in file "'
+                        . $wakeUpNoticesReflection->getFileName() . '" at line "36"', $exception->getMessage()
                 );
 
                 $this->assertSame('Something went bananas while un-serializing this instance', $previous->getMessage());
@@ -132,15 +127,13 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getInvalidClassNames
      */
-    public function testInstantiationFromNonExistingClass($invalidClassName)
-    {
+    public function testInstantiationFromNonExistingClass($invalidClassName) {
         $this->setExpectedException('Doctrine\\Instantiator\\Exception\\InvalidArgumentException');
 
         $this->instantiator->instantiate($invalidClassName);
     }
 
-    public function testInstancesAreNotCloned()
-    {
+    public function testInstancesAreNotCloned() {
         $className = 'TemporaryClass' . uniqid();
 
         eval('namespace ' . __NAMESPACE__ . '; class ' . $className . '{}');
@@ -159,8 +152,7 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
      *
      * @return string[][]
      */
-    public function getInstantiableClasses()
-    {
+    public function getInstantiableClasses() {
         $classes = array(
             array('stdClass'),
             array(__CLASS__),
@@ -177,13 +169,12 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
         }
 
         $classes = array_merge(
-            $classes,
-            array(
-                array('PharException'),
-                array('ArrayObject'),
-                array('DoctrineTest\\InstantiatorTestAsset\\ArrayObjectAsset'),
-                array('DoctrineTest\\InstantiatorTestAsset\\SerializableArrayObjectAsset'),
-            )
+                $classes, array(
+            array('PharException'),
+            array('ArrayObject'),
+            array('DoctrineTest\\InstantiatorTestAsset\\ArrayObjectAsset'),
+            array('DoctrineTest\\InstantiatorTestAsset\\SerializableArrayObjectAsset'),
+                )
         );
 
         if (\PHP_VERSION_ID >= 50600) {
@@ -199,8 +190,7 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
      *
      * @return string[][]
      */
-    public function getInvalidClassNames()
-    {
+    public function getInvalidClassNames() {
         $classNames = array(
             array(__CLASS__ . uniqid()),
             array('Doctrine\\Instantiator\\InstantiatorInterface'),
@@ -213,4 +203,5 @@ class InstantiatorTest extends PHPUnit_Framework_TestCase
 
         return $classNames;
     }
+
 }

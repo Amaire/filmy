@@ -15,36 +15,32 @@ use Monolog\TestCase;
 use Monolog\Logger;
 use Monolog\Formatter\LineFormatter;
 
-class RedisHandlerTest extends TestCase
-{
+class RedisHandlerTest extends TestCase {
+
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testConstructorShouldThrowExceptionForInvalidRedis()
-    {
+    public function testConstructorShouldThrowExceptionForInvalidRedis() {
         new RedisHandler(new \stdClass(), 'key');
     }
 
-    public function testConstructorShouldWorkWithPredis()
-    {
+    public function testConstructorShouldWorkWithPredis() {
         $redis = $this->getMock('Predis\Client');
         $this->assertInstanceof('Monolog\Handler\RedisHandler', new RedisHandler($redis, 'key'));
     }
 
-    public function testConstructorShouldWorkWithRedis()
-    {
+    public function testConstructorShouldWorkWithRedis() {
         $redis = $this->getMock('Redis');
         $this->assertInstanceof('Monolog\Handler\RedisHandler', new RedisHandler($redis, 'key'));
     }
 
-    public function testPredisHandle()
-    {
+    public function testPredisHandle() {
         $redis = $this->getMock('Predis\Client', array('rpush'));
 
         // Predis\Client uses rpush
         $redis->expects($this->once())
-            ->method('rpush')
-            ->with('key', 'test');
+                ->method('rpush')
+                ->with('key', 'test');
 
         $record = $this->getRecord(Logger::WARNING, 'test', array('data' => new \stdClass, 'foo' => 34));
 
@@ -53,14 +49,13 @@ class RedisHandlerTest extends TestCase
         $handler->handle($record);
     }
 
-    public function testRedisHandle()
-    {
+    public function testRedisHandle() {
         $redis = $this->getMock('Redis', array('rpush'));
 
         // Redis uses rPush
         $redis->expects($this->once())
-            ->method('rPush')
-            ->with('key', 'test');
+                ->method('rPush')
+                ->with('key', 'test');
 
         $record = $this->getRecord(Logger::WARNING, 'test', array('data' => new \stdClass, 'foo' => 34));
 
@@ -68,4 +63,5 @@ class RedisHandlerTest extends TestCase
         $handler->setFormatter(new LineFormatter("%message%"));
         $handler->handle($record);
     }
+
 }

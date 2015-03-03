@@ -7,8 +7,8 @@ use PhpParser\Node\Expr;
 /**
  * @property Expr[] $vars List of variables to assign to
  */
-class List_ extends Expr
-{
+class List_ extends Expr {
+
     /**
      * Constructs a list() destructuring node.
      *
@@ -17,10 +17,10 @@ class List_ extends Expr
      */
     public function __construct(array $vars, array $attributes = array()) {
         parent::__construct(
-            array(
-                'vars' => $vars,
-            ),
-            $attributes
+                array(
+            'vars' => $vars,
+                ), $attributes
         );
     }
+
 }

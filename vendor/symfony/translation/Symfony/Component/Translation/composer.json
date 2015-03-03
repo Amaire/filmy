@@ -30,7 +30,9 @@
         "psr/log": "To use logging capability in translator"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\Translation\\": "" }
+        "psr-0": {
+            "Symfony\\Component\\Translation\\": ""
+        }
     },
     "target-dir": "Symfony/Component/Translation",
     "minimum-stability": "dev",

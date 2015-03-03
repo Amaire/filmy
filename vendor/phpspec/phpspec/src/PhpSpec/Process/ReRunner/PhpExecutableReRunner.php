@@ -16,8 +16,8 @@ namespace PhpSpec\Process\ReRunner;
 use PhpSpec\Process\ReRunner;
 use Symfony\Component\Process\PhpExecutableFinder;
 
-abstract class PhpExecutableReRunner implements PlatformSpecificReRunner
-{
+abstract class PhpExecutableReRunner implements PlatformSpecificReRunner {
+
     /**
      * @var PhpExecutableFinder
      */
@@ -31,20 +31,19 @@ abstract class PhpExecutableReRunner implements PlatformSpecificReRunner
     /**
      * @param PhpExecutableFinder $executableFinder
      */
-    public function __construct(PhpExecutableFinder $executableFinder)
-    {
+    public function __construct(PhpExecutableFinder $executableFinder) {
         $this->executableFinder = $executableFinder;
     }
 
     /**
      * @return false|string
      */
-    protected function getExecutablePath()
-    {
+    protected function getExecutablePath() {
         if (null === $this->executablePath) {
             $this->executablePath = $this->executableFinder->find();
         }
 
         return $this->executablePath;
     }
+
 }
