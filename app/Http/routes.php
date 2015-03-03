@@ -15,6 +15,10 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('movies', 'MoviesController@index');
+
+Route::get('movies/{id}', 'MoviesController@show');
+
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
