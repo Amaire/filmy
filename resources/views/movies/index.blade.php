@@ -8,9 +8,13 @@
     @foreach ($movies as $movie)
     
     <movie>
-        <h2>{{ $movie->title }} </h2>
+        <h2>
+            <a href="/filmy/public/movies/{{ $movie->id }}">{{ $movie->title }}</a>
         
-        <div class="body">{{ $movie->body }}</div>
+        </h2>
+        
+        <div class="description">{{ $movie->description }}</div>
+        <div class="price">{{ $movie->price }}</div>
     </movie>
     
     @endforeach
