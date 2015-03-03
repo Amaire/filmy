@@ -8,6 +8,12 @@ class Review extends Model {
         'description'
         
     ];
+        public function users() {
+        return $this->belongsTo('App\User');
+    }
+        public function movies() {
+        return $this->belongsTo('App\Movie');
+    }
 	//
 
 }
