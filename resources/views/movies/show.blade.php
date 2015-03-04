@@ -1,8 +1,8 @@
 @extends('app')
 
-@section('content')
+@section('maincolumn')
 
-<h1>{{ $movie->title }}</h1>
+<h2>{{ $movie->title }}</h2>
 
 <movie>
     <p> Opis </p>
@@ -14,4 +14,9 @@
 <p>
     <a href="/filmy/public/movies">"back"</a>
 </p>
+@stop
+@section('sidebar')
+<h2>Reviews</h2>
+<a href="/filmy/public/reviews/create/{{ $movie->id }}">Add new review</a>
+
 @stop

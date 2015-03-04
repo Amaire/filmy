@@ -54,8 +54,12 @@
             </div>
         </nav>
 
-        @yield('content')
+@yield('content')
 
+        <div class="row">
+            <div class="col-12 col-sm-8 col-lg-8 main">@yield('maincolumn')</div>
+            <div class="col-12 col-sm-4 col-lg-4 right">@yield('sidebar')</div>
+        </div>
         <!-- Scripts -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>

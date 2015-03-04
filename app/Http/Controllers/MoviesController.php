@@ -18,8 +18,9 @@ class MoviesController extends Controller {
     public function show($id) {
 
         $movie = Movie::findOrFail($id);
-
+Session::put('selectedMovieID', $id);
         return view('movies.show', compact('movie'));
     }
+    
 
 }
