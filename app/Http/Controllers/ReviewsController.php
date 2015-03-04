@@ -14,8 +14,15 @@ class ReviewsController extends Controller {
 	 *
 	 * @return Response
 	 */
+    	public function index()
+	{
+            $reviews = Rewiev::all();
+		return view('revievs.index', compact('reviews'));
+	}
 	public function create()
 	{
-		return views('movies.create');
+
+		return view('reviews.create');
 	}
 
+}

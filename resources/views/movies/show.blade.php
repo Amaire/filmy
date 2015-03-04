@@ -17,6 +17,6 @@
 @stop
 @section('sidebar')
 <h2>Reviews</h2>
-<a href="/filmy/public/reviews/create/{{ $movie->id }}">Add new review</a>
+<a href="/filmy/public/reviews/create">Add new review</a>
 
 @stop
