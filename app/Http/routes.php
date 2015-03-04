@@ -21,6 +21,8 @@ Route::get('movies/{id}', 'MoviesController@show');
 
 Route::get('reviews/create', 'ReviewsController@create');
 
+Route::post('reviews/create', 'ReviewsController@store');
+
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

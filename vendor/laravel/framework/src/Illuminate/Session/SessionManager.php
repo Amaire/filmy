@@ -8,6 +8,37 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 class SessionManager extends Manager {
 
     /**
+     * Get the session configuration.
+     *
+     * @return array
+     */
+    public function getSessionConfig()
+    {
+        return $this->app['config']['session'];
+    }
+
+    /**
+     * Get the default session driver name.
+     *
+     * @return string
+     */
+    public function getDefaultDriver()
+    {
+        return $this->app['config']['session.driver'];
+    }
+
+    /**
+     * Set the default session driver name.
+     *
+     * @param  string $name
+     * @return void
+     */
+    public function setDefaultDriver($name)
+    {
+        $this->app['config']['session.driver'] = $name;
+    }
+
+    /**
      * Call a custom driver creator.
      *
      * @param  string  $driver
@@ -15,6 +46,23 @@ class SessionManager extends Manager {
      */
     protected function callCustomCreator($driver) {
         return $this->buildSession(parent::callCustomCreator($driver));
+    }
+
+    /**
+     * Build the session instance.
+     *
+     * @param  \SessionHandlerInterface $handler
+     * @return \Illuminate\Session\Store
+     */
+    protected function buildSession($handler)
+    {
+        if ($this->app['config']['session.encrypt']) {
+            return new EncryptedStore(
+                $this->app['config']['session.cookie'], $handler, $this->app['encrypter']
+            );
+        } else {
+            return new Store($this->app['config']['session.cookie'], $handler);
+        }
     }
 
     /**
@@ -91,37 +139,6 @@ class SessionManager extends Manager {
     }
 
     /**
-     * Create an instance of the Memcached session driver.
-     *
-     * @return \Illuminate\Session\Store
-     */
-    protected function createMemcachedDriver() {
-        return $this->createCacheBased('memcached');
-    }
-
-    /**
-     * Create an instance of the Wincache session driver.
-     *
-     * @return \Illuminate\Session\Store
-     */
-    protected function createWincacheDriver() {
-        return $this->createCacheBased('wincache');
-    }
-
-    /**
-     * Create an instance of the Redis session driver.
-     *
-     * @return \Illuminate\Session\Store
-     */
-    protected function createRedisDriver() {
-        $handler = $this->createCacheHandler('redis');
-
-        $handler->getCache()->getStore()->setConnection($this->app['config']['session.connection']);
-
-        return $this->buildSession($handler);
-    }
-
-    /**
      * Create an instance of a cache driven driver.
      *
      * @param  string  $driver
@@ -144,47 +161,37 @@ class SessionManager extends Manager {
     }
 
     /**
-     * Build the session instance.
+     * Create an instance of the Memcached session driver.
      *
-     * @param  \SessionHandlerInterface  $handler
      * @return \Illuminate\Session\Store
      */
-    protected function buildSession($handler) {
-        if ($this->app['config']['session.encrypt']) {
-            return new EncryptedStore(
-                    $this->app['config']['session.cookie'], $handler, $this->app['encrypter']
-            );
-        } else {
-            return new Store($this->app['config']['session.cookie'], $handler);
-        }
+    protected function createMemcachedDriver()
+    {
+        return $this->createCacheBased('memcached');
     }
 
     /**
-     * Get the session configuration.
+     * Create an instance of the Wincache session driver.
      *
-     * @return array
+     * @return \Illuminate\Session\Store
      */
-    public function getSessionConfig() {
-        return $this->app['config']['session'];
+    protected function createWincacheDriver()
+    {
+        return $this->createCacheBased('wincache');
     }
 
     /**
-     * Get the default session driver name.
+     * Create an instance of the Redis session driver.
      *
-     * @return string
+     * @return \Illuminate\Session\Store
      */
-    public function getDefaultDriver() {
-        return $this->app['config']['session.driver'];
-    }
+    protected function createRedisDriver()
+    {
+        $handler = $this->createCacheHandler('redis');
 
-    /**
-     * Set the default session driver name.
-     *
-     * @param  string  $name
-     * @return void
-     */
-    public function setDefaultDriver($name) {
-        $this->app['config']['session.driver'] = $name;
+        $handler->getCache()->getStore()->setConnection($this->app['config']['session.connection']);
+
+        return $this->buildSession($handler);
     }
 
 }

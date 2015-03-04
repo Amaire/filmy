@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\Movie;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class MoviesController extends Controller {
 
@@ -18,7 +17,7 @@ class MoviesController extends Controller {
     public function show($id) {
 
         $movie = Movie::findOrFail($id);
-//Session::put('selectedMovieID', $id);
+        Session::put('selectedMovieID', $id);
         return view('movies.show', compact('movie'));
     }
     

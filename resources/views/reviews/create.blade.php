@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+    <div class='reviewForm'>
 <h1>Write a New Reviews</h1>
 <hr/>
 
@@ -19,4 +20,5 @@
        {!! Form::submit('Add Review', ['class' => 'btn btn-primary form-control']) !!}
 </div>
 {!! Form::close() !!}
+    </div>
 @stop
