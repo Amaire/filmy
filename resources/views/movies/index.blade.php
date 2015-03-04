@@ -7,7 +7,7 @@
 
 @foreach ($movies as $movie)
 
-<movie>
+    <article>
     <h2>
         <a href="/filmy/public/movies/{{ $movie->id }}">{{ $movie->title }}</a>
 
@@ -15,7 +15,7 @@
 
     <div class="description">{{ $movie->description }}</div>
     <div class="price">{{ $movie->price }}</div>
-</movie>
+    </article>
 
 @endforeach
 

@@ -5,7 +5,8 @@
 <h1>Write a New Reviews</h1>
 <hr/>
 
-{!! Form::open() !!}
+        {!! Form::open(['url' => 'movies/'.$id]) !!}
+        {!! Form::hidden('id_user',3) !!}
 <div class="form-group">
     {!! Form::label('title', 'Title:') !!}
     {!! Form::text('title', null, ['class' => 'form-control']) !!}

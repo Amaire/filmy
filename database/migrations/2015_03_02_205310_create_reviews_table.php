@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateReviewsTable extends Migration {
 
@@ -14,8 +14,6 @@ class CreateReviewsTable extends Migration {
         Schema::create('reviews', function(Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->text('description');
-            $table->date('data');
             $table->integer('id_movie')->unsigned();
             $table->integer('id_user')->unsigned();
 

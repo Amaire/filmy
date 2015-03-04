@@ -19,10 +19,9 @@ Route::get('movies', 'MoviesController@index');
 
 Route::get('movies/{id}', 'MoviesController@show');
 
+Route::post('movies/{id}', 'MoviesController@showCreateReview');
+
 Route::get('reviews/create', 'ReviewsController@create');
-
-Route::post('reviews/create', 'ReviewsController@store');
-
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

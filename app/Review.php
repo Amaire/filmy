@@ -8,15 +8,16 @@ class Review extends Model {
 
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'id_user'
     ];
 
     public function users() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'id_user');
     }
 
     public function movies() {
-        return $this->belongsTo('App\Movie');
+        return $this->belongsTo('App\Movie', 'id_movie');
     }
 
     //
