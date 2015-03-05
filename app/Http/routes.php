@@ -21,7 +21,10 @@ Route::get('movies/{id}', 'MoviesController@show');
 
 Route::post('movies/{id}', 'MoviesController@showCreateReview');
 
-Route::get('reviews/create', 'ReviewsController@create');
+Route::get('reviews/create', array('middleware' => 'auth', 'uses'=>'ReviewsController@create'));
+
+Route::get('orders', 'OrdersController@index');
+
 
 Route::controllers([
     'auth' => 'Auth\AuthController',
