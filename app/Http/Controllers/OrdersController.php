@@ -68,7 +68,6 @@ class OrdersController extends Controller {
 	public function cart()
 	{
 		$cart = Session::get('cart', array());
-		var_dump($cart);
 		$movies = Movie::whereIn('id',$cart)->get();
 		return view('orders.cart', compact('movies'));
 	}

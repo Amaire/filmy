@@ -15,7 +15,7 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-Route::get('movies', 'MoviesController@index');
+Route::get('movies/index', 'MoviesController@index');
 
 Route::get('movies/{id}', 'MoviesController@show');
 Route::get('movies/watch/{id}', 'MoviesController@watch');

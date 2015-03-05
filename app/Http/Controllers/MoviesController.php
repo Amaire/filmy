@@ -40,7 +40,7 @@ class MoviesController extends Controller {
         $movie = Movie::findOrFail($id);
         $reviews = $movie->reviews()->latest('created_at')->get();
         Session::put('selectedMovieID', $id);
-        $message = '[Movie player - click to watch]';
+        $message = '';
         $actors = $movie->actors()->get();
         return view('movies.watch', compact('movie', 'actors', 'reviews', 'message'));
     }
