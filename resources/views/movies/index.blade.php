@@ -14,7 +14,7 @@
     </h2>
 
     <div class="description">{{ $movie->description }}</div>
-    <div class="price">{{ $movie->price }}</div>
+
     </article>
 
 @endforeach

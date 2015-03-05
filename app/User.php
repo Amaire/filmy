@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
-
+    protected $primaryKey = "id";
     use Authenticatable,
         CanResetPassword;
 
@@ -35,11 +35,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
     public function orders() {
-        return $this->hasMany('App\Order');
+        return $this->hasMany('App\Order','id_user');
     }
 
     public function reviews() {
-        return $this->hasMany('App\Review');
+        return $this->hasMany('App\Review','id_user');
     }
 
 }

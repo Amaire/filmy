@@ -18,11 +18,18 @@ Route::get('home', 'HomeController@index');
 Route::get('movies', 'MoviesController@index');
 
 Route::get('movies/{id}', 'MoviesController@show');
+Route::get('movies/watch/{id}', 'MoviesController@watch');
 
 Route::post('movies/{id}', 'MoviesController@showCreateReview');
 
 Route::get('reviews/create', array('middleware' => 'auth', 'uses'=>'ReviewsController@create'));
 
+
+Route::get('orders/add/{id}', array('middleware' => 'auth', 'uses'=>'OrdersController@add'));
+Route::get('orders/remove/{id}', 'OrdersController@remove');
+Route::get('orders/send', 'OrdersController@send');
+Route::get('orders/cart', 'OrdersController@cart');
+Route::get('orders/{id}', 'OrdersController@orderDetails');
 Route::get('orders', 'OrdersController@index');
 
 

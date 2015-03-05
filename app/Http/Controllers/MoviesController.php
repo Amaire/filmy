@@ -11,7 +11,6 @@ class MoviesController extends Controller {
 
     public function index() {
         $movies = Movie::all();
-
         return view('movies.index', compact('movies'));
     }
 
@@ -21,7 +20,8 @@ class MoviesController extends Controller {
         $reviews = $movie->reviews()->latest('created_at')->get();
         Session::put('selectedMovieID', $id);
         $message = null;
-        return view('movies.show', compact('movie', 'reviews', 'message'));
+        $actors = $movie->actors()->get();
+        return view('movies.show', compact('movie', 'actors', 'reviews', 'message'));
     }
 
     public function showCreateReview(Request $input, $id)
@@ -33,6 +33,16 @@ class MoviesController extends Controller {
         $message = 'Review was added to database';
 
         return view('movies.show', compact('movie', 'reviews', 'message'));
+    }
+
+    public function watch($id) {
+
+        $movie = Movie::findOrFail($id);
+        $reviews = $movie->reviews()->latest('created_at')->get();
+        Session::put('selectedMovieID', $id);
+        $message = '[Movie player - click to watch]';
+        $actors = $movie->actors()->get();
+        return view('movies.watch', compact('movie', 'actors', 'reviews', 'message'));
     }
 
 }

@@ -21,11 +21,11 @@ class Movie extends Model {
     }
 
     public function orders() {
-        return $this->belongsToMany('App\Order', 'id_order');
+        return $this->belongsToMany('App\Order', 'movie_order','id_movie','id_order');
     }
 
     public function actors() {
-        return $this->belongsToMany('App\Actor', 'id_actor');
+        return $this->belongsToMany('App\Actor', 'actor_movie','id_movie','id_actor');
     }
 
     //
