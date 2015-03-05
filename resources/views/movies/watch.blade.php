@@ -1,11 +1,11 @@
 @extends('app')
 
 @section('maincolumn')
-    @if(! is_null($message))
-        <h3>{{$message}}</h3>
-    @endif
-
-<h2>{{ $movie->title }}</h2>
+    <video width="640" height="360" controls>
+        <source src="/filmy/public/movies/lord.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <h2>{{ $movie->title }}</h2>
     <h3>Actors</h3>
     <ul class="list-group">
         @foreach($actors as $actor)
