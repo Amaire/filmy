@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('content')
+@section('maincolumn')
 
 <h1>Movies</h1>
 
@@ -27,6 +27,35 @@
 
 @section('sidebar')
 
+    <h3>Most Popular Movies</h3>
+    <hr>
 
+    <h4>By orders</h4>
+    @foreach ($moviesOrders as $movie)
+
+        <article>
+            <h5>
+                <a href="/filmy/public/movies/{{ $movie->id }}">{{ $movie->title }}</a>
+            </h5>
+
+
+        </article>
+
+    @endforeach
+    <hr>
+
+    <h4>By reviews</h4>
+
+    @foreach ($moviesReviews as $movie)
+
+        <article>
+            <h5>
+                <a href="/filmy/public/movies/{{ $movie->id }}">{{ $movie->title }}</a>
+            </h5>
+
+
+        </article>
+
+    @endforeach
 
     @stop
