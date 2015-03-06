@@ -57,5 +57,21 @@
         </article>
 
     @endforeach
+<hr>
+    <h3>Search by Genres</h3>
+    <hr>
+
+    @foreach ($genres as $genre)
+
+        <article>
+            <h5>
+                <a href="/filmy/public/movies/genres/{{ $genre->id }}">{{ $genre->genre }}</a>
+            </h5>
+
+
+        </article>
+
+    @endforeach
+
 
     @stop

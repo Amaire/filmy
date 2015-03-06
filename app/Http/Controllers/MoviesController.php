@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Genre;
 use App\Http\Requests;
 use App\Movie;
 use Illuminate\Http\Request;
@@ -31,7 +32,9 @@ class MoviesController extends Controller {
         $ids=json_decode(json_encode($ids),true);
         $ids= array_map(function($val){ return $val['id'];},$ids);
         $moviesReviews = Movie::whereIn('id',$ids)->get();
-        return view('movies.index', compact('movies', 'moviesOrders', 'moviesReviews'));
+
+        $genres = Genre::all();
+        return view('movies.index', compact('movies', 'moviesOrders', 'moviesReviews', 'genres'));
 
 
     }
