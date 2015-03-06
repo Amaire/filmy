@@ -6,7 +6,7 @@
 
     <ul class="list-group">
     @foreach ($movies as $movie)
-                <li class="list-group-item">{{ $movie->title }}, {{ $movie->description }} , {{ $movie->price }}  <a href="/filmy/public/orders/remove/{{$movie->id}}">Remove from cart</a></li>
+                <li class="list-group-item">{{ $movie->title }}, Price:{{ $movie->price }}  <a href="/filmy/public/orders/remove/{{$movie->id}}">Remove from cart</a></li>
     @endforeach
     </ul>
 

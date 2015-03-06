@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 use App\Movie;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Mail;
 class OrdersController extends Controller {
 
 	/**
@@ -58,10 +58,15 @@ class OrdersController extends Controller {
 	{
 		$cart = Session::get('cart', array());
 
-		$order =Auth::user()->orders()->create(array('date'=>Carbon::now(),'status'=>'In Progress'));
+		$order = Auth::user()->orders()->create(array('date'=>Carbon::now(),'status'=>'In Progress'));
 		$order->save();
 		$order->movies()->attach($cart);
+		$movies = $order->movies()->get();
 		Session::put('cart', array());
+		Mail::send('orders/email',compact('order','movies'), function($message)
+		{
+			$message->to(Auth::user()->email)->subject('Your Order');
+		});
 		return redirect('/orders');
 	}
 
