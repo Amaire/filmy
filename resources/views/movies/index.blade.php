@@ -4,6 +4,7 @@
 
 <h1>Movies</h1>
 
+<hr>
 
 @foreach ($movies as $movie)
 
@@ -20,6 +21,7 @@
     <div class="description">{{ $movie->description }}</div>
 
     </article>
+    <hr>
 
 @endforeach
 

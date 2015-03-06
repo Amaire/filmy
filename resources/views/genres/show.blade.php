@@ -4,7 +4,7 @@
 
        <h2>Genres: {{ $genre->genre }}</h2>
        <h4>
-           <a href="/filmy/public/movies">Back to movies list</a>
+           <a href="/filmy/public/movies/index">Back to movies list</a>
        </h4>
 
 

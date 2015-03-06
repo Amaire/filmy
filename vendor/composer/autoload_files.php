@@ -7,11 +7,16 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $vendorDir . '/symfony/var-dumper/Symfony/Component/VarDumper/Resources/functions/dump.php',
+    $vendorDir . '/tracy/tracy/src/shortcuts.php',
+    $vendorDir . '/nette/safe-stream/src/loader.php',
     $vendorDir . '/nikic/php-parser/lib/bootstrap.php',
     $vendorDir . '/ircmaxell/password-compat/lib/password.php',
+    $vendorDir . '/herrera-io/json/src/lib/json_version.php',
     $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
     $vendorDir . '/psy/psysh/src/Psy/functions.php',
     $vendorDir . '/danielstjules/stringy/src/Create.php',
+    $vendorDir . '/herrera-io/phar-update/src/lib/constants.php',
+    $vendorDir . '/kdyby/events/src/Doctrine/compatibility.php',
     $vendorDir . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
     $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     $vendorDir . '/illuminate/html/helpers.php',

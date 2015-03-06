@@ -24,15 +24,15 @@
 </article>
 
 <h4>
-    <a href="/filmy/public/movies">Back to movies list</a>
+    <a href="/filmy/public/movies/index">Back to movies list</a>
 </h4>
 
 
 @stop
 @section('sidebar')
-    <a href="/filmy/public/orders/add/{{$movie->id}}">Add to cart</a>
+    <a href="/filmy/public/orders/add/{{$movie->id}}"><img src="/filmy/public/img/cart.png" height="30"/>Add to cart</a>
 <h2>Reviews</h2>
-<a href="/filmy/public/reviews/create">Add new review</a>
+<a href="/filmy/public/reviews/create"><img src="/filmy/public/img/review.png" height="30"/> Add new review</a>
 @foreach ($reviews as $review)
 
     <article>
