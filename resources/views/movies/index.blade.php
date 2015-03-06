@@ -7,11 +7,13 @@
 
 @foreach ($movies as $movie)
 
+    <
+
     <article>
-    <h2>
+    <h3>
         <a href="/filmy/public/movies/{{ $movie->id }}">{{ $movie->title }}</a>
 
-    </h2>
+    </h3>
 
     <div class="description">{{ $movie->description }}</div>
 
@@ -20,3 +22,9 @@
 @endforeach
 
 @stop
+
+@section('sidebar')
+
+
+
+    @stop

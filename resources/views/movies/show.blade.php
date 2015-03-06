@@ -10,7 +10,7 @@
     <ul class="list-group">
         @foreach($actors as $actor)
 
-        <li class="list-group-item">{{ $actor->name }}, {{ $actor->surname }}</li>
+        <li class="list-group-item">{{ $actor->name }} {{ $actor->surname }}</li>
 
         @endforeach
     </ul>
