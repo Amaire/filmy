@@ -5,7 +5,8 @@
         <h3>{{$message}}</h3>
     @endif
 
-<h2>{{ $movie->title }}</h2>
+<h2><img src="/filmy/public/covers/{{ $movie->id }}.jpg" height="200"> {{ $movie->title }} </h2>
+
     <h3>Actors</h3>
     <ul class="list-group">
         @foreach($actors as $actor)
