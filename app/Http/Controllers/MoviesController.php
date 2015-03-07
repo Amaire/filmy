@@ -9,8 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class MoviesController
+ * @package App\Http\Controllers
+ */
 class MoviesController extends Controller {
-
+    /**
+     * @return \Illuminate\View\View
+     */
     public function index() {
         $movies = Movie::all();
         $ids = DB::table('movies')->
@@ -22,7 +28,9 @@ class MoviesController extends Controller {
         $ids=json_decode(json_encode($ids),true);
         $ids= array_map(function($val){ return $val['id'];},$ids);
         $moviesOrders = Movie::whereIn('id',$ids)->get();
-
+        /**
+         *
+         */
         $ids = DB::table('movies')->
         join('reviews','reviews.id_movie','=','movies.id')->
         select('movies.id',DB::raw('count(*) as total'))->
@@ -39,6 +47,10 @@ class MoviesController extends Controller {
 
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\View\View
+     */
     public function show($id) {
 
         $movie = Movie::findOrFail($id);
@@ -49,6 +61,11 @@ class MoviesController extends Controller {
         return view('movies.show', compact('movie', 'actors', 'reviews', 'message'));
     }
 
+    /**
+     * @param Request $input
+     * @param $id
+     * @return \Illuminate\View\View
+     */
     public function showCreateReview(Request $input, $id)
     {
         $movie = Movie::findOrFail($id);
@@ -60,6 +77,10 @@ class MoviesController extends Controller {
         return view('movies.show', compact('movie', 'actors', 'reviews', 'message'));
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\View\View
+     */
     public function watch($id) {
 
         $movie = Movie::findOrFail($id);

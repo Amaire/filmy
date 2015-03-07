@@ -12,6 +12,11 @@ use App\Movie;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+
+/**
+ * Class OrdersController
+ * @package App\Http\Controllers
+ */
 class OrdersController extends Controller {
 
 	/**
@@ -25,6 +30,11 @@ class OrdersController extends Controller {
 		return view('orders.index', compact('orders'));
 
 	}
+
+	/**
+	 * @param $id
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
 	public function add($id)
 	{
 		$cart = Session::get('cart', array());
@@ -70,6 +80,9 @@ class OrdersController extends Controller {
 		return redirect('/orders');
 	}
 
+	/**
+	 * @return \Illuminate\View\View
+	 */
 	public function cart()
 	{
 		$cart = Session::get('cart', array());
@@ -77,6 +90,10 @@ class OrdersController extends Controller {
 		return view('orders.cart', compact('movies'));
 	}
 
+	/**
+	 * @param $id
+	 * @return \Illuminate\View\View
+	 */
 	public function orderDetails($id)
 	{
 		$order = Order::findOrFail($id);

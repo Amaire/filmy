@@ -9,9 +9,15 @@ use App\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-
+/**
+ * Class GenresController
+ * @package App\Http\Controllers
+ */
 class GenresController extends Controller {
-
+	/**
+	 * @param $id
+	 * @return \Illuminate\View\View
+	 */
 	public function show($id)
 	{
 		$genre = Genre::findOrFail($id);

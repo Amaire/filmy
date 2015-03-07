@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Actor
+ * @package App
+ */
 class Actor extends Model {
     protected $primaryKey = "id";
     protected $fillable = [
@@ -13,6 +17,9 @@ class Actor extends Model {
         'surname'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function movies() {
         return $this->belongsToMany('App\Movie', 'id_movie');
     }
